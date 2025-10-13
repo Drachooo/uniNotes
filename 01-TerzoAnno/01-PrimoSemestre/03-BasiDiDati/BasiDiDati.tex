@@ -1,4 +1,6 @@
 \documentclass[a4paper, 12pt]{book}
+
+% ===== PACCHETTI NECESSARI ===== %
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[italian]{babel}
 %\usepackage{wrapfig}
@@ -33,6 +35,28 @@
 }
 \setcounter{tocdepth}{3}
 
+
+% ===== LISTA COMANDI =====
+%------COMANDO DEFINIZIONE-------%
+\newcommand{\definizione}[2]{%
+  \vspace{15pt}%
+  \begin{tcolorbox}[
+    colback=cyan!5!white,
+    colframe=blue!50!black,
+    title=\textbf{Definizione - #1}, % titolo della definizione
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=3mm,
+    boxrule=0.5pt,
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{15pt}%
+}
+
+
 \title{\textbf{Basi di dati - primo semestre}\\uniVR - Dipartimento di Informatica}
 \author{Mattia Nicolis \and Matteo Drago}
 \date{A.A. 2025-26}
@@ -66,32 +90,8 @@
     
     Queste caratteristiche erano specifiche per l'ambiente in cui erano state introdotte ovvero il \textbf{sistema informativo}.
 
-
-  %------------BLOCCO DEFINIZIONE--------------------%
-
-    \vspace{15pt}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - Sistema informativo},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-    L'insieme delle attività umane e dei dispositivi di memorizzazione ed elaborazione che organizza e gestisce l'informazione di interesse per una organizzazione di dimensioni qualsiasi.\\
-    
-    \vspace{0.5mm}
-    
-    \textbf{N.B: non per forza è contenuta tecnologia informatica}
-    \end{tcolorbox}
-
-    \vspace{15pt}
-
-  %--------------------------------------------------%
+    \definizione{Sistema informativo}{    L'insieme delle attività umane e dei dispositivi di memorizzazione ed elaborazione che organizza e gestisce l'informazione di interesse per una organizzazione di dimensioni qualsiasi.
+    }
 
 
     Il sistema informativo è costituito da \textit{dati} e \textit{informazioni}:
@@ -112,11 +112,11 @@
     \clearpage
     \textbf{\large Come si è arrivati allo sviluppo dei DBMS?}
  
-    Negli anni '70, i programmi comunicavano direttamente con i dati contenuti nel file system. 
+    Negli anni '70 i programmi comunicavano direttamente con i dati contenuti nel file system. 
     
-    Era un'operazione scomoda in quanto l’accesso ai dati su file era scarso (\textbf{struttura ad accesso sequenziale}), c'era ridondanza nei dati (\textbf{duplicazioni dello stesso dato su più file}), inconsistenza dovuta ad aggiornamenti parziali e progettazione dei dati replicata per ogni programma.
+    Era un'operazione scomoda in quanto l’accesso ai dati su file era scarso (\textbf{struttura ad accesso sequenziale}), c'era ridondanza nei dati (\textbf{duplicazioni dello stesso dato su più file}), c'era inconsistenza dovuta ad aggiornamenti parziali e la progettazione dei dati era replicata per ogni programma.
 
-    Negli anni '80, la soluzione che venne proposta fu quella di inserire un \textbf{DBMS} (Data Base Management System) tra il \textbf{file system} e le \textbf{applicazioni}.
+    Negli anni '80 la soluzione che venne proposta fu quella di inserire un \textbf{DBMS} (Data Base Management System) tra il \textbf{file system} e le \textbf{applicazioni}.
 
     \begin{figure}[h]
       \centering
@@ -136,62 +136,21 @@
     \caption{Prima e dopo l'innovazione}
     \end{figure}
 
+    \definizione{Base di dati}{Una collezione di dati utilizzati per rappresentare con tecnologia informatica le informazioni di interesse per un sistema informativo.
+    }
 
-
-  %------------BLOCCO DEFINIZIONE--------------------%
-
-    \vspace{15pt}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - Base di dati},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-    Una collezione di dati utilizzati per rappresentare con tecnologia informatica le informazioni di interesse per un sistema informativo.
-    \end{tcolorbox}
-
-    \vspace{15pt}
-
-  %%%------------CHIUDE DEFINIZIONE-------------------%%% 
-
-  %------------BLOCCO DEFINIZIONE--------------------%
-
-    \vspace{15pt}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - DBMS},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-    Sistema che gestisce su memoria secondaria collezioni di dati \textbf{grandi} , \textbf{condivise} e \textbf{persistenti}, assicurandone l'\textbf{affidabilità} la \textbf{privatezza} e l'\textbf{accesso efficiente}.
-    \end{tcolorbox}
-
-    \vspace{15pt}
-
-  %%%------------CHIUDE DEFINIZIONE-------------------%%%  
-
+    \definizione{DBMS}{Sistema che gestisce su memoria secondaria collezioni di dati \textbf{grandi}, \textbf{condivise} e \textbf{persistenti}, assicurandone l'\textbf{affidabilità} la \textbf{privatezza} e l'\textbf{accesso efficiente}.
+    }
 
     Questo nuovo approccio ha portato numerosi vantaggi:
     \begin{itemize}
       \item \textbf{maggiore astrazione} e più potenza espressiva per descrivere le proprietà del dato.
-      \hl{All'interno del \textbf{DMBS} i dati vengono interpretati come oggetti ovvero istanze di classi o righe di tabelle}.
+      \hl{All'interno del \textbf{DMBS} i dati vengono interpretati come oggetti, ovvero istanze di classi o righe di tabelle}.
       
       Prima erano interpretati come blocchi o pagine di memoria secondaria (sequenze di byte)
 
-      \item operazioni di accesso ai dati più complesse basate su un linguaggio di interrogazione (SELECT FROM WHERE) anzichè attraverso operazioni di READ/WRITE
-      \item migliorata l'interazione uomo-informazione: 
+      \item \textbf{operazioni di accesso ai dati più complesse} basate su un \uline{linguaggio di interrogazione} (SELECT FROM WHERE) anzichè attraverso operazioni di READ/WRITE
+      \item \textbf{migliorata l'interazione uomo-informazione:} 
       \begin{itemize}
         \item linguaggio per la definizione dei dati (Data Definition Language - DDL)
         \item linguaggio per l’interrogazione e aggiornamento dei dati (Data Manipulation Language – DML): 
@@ -203,91 +162,27 @@
     \end{itemize}
 
     
-
-
-   %------------BLOCCO DEFINIZIONE--------------------%
-
-    \vspace{15pt}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - DBMS: modello dei dati},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-    È l’insieme dei costrutti forniti dal DBMS per descrivere la struttura e le proprietà dell’informazione contenuta in una base di dati.
+    \definizione{DBMS: modello dei dati}{ È l’insieme dei costrutti forniti dal DBMS per descrivere la struttura e le proprietà dell’informazione contenuta in una base di dati.
     
     \vspace{1mm}
     
     I costrutti permettono di definire le strutture dati che conterrano le informazioni e specificare le proprietà che dovranno soddisfare le istanze.
-
-    \end{tcolorbox}
-
-    \vspace{15pt}
-
-  %%%------------CHIUDE DEFINIZIONE-------------------%%%  
+    }
 
 
-     Nel passato esistevano modelli come quello reticolare o quello gerarchico.
+    Nel \uline{passato} esistevano modelli come quello \uline{reticolare} o quello \uline{gerarchico}.
 
-     Attualmente si parla di modello relazionale, ad oggetti, object-relational (SQL99 o SQL3), basato sui documenti(JSON) o NoSQL.
+    Attualmente si parla di modello relazionale, ad oggetti, object-relational (SQL99 o SQL3), basato sui documenti(JSON) o NoSQL.
 
+    \definizione{Schema di una base di dati}{È la descrizione della struttura e delle proprietà di una specifica base di dati fatta utilizzando i costrutti del modello dei dati (lo schema di una base di dati è invariante nel tempo).
+    }
 
-%------------BLOCCO DEFINIZIONE--------------------%
-
-    \vspace{15pt}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - Schema di una base di dati},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-    È la descrizione della struttura e delle proprietà di una specifica base di dati fatta utilizzando i costrutti del modello dei dati (lo schema di una base di dati è invariante nel tempo).
-
-    \end{tcolorbox}
-
-    \vspace{15pt}
-
-  %%%------------CHIUDE DEFINIZIONE-------------------%%%  
-
-  %------------BLOCCO DEFINIZIONE--------------------%
-
-    \vspace{15pt}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - Istanza di una base di dati},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-    È costituita dai valori effettivi che in un certo istante popolano le strutture dati della base di dati (l’istanza di una base di dati varia nel tempo).
-
-    \end{tcolorbox}
-
-    \vspace{15pt}
-
-  %%%------------CHIUDE DEFINIZIONE-------------------%%%  
+    \definizione{Istanza di una base di dati}{È costituita dai valori effettivi che in un certo istante popolano le strutture dati della base di dati (l’istanza di una base di dati varia nel tempo).}
 
 
-    \begin{figure}[h]
+    \begin{figure}[H] %% Messo H anzichè h in questo modo il testo sotto non passa sopra la foto in quanto troppo grande
         \centering
-        \includegraphics[width=0.8\textwidth]{images/modelloSchemaIstanza.png}
+        \includegraphics[width=0.7\textwidth]{images/modelloSchemaIstanza.png}
         \caption{Distinzione tra modello, schema e istanza}
     \end{figure}
 
@@ -305,13 +200,16 @@
     
     La caratteristica fondamentale di queste strutture è l'\textbf{indipendenza}.
     \begin{description}
-      \item \textbf{indipendenza fisica}: lo \uline{schema logico} della base di dati \uline{è completamente indipendente dallo schema interno}, ne consegue che le variazioni delle strutture fisiche non impattano sullo schema logico e quindi sulle applicazioni.
-      \item \textbf{indipendenza logica}: gli \uline{schemi esterni} della base di dati \uline{sono indipendendi dallo schema logico}, ne consegue che le variazioni dello shcema logico (purchè non vengano rimossi dati) non impattano sugli schemi esterni e quindi sulle applicazioni (eventualmente è necessario solo ridefinire l'espressione di derivazione).
+      \item \textbf{indipendenza fisica}: lo \uline{schema logico} della base di dati \uline{è completamente indipendente dallo schema interno}. 
+      Ne consegue che le variazioni delle strutture fisiche non impattano sullo schema logico e quindi sulle applicazioni.
+      \item \textbf{indipendenza logica}: gli \uline{schemi esterni} della base di dati \uline{sono indipendendi dallo schema logico}. 
+      Ne consegue che le variazioni dello shcema logico (purchè non vengano rimossi dati) non impattano sugli schemi esterni e quindi sulle applicazioni (eventualmente è necessario solo ridefinire l'espressione di derivazione).
     \end{description}
      
 
     \chapter*{Progettazione di una base di dati}
     \addcontentsline{toc}{chapter}{Progettazione di una base di dati}
+    
     La progettazione di una base di dati costituisce solo una delle componenti del processo di sviluppo di un sistema informativo e va, quindi, inquadrata in un contesto più ampio: il \textbf{ciclo di vita} dei sistemi infoormativi.
 
     Il \textit{ciclo di vita} di un sistema informativo comprende:
