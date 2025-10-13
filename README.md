@@ -13,9 +13,9 @@ L’obiettivo è avere un archivio ordinato e facilmente consultabile, utile sia
 
 Ogni cartella corrisponde a una materia e contiene i relativi file di appunti (in formato PDF, LaTeX, libri di riferimenti e slide fornite dai professori).
 
-## 📚 Appunti del Terzo Anno
+## 📚 Appunti
 - [Fondamenti di Informatica](./01-TerzoAnno/01-PrimoSemestre/01-FondamentiInformatica/FondamentiInformatica.pdf)
 - [Elaborazione di Segnali e Immagini](./01-TerzoAnno/01-PrimoSemestre/02-ElaborazioneDiSegnaliEImmagini/ElaborazioneDiSegnaliEImmagini.pdf)
 - [Basi di Dati](./01-TerzoAnno/01-PrimoSemestre/03-BasiDiDati/BasiDiDati.pdf)
 - [Intelligenza Artificiale](./01-TerzoAnno/01-PrimoSemestre/04-IntelligenzaArtificiale/IntelligenzaArtificiale.pdf)
-- [Fondamenti di Informatica](./01-TerzoAnno/01-PrimoSemestre/01-FondamentiInformatica/FondamentiInformatica.pdf)
+- [Logica](./02-MaterieArretrate/Logica/Logica.pdf)
