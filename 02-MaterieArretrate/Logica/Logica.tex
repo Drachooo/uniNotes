@@ -32,7 +32,7 @@
 \setcounter{tocdepth}{3}
 
 \title{\textbf{Logica}}
-\author{Mattia Nicolis}
+\author{Mattia Nicolis \and Matteo Drago}
 \date{A.A. 2025-26}
 
 \begin{document}
@@ -97,4 +97,40 @@
         $\Rightarrow \mathbb{P} = \mathbb{N}$
       \end{enumerate}
     \end{tcolorbox}
-\end{document}
+
+    \chapter*{Logica proposizionale}
+    \addcontentsline{toc}{chapter}{Logica proposizionale}
+    \dots
+
+    \section*{Sintassi}
+    \addcontentsline{toc}{section}{Sintassi}
+    \dots
+
+    \section*{Semantica}
+    \addcontentsline{toc}{section}{Semantica}
+    La \textbf{semantica} si occupa di \hl{attribuire un significato sintattico} alle proposizioni (vero - 1 o falso - 0).
+
+    \begin{tcolorbox}[
+      colback=cyan!5!white,
+      colframe=blue!50!black,
+      title=\textbf{Definizione - valutazione di verità},
+      coltitle=white,
+      fonttitle=\bfseries,
+      arc=3mm,
+      boxrule=0.5pt,
+      enhanced,
+      breakable
+    ]
+      E' una funzione $\sigma: PROP \rightarrow \{{0, 1}\}$ tale che:
+      \begin{itemize}
+        \item $\sigma(\bot) = 0$
+        \item $\sigma(\lnot \phi) = 1$ se e solo se $\sigma(\phi) = 0$
+        \item $\sigma(\phi \land \psi) \Leftrightarrow \sigma(\phi) = \sigma(\psi) = 1$
+        \item $\sigma(\phi \lor \psi) \Leftrightarrow \sigma(\phi) = 1$ oppure $\sigma(\psi) = 1$
+        \item $\sigma(\phi \rightarrow \psi) \Leftrightarrow \sigma(\phi) = 1$ allora $\sigma(\psi) = 1$
+      \end{itemize}
+    \end{tcolorbox}
+
+    Questa definizione per la funzione di valutazione è pressochè la formulzazione matematica delle \textbf{tavole di verità}.
+
+    \end{document}
