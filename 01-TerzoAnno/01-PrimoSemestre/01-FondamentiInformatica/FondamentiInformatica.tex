@@ -1,4 +1,6 @@
 \documentclass[a4paper, 12pt]{book}
+
+% ===== PACCHETTI NECESSARI ===== %
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[italian]{babel}
 %\usepackage{wrapfig}
@@ -31,6 +33,29 @@
 }
 \setcounter{tocdepth}{3}
 
+
+% ===== LISTA COMANDI =====
+%------COMANDO DEFINIZIONE-------%
+\newcommand{\definizione}[2]{%
+  \vspace{15pt}%
+  \begin{tcolorbox}[
+    colback=cyan!5!white,
+    colframe=blue!50!black,
+    title=\textbf{Definizione - #1}, % titolo della definizione
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=3mm,
+    boxrule=0.5pt,
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{15pt}%
+}
+
+
+
 \title{\textbf{Fondamenti dell'informatica}}
 \author{Mattia Nicolis}
 \date{A.A. 2025-26}
@@ -61,43 +86,14 @@
 
     per modellare tutti i possibili problemi.
 
-    \vspace{3mm}
 
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - funzione calcolabile},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      Una \textbf{funzione} $f$ si dice \textbf{calcolabile} se \hl{esiste un algoritmo che, dato un input $x$, restituisce $f(x)$}  
-    \end{tcolorbox}
-
-    \vspace{3mm}
+    \definizione{funzione calcolabile}{Una \textbf{funzione} $f$ si dice \textbf{calcolabile} se \hl{esiste un algoritmo che, dato un input $x$, restituisce $f(x)$}  
+    }
 
     Nell'insieme delle funzioni $\mathbb{N}\rightarrow\mathbb{N}$, la parte delle funzioni calcolabili è strettamente contenuta.
 
-    \vspace{3mm}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - alfabeto},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      Un \textbf{alfabeto} $\Sigma$ è un'\hl{insieme finito di simboli}.
-    \end{tcolorbox}
-
-    \vspace{1.5mm}
+    \definizione{alfabeto}{Un \textbf{alfabeto} $\Sigma$ è un'\hl{insieme finito di simboli}.
+    }
     
     Esempio: consideriamo l'alfabeto $Sigma = \{0, 1\}$.
 
@@ -115,84 +111,35 @@
       |\Sigma^{*}| = |\mathbb{N}|
     \end{equation*}
 
-    \vspace{3mm}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - algoritmo},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      Un \textbf{algoritmo} $\Sigma$ è una \hl{seuqenza finita di simboli su un'alfabeto}.
-    \end{tcolorbox}
+    \definizione{algoritmo}{Un \textbf{algoritmo} $\Sigma$ è una \hl{seuqenza finita di simboli su un'alfabeto}.
+    }
     
     \section*{Induzione matematica}
     \addcontentsline{toc}{section}{induzione matematica}
     Per utilizzare il principio di induzione su un insieme, è necassario che su questo sussita una relazione d'ordine ben fondata.
 
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - induzione matematica},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
+    \definizione{induzione matematica}{
       Sia $A$ un insieme con una relazione d'ordine $<$ ben fondata.
-
       \vspace{1mm}
 
       Sia $\pi$ una proprietà definita sugli elementi di $A$.
-
       \vspace{1mm}
 
       Allora vale la seguente corrisposndenza:
       \begin{equation*}
         \forall a \in A: \pi(a) \Leftrightarrow \forall a \in A: ((\forall b \in A.b < a: \pi(b))) \Rightarrow \pi(a)
       \end{equation*}
-    \end{tcolorbox}
-
+    }
+      
 
     \chapter*{Linguaggi regolari}
     \addcontentsline{toc}{chapter}{Linguaggi regolari}
 
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - stringa},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      Una \textbf{stringa}, o parola, è una \hl{sequenza finita di simboli su un alfabeto $\Sigma$}.
-    \end{tcolorbox}
+    \definizione{stringa}{Una \textbf{stringa}, o parola, è una \hl{sequenza finita di simboli su un alfabeto $\Sigma$}.
+    }
 
-    \vspace{3mm}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - lunghezza di una stringa},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      La lunghezza $|x|$ di una stringa $x$ è il numero di occorrenze di simboli al suo interno.
-    \end{tcolorbox}
+    \definizione{lunghezza di una stringa}{La lunghezza $|x|$ di una stringa $x$ è il numero di occorrenze di simboli al suo interno.
+    }
 
     Alcuni esempi di linguaggio sono $0$, dato che è sottoinsieme di qualsiasi insieme, e $\{\epsilon\}$, la stringa vuota.
 
