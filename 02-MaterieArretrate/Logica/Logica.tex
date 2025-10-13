@@ -10,7 +10,11 @@
 \usepackage{soul}
 \usepackage{xcolor}
 \usepackage[most]{tcolorbox}
+\usepackage{caption}
 \usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
 \sethlcolor{yellow}
 \usepackage{array}
 \usepackage{booktabs}
@@ -124,7 +128,7 @@
       E' una funzione $\sigma: PROP \rightarrow \{{0, 1}\}$ tale che:
       \begin{itemize}
         \item $\sigma(\bot) = 0$
-        \item $\sigma(\lnot \phi) = 1$ se e solo se $\sigma(\phi) = 0$
+        \item $\sigma(\lnot \varphi) = 1$ se e solo se $\sigma(\varphi) = 0$
         \item $\sigma(\phi \land \psi) \Leftrightarrow \sigma(\phi) = \sigma(\psi) = 1$
         \item $\sigma(\phi \lor \psi) \Leftrightarrow \sigma(\phi) = 1$ oppure $\sigma(\psi) = 1$
         \item $\sigma(\phi \rightarrow \psi) \Leftrightarrow \sigma(\phi) = 1$ allora $\sigma(\psi) = 1$
@@ -132,5 +136,166 @@
     \end{tcolorbox}
 
     Questa definizione per la funzione di valutazione è pressochè la formulzazione matematica delle \textbf{tavole di verità}.
+
+    \begin{center}
+    \begin{minipage}{0.23\textwidth}
+    \centering
+    \begin{tabular}{c|c|c}
+    A & B & $A \land B$ \\ \hline
+    0 & 0 & 0 \\
+    0 & 1 & 0 \\
+    1 & 0 & 0 \\
+    1 & 1 & 1
+    \end{tabular}
+    \captionof{table}{AND}
+    \end{minipage}\hfill
+    %
+    \begin{minipage}{0.23\textwidth}
+    \centering
+    \begin{tabular}{c|c|c}
+    A & B & $A \lor B$ \\ \hline
+    0 & 0 & 0 \\
+    0 & 1 & 1 \\
+    1 & 0 & 1 \\
+    1 & 1 & 1
+    \end{tabular}
+    \captionof{table}{OR}
+    \end{minipage}\hfill
+    %
+    \begin{minipage}{0.23\textwidth}
+    \centering
+    \begin{tabular}{c|c|c}
+    A & B & $A \rightarrow B$ \\ \hline
+    0 & 0 & 1 \\
+    0 & 1 & 1 \\
+    1 & 0 & 0 \\
+    1 & 1 & 1
+    \end{tabular}
+    \captionof{table}{IMPLICATION}
+    \end{minipage}\hfill
+    %
+    \begin{minipage}{0.23\textwidth}
+    \centering
+    \begin{tabular}{c|c}
+    A & $\lnot A$ \\ \hline
+    0 & 1 \\
+    1 & 0
+    \end{tabular}
+    \captionof{table}{NOT}
+    \end{minipage}
+    \end{center}
+
+     \begin{tcolorbox}[
+      colback=cyan!5!white,
+      colframe=blue!50!black,
+      title=\textbf{Definizione - valutazione atomica},
+      coltitle=white,
+      fonttitle=\bfseries,
+      arc=3mm,
+      boxrule=0.5pt,
+      enhanced,
+      breakable
+    ]
+      Funzione $v: AT \rightarrow \{0, 1\}$ tali che $v(\bot) = 0$ 
+    \end{tcolorbox}
+
+    \begin{tcolorbox}[
+      colback=cyan!5!white,
+      colframe=blue!50!black,
+      title=\textbf{Proposizione},
+      coltitle=white,
+      fonttitle=\bfseries,
+      arc=3mm,
+      boxrule=0.5pt,
+      enhanced,
+      breakable
+    ]
+        Per ogni valutazione $v$ esiste ed è unica una \textit{valutazione di verità} ${\llbracket - \rrbracket}_v$ tale che per ogni $p \in \mathbf{AT}$, ${\llbracket p \rrbracket}_v = v(p)$.
+    \end{tcolorbox}
+
+    \begin{tcolorbox}[
+      colback=cyan!5!white,
+      colframe=blue!50!black,
+      title=\textbf{Definizione - concordanza},
+      coltitle=white,
+      fonttitle=\bfseries,
+      arc=3mm,
+      boxrule=0.5pt,
+      enhanced,
+      breakable
+    ]
+      Dato un insieme finito $P$ di simboli proposizionali, si dice che due valutazioni $v, v'$ \textbf{concordano} su $P$ se $v_{|P} = v'_{|P}$. 
+    \end{tcolorbox}
+
+    La proposizione precedente ci dice che l'insieme di tutte le possibili valutazione ha le stessa cardinalità di $\mathbb{N}$.
+
+    Un'altra proprietà delle valutazione è stabilita dalla seguente proposizione.
+
+
+    \begin{tcolorbox}[
+      colback=cyan!5!white,
+      colframe=blue!50!black,
+      title=\textbf{Proposizione},
+      coltitle=white,
+      fonttitle=\bfseries,
+      arc=3mm,
+      boxrule=0.5pt,
+      enhanced,
+      breakable
+    ]
+        Se $P(\phi)$ è l'insieme dei simboli proposizionali che occorrono in una formula $\phi$ e $v, v'$ due valutazioni che concordano su $P(\phi)$ allora ${\llbracket \phi \rrbracket}_v = {\llbracket \phi \rrbracket}_{v'}$.
+    \end{tcolorbox}
+
+    Se un problema è vero in tutte le sue valutazioni, allora è \textbf{decidibile} e viene detto \textbf{tautologia}.
+
+    Si estende la valutazione di verità a un insieme arbitrario di proposizioni $\Gamma$: \\
+    \begin{center}
+        ${\llbracket \Gamma \rrbracket}_v = 1$ se e solo se per ogni $\alpha \in \Gamma$, ${\llbracket \alpha \rrbracket}_v = 1$
+    \end{center}
+
+    Tuttavia si pone attenzione al fatto che se ${\llbracket \phi \rrbracket}_v \neq 1$, allora non significa che per ogni $\alpha \in \Gamma$ si ha ${\llbracket \alpha \rrbracket}_v = 0$, al contrario si intende che esiste almeno un $\alpha \in \Gamma$ tale per cui ${\llbracket \alpha \rrbracket}_v = 0$.
+
+    Viceversa è più forte affermare che ${\llbracket \Gamma \rrbracket}_v = 0$, in quanto per questo caso ogni $\alpha \in \Gamma$ ha valutazione ${\llbracket \alpha \rrbracket}_v = 0$.
+
+    Partendo dal concetto di valutazione dell formule, è possibile definire cosa significhi che da un insieme $\Gamma$ di proposizioni \textbf{segue logicamente} una proposizione $\varphi$, o in altre parole che $\varphi$ sia \textbf{conseguenza logica} di $\Gamma$.
+
+    \begin{tcolorbox}[
+      colback=cyan!5!white,
+      colframe=blue!50!black,
+      title=\textbf{Definizione - conseguenza logica},
+      coltitle=white,
+      fonttitle=\bfseries,
+      arc=3mm,
+      boxrule=0.5pt,
+      enhanced,
+      breakable
+    ]
+        Dato un insieme $\Gamma$ di formule, si dice che la formual $\varphi$ è conseguenza logica dalle formule in $\Gamma$ e si scrive $\Gamma \models \varphi$, se per ogni valutazione $v$, ${\llbracket \Gamma \rrbracket}_v = 1 \Rightarrow {\llbracket \varphi \rrbracket}_v = 1$.
+
+        Se $\phi \models \varphi$, allora si dice che $\varphi$ sia una tautologia.
+    \end{tcolorbox}
+
+    La formula $\varphi$ è detta \textbf{soddisfacibile} se esiste una valutazione $v$ tale che ${\llbracket \varphi \rrbracket}_v = 1$, altrimenti risulta essere \textbf{insoddisfacibile}.
+
+    A sua volta un insieme di formule $\Gamma$ è soddisfacibile se esiste una valutazione $v$ tale che per ogni $\varphi \in \Gamma$ si ha ${\llbracket \Gamma \rrbracket}_v = 1$, altrimenti si dice insoddisfacibile.
+
+    \begin{tcolorbox}[
+      colback=cyan!5!white,
+      colframe=blue!50!black,
+      title=\textbf{Notazione},
+      coltitle=white,
+      fonttitle=\bfseries,
+      arc=3mm,
+      boxrule=0.5pt,
+      enhanced,
+      breakable
+    ]
+        \begin{itemize}
+          \item si scrive $\models \varphi$ al posto di $\phi \models \varphi$
+          \item si scrive $\psi_1, \dots, \psi_n \models \varphi$ al posto di $\{\psi_1, \dots, \psi_n\} \models \varphi$
+          \item $\Gamma, \Sigma, \Delta$ sono insiemi arbitrari di formule
+          \item si scrive $\Gamma, \Sigma, \psi \models \varphi$ al posto di $\Gamma \cup \Delta \cup \{\psi\} \models \varphi$ 
+        \end{itemize}
+    \end{tcolorbox}
 
     \end{document}
