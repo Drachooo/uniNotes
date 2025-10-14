@@ -1,4 +1,6 @@
 \documentclass[a4paper, 12pt]{book}
+
+% ===== PACCHETTI NECESSARI ===== %
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[italian]{babel}
 %\usepackage{wrapfig}
@@ -31,6 +33,28 @@
 }
 \setcounter{tocdepth}{3}
 
+
+% ===== LISTA COMANDI =====
+%------COMANDO DEFINIZIONE-------%
+\newcommand{\definizione}[2]{%
+  \vspace{15pt}%
+  \begin{tcolorbox}[
+    colback=cyan!5!white,
+    colframe=blue!50!black,
+    title=\textbf{Definizione - #1}, % titolo della definizione
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=3mm,
+    boxrule=0.5pt,
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{15pt}%
+}
+
+
 \title{\textbf{Elaborazione di segnali e immagini}}
 \author{Mattia Nicolis}
 \date{A.A. 2025-26}
@@ -57,21 +81,9 @@
       \caption{sistema e segnali}
     \end{figure}
 
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Segnale},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      Un \textbf{segnale} è un \hl{insieme di dati o informazioni}.
-    \end{tcolorbox}
+    \definizione{segnale}{Un \textbf{segnale} è un \hl{insieme di dati o informazioni}.
+    }
 
-    \vspace{2mm}
 
     Un segnale rappresenta qualsiasi tipo di variabile fisica soggetta a variazioni. 
 
@@ -106,21 +118,8 @@
     
     Un segnale può essere elaborato da un \textbf{sistema}.
 
-    \vspace{2mm}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Sistema},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      Un \textbf{sistema} è un'\hl{entità che elabora un insieme di segnali (\textit{input}) per produrre un altro insieme di segnali (\textit{output})}.
-    \end{tcolorbox}
+    \definizione{Sistema}{Un \textbf{sistema} è un'\hl{entità che elabora un insieme di segnali (\textit{input}) per produrre un altro insieme di segnali (\textit{output})}.
+    }
 
     I sistemi processano i segnali per:
     \begin{itemize}
