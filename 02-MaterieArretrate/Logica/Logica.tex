@@ -1,4 +1,6 @@
 \documentclass[a4paper, 12pt]{book}
+
+% ===== PACCHETTI NECESSARI ===== %
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[italian]{babel}
 %\usepackage{wrapfig}
@@ -7,13 +9,18 @@
 \usepackage{amsmath}
 \setlength{\parindent}{0pt}
 \usepackage{parskip}
+\usepackage{mathrsfs}
 \usepackage{soul}
+\usepackage{ifthen}
 \usepackage{xcolor}
+\usepackage{forest} %per costruire parsing tree
 \usepackage[most]{tcolorbox}
 \usepackage{caption}
 \usepackage{amsfonts}
 \usepackage{stmaryrd}
 \usepackage{stmaryrd}
+\usepackage{enumitem} % pacchetto per personalizzare elenchi
+\usepackage{ulem} % necessario per \uline
 \usepackage{amssymb}
 \sethlcolor{yellow}
 \usepackage{array}
@@ -29,11 +36,97 @@
 \fancyhead[R]{\thepage} % numero pagina a destra nell'header
 \renewcommand{\headrulewidth}{0pt} % (opzionale) elimina la riga orizzontale sotto l'header
 \fancypagestyle{plain}{%
-  \fancyhf{} % pulisce header e footer
-  \fancyhead[R]{\thepage} % numero sempre in alto a destra
-  \renewcommand{\headrulewidth}{0pt} % opzionale: niente linea
+\fancyhf{} % pulisce header e footer
+\fancyhead[R]{\thepage} % numero sempre in alto a destra
+\renewcommand{\headrulewidth}{0pt} % opzionale: niente linea
 }
 \setcounter{tocdepth}{3}
+
+
+% ===== LISTA COMANDI =====
+%------COMANDO DEFINIZIONE-------%
+\newcommand{\definizione}[2]{%
+\vspace{15pt}%
+\begin{tcolorbox}[
+  colback=cyan!5!white,
+  colframe=blue!50!black,
+  title=\textbf{Definizione: #1}, % titolo della definizione
+  coltitle=white,
+  fonttitle=\bfseries,
+  arc=3mm,
+  boxrule=0.5pt,
+  enhanced,
+  breakable
+]
+#2 % testo della definizione
+\end{tcolorbox}
+\vspace{15pt}%
+}
+
+%------COMANDO PROPOSIZIONE-------%
+\newcommand{\proposizione}[1]{%
+\vspace{15pt}%
+\begin{tcolorbox}[
+  colback=cyan!5!white,
+  colframe=blue!50!black,
+  title=\textbf{Proposizione}, % titolo della proposizione
+  coltitle=white,
+  fonttitle=\bfseries,
+  arc=3mm,
+  boxrule=0.5pt,
+  enhanced,
+  breakable
+]
+#1 % testo della proposizione
+\end{tcolorbox}
+\vspace{15pt}%
+}
+
+%------COMANDO NOTAZIONE-------%
+\newcommand{\notazione}[1]{%
+\vspace{15pt}%
+\begin{tcolorbox}[
+  colback=cyan!5!white,
+  colframe=blue!50!black,
+  title=\textbf{Notazione}, % titolo della proposizione
+  coltitle=white,
+  fonttitle=\bfseries,
+  arc=3mm,
+  boxrule=0.5pt,
+  enhanced,
+  breakable
+]
+#1 % testo della proposizione
+\end{tcolorbox}
+\vspace{15pt}%
+}
+
+%------COMANDO NOTAZIONE-------%
+\newcommand{\convenzione}[1]{%
+\vspace{15pt}%
+\begin{tcolorbox}[
+  colback=cyan!5!white,
+  colframe=blue!50!black,
+  title=\textbf{Convenzione}, % titolo della proposizione
+  coltitle=white,
+  fonttitle=\bfseries,
+  arc=3mm,
+  boxrule=0.5pt,
+  enhanced,
+  breakable
+]
+#1 % testo della proposizione
+\end{tcolorbox}
+\vspace{15pt}%
+}
+
+%------COMANDO ESERCIZIO-------%
+\newcommand{\esercizio}[2][]{%
+  \vspace{10pt}%
+  \noindent\textbf{Esercizio\ifthenelse{\equal{#1}{}}{}{ - #1}}\\[4pt] % titolo (opzionale)
+  \hspace{1em}#2 % testo leggermente spostato
+  \vspace{10pt}%
+}
 
 \title{\textbf{Logica}}
 \author{Mattia Nicolis \and Matteo Drago}
@@ -41,261 +134,373 @@
 
 \begin{document}
 
-    \maketitle
+  \maketitle
 
-    \tableofcontents
-    \markboth{}{}
+  \tableofcontents
+  \markboth{}{}
 
-    \chapter*{Introduzione alla logica}
-    \addcontentsline{toc}{chapter}{Introduzione alla logica}
-    La \textbf{logica} si occupa di \hl{formalizzare i ragionamenti matematici} utilizzando il linguaggio matematico.
+  \chapter*{Introduzione alla logica}
+  \addcontentsline{toc}{chapter}{Introduzione alla logica}
+  La \textbf{logica} si occupa di \hl{formalizzare i ragionamenti matematici} utilizzando il linguaggio matematico.
 
-    Ciò è dovuto al fatto che il linguaggio naturale è ambiguo per la descrizione di teorimi.
+  Ciò è dovuto al fatto che il linguaggio naturale è ambiguo per la descrizione di teorimi.
 
-    La logica si divide in:
+  La logica si divide in:
+  \begin{itemize}
+    \item \textbf{logica formale}: che a sua volta si divide in
     \begin{itemize}
-      \item \textbf{logica formale}: che a sua volta si divide in
-      \begin{itemize}
-        \item \textit{logica simbolica}
-        \item \textit{Logica matematica}: studia la calcolabilità [studiata a fondamenti] 
-      \end{itemize}
-      \item \textbf{logica filosofica}: ha a che fare con il linguaggio naturale
+      \item \textit{logica simbolica}
+      \item \textit{Logica matematica}: studia la calcolabilità [studiata a fondamenti] 
     \end{itemize}
+    \item \textbf{logica filosofica}: ha a che fare con il linguaggio naturale
+  \end{itemize}
 
-    \section*{Numeri naturali}
-    \addcontentsline{toc}{section}{Numeri naturali}
-    Dal punto di vista intuitivo i numeri sono un insieme infinito:
+  \section*{Numeri naturali}
+  \addcontentsline{toc}{section}{Numeri naturali}
+  Dal punto di vista intuitivo i numeri sono un insieme infinito:
+  \begin{equation*}
+    \mathbb{N} = \{0, 1, 2, \dots\}
+  \end{equation*}
+  per i quali sono definite le operazioni standard aritmetiche elementari.
+
+  Peano definì in maniera rigorosa i numeri naturali.
+
+  \definizione{numeri naturali}{I \textbf{numeri naturali} sono una tupla:
     \begin{equation*}
-      \mathbb{N} = \{0, 1, 2, \dots\}
+      \langle \mathbb{N}, 0, succ \rangle
     \end{equation*}
-    per i quali sono definite le operazioni standard aritmetiche elementari.
 
-    Peano definì in maniera rigorosa i numeri naturali.
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - numeri naturali},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      I \textbf{numeri naturali} sono una tupla:
-      \begin{equation*}
-        \langle \mathbb{N}, 0, succ \rangle
-      \end{equation*}
-
-      Su quetsa tupla, sono definite 4 assiomi (teoremi che non si dimostrano):
-      \begin{enumerate}
-        \item $0 \in \mathbb{N}$
-        \item $succ: \mathbb{N} \rightarrow \mathbb{N}$ (operazione unaria iniettiva)
-        \item $0 \notin \mathrm{Im}(succ)$ (zero non è successore di nessuno)
-        \item (\textbf{Principio di induzione}) per ogni $\mathbb{P} \subseteq \mathbb{N}$ valgono le seguenti proprietà:
-        \begin{itemize}
-          \item $0 \in \mathbb{P}$
-          \item $\forall n \in \mathbb{N}, (n \in \mathbb{P} \rightarrow succ(n) \in \mathbb{P})$
-        \end{itemize}
-        $\Rightarrow \mathbb{P} = \mathbb{N}$
-      \end{enumerate}
-    \end{tcolorbox}
-
-    \chapter*{Logica proposizionale}
-    \addcontentsline{toc}{chapter}{Logica proposizionale}
-    \dots
-
-    \section*{Sintassi}
-    \addcontentsline{toc}{section}{Sintassi}
-    \dots
-
-    \section*{Semantica}
-    \addcontentsline{toc}{section}{Semantica}
-    La \textbf{semantica} si occupa di \hl{attribuire un significato sintattico} alle proposizioni (vero - 1 o falso - 0).
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - valutazione di verità},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      E' una funzione $\sigma: PROP \rightarrow \{{0, 1}\}$ tale che:
+    Su quetsa tupla, sono definite 4 assiomi (teoremi che non si dimostrano):
+    \begin{enumerate}
+      \item $0 \in \mathbb{N}$
+      \item $succ: \mathbb{N} \rightarrow \mathbb{N}$ (operazione unaria iniettiva)
+      \item $0 \notin \mathrm{Im}(succ)$ (zero non è successore di nessuno)
+      \item (\textbf{Principio di induzione}) per ogni $\mathbb{P} \subseteq \mathbb{N}$ valgono le seguenti proprietà:
       \begin{itemize}
-        \item $\sigma(\bot) = 0$
-        \item $\sigma(\lnot \varphi) = 1$ se e solo se $\sigma(\varphi) = 0$
-        \item $\sigma(\phi \land \psi) \Leftrightarrow \sigma(\phi) = \sigma(\psi) = 1$
-        \item $\sigma(\phi \lor \psi) \Leftrightarrow \sigma(\phi) = 1$ oppure $\sigma(\psi) = 1$
-        \item $\sigma(\phi \rightarrow \psi) \Leftrightarrow \sigma(\phi) = 1$ allora $\sigma(\psi) = 1$
+        \item $0 \in \mathbb{P}$
+        \item $\forall n \in \mathbb{N}, (n \in \mathbb{P} \rightarrow succ(n) \in \mathbb{P})$
       \end{itemize}
-    \end{tcolorbox}
+      $\Rightarrow \mathbb{P} = \mathbb{N}$
+    \end{enumerate}}
 
-    Questa definizione per la funzione di valutazione è pressochè la formulzazione matematica delle \textbf{tavole di verità}.
 
-    \begin{center}
-    \begin{minipage}{0.23\textwidth}
-    \centering
-    \begin{tabular}{c|c|c}
-    A & B & $A \land B$ \\ \hline
-    0 & 0 & 0 \\
-    0 & 1 & 0 \\
-    1 & 0 & 0 \\
-    1 & 1 & 1
-    \end{tabular}
-    \captionof{table}{AND}
-    \end{minipage}\hfill
-    %
-    \begin{minipage}{0.23\textwidth}
-    \centering
-    \begin{tabular}{c|c|c}
-    A & B & $A \lor B$ \\ \hline
-    0 & 0 & 0 \\
-    0 & 1 & 1 \\
-    1 & 0 & 1 \\
-    1 & 1 & 1
-    \end{tabular}
-    \captionof{table}{OR}
-    \end{minipage}\hfill
-    %
-    \begin{minipage}{0.23\textwidth}
-    \centering
-    \begin{tabular}{c|c|c}
-    A & B & $A \rightarrow B$ \\ \hline
-    0 & 0 & 1 \\
-    0 & 1 & 1 \\
-    1 & 0 & 0 \\
-    1 & 1 & 1
-    \end{tabular}
-    \captionof{table}{IMPLICATION}
-    \end{minipage}\hfill
-    %
-    \begin{minipage}{0.23\textwidth}
-    \centering
-    \begin{tabular}{c|c}
-    A & $\lnot A$ \\ \hline
-    0 & 1 \\
-    1 & 0
-    \end{tabular}
-    \captionof{table}{NOT}
-    \end{minipage}
-    \end{center}
+  \chapter*{Logica proposizionale}
+  \addcontentsline{toc}{chapter}{Logica proposizionale}
+  
+  La logica è lo studio del ragionamento deduttivo su delle entità linguistiche che indentifichiamo essere le proposizioni.
+  La logica classica è la branca che studia le poposizioni: frasi che possono avere due valori di verità, \textbf{VERO} o \textbf{FALSO}.
 
-     \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - valutazione atomica},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
+
+  \section*{Sintassi}
+  \addcontentsline{toc}{section}{Sintassi}
+
+  Esempi di proposizione:
+  \begin{enumerate}
+    \item Verona è una città del Veneto $\rightarrow$ \textbf{\textcolor{green!50!black}{VERA}}
+    \item Glu stidenti di questa classe sono al primo anno $\rightarrow$ \textbf{\textcolor{red}{FALSA}}
+    \item Fuori sta piovendo $\rightarrow$ \textbf{\textcolor{green!50!black}{FALSA}}
+    \item Come ti chiami? $\rightarrow$ \textbf{\textcolor{orange}{NON è una proposizione}}
+  \end{enumerate}
+
+  Vogliamo rendere questo linguaggio formale $\rightarrow$ bisogna individuare dei simboli
+  Una volta identificate le assunzioni, dobbiamo rappresentarle mediante simboli\dots es: P, Q, R
+
+  Esempio:\\
+  \uline{Se c'è il sole}, \uline{allora devi mettere la crema}
+
+  
+  \subsection*{Linguaggio formale}
+  \addcontentsline{toc}{subsection}{Linguaggio formale}
+  Dato un alfabeto A denotiamo con $A^*$ l'insieme di tutte le stringhe su A.
+
+  \definizione{Linguaggio}{Un linguaggio sull'alfabeto A è una coppia $\langle A,L \rangle$ dove $L \subseteq A^*$
+  \begin{itemize}
+    \item Ogni sottoinsieme di $A^*$ definisce un linguaggio
+  \end{itemize}
+  }
+
+  \subsection*{Linguaggio proposizionale}
+  \addcontentsline{toc}{subsection}{Linguaggio proposizionale}
+  Ha due entità sintattiche fondamentali:
+  \begin{itemize}
+    \item i simboli proposizionali: formalizzano generiche proposizioni elementari
+    \item i connettivi: simboli associati ai connettivi linguistici
+  \end{itemize}
+
+\subsection*{Proposizioni}
+\addcontentsline{toc}{subsection}{Proposizioni}  
+Son entità linguistiche che possono essere \uline{vere o false}.\\
+  Si dividono in:
+  \begin{itemize}
+    \item elementari: nessuna stringa propria costituisce una sottostringa
+    \item composte: composte da più sentenze tramite l'uso dei connettivi
+  \end{itemize}
+
+  \textbf{\uline{Connettivi logici}}\\
+
+  \noindent
+  % Minipage sinistra: tabella con bordi esterni
+  \begin{minipage}[t]{0.45\textwidth}
+  \centering
+  \begin{tabular}{|c|c|}
+  \hline
+  $\rightarrow$ & se \dots allora \\ \hline
+  $\land$ & and \\ \hline
+  $\lor$ & or \\ \hline
+  $\leftrightarrow$ & se e solo se \\ \hline
+  $\neg$ & negazione \\ \hline
+  $\bot$ & assurdo \\ \hline
+
+
+  \end{tabular}
+  \end{minipage}%
+  \hfill
+  % Minipage destra: testo
+  \begin{minipage}[t]{0.50\textwidth}
+  Se apro la finestra \textbf{allora} farà fresco\\
+  Io mangio \textbf{e} lui beve\\
+  Lui è a casa \textbf{o} lavora?\\
+
+  \end{minipage}
+
+  \definizione{Alfabeto}{L'afabeto $\mathcal{L}$ della logica prop ha i seguenti simboli:
+  \begin{itemize}
+    \item insieme numberabile di simbolo proposizionali: $AT_{prop}$ = {$p_0$, $p_1$, \dots}
+    \item connettivi $\land$, $\lor$, $\rightarrow$, $\bot$
+    \item simboli ausiliari: servono per costruire il linguaggio ma non ne fanno parte, per esempio le parentesi tonde ()
+  \end{itemize}
+  }
+  Le proposizioni semplici vengono definite \textbf{atomi} oppure \textbf{proposizioni atomiche}.
+
+  \definizione{Appartenenza insieme prop}{L'insieme prop delle proposizioni è definito come il più piccolo insieme P di stringhe su $\mathcal{L}$ tali che:
+  \begin{itemize}
+    \item $AT_{prop}$ $\subseteq$ P.
+    \item $\bot \in$ P.
+    \item se $\phi, \psi \in$ P allora $(\phi \land \psi), (\phi \lor \psi), (\phi \rightarrow \psi) \in P$
+  \end{itemize}}
+
+  Esempio:\\
+  $(p_1 \rightarrow p_2)$ $\in$ PROP \qquad\qquad\qquad \textcolor{green!50!black}{$\rightarrow$ Completa}\\
+  $p_7 \lor p_4 \notin$ PROP \qquad\qquad\qquad\qquad \textcolor{red}{$\rightarrow$ Mancano le parentesi}\\
+  $((\bot \lor p_7) \land (\lnot p_4)) \in$ PROP \qquad\qquad \textcolor{green!50!black}{$\rightarrow$ Completa}\\
+
+  \notazione{Chiamiamo AT = $AT_{prop} \cup \{\bot\}$
+  \begin{enumerate}[label= \alph*)]
+    \item $\lnot \phi$ denotiamo $(\phi \rightarrow \bot)$
+    \item $\phi \equiv \psi$ denotiamo $((\phi \rightarrow \psi) \land (\psi \rightarrow \phi))$
+  \end{enumerate}
+  }
+
+  \convenzione{
+  \begin{enumerate}
+    \item Omettiamo le parentesi più esterne \qquad $(\psi \rightarrow \phi)$ diventa $\psi \rightarrow \phi$
+    \item Scriviamo $\lnot \psi$ anzichè $(\lnot \psi)$
+    \item $\land$ e $\lor$ legano più forte di $\rightarrow$ e $\equiv$ \quad $\phi_1 \land \phi_2 \rightarrow \psi_1 \lor \psi_2$ sta per $(\phi_1 \land \phi_2) \rightarrow (\psi_1 \lor \psi_2)$
+  \end{enumerate}
+  }
+
+
+  \subsection*{Funzioni ricorsive su Prop}
+  \addcontentsline{toc}{subsection}{Funzioni ricorsive}
+  \definizione{Funzione $\mathscr{L}$ lunghezza}{Funzione $\mathscr{L}$ :PROP $\rightarrow \mathbb{N}$ che ad ogni $\phi \in PROP$ associa la sua lunghezza\\
+  \begin{enumerate}
+    \item $\mathscr{L}$($\phi$) = 1 \qquad se $\phi \in AT$
+    \item $\mathscr{L}$($\phi$ o $\psi$) = 3 + $\mathscr{L}(\phi)$ + $\mathscr{L}(\psi)$ \qquad con o $\in$ $\{\land, \lor, \rightarrow\}$
+    \item $\mathscr{L}$($\lnot \phi$) = 3 + $\mathscr{L}(\phi)$
+    
+    \textbf{+3} indica le due parentesi tonde e il connettivo
+  \end{enumerate}
+  }  
+
+  \esercizio[Definiamo il numero di parentesi tonde in una formula]{b($\varphi$) $\rightarrow$ il numero di parentesi in una formula proposizionale
+  \begin{itemize}
+    \item b($\varphi$) = 0 \qquad  \qquad \qquad con $\varphi \in$ AT
+    \item b($\varphi$ o $\phi$) = 2 + b($\varphi$) \qquad con o $\in$ \{$\land, \lor, \rightarrow$ \}
+    \item b($\lnot \varphi$) = 2 + b($\varphi$) 
+  \end{itemize}}
+
+  \esercizio[Definizione di parsing tree]{Definiamo il \textit{parsing tree}\footnote{Parsing tree: visualizzazione ad albero di una stringa} di una proposizione
+  \begin{itemize}
+    \item T($\varphi$) =  $\cdot \varphi$     \qquad con $\varphi$ $\in$ AT
+    \item T($\varphi$ o $\psi$) = $\cdot$(T($\varphi$), T($\psi$))    \qquad \qquad con o $\in$ \{ $\land$, $\lor$, $\rightarrow$\}
+    \item T($\lnot \varphi$) = $\lnot$(T($\varphi$))
+  \end{itemize}
+  }
+  
+
+  Una volta definito costruiamo il parsing tree della proposizione\\
+  \begin{forest}
+    [$(p_1 \rightarrow (\bot \lor (\lnot p_3)))$
+      [$p_1$]
+      [$\bot \lor (\lnot p_3)$
+        [$\bot$]
+        [$\lnot p_3$
+        [$p_3$]
+        ]
+      ]
     ]
-      Funzione $v: AT \rightarrow \{0, 1\}$ tali che $v(\bot) = 0$ 
-    \end{tcolorbox}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Proposizione},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-        Per ogni valutazione $v$ esiste ed è unica una \textit{valutazione di verità} ${\llbracket - \rrbracket}_v$ tale che per ogni $p \in \mathbf{AT}$, ${\llbracket p \rrbracket}_v = v(p)$.
-    \end{tcolorbox}
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - concordanza},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      Dato un insieme finito $P$ di simboli proposizionali, si dice che due valutazioni $v, v'$ \textbf{concordano} su $P$ se $v_{|P} = v'_{|P}$. 
-    \end{tcolorbox}
-
-    La proposizione precedente ci dice che l'insieme di tutte le possibili valutazione ha le stessa cardinalità di $\mathbb{N}$.
-
-    Un'altra proprietà delle valutazione è stabilita dalla seguente proposizione.
+  \end{forest}
 
 
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Proposizione},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-        Se $P(\phi)$ è l'insieme dei simboli proposizionali che occorrono in una formula $\phi$ e $v, v'$ due valutazioni che concordano su $P(\phi)$ allora ${\llbracket \phi \rrbracket}_v = {\llbracket \phi \rrbracket}_{v'}$.
-    \end{tcolorbox}
+  \definizione{Rango $r$ di una formula}{
+    \begin{itemize}
+      \item $r$($\varphi$) = 0  \qquad  \qquad $\varphi \in$ AT
+      \item $r$($\varphi$ o $\psi$) = 1 + max\{$r$($\varphi$), $r$($\psi$)\} \qquad con o $\in$ \{$\lor$, $\land$, $\rightarrow$\}
+      \item $r$($\lnot \varphi$) = 1 + r($\varphi$)
+    \end{itemize}
+  }
 
-    Se un problema è vero in tutte le sue valutazioni, allora è \textbf{decidibile} e viene detto \textbf{tautologia}.
+  \definizione{Sottoformula Sub}{
+    \begin{itemize}
+      \item Sub($\varphi$) = \{$\varphi$\}   \qquad $\varphi \in$ AT
+      \item Sub($\varphi$ o $\psi$) = Sub($\varphi$) $\cup$ Sub($\psi$) $\cup$ \{$\varphi$ o $\psi$\} \qquad con o $\in$ $\{\land, \lor, \rightarrow\}$
+      \item Sub($\lnot \varphi$) = Sub($\varphi$) $\cup$ \{($\lnot \varphi$)\} 
+    \end{itemize}
+  }
 
-    Si estende la valutazione di verità a un insieme arbitrario di proposizioni $\Gamma$: \\
-    \begin{center}
-        ${\llbracket \Gamma \rrbracket}_v = 1$ se e solo se per ogni $\alpha \in \Gamma$, ${\llbracket \alpha \rrbracket}_v = 1$
-    \end{center}
 
-    Tuttavia si pone attenzione al fatto che se ${\llbracket \phi \rrbracket}_v \neq 1$, allora non significa che per ogni $\alpha \in \Gamma$ si ha ${\llbracket \alpha \rrbracket}_v = 0$, al contrario si intende che esiste almeno un $\alpha \in \Gamma$ tale per cui ${\llbracket \alpha \rrbracket}_v = 0$.
+  \esercizio[Calcola il rango della seguente espressione:\\ ($\lnot p_2 \rightarrow$($p_3$ $\lor$ ($p_1 \leftrightarrows p_2$)))$\land$ $\lnot p_3$]{
 
-    Viceversa è più forte affermare che ${\llbracket \Gamma \rrbracket}_v = 0$, in quanto per questo caso ogni $\alpha \in \Gamma$ ha valutazione ${\llbracket \alpha \rrbracket}_v = 0$.
+  $r$($\varphi \land \psi$) = 1 + max\{($\lnot p_2 \rightarrow$ ($p_3 \lor$($p_1 \leftrightarrow p_2$))), $\lnot p_3$\}\\
+  $r$($\varphi \land \psi$) = 1 + max\{1+max\{1+0, $p_3 \lor$($p_1 \leftrightarrow p_2$)\}, 1+0\}\\
+  $r$($\varphi \land \psi$) = 1 + max\{1+max\{1,1+max\{0,0\}\},1\}\\
+  $r$($\varphi \land \psi$) = 1 + max\{1+max\{1,1\},1\}\\
+  $r$($\varphi \land \psi$) = 1 + max\{2,1\} = 1+2 = 3}
+  
 
-    Partendo dal concetto di valutazione dell formule, è possibile definire cosa significhi che da un insieme $\Gamma$ di proposizioni \textbf{segue logicamente} una proposizione $\varphi$, o in altre parole che $\varphi$ sia \textbf{conseguenza logica} di $\Gamma$.
+  \definizione{Connettivi \#($\varphi)$}{
+    \begin{itemize}
+      \item \#($\varphi)$ = 0
+      \item \#($\varphi \lor \psi$) = 1 + \#$\varphi$ + \#$\psi$
+      \item \#($\lnot \varphi)$ = 1 + \#$\varphi$
+    \end{itemize}
+  }
 
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione - conseguenza logica},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-        Dato un insieme $\Gamma$ di formule, si dice che la formual $\varphi$ è conseguenza logica dalle formule in $\Gamma$ e si scrive $\Gamma \models \varphi$, se per ogni valutazione $v$, ${\llbracket \Gamma \rrbracket}_v = 1 \Rightarrow {\llbracket \varphi \rrbracket}_v = 1$.
+  \esercizio[  Dimostrare che per ogni $\phi \in$ PROP vale $r(\phi)$ $\leq$ \#$\phi$]{Questo è un esempio di dimostrazione per induzione:
+}
 
-        Se $\phi \models \varphi$, allora si dice che $\varphi$ sia una tautologia.
-    \end{tcolorbox}
+  \proposizione{Se $\phi \in$  SF[$\psi$] e $\phi \neq \psi$ allora $r$[$\phi$] $<$ $r$[$\psi$]
+  
+  }
 
-    La formula $\varphi$ è detta \textbf{soddisfacibile} se esiste una valutazione $v$ tale che ${\llbracket \varphi \rrbracket}_v = 1$, altrimenti risulta essere \textbf{insoddisfacibile}.
 
-    A sua volta un insieme di formule $\Gamma$ è soddisfacibile se esiste una valutazione $v$ tale che per ogni $\varphi \in \Gamma$ si ha ${\llbracket \Gamma \rrbracket}_v = 1$, altrimenti si dice insoddisfacibile.
+  \section*{Semantica}
+  \addcontentsline{toc}{section}{Semantica}
+  La \textbf{semantica} si occupa di \hl{attribuire un significato sintattico} alle proposizioni (vero - 1 o falso - 0).
 
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Notazione},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-        \begin{itemize}
-          \item si scrive $\models \varphi$ al posto di $\phi \models \varphi$
-          \item si scrive $\psi_1, \dots, \psi_n \models \varphi$ al posto di $\{\psi_1, \dots, \psi_n\} \models \varphi$
-          \item $\Gamma, \Sigma, \Delta$ sono insiemi arbitrari di formule
-          \item si scrive $\Gamma, \Sigma, \psi \models \varphi$ al posto di $\Gamma \cup \Delta \cup \{\psi\} \models \varphi$ 
-        \end{itemize}
-    \end{tcolorbox}
 
-    \end{document}
+  \definizione{valutazione di verità}{E' una funzione $\sigma: PROP \rightarrow \{{0, 1}\}$ tale che:
+    \begin{itemize}
+      \item $\sigma(\bot) = 0$
+      \item $\sigma(\lnot \varphi) = 1$ se e solo se $\sigma(\varphi) = 0$
+      \item $\sigma(\phi \land \psi) \Leftrightarrow \sigma(\phi) = \sigma(\psi) = 1$
+      \item $\sigma(\phi \lor \psi) \Leftrightarrow \sigma(\phi) = 1$ oppure $\sigma(\psi) = 1$
+      \item $\sigma(\phi \rightarrow \psi) \Leftrightarrow \sigma(\phi) = 1$ allora $\sigma(\psi) = 1$
+    \end{itemize}
+    }
+  
+
+  Questa definizione per la funzione di valutazione è pressochè la formulzazione matematica delle \textbf{tavole di verità}.
+
+  \begin{table}[h]
+  \centering
+  % AND
+  \begin{minipage}{0.23\textwidth}
+  \centering
+  \begin{tabular}{c|c|c}
+  A & B & $A \land B$ \\ \hline
+  0 & 0 & 0 \\
+  0 & 1 & 0 \\
+  1 & 0 & 0 \\
+  1 & 1 & 1
+  \end{tabular}
+  \caption*{AND}
+  \end{minipage}\hfill
+  %
+  % OR
+  \begin{minipage}{0.23\textwidth}
+  \centering
+  \begin{tabular}{c|c|c}
+  A & B & $A \lor B$ \\ \hline
+  0 & 0 & 0 \\
+  0 & 1 & 1 \\
+  1 & 0 & 1 \\
+  1 & 1 & 1
+  \end{tabular}
+  \caption*{OR}
+  \end{minipage}\hfill
+  %
+  % IMPLICAZIONE
+  \begin{minipage}{0.23\textwidth}
+  \centering
+  \begin{tabular}{c|c|c}
+  A & B & $A \rightarrow B$ \\ \hline
+  0 & 0 & 1 \\
+  0 & 1 & 1 \\
+  1 & 0 & 0 \\
+  1 & 1 & 1
+  \end{tabular}
+  \caption*{IMPLICAZIONE}
+  \end{minipage}\hfill
+  %
+  % NOT
+  \begin{minipage}{0.23\textwidth}
+  \centering
+  \begin{tabular}{c|c}
+  A & $\neg A$ \\ \hline
+  0 & 1 \\
+  1 & 0
+  \end{tabular}
+  \caption*{NOT}
+  \end{minipage}
+
+  \end{table}
+
+
+  \definizione{valutazione atomica}{Funzione $v: AT \rightarrow \{0, 1\}$ tali che $v(\bot) = 0$ 
+  }
+
+  \proposizione{Per ogni valutazione $v$ esiste ed è unica una \textit{valutazione di verità} ${\llbracket - \rrbracket}_v$ tale che per ogni $p \in \mathbf{AT}$, ${\llbracket p \rrbracket}_v = v(p)$.
+  }
+
+  \definizione{concordanza}{  Dato un insieme finito $P$ di simboli proposizionali, si dice che due valutazioni $v, v'$ \textbf{concordano} su $P$ se $v_{|P} = v'_{|P}$. 
+  }
+
+  La proposizione precedente ci dice che l'insieme di tutte le possibili valutazione ha le stessa cardinalità di $\mathbb{N}$.
+
+  Un'altra proprietà delle valutazione è stabilita dalla seguente proposizione.
+
+  \proposizione{Se $P(\phi)$ è l'insieme dei simboli proposizionali che occorrono in una formula $\phi$ e $v, v'$ due valutazioni che concordano su $P(\phi)$ allora ${\llbracket \phi \rrbracket}_v = {\llbracket \phi \rrbracket}_{v'}$.
+  }
+
+  Se un problema è vero in tutte le sue valutazioni, allora è \textbf{decidibile} e viene detto \textbf{tautologia}.
+
+  Si estende la valutazione di verità a un insieme arbitrario di proposizioni $\Gamma$: \\
+  \begin{center}
+      ${\llbracket \Gamma \rrbracket}_v = 1$ se e solo se per ogni $\alpha \in \Gamma$, ${\llbracket \alpha \rrbracket}_v = 1$
+  \end{center}
+
+  Tuttavia si pone attenzione al fatto che se ${\llbracket \phi \rrbracket}_v \neq 1$, allora non significa che per ogni $\alpha \in \Gamma$ si ha ${\llbracket \alpha \rrbracket}_v = 0$, al contrario si intende che esiste almeno un $\alpha \in \Gamma$ tale per cui ${\llbracket \alpha \rrbracket}_v = 0$.
+
+  Viceversa è più forte affermare che ${\llbracket \Gamma \rrbracket}_v = 0$, in quanto per questo caso ogni $\alpha \in \Gamma$ ha valutazione ${\llbracket \alpha \rrbracket}_v = 0$.
+
+  Partendo dal concetto di valutazione dell formule, è possibile definire cosa significhi che da un insieme $\Gamma$ di proposizioni \textbf{segue logicamente} una proposizione $\varphi$, o in altre parole che $\varphi$ sia \textbf{conseguenza logica} di $\Gamma$.
+
+  \definizione{conseguenza logica}{Dato un insieme $\Gamma$ di formule, si dice che la formual $\varphi$ è conseguenza logica dalle formule in $\Gamma$ e si scrive $\Gamma \models \varphi$, se per ogni valutazione $v$, ${\llbracket \Gamma \rrbracket}_v = 1 \Rightarrow {\llbracket \varphi \rrbracket}_v = 1$.
+  }
+
+  La formula $\varphi$ è detta \textbf{soddisfacibile} se esiste una valutazione $v$ tale che ${\llbracket \varphi \rrbracket}_v = 1$, altrimenti risulta essere \textbf{insoddisfacibile}.
+
+  A sua volta un insieme di formule $\Gamma$ è soddisfacibile se esiste una valutazione $v$ tale che per ogni $\varphi \in \Gamma$ si ha ${\llbracket \Gamma \rrbracket}_v = 1$, altrimenti si dice insoddisfacibile.
+
+  \notazione{\begin{itemize}
+        \item si scrive $\models \varphi$ al posto di $\phi \models \varphi$
+        \item si scrive $\psi_1, \dots, \psi_n \models \varphi$ al posto di $\{\psi_1, \dots, \psi_n\} \models \varphi$
+        \item $\Gamma, \Sigma, \Delta$ sono insiemi arbitrari di formule
+        \item si scrive $\Gamma, \Sigma, \psi \models \varphi$ al posto di $\Gamma \cup \Delta \cup \{\psi\} \models \varphi$ 
+    \end{itemize}
+    }
+
+
+
+\end{document}
