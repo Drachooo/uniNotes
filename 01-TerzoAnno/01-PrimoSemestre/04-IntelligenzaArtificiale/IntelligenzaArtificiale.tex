@@ -25,6 +25,7 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usepackage{longtable}
+\tcbuselibrary{theorems}
 \usepackage{array}
 \usepackage{fancyhdr}
 \setlength{\headheight}{15pt}
@@ -40,7 +41,7 @@
 \setcounter{tocdepth}{3}
 
 \title{\textbf{Intelligenza artificiale}}
-\author{Mattia Nicolis}
+\author{Mattia Nicolis \and Matteo Drago}
 \date{A.A. 2025-26}
 
 \begin{document}
@@ -64,6 +65,18 @@
       innertopmargin=8pt,
       innerbottommargin=8pt
     ]{example}
+
+    % Definizione dell'ambiente "definition" in un riquadro
+    \newtcbtheorem[number within=section]{definition}{Definizione}%
+    {colback=blue!5!white,     % colore di sfondo
+    colframe=blue!75!black,   % colore del bordo
+    fonttitle=\bfseries,      % titolo in grassetto
+    coltitle=white,           % colore del titolo
+    boxrule=0.8pt,            % spessore del bordo
+    arc=2mm,                  % angoli arrotondati
+    top=2mm, bottom=2mm, left=2mm, right=2mm,
+    enhanced, breakable       % abilita interruzione su più pagine
+    }{def}
 
 
 
@@ -249,9 +262,160 @@
     E' importante tenere distinti questi due concetti:
     \begin{itemize}
       \item \textit{funzione agente}: descrizione matematica stratta
-      \item \textit{programma agente}: implemenyazione concreta della funzione agente, in esecuzione all'interno di un sistema fisico.
+      \item \textit{programma agente}: implementazione concreta della funzione agente, in esecuzione all'interno di un sistema fisico.
     \end{itemize}
 
+    \begin{definition*}{}{}
+      Se un agente ha $|P|$ possibili percezioni, quante voci avrà la funzione agente dopo $T$ passi temporali?
+      
+      \vspace{1mm}
+
+      \begin{center}
+        $\sum_{t=1}^T|P|^t$
+      \end{center}
+
+      \vspace{1mm}
+
+      L'obiettivo dell'IA è di progettare piccoli programmi agente per rappresentare grandi funzioni agenti.
+    \end{definition*}
+
+    %esempio dell'aspirapolvere
+
+    %codice programma agente (aspirapolvere)
+
+    \textit{Qual'è il modo più corretto di progettare la tabella?}, ovvero che cosa rende un agente buono o cattivo, intelligente o stupido?
+
+    Abbiamo bisogno di una \textbf{performance measure}.
+
+    \section*{Misure di prestazione}
+    \addcontentsline{toc}{section}{Misure di prestazione}
+    L'IA è fedele al concetto di \textbf{consequenzialismo}: vlautare il comportamento di un agente considernadone le \textit{conseguenze}.
+    
+    Quando un agente viene inserito in un ambiente, genera una sequenza di azioni in base alle percezioni che riceve.
+
+    Questa sequenza di azioni porta l'ambiente ad attraversare una sequenza di stati: se tale sequenza è \textit{desiderabile}, significa che l'agente si è comportato bene.
+
+    Questa nozione di desiderabilità è catturata da una \textbf{misura di prestazione} (\textit{performance measure}) che valuta una seuqenza di stati dell'ambiente.
+
+    \subsection*{Razionalità}
+    \addcontentsline{toc}{subsection}{Razionalità}
+
+    \begin{definition*}{agente razionale}{}
+      Per ogni possibile seuqenza di percezioni, un agente dovrebbe scegliere un'azione che massimizzi il valore atteso della sua misura di prestazione, date le informazioni fornite dalla sequenza percettiva e da ogni ulteriore conoscenza dell'agente.
+    \end{definition*}
+
+    Dobbiamo, però, distingure un paio di concetti:
+    \begin{description}
+      \item [razionalità $\neq$ onniscenza]: le percezioni potrebbero non fornire tutte le informazioni rilevanti
+      \item [razionalità $\neq$ chiaroveggente]: i risultati dell'azione potrebbero non essere quelli previsti
+      \item [razionalità $\neq$ riuscito]
+    \end{description}
+
+    Razionale vuol dire \textit{esplorazione}, \textit{apprendimento}, \textit{autonomia}.
+    
+    \section*{Specificare un ambiente (PEAS)}
+    \addcontentsline{toc}{section}{Specificare un ambiente o (PEAS)}
+    Per progettare un agente intelligente bisogna definire l'ambiente in cui si opera:
+    \begin{itemize}
+      \item \textbf{performance measure}: come viene valutato il successo dell'agente
+      \item \textbf{enviroment}: contesto in cui opera l'agente
+      \item \textbf{actuators}: mezzi attraverso cui l'agente agisce sull'ambiente
+      \item \textbf{sensors}: mezzi attraverso cui l'agente percepisce l'ambiente
+    \end{itemize}
+
+
+    \chapter*{Risolvere i problemi con la ricerca}
+    \addcontentsline{toc}{chapter}{Risolvere i problemi con la ricerca}
+    Quando l'azione giusta da compiere non è subito evidente, un agente può avere la necessità di \textit{guardare avanti}, cioè considerare una sequenza di azioni che formano un cammino che porterà a uno \textbf{stato obiettivo}.
+    
+    Questo agente è chiamato \textbf{agente risolutore di problemi} e il processo computazionale che effettua è una \textbf{ricerca}.
+    
+    Questo tipo di agente utilizza \textit{rappresentazioni atomiche} in cui gli stati del mondo sono considerate come entità prive di una struttura interna visibile agli agli algoritmi per la risoluzione dei problemi.
+
+    Gli agenti che utilizzano \textit{rappresentazioni di stati fattorizzate} o \textit{strutture} sono chiamati \textbf{agenti pianificatori}.
+    
+    \section*{Agenti risolutori di problemi}
+    \addcontentsline{toc}{section}{Agenti risolutori di problemi}
+    Gli \textbf{agenti risolutori di problemi} sono una forma ristretta di agenti che formulano un problema e un obiettivo partendo da uno stato, ignorando le percezioni.
+
+    Questo chiama \textit{offline problem solving} perchè l'agente ha completa conoscenza dell'ambiente.
+
+    %esempio del viaggio in Romania: Arad-Bucarest
+
+    \subsection*{Problemi di ricerca e soluzini}
+    \addcontentsline{toc}{subsection}{Problemi di ricerca e soluzini}
+    \dots
+
+    \section*{Algoritmi di ricerca}
+    \addcontentsline{toc}{section}{Algoritmi di ricerca}
+    Un \textbf{algoritmo di ricerca} riceve in input un problema e restituisce una soluzione o un fallimento.
+
+    \subsection*{Tree search}
+    \addcontentsline{toc}{subsection}{Tree search}
+    Consideriamo, quindi, algoritmi che sovrappongono un \textbf{albero di ricerca} al grafo dello spazio degli stati, formando vari cammini a partire dallo stato iniziale e cercando di trovarne uno che raggiunga uno stato obiettivo.
+    \begin{description}
+      \item [nodo]: corrisponde a uno stato nello spazio degli stati
+      \item [ramo]: corrisponde ad un'azione 
+    \end{description}
+
+    La radice dell'albero corrisponde allo stato iniziale del problema.
+
+    Nell'albero di ricerca possono esserci più cammini per raggiungere qualsiasi stato, ma per ogni nodo dell'albero c'è un cammino univoco per tornare alla radice.
+
+    %codice tree search
+
+    Possiamo \textbf{espandere} il nodo, considerando le \textit{azioni} disponibili per quello stato, usando la funzione \textit{risultato} per vedere dove portano tali azioni e \textbf{generare} un nuovo nodo (\textit{nodo figlio} o \textit{sucessore}) per ognuno degli sttati risultanti.
+
+    Ogni nodo figlio ha un \textbf{nodo padre}.
+
+    % codice tree search generale
+
+    Chiamiamo l'insieme di questi nodi \textbf{frontiera} dell'albero di ricerca, e diciamo che ogni stato per cui vi è un nodo generato è stato \textbf{raggiunto}.
+
+    La frontiera \textit{separa} due regioni del grafo dello spazio degli stati:
+    \begin{itemize}
+      \item \textbf{regione interna}: ogni stato è stato espanso
+      \item \textbf{regione esterna}: stati che non sono stati ancora raggiunti
+    \end{itemize}
+
+    \subsection*{Misurare le prestazioni nella risoluzione di problemi}
+    \addcontentsline{toc}{subsection}{Misurare le prestazioni nella risoluzione di problemi}
+    Possiamo valutare le prestazioni di un algoritmo secondo quattro criteri:
+    \begin{itemize}
+      \item \textbf{completezza}: garantisce di trovare una soluzione (se esiste)
+      \item \textbf{ottimalità}: garantisce di trovare la soluzione migliore (a costo minimo)
+      \item \textbf{complessità temporale}: tempo che impiega a trovare una soluzione, calcolato in base al numero di nodi generati o espansi
+      \item \textbf{complessità spaziale}: memoria necessaria per effettuare la ricerca, cioè il numero massimo di nodi memorizzati in memoria
+    \end{itemize}
+
+    Per essere completo, un algoritmo di ricerca deve procedere in modo \textbf{sistematico} nell'esplorazione di uno spazio degli stati infinito, assicurandosi di poter qualsiasi stato collegato a quello iniziale.
+
+    La complessità spaziale e quella temporale sono sempre considerate in rapporto a una misura della difficoltà del problema.
+
+    La misura tipica è la dimensione del grafo degli stati = $|V|+|E|$:
+    \begin{description}
+      \item [$V$]: insieme dei vertici del grafo (stati)
+      \item [$E$]: insieme dei collegamenti o archi (coppie distinte stato/azione) 
+    \end{description}
+
+    Tuttavia, in molti problemi di IA il grafo è rappresnetato soltanto \textit{implicitamente} dallo stato iniziale, dalle azioni e dal modello di transizione.
+
+    Per uno spazio degli stati implicito, la complessità si può misurare in termini di:
+    \begin{itemize}
+      \item $d$ (\textit{depth}): profondità della soluzione meno costosa
+      \item $m$: profondità massima dell'albero di ricerca
+      \item $b$ (\textit{brach factor}): numero massimo di figli per nodo 
+    \end{itemize}
+
+    \subsection*{Cammini rindondanti}
+    \addcontentsline{toc}{subsection}{Cammini rindondanti}
+    Fallire nel riconoscere stati ripetuti può trasforare un problema lineare in un problema esponenziale.
+
+    Bisogna, quindi, mantenere una lista di stati già visitati e non espandere nodi che portano a stati già visitati.
+
+    %codice su stati ripetuti
+
+    
     \section*{Strategie di ricerca non informata}
     \addcontentsline{toc}{section}{Strategie di ricerca non informata}
     Un \textbf{algoritmo di ricerca non informata} non riceve alcuna informazione su quanto uno stato sia vicino all'obiettivo.
@@ -309,4 +473,141 @@
     \subsection*{Ricerca a costo minimo (algoritmo Dijkstra)}
     \addcontentsline{toc}{subsection}{Ricerca a costo minimo (algoritmo Dijkstra)}
     Quando le azioni hanno costi diversi, si utilizza BFS in cui la funzione di valutazione è il costo del cammino della radice al nodo corrente: si tratta dell'\textbf{algoritmo di Dijkstra} o \textbf{ricerca a costo uniforme}.
-\end{document}
+
+    %foto
+
+    La complessità della ricerca a costo uniforme è caraterizzata in termini di $C^*$ (costo della soluzione ottima) ed $\epsilon$ (limite inferiore imposto al costo di ogni azione), con $\epsilon > 0$.
+    \begin{description}
+      \item [caso peggiore] (costi diversi): complessità temporale e spaziale = $O(b^{1 + \lfloor C^*/\epsilon \rfloor})$ 
+      \item [caso migliore] (costi uniformi): complessità temporale e spazionale = $O(b^{d+1})$
+    \end{description}
+
+    La ricerca a costo uniforme è completa e ottima rispetto al costo perchè la prima soluzione che trova avrà un costo basso aleno quanto quello di ogni altro nodo sulla frontiera.
+
+    Questa riceerca esamina tutti i cammini in ordine di costo crescente, quindi, non rientra mai in un cammino infinito (assumendo che tutti i costi delle azioni $\epsilon > 0$).
+
+    \subsection*{Ricerca in profondità}
+    \addcontentsline{toc}{subsection}{Ricerca in profondità}
+    La \textbf{ricerca in profondità} espande sempre per primo il nodo a \textit{profondità maggiore} nella frontiera.
+
+    Potrebbe essere implementata con una chiamata di ricerca BFS in cui la funzione di valutazione $f$ è l'opposto (negativo) della profondità.
+
+    Generalemente viene implementata come ricerca ad albero che non mantiene una tabella degli stati raggiunti.
+
+    La ricerca in profondità non è ottima rispetto al costo, infatti, restituisce sempre la prima soluzione che trova anche se non è la meno costosa.
+
+    Per spazi degli stati finiti che sono alberi, la ricerca in profondità è efficiente e completa; per spazi degli stati aciclici potrebbe arrivarre a espandere lo stesso stato più volte attraverso cammini diversi, ma (alla fine) esplorerà sistematicamente l'intero spazio.
+
+    %foto
+
+    In spazi degli stati ciclici, la ricerca in profondità può bloccarsi in un ciclo infinito, perciò alcune implementanzioni controllano ciascun nodo nuovo per verificare la presenza di cicli.
+
+    Infine, in spazi degli stati infiniti la ricerca in profondità non è sistematica: può entrare in un cammino infinito, anche se non vi sono cicli.
+
+    Quindi, la riceerca in profondità è incompleta.
+
+    Per i problemi in cui è praticabile un ricerca ad albero, la ricerca in profondità ha esigenze di memoria molto più ridotte.
+
+    Non viene mantenuta una tabella dei nodi raggiunti, e la frontiera è molto più piccola: mentre nella ricerca in ampiezza la frontiera può essere vista come la superficie di una sfera in continua espansione, nella ricerca in profondità la frontiera è solatanto un raggio della sfera.
+
+    Per uno spazio degli stati finito e a forma di albero una ricerca ad albero in profondità richiede un tempo proporzionale al numero degli stati e ha una complessità di memoria solo $O(bm)$, dove $b$ è il fattore di ramificazione e $m$ è la massima profondità dell'albero.
+
+    \subsection*{Ricerca a profondità limitata}
+    \addcontentsline{toc}{subsection}{Ricerca a profondità limitata}
+    Per evitare che la ricerca in profondità si èerda in un cammino infinito possiamo usare la \textbf{ricerca e profondità limitata}, in cui forniamo un limite di profondità, $\mathcal{l}$ e consideriamo tutti i nodi a profondità $\mathcal{l}$ come se non avessere sucessori.
+
+    %codice
+
+    La complessitàtemporale è $O(b^{\mathcal{l}})$ e quella spaziale è $O(b\mathcal{l})$.
+
+    Se si sceglie male $\mathcal{l}$ l'algoritmo non riuscirà a trovare la soluzione, per cui è ancora incompleto.
+
+    Poichè la ricerca in profondità è una ricerca ad albero, non possiamo che perda tempo sui cammini ridondanti in generale, ma possiamo eliminare i cammini ciclici al posto di un pò di tempo di calcolo in più.
+
+    \
+
+    La \textbf{ricerca ad approfondimento iterativo} risolve il problema di trovare un buon valore di $\mathcal{l}$ provando tutti i valori: prima 0, poi 1, poi 2, e così via fino a quando si trova una soluzione, oppure la ricerca a profondità limitata restituisce il valore \textit{fallimento} anzichè il valore \textit{soglia}.
+
+    L'approfondimento iterativo riunisce molti vantaggi offerti dalla ricerca in profondità e da quella in ampiezza.
+
+    Come nella ricerca in profondità, i requisiti di memoria sono modesti: $O(bd)$ quando esiste una soluzione, $O(bm)$ su spazi degli stati finiti senza soluzione.
+
+    Come la ricerca in ampiezza, la ricerca ad approfondimento operativo è ottima per problemi in cui tutte le azioni hanno lo stesso costo, ed è completa su spazi degli stati aciclici finiti, o su qualsiasi spazio degli stati finito quando controlliamo i nodi per la presenza di cicli risalendo l'intero cammino.
+
+    La complessità temporale è $O(b^d)$ quando esiste una soluzione, $O(b^m)$ quando non esiste.
+
+    Ogni iterazione della ricerca ad approfondimento iterativo genera un nuovo livello, come la ricerca in ampiezza, ma mentre quest'ultima lo fa memorizzando tutti i nodi in memoria, la ricerca ad approfondimento iterativo lo  fa ricostruendo tutti i lielli precedenti, risparmiando memoria in cambio di un tempo maggiore.
+
+    In una ricerca ad approfondimento iterativo, i nodi al livello più basso (a profondità $d$) sono generati una sola volta, quelli al livello immediatamente superiore due volte, e così via fino ai figli diretti del nodo radice, che sono generati $d$ volte.
+
+    Quindi, nel caso peggiore il numero totale dei nodi generati è:
+    \begin{equation*}
+      N(RAI) = (d)b^1 + (d-1)b^2 + \dots + (1)b^d
+    \end{equation*}
+    il che ci dà una complessità temporale $O(b^d)$, asintoticamente equivalente alla ricerca in ampiezza.
+
+    In gnerale, la ricerca ad approfondimento iterativo è il metodo preferito di ricerca non informata quando lo spazio degli stati in cui creare è troppo grande per essere mantenuto in memoria e la profondità della soluzione non è nota.
+
+    %foto
+
+    \
+
+    \begin{center}
+      \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+          \textbf{Criterio} & \textbf{In ampiezza} & \textbf{A costo uniforme} & \textbf{In profondità} & \textbf{A profondità limitata} & \textbf{Ad approfondimento ierativo} \\
+        \hline
+          \textbf{completa?} & Si & Si & No & No & Si \\
+        \hline
+          \textbf{ottima rispetto al costo?} & Si & Si & No & No & Si \\
+        \hline
+          \textbf{tempo} & $O(b^d)$ &  $O(b^{1 + \lfloor C^*/\epsilon \rfloor})$ & $O(b^m)$ & $O(b^\mathcal{l})$ & $O(b^d)$ \\ 
+        \hline
+          \textbf{spazio} & $O(b^d)$ & $O(b^{1 + \lfloor C^*/\epsilon \rfloor})$ & $O(bm)$ & $O(b^\mathcal{l})$ & $O(b^d)$ \\
+        \hline
+      \end{tabular}
+    \end{center}
+
+    Per le ricerche sul garfo che effettuano tale controllo, le differnze principali sono che la ricerca in profodnità è completa per spazi degli stati finiti e che le complessità spaziale e temporale sono limitate dalla dimensione dello spazio degli stati (numero di vertici e archi, $|V|+|E|$).
+
+
+    \section*{Strategie di ricerca informata}
+    \addcontentsline{toc}{section}{Strategie di ricerca informata}
+    La \textbf{ricerca informata} sfrutta conoscenza specifica del dominio applicativo per fornire suggerimenti su dove si potrebbe trovare l'obiettivo, possa trovare soluzini in modo più efficiente di una strategia non informata.
+
+    I sugggerimenti hanno la forma \textit{funzione euristica} denotata con $h(n):^{10}$
+    \begin{description}
+      \item [$h(n)$] = costo stimato del cammino meno costoso dalla stato del nodo $n$ a uno stato obiettivo
+    \end{description}
+
+    \subsection*{Ricerca best-first greedy o "golosa"}
+    \addcontentsline{toc}{subsection}{Ricerca best-first greedy o "golosa"}
+    La \textbf{ricerca best-first grredy} è una forma di ricerca BFS che espande prima il nodo con il valore più basso di $h(n)$, cioè quello che appare più vicino all'obiettivo, sulla base del fatto che + probabile che questo porti rapidamente a una soluzione.
+
+    Perciò la funzione di valutazione è $f(n) = h(n)$.
+
+    La ricerca BFS greedy su grafo è completa negli spazi degli stati fniti, ma non in quelli infiniti.
+
+    Nel caso peggiore la complessità temporale e spaziale è $O(|V|)$, ma con una buona funzione curistca è possibile ridurla considervolmente, arrivando in certi problemi a $O(bm)$.
+
+    \subsection*{Ricerca A*}
+    \addcontentsline{toc}{subsection}{Ricerca A*}
+    La forma più diffusa di algoritmo di ricerca informata è la \textbf{ricerca A*} una BFS che utilizza la funzione di valutazione:
+    \begin{equation*}
+      f(n) = g(n) + h(n)
+    \end{equation*}
+
+    \begin{description}
+      \item [$g(n)$] : costo del cammino dal nodo iniziale al nodo $n$
+      \item [$h(n)$] : costo stimato dal cammino più breve da $n$ a uno stato obiettivo
+      \item [$f(n)$] : costo stimato del cammino migliore che continua da $n$ fino a un obiettivo
+    \end{description}
+
+    La ricerca A* è completa.
+
+    Il fatto cche sia o meno ottimale rispetto a costo dipende da alcune proprietà dell'euristica.
+
+    Una proprietà fondamentale è l'\textbf{ammissibilità}: un'\textbf{euristica ammissibile} è tale se non sovrastima mai il costo per raggiungere un obiettivo.
+
+    Con un'euristica ammissibile la riceerca A* è ottima rispetto al costo, cosa che possiamo dimostrare per assurdo.
+    \end{document}
