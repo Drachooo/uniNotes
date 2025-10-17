@@ -187,7 +187,7 @@
   \chapter*{Logica proposizionale}
   \addcontentsline{toc}{chapter}{Logica proposizionale}
   
-  La logica è lo studio del ragionamento deduttivo su delle entità linguistiche che indentifichiamo essere le proposizioni.
+  La logica è lo studio del ragionamento deduttivo su delle entità linguistiche che indentifichiamo essere le proposizioni.\\
   La logica classica è la branca che studia le poposizioni: frasi che possono avere due valori di verità, \textbf{VERO} o \textbf{FALSO}.
 
 
@@ -196,16 +196,16 @@
 
   Esempi di proposizione:
   \begin{enumerate}
-    \item Verona è una città del Veneto $\rightarrow$ \textbf{\textcolor{green!50!black}{VERA}}
-    \item Glu stidenti di questa classe sono al primo anno $\rightarrow$ \textbf{\textcolor{red}{FALSA}}
-    \item Fuori sta piovendo $\rightarrow$ \textbf{\textcolor{green!50!black}{FALSA}}
+    \item Verona è una città del Veneto $\rightarrow$ \textbf{\textcolor{green!50!black}{proposizione VERA}}
+    \item Glu stidenti di questa classe sono al primo anno $\rightarrow$ \textbf{\textcolor{red}{proposizione FALSA}}
+    \item Fuori sta piovendo $\rightarrow$ \textbf{\textcolor{green!50!black}{proposizione FALSA}}
     \item Come ti chiami? $\rightarrow$ \textbf{\textcolor{orange}{NON è una proposizione}}
   \end{enumerate}
 
-  Vogliamo rendere questo linguaggio formale $\rightarrow$ bisogna individuare dei simboli
-  Una volta identificate le assunzioni, dobbiamo rappresentarle mediante simboli\dots es: P, Q, R
+  Vogliamo rendere questo linguaggio formale $\rightarrow$ bisogna individuare dei simboli.\\
+  Una volta identificate le assunzioni, dobbiamo rappresentarle mediante simboli\dots \\es: P, Q, R
 
-  Esempio:\\
+  \textbf{Esempio}:\\
   \uline{Se c'è il sole}, \uline{allora devi mettere la crema}
 
   
@@ -229,7 +229,7 @@
 
 \subsection*{Proposizioni}
 \addcontentsline{toc}{subsection}{Proposizioni}  
-Son entità linguistiche che possono essere \uline{vere o false}.\\
+Sono entità linguistiche che possono essere \uline{vere o false}.\\
   Si dividono in:
   \begin{itemize}
     \item elementari: nessuna stringa propria costituisce una sottostringa
@@ -257,16 +257,16 @@ Son entità linguistiche che possono essere \uline{vere o false}.\\
   \hfill
   % Minipage destra: testo
   \begin{minipage}[t]{0.50\textwidth}
-  Se apro la finestra \textbf{allora} farà fresco\\
-  Io mangio \textbf{e} lui beve\\
-  Lui è a casa \textbf{o} lavora?\\
+  Se apro la finestra \uline{\textbf{allora}} farà fresco\\
+  Io mangio \uline{\textbf{e}} lui beve\\
+  Lui è a casa \uline{\textbf{o}} lavora?\\
 
   \end{minipage}
 
-  \definizione{Alfabeto}{L'afabeto $\mathcal{L}$ della logica prop ha i seguenti simboli:
+  \definizione{Alfabeto $\mathcal{L}$}{L'alfabeto $\mathcal{L}$ della logica prop ha i seguenti simboli:
   \begin{itemize}
-    \item insieme numberabile di simbolo proposizionali: $AT_{prop}$ = {$p_0$, $p_1$, \dots}
-    \item connettivi $\land$, $\lor$, $\rightarrow$, $\bot$
+    \item insieme numberabile di simboli proposizionali: \textbf{$AT$}$_{prop}$ = \{$p_0$, $p_1$, \dots\}
+    \item connettivi: $\land$, $\lor$, $\rightarrow$, $\bot$
     \item simboli ausiliari: servono per costruire il linguaggio ma non ne fanno parte, per esempio le parentesi tonde ()
   \end{itemize}
   }
@@ -279,7 +279,7 @@ Son entità linguistiche che possono essere \uline{vere o false}.\\
     \item se $\phi, \psi \in$ P allora $(\phi \land \psi), (\phi \lor \psi), (\phi \rightarrow \psi) \in P$
   \end{itemize}}
 
-  Esempio:\\
+  \textbf{Esempio:}\\
   $(p_1 \rightarrow p_2)$ $\in$ PROP \qquad\qquad\qquad \textcolor{green!50!black}{$\rightarrow$ Completa}\\
   $p_7 \lor p_4 \notin$ PROP \qquad\qquad\qquad\qquad \textcolor{red}{$\rightarrow$ Mancano le parentesi}\\
   $((\bot \lor p_7) \land (\lnot p_4)) \in$ PROP \qquad\qquad \textcolor{green!50!black}{$\rightarrow$ Completa}\\
@@ -307,16 +307,15 @@ Son entità linguistiche che possono essere \uline{vere o false}.\\
     \item $\mathscr{L}$($\phi$) = 1 \qquad se $\phi \in AT$
     \item $\mathscr{L}$($\phi$ o $\psi$) = 3 + $\mathscr{L}(\phi)$ + $\mathscr{L}(\psi)$ \qquad con o $\in$ $\{\land, \lor, \rightarrow\}$
     \item $\mathscr{L}$($\lnot \phi$) = 3 + $\mathscr{L}(\phi)$
-    
-    \textbf{+3} indica le due parentesi tonde e il connettivo
   \end{enumerate}
+  il \textbf{+3} indica le due parentesi tonde e il connettivo
   }  
 
-  \esercizio[Definiamo il numero di parentesi tonde in una formula]{b($\varphi$) $\rightarrow$ il numero di parentesi in una formula proposizionale
+  \esercizio[Definiamo il numero di parentesi tonde in una formula]{b($\varphi$) $\rightarrow$ numero di parentesi in una formula proposizionale
   \begin{itemize}
-    \item b($\varphi$) = 0 \qquad  \qquad \qquad con $\varphi \in$ AT
-    \item b($\varphi$ o $\phi$) = 2 + b($\varphi$) \qquad con o $\in$ \{$\land, \lor, \rightarrow$ \}
-    \item b($\lnot \varphi$) = 2 + b($\varphi$) 
+    \item \textcolor{red}{b(}$\varphi$\textcolor{red}{)} = 0 \qquad  \qquad \qquad con $\varphi \in$ AT
+    \item \textcolor{red}{b(}($\varphi$ o $\phi$)\textcolor{red}{)} = 2 + b($\varphi$) \qquad con o $\in$ \{$\land, \lor, \rightarrow$ \}
+    \item \textcolor{red}{b(}($\lnot \varphi$)\textcolor{red}{)} = 2 + b($\varphi$) 
   \end{itemize}}
 
   \esercizio[Definizione di parsing tree]{Definiamo il \textit{parsing tree}\footnote{Parsing tree: visualizzazione ad albero di una stringa} di una proposizione
@@ -368,7 +367,7 @@ Son entità linguistiche che possono essere \uline{vere o false}.\\
   $r$($\varphi \land \psi$) = 1 + max\{2,1\} = 1+2 = 3}
   
 
-  \definizione{Connettivi \#($\varphi)$}{
+  \definizione{Numero di connettivi \#($\varphi)$}{
     \begin{itemize}
       \item \#($\varphi)$ = 0
       \item \#($\varphi \lor \psi$) = 1 + \#$\varphi$ + \#$\psi$
