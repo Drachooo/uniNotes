@@ -610,4 +610,47 @@
     Una proprietà fondamentale è l'\textbf{ammissibilità}: un'\textbf{euristica ammissibile} è tale se non sovrastima mai il costo per raggiungere un obiettivo.
 
     Con un'euristica ammissibile la riceerca A* è ottima rispetto al costo, cosa che possiamo dimostrare per assurdo.
+
+    Un'euristica $h(n)$ si dice \textbf{consistente} (o monotona) se, per ogni nodo $n$ e ogni sucessore $n'$ generato da $n$ mediante un'azione $a$, il costo stimato di raggiungere l'obiettivo da $n$ è minore o uguale al costo per raggiungere $n'$ più il costo stimato di raggiungere l'obiettivo da $n'$:
+    \begin{equation*}
+      h(n) \leq c(n, a, n') + h(n')
+    \end{equation*}
+
+    Questa è una forma della \textbf{disugualianza triangolare}, per cui ogni lato dei un triangolo deve essere minore o uguale alla somma degli altri due lati.
+
+    Ogni euristica consistente è anche ammissibile (non viceversa), perciò la ricerca A* con un'euristica consistente è ottima rispetto al costo.
+
+    Con un'euristica consistente, la prima volta che raggiungiamo uno stato sarà su un cammino ottimo, perciò non dovremo mai aggiungere di nuovo uno stato alla frontiera, nè dovremo mai modificare un elemento in raggiunti.
+
+    \section*{Funzioni euristiche}
+    \addcontentsline{toc}{section}{Funzioni euristiche}
+    %esempio rompicapo
+
+    \subsection*{Effetto dell'accuratezza dell'euristica sulle prestazioni}
+    \addcontentsline{toc}{subsection}{Effetto dell'accuratezza dell'euristica sulle prestazioni}
+    %tabella con numero medio di nodi generati per varie euristiche
+
+    I risultati mostrano che $h_2$ è più accurata di $h_1$, e che entrambe sono miglirori di non usare alcuna euristica ($h(n) = 0$).
+
+    Ci si potrebbe chiedere se $h_2$ sia sempre migliore di $h_1$ e la risposta è \textit{si}: dalle definizioni di $h_1$ e $h_2$ risulta che per ogni stato $n$ (entrambi ammissibili), $h_2(n) \geq h_1(n)$.
+
+    diciamo, quindi che $h_2$ \textbf{domina} $h_1$.
+
+    La dominazione si traduce dirrettamente in effecienza: la ricerca A* che usa $h_2$ non espanderà mai più nodi di quella che usa $h_1$.
+
+    Se ne deduce che è generalmente meglio usare una funzione euristica con valori più alti, a patto che sia consistentee che il tempo per calcolarla non sia troppo lungo.
+
+    \subsection*{Generare euristicheda problemi rilassati}
+    \addcontentsline{toc}{subsection}{Generare euristiche da problemi rilassati}
+    \textit{Com'è possibile invenatre un'euristica come} $h_2$\textit{?}
+
+    $h_1$ e $h_2$ sono stime della lunghezza del cammino minimo da uno stato a quello obiettivo, ma sonno anche lunghezze di cammino perfettamente accurate per versioni semplificate del rompicapo.
+
+    Se le regole del problema fossero cambiate in modo che un tassello potesse muoversi ovunque (invece che solo nello spazio vuoto), il costo minimo per raggiungere l'obiettivo sarebbe esattamente $h_1$.
+
+    In modo analogo, se un tassello potesse muoversi di uno spazio in ogni direzione, anche se la posizione fosse già occupata da un altro tassello, il costo minimo per raggiungere l'obiettivo sarebbe esattamente $h_2$.
+
+    Un problema con meno vincoli sulle azioni è detto un \textbf{problema rilassato}.
+
+    Il grafo dello spazio degli stati per il problema rilassato è un supergrafo di quello dello spazio degli stati originale, perchè la rimozione dei voncoli crea nuovi archi nel grafo.
     \end{document}
