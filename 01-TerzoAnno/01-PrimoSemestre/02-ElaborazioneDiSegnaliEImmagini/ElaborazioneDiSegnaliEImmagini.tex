@@ -5,9 +5,11 @@
 \usepackage[italian]{babel}
 %\usepackage{wrapfig}
 \usepackage{graphicx}
+\usepackage{amssymb}
 \usepackage{hyperref}
 \usepackage{subcaption}
 \usepackage{amsmath}
+\usepackage{float}
 \setlength{\parindent}{0pt}
 \usepackage{parskip}
 \usepackage[most]{tcolorbox}
@@ -75,9 +77,9 @@
     \section*{Sistemi e segnali}
     \addcontentsline{toc}{section}{Sistemi e segnali}
 
-    \begin{figure}[h]
+    \begin{figure}[htbp]
       \centering
-      \includegraphics[width=0.6\textwidth, keepaspectratio]{foto/sistemi&segnali.png}
+      \includegraphics[width=0.6\textwidth, keepaspectratio]{foto/images-teoria/sistemi&segnali.png}
       \caption{sistema e segnali}
     \end{figure}
 
@@ -98,18 +100,18 @@
       \item [segnali 3D]: segnale di dati volumetrici
     \end{description}
 
-    \begin{figure}[h]
+    \begin{figure}[htbp]
       \centering
 
       \begin{subfigure}[b]{0.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/segnale-audio.png}
+        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-audio.png}
         \caption{segnale 1D - segnale audio}
       \end{subfigure}
       \hfill
       \begin{subfigure}[b]{0.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/segnale-elettrocardiogramma.png}
+        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-elettrocardiogramma.png}
         \caption{segnale 1D - elettrocardiogramma}
      \end{subfigure}
     \end{figure}
@@ -129,9 +131,9 @@
       \item migliorare la sicurezza sulle reti (crittografia, watermarking)
     \end{itemize}
 
-    \begin{figure}[h]
+    \begin{figure}[htbp]
       \centering
-      \includegraphics[width=0.6\textwidth, keepaspectratio]{foto/sistema.png}
+      \includegraphics[width=0.6\textwidth, keepaspectratio]{foto/images-teoria/sistema.png}
       \caption{sistema}
     \end{figure}
 
@@ -146,10 +148,163 @@
       \item \textbf{segnali periodici} e \textbf{aperiodici}
       \item \textbf{segnali energetici} e \textbf{segnali di potenza}
       \item \textbf{segnali deterministici} e \textbf{probabilistci}
+      \item \textbf{segnali deterministici e probabilistci}
     \end{itemize}
 
     \subsubsection*{Segnali a tempo continuo e a tempo discreto}
     \addcontentsline{toc}{subsubsection}{Segnali a tempo continuo e a tempo discreto}
+    \definizione{segnale a tempo continuo}{Un segnale è detto \textbf{a tempo continuo} se è definito per ogni valore reale di $t$ in un intervallo continuo:
+      \begin{itemize}
+        \item $f = f(t)$
+        \item $t \in \mathbb{R}$
+        \item variabile indipendente $\leftrightarrow$ tempo (t), posizione (x) 
+      \end{itemize}
+    }
+
+    \definizione{segnale a tempo discreto}{Un segnale è detto \textbf{a tempo discreto} se è definito solo per un insieme di valori di $t$:
+      \begin{itemize}
+        \item $f = f[n]$
+        \item $n \in \mathbb{Z}$
+        \item variabile indipendente $\leftrightarrow$ indice discreto (n)
+      \end{itemize}
+    }
+
+    \begin{figure}[htbp]
+      \centering
+
+      \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-tempo-continuo.png}
+        \caption{segnale a tempo continuo}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-tempo-discreto.png}
+        \caption{segnale a tempo discreto}
+     \end{subfigure}
+    \end{figure}
+
+    \subsubsection*{Segnali analogici e digitali}
+    \addcontentsline{toc}{subsubsection}{Segnali analogici e digitali}
+    \definizione{segnale analogico}{Un segnale è detto \textbf{analogico} se può assumere qualsiasi valore in un intervallo continuo:
+      \begin{itemize}
+        \item $f = f(t)$
+        \item $f(t) \in \mathbb{R}$
+      \end{itemize}
+
+      \vspace{0.5mm}
+
+      \textbf{N.B.} Un segnale analogico può essere sia a tempo continuo che a tempo discreto.
+    }
+
+    \definizione{segnale digitale}{Un segnale è detto \textbf{digitale} se può assumere solo un insieme finito di valori distinti (quantizzati):
+      \begin{itemize}
+        \item $f = f[n]$
+        \item $f[n] \in \{v_1, v_2, ..., v_k\}$
+      \end{itemize}
+
+      \vspace{0.5mm}
+
+      Un segnale digitale la cui ampiezza può assumere solo M valori diversi è detto M-ario (es. segnale binario per M=2).
+    }
+
+    \begin{figure}[htbp]
+      \centering
+
+      \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-conitnuo-analogico.png}
+        \caption{segnale analogico continuo}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-continuo-digitale.png}
+        \caption{segnale digitale continuo}
+     \end{subfigure}
+    \end{figure}
+
+    \begin{figure}[htbp]
+      \centering
+
+      \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-discreto-analogico.png}
+        \caption{segnale analogico discreto}
+      \end{subfigure}
+      \hfill
+      \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-discreto-digitale.png}
+        \caption{segnale digitale discreto}
+     \end{subfigure}
+    \end{figure}
+
+    \subsection*{Segnali periodici e aperiodici}
+    \addcontentsline{toc}{subsubsection}{Segnali periodici e aperiodici}
+    \definizione{segnale periodico}{Un segnale è detto \textbf{periodico} se si ripete identico a se stesso dopo un intervallo di tempo fisso chiamato \textbf{periodo} $T$:
+      \begin{itemize}
+        \item $f(t) = f(t + T) \ \ \forall t$
+        \item $T > 0$
+      \end{itemize}
+
+      \vspace{0.5mm}
+
+      Un segnale periodico rimane invariato quando viene spostato nel tempo di multipli interi del periodo.
+    }
+
+    \begin{figure}[htbp]
+      \centering
+      \begin{subfigure}[b]{0.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-periodico.png}
+          \caption{segnale periodico}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-aperiodico.png}
+          \caption{segnale aperiodico}
+      \end{subfigure}
+    \end{figure}
+
+
+    \subsection*{Funzioni pari e dispari}
+    \addcontentsline{toc}{subsection}{Funzioni pari e dispari}
+
+    \subsection*{Propertà delle funzioni pari e dispari}
+    \addcontentsline{toc}{subsubsection}{Propertà delle funzioni pari e dispari}
+
+    \subsubsection*{Componenti pari e dispari dei segnali}
+    \addcontentsline{toc}{subsubsection}{Componenti pari e dispari dei segnali}
+
+
+    \subsection*{Dimensione del segnale}
+    \addcontentsline{toc}{subsection}{Dimensione del segnale}
+
+    \subsubsection*{Segnale energetico}
+    \addcontentsline{toc}{subsubsection}{Segnale energetico}
+
+    \subsubsection*{Segnale di potenza}
+    \addcontentsline{toc}{subsubsection}{Segnale di potenza}
+
+
+    \subsection*{Operazioni tra segnali}
+    \addcontentsline{toc}{subsection}{Operazioni tra segnali}
+
+    \subsubsection*{Traslazione temporale}
+    \addcontentsline{toc}{subsubsection}{Traslazione temporale}
+
+    \subsubsection*{Scaling temporale}
+    \addcontentsline{toc}{subsubsection}{Scaling temporale}
+    
+    \subsubsection*{Riflessione temporale}
+    \addcontentsline{toc}{subsubsection}{Riflessione temporale}
+
+    
+    
+    
 
 
 
@@ -168,7 +323,7 @@
 
     \subsection*{Layout di Matlab}
     \addcontentsline{toc}{subsection}{Layout di Matlab}
-    \begin{figure}[h]
+    \begin{figure}[htbp]
       \centering
       \includegraphics[width=0.8\textwidth, keepaspectratio]{foto/images-lab/layout.png}
       \caption{layout di Matlab}
@@ -200,7 +355,7 @@
 
     Matlab alloca utomaticamente le matrici in memoria pertanto non è necessario dichiararne le dimensioni prima di usarle.
 
-    \begin{figure}[h]
+    \begin{figure}[htbp]
       \centering
       \includegraphics[width=0.6\textwidth, keepaspectratio]{foto/images-lab/matrici.png}
       \caption{tipologie di matrici in Matlab}
