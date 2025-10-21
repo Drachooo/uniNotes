@@ -318,6 +318,20 @@
     \caption{entità}
   \end{figure}
 
+  \subsubsection*{Identificatori delle entitità}
+  \addcontentsline{toc}{subsubsection}{Identificatori delle entitità}
+  Un'\textbf{identificatore} di un'entità E è un insieme di attributi di E che \hl{consente di identificare univocamente ciascuna occorrenza di E}.
+
+  In molti casi, uno o più attributi di un'entità sono sufficienti a individuare un identificatore: si parla in questo caso di \textbf{identificatore interno}.
+
+  \esercizioTesto{Esempio di identificare interno}{Un identificatore interno per l'entità \textit{Automobile} con attributi \textit{Targa}, \textit{Modello}, \textit{Colore} e \textit{Anno di immatricolazione} è costituito dall'attributo \textit{Targa}, in quanto ogni automobile ha una targa univoca e non posso esistere due automobili con la stessa targa.
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\textwidth, keepaspectratio]{images/identificatoreInterno.png}
+      \caption{identificatore interno}
+    \end{figure}
+  }
+
   \subsection*{Relazioni (associazioni)}
   \addcontentsline{toc}{subsection}{Relazioni (associazioni)}
   Una \textbf{relazione R} \hl{rappresneta un legame logico tra due o più entità} (\textit{Residenza} è una relazione che può sussistere tra le entità \textit{Città} e \textit{Impiegato}).
@@ -356,6 +370,47 @@
     \caption{relazione ternaria}
   \end{figure}
 
+  \subsubsection*{Cardinalità delle relazioni}
+  \addcontentsline{toc}{subsubsection}{Cardinalità delle relazioni}
+  La \textbf{cardinalità} viene specificata per ciascuna partecipazione di entità a una relazione ed esprime il numero (minimo, massimo) di occorenze di un'entità che possono essere associate ad una occorrenza di un'altra entità attraverso la relazione.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/cardinalità-relazioni.png}
+    \caption{cardinalità delle relazioni}
+  \end{figure}
+
+  In linea di principio la cardinalità può essere qualsiasi coppia di numeri naturali (incluso 0 e $\infty$), con l'unico vincolo che la cardinalità minima deve essere minore o uguale della cardinalità massima.
+
+  In realtà, nella maggior parte dei casi, le \hl{\textit{cardinalità minime} sono 0 o 1} e le \hl{\textit{cardinalità massime} sono 1 o N}.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/esempiCardinalità.png}
+    \caption{esempi di cardinalità}
+  \end{figure}
+
+  \begin{description}
+    \item [cardinalità minima 0 o 1]: significa che la partecipazione di un'entità ad una relazione può essere \textit{facoltativa} (0) o \textit{obbligatoria} (1)
+    \item [cardinalità massima 1 o N]: significa che la partecipazione di un'entità ad una relazione può essere \textit{singola} (1) o \textit{multipla} (N) 
+  \end{description}
+
+  \definizione{N.B.}{Una relazione R può partecipare ad un identificatore esterno di un'entità E solo se la tale entità partecipa alla relazione con vincolo di cardinalità (1,1) o R è la sola proprietà che partecipa all'identificatore esterno di E.
+  \begin{center}
+    \begin{minipage}[b]{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth, height=3.8cm]{images/esempio1.png}\\
+      \textbf{(a)} caso 1
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth, height=3.8cm]{images/esempio2.png}\\
+      \textbf{(b)} caso 2
+    \end{minipage}
+  \end{center}
+  }
+  
   \subsection*{Attributi}
   \addcontentsline{toc}{subsection}{Attributi}
   Un \textbf{attributo} \hl{descrive le proprietà elementari di un'entità (o relazione)} (\textit{Cognome}, \textit{Stipendio} ed \textit{Età} sono possibili attributi dell'enità \textit{Impiegato}).
@@ -378,6 +433,9 @@
     \includegraphics[width=0.5\textwidth, keepaspectratio]{images/modelloE-R.jpeg}
     \caption{modello E-R completo}
   \end{figure}
+
+  \subsubsection*{Cardinalità degli attributi}
+  \addcontentsline{toc}{subsubsection}{Cardinalità degli attributi}
 
 
   \newpage
