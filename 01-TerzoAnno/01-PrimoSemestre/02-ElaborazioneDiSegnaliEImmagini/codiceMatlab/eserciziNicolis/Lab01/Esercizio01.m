@@ -31,8 +31,8 @@ MatX(:, 2) = [31];
 MatY = randn(4, 10);
 
 %Richiesta 6: Creare una matrice MatZ data dalla concatenzazione di MAtX, MatY e di nuovo MatX
-MatZ = [MatX; MatY; MatX]
+MatZ = [MatX; MatY; MatX];
 
 %Richiesta 7: Verificare le dimensioni di MatZ ed estrarre la diagonale
 dimMatZ = size(MatZ);
-trace_elements = diag(MatZ)
+trace_elements = diag(MatZ);
