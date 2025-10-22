@@ -9,6 +9,10 @@
 \usepackage{subcaption} % per sottodidascalie
 \usepackage[normalem]{ulem}   % per sottolineare, barrare o marcare
 \usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, arrows.meta}
+\usepackage[T1]{fontenc}
+\usetikzlibrary{calc}
 \usepackage{float}
 \usepackage{amsmath}
 \setlength{\parindent}{0pt}
@@ -332,6 +336,21 @@
     \end{figure}
   }
 
+  Nei casi in cui l'identificazione di un'entità è ottenuta utilizzando attributi di altre entità, si parla di \textbf{identificatore esterno}.
+
+  \esercizioTesto{Esempio di identificatore esterno}{Nell'entità \textit{Studente}, sembrerebbe a prima vista che l'attributo \textit{Matricola} possa essere un identificatore interno, in quanto ogni studente ha una matricola univoca.
+    
+  Tuttavia, se si considera che la matricola viene assegnata da un'università, si può notare che due studenti iscritti a due università diverse potrebbero avere la stessa matricola.
+    
+  In questo caso, un identificatore esterno per l'entità \textit{Studente} potrebbe essere costituito dagli attributi \textit{Matricola} e \textit{Università}, in quanto la combinazione di questi due attributi consente di identificare univocamente ciascuno studente.
+    
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/identificatoreEsterno.png}
+    \caption{identificatore esterno}
+  \end{figure}
+  }
+
   \subsection*{Relazioni (associazioni)}
   \addcontentsline{toc}{subsection}{Relazioni (associazioni)}
   Una \textbf{relazione R} \hl{rappresneta un legame logico tra due o più entità} (\textit{Residenza} è una relazione che può sussistere tra le entità \textit{Città} e \textit{Impiegato}).
@@ -436,12 +455,55 @@
 
   \subsubsection*{Cardinalità degli attributi}
   \addcontentsline{toc}{subsubsection}{Cardinalità degli attributi}
+  Possono essere specificate specificate per gli attributi di un'entità (o relazione) le \textbf{cardinalità} che esprimono il numero (minimo, massimo) di valori che l'attributo può assumere per ciascuna occorrenza dell'entità (o relazione).
+  
+  Nella maggior parte dei casi, le cardinalità di un attributo è pari a (1,1) e viene omessa nella rappresentazione grafica: in questi casi l'attributo rappresenta sostenzialmente una funzione che associa a ogni occorenza dell'entità (o relazione) un unico valore del dominio dell'attributo.
+
+  Il valore per un certo attributo può essere \textit{nullo} (cardinalità minima 0) o possono essere associati più valori (cardinalità massima N): nel primo caso si dice che la partecipazione dell'attributo è \textbf{opzionale}, nel secondo caso si dice che la partecipazione è \textbf{obblogatoria}.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/cardinalità-attributi.png}
+    \caption{cardinalità degli attributi}
+  \end{figure}
+
+  Un attrivuto con cardinalità massima N viene detto \textbf{attributo multivalore} e devono essere utilizzati con cautela, perchè rappresentano situazioni che possono essere modellate, in alcune occasioni, in modo più appropriato mediante l'introduzione di nuove entità e relazioni.
 
 
-  \newpage
+  \section*{Generalizzazione}
+  \addcontentsline{toc}{section}{Generalizzazione}
+  La \textbf{generalizzazione} è un meccanismo di astrazione che consente di raggruppare entità che condividono alcune proprietà comuni in una entità più generale.
 
-  \section*{Esercizio guidato}
-  \addcontentsline{toc}{section}{Esercizio guidato}
+  Rappresentano legami logici tra un'entità \textit{E} (entità genitore) e una o più entità \textit{E1, E2, ..., En} (entità figlie), dove ciascuna entità figlia $E_i$ è una specializzazione dell'entità genitore \textit{E}.
+
+  \esercizioTesto{Esempio di generelizzazione}{L'entità \textit{Persona} è una generelizzazione delle entità \textit{Uomo} e \textit{Donna}, in quanto entrambe le entità figlie condividono alcune proprietà comuni con l'entità genitore, come il nome, il cognome e la data di nascita.
+  
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/generalizzazione.png}
+    \caption{generalizzazione}
+  \end{figure}
+  }
+
+  Le generalizzazioni vengono rappresentate graficamente mediante delle frecce che collegano l'entità genitore alle entità figlie.
+
+  Le generalizzazioni possono essere di due tipi:
+  \begin{itemize}
+    \item \textbf{totale}: ogni occorrenza dell'entità genitore deve essere anche un'occorrenza di una delle entità figlie (altrimenti è \textbf{parziale})
+    \item \textbf{esclusiva}: ogni occorrenza dell'entità genitore può essere anche un'occorrenza di una sola delle entità figlie (altrimenti è \textbf{sovrapposta})
+  \end{itemize}
+
+  La generelizzazione tra \textit{Persona}, \textit{Uomo} e \textit{Donna} è totale ed esclusiva, in quanto ogni persona deve essere o un uomo o una donna e non può essere entrambe le cose.
+
+
+  \chapter*{Esercizi}
+  \addcontentsline{toc}{chapter}{Esercizi}
+
+  \section*{Progettazione concettuale}
+  \addcontentsline{toc}{section}{Progettazione concettuale}
+
+  \subsection*{Esercizio 1 - guidato}
+  \addcontentsline{toc}{subsection}{Esercizio 1 - guidato}
 
 
   \esercizioTesto{Progettazione concettuale}{Progettare una base di dati che contenga le informazioni che descrivono la carriera di uno studente del corso di laurea triennale in informatica dal momento dell’immatricolazione fino alla laurea. In particolare, il sistema registra tutti gli esami sostenuti dagli studenti durante la loro carriera. \\
@@ -478,6 +540,62 @@
       \caption{esercizio}
   \end{figure}
 
-  Come si può vedere, sono state create delle entità per studente e insegnamento. L'esame è diventato una relazione che lega lo studente all'insegnamento, cosi come lo è diventata la frequenza. 
+  Come si può vedere, sono state create delle entità per studente e insegnamento. L'esame è diventato una relazione che lega lo studente all'insegnamento, cosi come lo è diventata la frequenza.
+  
+  
+  \subsection*{Esercizio 2}
+  \addcontentsline{toc}{subsection}{Esercizio 2}
+
+  \esercizioTesto{Base di dati di una banca}{Si vuole progettare la basi di dati di una banca. La banca è suddivisa in filiali e di ogni filiale si conosce il nome, il codice numerico (univoco), l'indirizzo e il numero di clienti.
+  
+  I clienti della banca sono memorizzati nella base di dati. Per ogni cliente sono memorizzati: il nome, il cognome, il codice fiscale, la data di nascita e la professione. 
+  
+  La base di dati contiene inoltre i dati sui conti correnti aperti presso le filiali della banca. Ogni conto corrente viene aperto presso una e una sola filiale e ha una numerazione univoca nella filiale. Ogni cliente può aprire più conti (anche presso la stessa filiale) e un conto può avere più intestatari. 
+  
+  Si vuole mantenere traccia nella base di dati di tutte le operazioni (movimenti) eseguite sui conti correnti, indicando per ogni movimento, un numero progressivo univoco per conto corrente, la data, il tipo di operazione e il valore.
+
+  Per ogni conto corrente si deve produrre il saldo. Si supponga che un cliente possa aprire conti diversi in più filiali della banca.}
+
+  \begin{tikzpicture}[
+  entity/.style={rectangle, draw=blue!50!black, thick, minimum width=3.2cm, minimum height=1cm},
+  relationship/.style={diamond, draw=blue!50!black, thick, aspect=2, inner sep=1pt},
+  attribute/.style={ellipse, draw=blue!50!black, thick},
+  line/.style={draw=blue!50!black, thick},
+  every node/.style={font=\sffamily}
+]
+
+% === NODI ENTITÀ ===
+\node[entity] (filiale) {FILIALE};
+\node[entity, right=6cm of filiale] (cliente) {CLIENTE};
+\node[entity, below=3cm of $(filiale)!0.5!(cliente)$] (conto) {CONTO CORRENTE};
+
+% === RELAZIONI ===
+\node[relationship, below=of filiale] (gestisce) {gestisce};
+\node[relationship, below=of cliente] (possiede) {possiede};
+
+% === COLLEGAMENTI ===
+\draw[line] (filiale) -- node[left]{(0,N)} (gestisce);
+\draw[line] (gestisce) -- node[below]{(1,1)} (conto);
+
+\draw[line] (cliente) -- node[right]{(1,N)} (possiede);
+\draw[line] (possiede) -- node[below]{(1,N)} (conto);
+
+% === ATTRIBUTI FILIALE ===
+\node[attribute, above left=0.5cm and 0.5cm of filiale] (nomeFiliale) {nome};
+\node[attribute, above right=0.5cm and 0.5cm of filiale] (codiceFiliale) {codice};
+\draw[line] (filiale) -- (nomeFiliale);
+\draw[line] (filiale) -- (codiceFiliale);
+
+% === ATTRIBUTI CLIENTE ===
+\node[attribute, above left=0.5cm and 0.5cm of cliente] (nomeCliente) {nome};
+\node[attribute, above right=0.5cm and 0.5cm of cliente] (professione) {professione};
+\draw[line] (cliente) -- (nomeCliente);
+\draw[line] (cliente) -- (professione);
+
+% === ATTRIBUTI CONTO ===
+\node[attribute, below=0.7cm of conto] (numero) {numero};
+\draw[line] (conto) -- (numero);
+
+\end{tikzpicture}
 
 \end{document}
