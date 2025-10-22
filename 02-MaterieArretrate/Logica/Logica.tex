@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{amsmath}
+\usepackage{forest}
 \raggedbottom
 \setlength{\parindent}{0pt}
 \usepackage{etoolbox} % in preambolo
@@ -188,6 +189,13 @@
 }
 %Funzionamento: \teorema[TITOLO DA SCRIVERE(si può anche non mettere)]{TESTO DA SCRIVERE}{DIMOSTRAZIONE DA SCRIVERE (si può anche non mettere)}
 
+%------comando ESEMPIO-------%
+\newcommand{\esempio}[2]{%
+  \begin{center}
+    \textbf{#1}\par
+    #2
+  \end{center}
+}
 
 
 
@@ -673,7 +681,165 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
 
   \section*{Sistemi deduttvi}
   \addcontentsline{toc}{section}{Sistemi deduttivi}
-  \dots
+  L'approcio non semantico alla logica proposizionale si basa sul concetto di \textbf{dimostrazione formale} come \textit{deduzione}.
+
+  \definizione{sistema deduttivo}{Fornisce un insieme di regole per costruire dimostrazioni formali che permettono di derivare una conclusione a partire da alcune premesse.}
+
+  Quando si enuncia un \textbf{teorema} deve sempre esistere la sua \textbf{dimostrazione}.
+
+  \definizione{dimostrazione}{Sequenza finita di passi logici formalemte corretti che permettono di arrivare alla \textbf{tesi} a partire dalle \textbf{ipotesi} (note anche come \textbf{premesse} o \textbf{assunzioni}).}
+
+  \[
+    \left.
+    \begin{array}{c}
+    \text{Ipotesi / premesse / assunzioni} \\
+    \vdots \\
+    \text{Tesi}
+    \end{array}
+    \right\}
+    \text{Dimostrazione / Derivazione}
+  \]
+
+  Tra le ipotesi e la tesi esiste una serie finita di passi indicati con \vdots che consete la cosidetta \textbf{deduzione}.
+
+  \subsection*{Deduzione naturale}
+  \addcontentsline{toc}{subsection}{Deduzione naturale}
+  La \textbf{deduzione naturale} è una metologia di ragionamento per costruire dimostrazioni formali basata su regole di inferenza che riflettono il modo naturale di ragionare.
+
+  Per tanto non si valutano più i valori di verità delle formule, ma si considera la loro struttura sintattica. stabilendeo delle:
+  \begin{itemize}
+    \item \textbf{assunzioni}: prese temporaneamente come vere
+    \item \textbf{derivazioni} sulle formule applicando delle leggi: l'applicazione di una regola si chiama \textit{passo di derivazione}
+    \item \textbf{scaricamento} delle assunzioni: quando si arriva alla tesi, le assunzioni vengono eliminate
+  \end{itemize}
+
+  Tutte le derivazioni vengono rappresentate graficamente tramite gli \textbf{alberi di derivazione}, nei quali:
+  \begin{itemize}
+    \item \textbf{foglie}: rappresentano le \textit{ipotesi}
+    \item \textbf{nodi interni}: rappresentano i \textit{passi di derivazione}
+    \item \textbf{radice}: rappresenta la \textit{tesi} da dimostrare
+  \end{itemize}
+
+  \definizione{derivazione completa}{Una derivazione si dice completa se non ci sono più foglie aperte (tutte le assunzioni sono state scaricate).}
+
+  \esempio{Dimostrare $p \land q \vdash q \land p$}{
+    \begin{forest}
+      [$q \land p$
+        [$q$
+          [$p \land q$, edge label={node[midway,left]{Assunzione}}]
+          , edge label={node[midway,left]{$\land$E}}]
+        [$p$
+          [$p \land q$, edge label={node[midway,right]{Assunzione}}]
+          , edge label={node[midway,right]{$\land$E}}]
+        , edge label={node[midway,left]{$\land$I}}]
+    \end{forest}
+  }
+
+  \subsection*{Regole deduttive per i connettivi}
+  \addcontentsline{toc}{subsection}{Regole deduttive per i connettivi}
+  Le \textbf{regole di derivazione} si divisono in due tipologie:
+  \begin{itemize}
+    \item \textbf{regole di introduzione}: le premesse vengono collegate da un connettivo logico introdotto
+    \item \textbf{regole di eleminazione}: dalle premesse si può eliminare un connettivo logico
+  \end{itemize}
+
+  \[
+    \begin{array}{c}
+    \text{premesse} \\
+    \hline
+    \text{conclusione}
+    \end{array}%
+    \quad \text{(nome regola)}
+  \]
+
+  Le formule presenti all'interno delle parentesi [ ] sono delle ipotesi scaricate (assunte) da una specifica regola di derivazione utilizzata.
+  
+  Per specificare a quale regola si riferiscono è necessario indicare un indice numerico.
+
+  \subsubsection*{Regole della congiunzione ($\land$)}
+  \addcontentsline{toc}{subsubsection}{Regole della congiunzione ($\land$)}
+
+  \definizione{regole della congiunzione}{
+      \[
+        \begin{array}{c c c}
+          % Prima regola: ∧I
+          \begin{array}{c}
+          \mathcal{D_{1}} \quad \mathcal{D_{2}} \\ 
+          \alpha \quad \beta \\ \hline
+          \alpha \land \beta
+          \end{array} & 
+          % Seconda regola: ∧E_l
+          \begin{array}{c}
+          \mathcal{D} \\ 
+          \alpha \land \beta \\ \hline
+          \alpha
+          \end{array} & 
+          % Terza regola: ∧E_r
+          \begin{array}{c}
+          \mathcal{D} \\ 
+          \alpha \land \beta \\ \hline
+          \beta
+          \end{array} \\
+          % Nomi delle regole
+          \mathbf{\land I} & \mathbf{\land E_l} & \mathbf{\land E_r}
+        \end{array}
+      \]
+  }
+  
+  \begin{description}
+    \item [regola di introduzione dell'$\land$]: se dalla derivazione $\mathcal{D_1}$ e $\mathcal{D_2}$ si arriva rispettivamente a ottenere $\alpha$ e $\beta$, allora si può derivare $\alpha \land \beta$ introducendo il connettivo dell'$\land$
+    \item [regola di eliminazione dell'$\land$]: se dalla derivazione $\mathcal{D}$ si arriva alla formula $\alpha \land \beta$, allora è possibile rimuovere il connettivo e concludere solo uno dei due rami 
+  \end{description}
+
+  \esercizio[]{Dato il teorema $\vdash \alpha \rightarrow (\alpha \land \alpha)$, la sua dimostrazione naturale consiste in:
+    \[
+      \begin{array}{c}
+        [\alpha]^1 \quad [\alpha]^1 \\ \hline
+        \alpha \land \alpha \\ \hline
+        \alpha \rightarrow (\alpha \land \alpha)
+      \end{array}
+    \]
+  }
+
+  \subsubsection*{Regole della disgiunzione ($\lor$)}
+  \addcontentsline{toc}{subsubsection}{Regole della disgiunzione ($\lor$)}
+
+  \definizione{regole della disgiunzione}{
+    \[
+    \begin{array}{c c c}
+          % Prima regola: introduzione l
+          \begin{array}{c}
+          \mathcal{D} \\ 
+          \alpha \\ \hline
+          \alpha \lor \beta
+          \end{array} & 
+          % Seconda regola: ∧E_l
+          \begin{array}{c}
+          \mathcal{D} \\ 
+          \beta \\ \hline
+          \alpha \lor \beta
+          \end{array} & 
+          % Terza regola: ∧E_r
+          \begin{array}{c}
+           \quad [\alpha]^k \quad [\beta]^k \\
+          \mathcal{D_1} \quad \mathcal{D_2} \quad \mathcal{D_3} \\  
+          \alpha \lor \beta \quad \gamma \quad \gamma \\ \hline
+          \gamma
+          \end{array}\\
+          % Nomi delle regole
+          \mathbf{\lor I_l} & \mathbf{\lor I_r} & \mathbf{\lor E}
+        \end{array}
+      \]
+
+  \subsubsection*{Regole dell'implicazione ($\rightarrow$)}
+  \addcontentsline{toc}{subsubsection}{Regole dell'implicazione ($\rightarrow$)}
+
+  \subsubsection*{Regole del bottom ($\bot$)}
+  \addcontentsline{toc}{subsubsection}{Regole del bottom ($\bot$)}
+
+
+
+
 
 
    
