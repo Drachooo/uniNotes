@@ -28,6 +28,7 @@
 \sethlcolor{yellow}
 \usepackage{array}
 \usepackage{booktabs}
+\usepackage{comment}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usepackage{longtable}
@@ -161,6 +162,18 @@
   {\setulcolor{#1}\ul{#2}}%
 }
 %Funzionamento: \sottolinea{colore}{testo}
+
+
+
+\newcommand{\regolaInf}[3]{%
+    \begin{array}{c c l} % c: Conclusione, c: Simbolo, l: Etichetta
+        #1 \\ % Premessa
+        \hline 
+        #2 & #3 & {} \\ % Conclusione e Etichetta
+    \end{array}
+}
+
+
 
 
 
@@ -679,6 +692,8 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   $\llbracket \psi \rightarrow \sigma\rrbracket_v = 0$ OR $\llbracket \varphi \rightarrow \psi \rrbracket_v =0$ OR $\llbracket \varphi \rightarrow \sigma \rrbracket_v = 1$
   }
 
+  \newpage
+
   \section*{Sistemi deduttvi}
   \addcontentsline{toc}{section}{Sistemi deduttivi}
   L'approcio non semantico alla logica proposizionale si basa sul concetto di \textbf{dimostrazione formale} come \textit{deduzione}.
@@ -740,7 +755,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   Le \textbf{regole di derivazione} si divisono in due tipologie:
   \begin{itemize}
     \item \textbf{regole di introduzione}: le premesse vengono collegate da un connettivo logico introdotto
-    \item \textbf{regole di eleminazione}: dalle premesse si può eliminare un connettivo logico
+    \item \textbf{regole di eliminazione}: dalle premesse si può eliminare un connettivo logico
   \end{itemize}
 
   \[
@@ -760,91 +775,568 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   \addcontentsline{toc}{subsubsection}{Regole della congiunzione ($\land$)}
 
   \definizione{regole della congiunzione}{
-      \[
-        \begin{array}{c c c}
-          % Prima regola: ∧I
-          \begin{array}{c}
-          \mathcal{D_{1}} \quad \mathcal{D_{2}} \\ 
-          \alpha \quad \beta \\ \hline
-          \alpha \land \beta
-          \end{array} & 
-          % Seconda regola: ∧E_l
-          \begin{array}{c}
-          \mathcal{D} \\ 
-          \alpha \land \beta \\ \hline
-          \alpha
-          \end{array} & 
-          % Terza regola: ∧E_r
-          \begin{array}{c}
-          \mathcal{D} \\ 
-          \alpha \land \beta \\ \hline
-          \beta
-          \end{array} \\
-          % Nomi delle regole
-          \mathbf{\land I} & \mathbf{\land E_l} & \mathbf{\land E_r}
-        \end{array}
-      \]
+    \begin{center}
+      \begin{minipage}[t]{0.30  \textwidth}
+      \centering
+      \(\mathcal{D}_{1} \quad \mathcal{D}_{2}\)
+
+      \(\alpha \quad \beta\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\; \boldsymbol{\land I}\)\\  
+      \(
+      \alpha \land \beta
+      \) 
+      \end{minipage}
+      \begin{minipage}[t]{0.30\textwidth}
+      \centering
+      \(\mathcal{D}\)
+
+      \(\alpha \land \beta\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\; \boldsymbol{\land E_l}\)\\  
+      \(
+      \alpha
+      \) 
+      \end{minipage}
+      \begin{minipage}[t]{0.30\textwidth}
+      \centering
+      \(\mathcal{D}\)
+
+      \(\alpha \land \beta \)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\; \boldsymbol{\land E_r}\)\\  
+      \(
+      \beta
+      \) 
+      \end{minipage}
+  \end{center}
+
+  Nell'eliminazione dell'and (\(\boldsymbol{\land E}\)) è importante indicare il lato che si elimina con (\(\boldsymbol{\land E_l}\)) oppure (\(\boldsymbol{\land E_r}\))
   }
   
   \begin{description}
-    \item [regola di introduzione dell'$\land$]: se dalla derivazione $\mathcal{D_1}$ e $\mathcal{D_2}$ si arriva rispettivamente a ottenere $\alpha$ e $\beta$, allora si può derivare $\alpha \land \beta$ introducendo il connettivo dell'$\land$
+    \item [regola di introduzione dell'$\land$]: se dalla derivazione $\mathcal{D}_{1}$ e $\mathcal{D}_{2}$ si arriva rispettivamente a ottenere $\alpha$ e $\beta$, allora si può derivare $\alpha \land \beta$ introducendo il connettivo dell'$\land$
     \item [regola di eliminazione dell'$\land$]: se dalla derivazione $\mathcal{D}$ si arriva alla formula $\alpha \land \beta$, allora è possibile rimuovere il connettivo e concludere solo uno dei due rami 
   \end{description}
 
-  \esercizio[]{Dato il teorema $\vdash \alpha \rightarrow (\alpha \land \alpha)$, la sua dimostrazione naturale consiste in:
-    \[
-      \begin{array}{c}
-        [\alpha]^1 \quad [\alpha]^1 \\ \hline
-        \alpha \land \alpha \\ \hline
-        \alpha \rightarrow (\alpha \land \alpha)
-      \end{array}
-    \]
+  \esercizio[]{Dato il teorema $\vdash \alpha \rightarrow (\alpha \land \alpha)$, la sua dimostrazione naturale consiste in:\\
+    \begin{center}
+    \(
+    [\alpha]^1 \quad [\alpha]^1
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\;\;\; \land I\)\\  
+    \(
+    \alpha \land \alpha
+    \)\\[-0.7em]
+    \hspace{1cm}\rule{2.5cm}{0.4pt}\(\;\;\; \to I^1 \)\\  
+    \(
+    \alpha \rightarrow (\alpha \land \alpha)
+    \)\\[1em]
+    Ipotesi da scaricare: \([\alpha]^1\)
+  \end{center}
   }
 
   \subsubsection*{Regole della disgiunzione ($\lor$)}
   \addcontentsline{toc}{subsubsection}{Regole della disgiunzione ($\lor$)}
 
   \definizione{regole della disgiunzione}{
-    \[
-    \begin{array}{c c c}
-          % Prima regola: introduzione l
-          \begin{array}{c}
-          \mathcal{D} \\ 
-          \alpha \\ \hline
-          \alpha \lor \beta
-          \end{array} & 
-          % Seconda regola: ∧E_l
-          \begin{array}{c}
-          \mathcal{D} \\ 
-          \beta \\ \hline
-          \alpha \lor \beta
-          \end{array} & 
-          % Terza regola: ∧E_r
-          \begin{array}{c}
-           \quad [\alpha]^k \quad [\beta]^k \\
-          \mathcal{D_1} \quad \mathcal{D_2} \quad \mathcal{D_3} \\  
-          \alpha \lor \beta \quad \gamma \quad \gamma \\ \hline
-          \gamma
-          \end{array}\\
-          % Nomi delle regole
-          \mathbf{\lor I_l} & \mathbf{\lor I_r} & \mathbf{\lor E}
-        \end{array}
-      \]
+    \begin{center}
+      \begin{minipage}[t]{0.30  \textwidth}
+      \centering
+      \(\mathcal{D}\)
+
+      \(\alpha\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\; \boldsymbol{\lor I_l}\)\\  
+      \(
+      \alpha \lor \beta
+      \) 
+      \end{minipage}
+      \begin{minipage}[t]{0.30\textwidth}
+      \centering
+      \(\mathcal{D}\)
+
+      \(\beta\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\; \boldsymbol{\lor I_r}\)\\  
+      \(
+      \alpha \lor \beta
+      \) 
+      \end{minipage}
+      \begin{minipage}[t]{0.30\textwidth}
+      \centering
+      \qquad \qquad \( [\alpha]^k \;\; [\beta]^k\)
+
+      \quad \(\mathcal{D}_{1} \qquad \mathcal{D}_{2} \;\; \mathcal{D}_{3}\)
+
+      \(\alpha \lor \beta \quad \; \gamma \quad \gamma\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2.3cm}{0.4pt} \(\;\; \boldsymbol{\lor E}\)\\  
+      \(
+      \gamma
+      \) 
+      \end{minipage}
+  \end{center}
+
+  Nell'introduzione dell'or (\(\boldsymbol{\lor I}\)) è importante indicare il lato che si introduce con (\(\boldsymbol{\lor I_l}\)) oppure (\(\boldsymbol{\lor I_r}\))
+  }
 
   \subsubsection*{Regole dell'implicazione ($\rightarrow$)}
   \addcontentsline{toc}{subsubsection}{Regole dell'implicazione ($\rightarrow$)}
+  
+  \definizione{regole dell'implicazione}{
+    \begin{center}
+      \begin{minipage}[t]{0.45\textwidth}
+      \centering
+      \([\alpha]^k\)
+
+      \(\mathcal{D}\)
+
+      \(\beta\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\;\; \boldsymbol{\to I^k}\)\\  
+      \(
+      \alpha \rightarrow \beta
+      \) 
+      \end{minipage}
+      \begin{minipage}[t]{0.45\textwidth}
+      \centering
+      \vspace{0.7em}
+      \(\mathcal{D}_{1} \hspace{2em} \mathcal{D}_{2}\)
+     
+      \(\alpha \hspace{2em} \alpha \rightarrow \beta\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+     \hspace{1cm} \rule{2.5cm}{0.4pt} \(\;\;\; \boldsymbol{\to E}\)\\  
+     \(
+     \beta
+     \) 
+    \end{minipage}
+  \end{center}
+
+  Mentre per l'introduzione dell'implicazione (\(\boldsymbol{\rightarrow I^k}\)) l'ipotesi è tendenzialmente l'elemento di destra, l'eliminazione (\(\boldsymbol{\rightarrow E}\)) si può avere sia per $\beta$ che per $\alpha$, basterà cambiare le deduzioni.
+  }
 
   \subsubsection*{Regole del bottom ($\bot$)}
   \addcontentsline{toc}{subsubsection}{Regole del bottom ($\bot$)}
 
+  \definizione{regole del bottom}{
+    \begin{center}
+      \begin{minipage}[t]{0.45\textwidth}
+      \centering
+      \vspace{1em}
+      \(
+      \bot
+      \)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\;\; \boldsymbol{\to I^k}\)\\  
+      \(
+      \to \varphi
+      \) 
+     \end{minipage}
+     \begin{minipage}[t]{0.45\textwidth}
+     \centering
+      \(
+      \lnot \varphi\)\\[-0.7em]
+      .\\[-0.7em].\\[-0.7em].\\[-0.3em]
+      \( \bot \)\\[-0.7em]
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\;\; \boldsymbol{RAA} \)\\  
+      \(
+      \varphi
+      \) 
+    \end{minipage}
+  \end{center}
+
+  }
+
+
+  Osservazione \qquad \qquad $\lnot \varphi \equiv \varphi \rightarrow \bot $ di conseguenza, $\lnot \lnot \varphi \equiv \lnot \varphi \rightarrow \bot$\\
+
+  \begin{center}
+      \begin{minipage}[t]{0.45\textwidth}
+      \centering
+      \([\varphi]^1\)\\[-0.7em]
+      .\\[-0.7em].\\[-0.7em].\\[-0.3em]
+      \( \bot \)\\[-0.7em]
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\;\; \boldsymbol{\to I^1}\)\\  
+      \(
+      \varphi \to \bot
+      \) \\[1em]
+      Ipotesi da scaricare: \([\varphi]^1\)
+     \end{minipage}
+     \begin{minipage}[t]{0.45\textwidth}
+     \centering
+      \([\lnot \varphi]^1\)\\[-0.7em]
+      .\\[-0.7em].\\[-0.7em].\\[-0.3em]
+      \( \bot \)\\[-0.7em]
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\;\; \boldsymbol{\to I^1}\)\\  
+      \(
+      \lnot \varphi \to \bot
+      \) \\[1em]
+      Ipotesi da scaricare: \([\lnot \varphi]^1\)
+    \end{minipage}
+  \end{center}
+
+    
+  Dimostrazione: $\models \lnot \lnot \varphi \leftrightarrow \varphi$ è come scrivere $\models (\lnot \lnot \varphi \rightarrow \varphi) \land (\varphi \rightarrow \lnot \lnot \varphi)$
+  \esercizio[Deduzione naturale: $\models \lnot \lnot \varphi \leftrightarrow \varphi$]{
+    \begin{center}
+    \(
+    [\lnot \lnot \varphi]^1 \; [\lnot \varphi]^2 \hspace{5em} [\lnot \varphi]^4 \; [\varphi]^3
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\;\; \rightarrow E\) \hspace{0.5cm}\rule{2cm}{0.4pt}\(\;\; \rightarrow E\)\\ 
+    \(
+    \bot \hspace{8em} \bot
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\;\; RAA^2\) \hspace{0.5cm}\rule{2cm}{0.4pt}\(\;\; \rightarrow I^4\)\\ 
+    \(
+    \varphi \hspace{7em} \lnot \lnot \varphi
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\;\; \rightarrow I^1\) \hspace{0.5cm}\rule{2cm}{0.4pt}\(\;\; \rightarrow I^3\)\\  
+    \(
+    \lnot \lnot \varphi \rightarrow \varphi \hspace{5em} \varphi \rightarrow \lnot \lnot \varphi
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{5cm}{0.4pt}\(\;\;\; \land I \)\\  
+    \(
+    \lnot \lnot \varphi \leftrightarrow \varphi
+    \)\\[1em]
+
+    Ipotesi da scaricare: \( [\lnot \lnot \varphi]^1 \quad[\lnot \varphi]^2 \quad [\varphi]^3 \quad [\lnot \varphi]^4\)
+  \end{center}
+  Le ipotesi individuate in un ramo della deduzione \textbf{devono} essere scaricare all'interno di quel ramo.
+  }
+
+  Le deduzioni naturali possono sia essere risolte attraverso la tecnica del bottom-up (a mio parare più semplice), che attraverso l'up-bottom. In alcuni casi l'utilizzo di entrambe è consigliato per poter individuare a pieno i passaggi. 
+
+
+  Principio del terzo escluso \par
+  $\vdash \varphi \lor \varphi \qquad \qquad \llbracket \lnot \varphi \lor \lnot \varphi \rrbracket_v = 1$ \quad \textbf{if} $\llbracket \varphi \rrbracket_v = 1$ \textbf{oppure} \sottolinea{green}{$\llbracket \lnot \varphi \rrbracket_v = 1$} $\Leftrightarrow$ \sottolinea{green}{$\llbracket \varphi \rrbracket_v = 0$} \par
+  \hspace{7,4em} \textbf{quindi} $\llbracket \varphi \rrbracket_v= 1$ oppure $\llbracket \varphi \rrbracket_v = 0$ \textcolor{red!80!black}{$\rightarrow$ è una tautologia}
+
+  Osserviamo questa cosa svolgendone la deduzione naturale
+  \esercizio[Deduzione naturale: $\vdash \varphi \lor \varphi$]{
+
+  \begin{center}
+      \begin{minipage}[t]{0.45\textwidth}
+      \centering
+        \(
+        \hspace{3.5cm}[\lnot \varphi]^2
+        \) \\[-0.5em]
+        \hspace{4cm} \rule{2cm}{0.4pt} \(\; \lor I_l\)\\[-0.2em]
+        \(
+        [\lnot (\varphi \lor \lnot \varphi)]^1 \qquad (\varphi \lor \lnot \varphi)
+        \) \\[-0.5em]
+        \hspace{1cm} \rule{4.5cm}{0.4pt} \(\; \rightarrow E\)\\[-0.2em]
+        \(
+        \hspace{3cm}\bot
+        \) \\[-0.5em]
+        \hspace{3.4cm} \rule{2cm}{0.4pt} \(\; RAA^2\)\\[-0.5em]
+        \(
+        \hspace{3cm} \varphi
+        \) \\[-0.5em]
+        \hspace{3.4cm} \rule{2cm}{0.4pt} \(\; \lor I_l\)\\
+        \(
+        [\lnot(\varphi \lor \lnot \varphi)]^1 \qquad (\varphi \lor \lnot \varphi)
+        \) \\[-0.5em]
+        \hspace{1cm} \rule{4.5cm}{0.4pt} \(\;\;\; \rightarrow E\)\\
+        \( \bot \)\\[-0.7em]
+        \hspace{1cm} \rule{2cm}{0.4pt} \(\;\;\; RAA^1\)\\  
+        \(
+        \varphi \lor \lnot \varphi
+        \) \\[1em]
+        Ipotesi da scaricare: \([\lnot(\varphi \lor \lnot \varphi)]^1 \quad [\lnot \varphi]^2\)
+      \end{minipage}
+     \begin{minipage}[t]{0.45\textwidth}
+      \centering
+      
+      \(
+      \hspace{3.5cm}[\varphi]^2
+      \) \\[-0.5em]
+      \hspace{4cm} \rule{2cm}{0.4pt} \(\; \lor I_l\)\\[-0.2em]
+      \(
+      [\lnot (\varphi \lor \lnot \varphi)]^1 \qquad (\varphi \lor \lnot \varphi)
+      \) \\[-0.5em]
+      \hspace{1cm} \rule{4.5cm}{0.4pt} \(\; \rightarrow E\)\\[-0.2em]
+      \(
+      \hspace{3cm}\bot
+      \) \\[-0.5em]
+      \hspace{3.4cm} \rule{2cm}{0.4pt} \(\; \rightarrow I^2\)\\[-0.5em]
+      \(
+      \hspace{3cm} \lnot \varphi
+      \) \\[-0.5em]
+      \hspace{3.4cm} \rule{2cm}{0.4pt} \(\; \lor I_r\)\\
+      \(
+      [\lnot(\varphi \lor \lnot \varphi)]^1 \qquad (\varphi \lor \lnot \varphi)
+      \) \\[-0.5em]
+      \hspace{1cm} \rule{4.5cm}{0.4pt} \(\;\;\; \rightarrow E\)\\
+      \( \bot \)\\[-0.7em]
+      \hspace{1cm} \rule{2cm}{0.4pt} \(\;\;\; RAA^1\)\\  
+      \(
+      \varphi \lor \lnot \varphi
+      \) \\[1em]
+      Ipotesi da scaricare: \([\lnot(\varphi \lor \lnot \varphi)]^1 \quad [\varphi]^2\)
+    \end{minipage}
+  \end{center}
+
+  }
+
+  Leggi di De Morgan
+  \begin{enumerate}
+    \item $\vdash \lnot(\varphi \land \psi) \leftrightarrow \lnot \varphi \lor \lnot \phi$\par
+    può essere scritto come: $\lnot(\varphi \land \psi) \rightarrow \lnot \varphi \lor \lnot \psi$ \quad \textbf{\large{$\lor$}} \quad $\lnot \varphi \lor \lnot \psi \rightarrow \lnot(\varphi \land \psi)$
+  \end{enumerate}
+
+  \esercizio[Deduzione naturale: $\lnot(\varphi \land \psi) \rightarrow \lnot \varphi \lor \lnot \psi$]{
+
+  \begin{center}
+
+    \(
+    \hspace{3.5cm} [  \varphi]^4 \quad [\psi]^3
+    \)\\[-0.5em]
+    \hspace{4cm}\rule{2cm}{0.4pt}\(\;\;\; \land I\)\\
+    \(
+    [\lnot (\varphi \lor \psi)]^1 \qquad(\varphi \land \psi)
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{5cm}{0.4pt}\(\;\;\; \rightarrow E\)\\
+    \(
+    \hspace{3cm} \bot
+    \)\\[-0.5em]
+    \hspace{4cm}\rule{2cm}{0.4pt}\(\;\;\; \rightarrow I^4\)\\
+    \(
+    \hspace{3cm} \lnot \varphi
+    \)\\[-0.5em]
+    \hspace{4cm}\rule{2cm}{0.4pt}\(\;\;\; \lor I_l\)\\
+    \(
+    [\lnot (\lnot \varphi \lor \lnot \psi)]^2 \qquad(\lnot \varphi \lor \lnot \psi)
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{6cm}{0.4pt}\(\;\;\; \rightarrow E\)\\
+    \(
+    \hspace{3.5cm}\bot
+    \)\\[-0.5em]
+    \hspace{4cm}\rule{2cm}{0.4pt}\(\;\;\; \rightarrow I^3\)\\
+    \(
+    \hspace{3.5cm}(\lnot \psi)
+    \)\\[-0.5em]
+    \hspace{4cm}\rule{2cm}{0.4pt}\(\;\;\; \lor I_r\)\\ 
+    \(
+    [\lnot(\lnot \varphi \lor \lnot \psi)]^2 \qquad (\lnot \varphi \lor \lnot \psi)
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{5cm}{0.4pt}\(\;\;\; \rightarrow E\)\\ 
+    \(
+    \bot
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{3cm}{0.4pt}\(\;\;\; RAA^2\)\\  
+    \(
+    (\lnot \varphi \lor \lnot \psi)
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{5cm}{0.4pt}\(\;\;\; \to I^1 \)\\  
+    \(
+    \lnot (\varphi \land \psi) \rightarrow (\lnot \varphi \lor \lnot \psi)
+    \)
+
+  \end{center}
+  \vspace{1em}
+  Ipotesi da scaricare: $[\lnot (\varphi \land \psi)]^1 \quad [\lnot(\lnot \varphi \lor \lnot \psi)]^2 \quad [\psi]^3 \quad [\varphi]^4$
+  }
+
+  \newpage
+
+  \esercizio[Deduzione naturale: $\lnot \varphi \lor \lnot \psi \rightarrow \lnot(\varphi \land \psi)$]{
+
+  \begin{center}
+
+    \(
+    \hspace{13em}[\varphi \land \psi]^3 \hspace{7em} [\varphi \land \psi]^3
+    \)\\[-0.5em]
+    \hspace{5.9cm}\rule{1.6cm}{0.4pt}\(\; \land E_l\)\hspace{1.8cm}\rule{1.4cm}{0.4pt}\(\; \land E_r\)\\
+    \(
+    \hspace{8em} [\lnot \varphi]^2 \qquad \varphi \hspace{5em} [\lnot \psi]^2 \qquad \psi
+    \)\\[-0.5em]
+    \hspace{3.4cm}\rule{2.7cm}{0.4pt}\(\; \rightarrow E\)\hspace{0.6cm}\rule{2.4cm}{0.4pt}\(\; \rightarrow E\)\\
+    \(
+    \hspace{7em} \bot \hspace{7em} \bot
+    \)\\[-0.5em]
+    \hspace{4cm}\rule{2cm}{0.4pt}\(\; \rightarrow I^3\)\hspace{0.2cm}\rule{2cm}{0.4pt}\(\; \rightarrow I^4\)\\
+    \(
+    [\lnot \varphi \lor \lnot \psi]^1 \qquad \lnot(\varphi \land \psi) \hspace{4em} \lnot(\varphi \land \psi)
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{8cm}{0.4pt}\(\;\;\; \lor E^2\)\\
+    \(
+    \lnot (\varphi \land \psi)
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{6cm}{0.4pt}\(\;\;\; \rightarrow I^1\)\\
+    \(
+    \lnot \varphi \lor \lnot \phi \rightarrow \lnot(\varphi \land \psi)
+    \)
+
+  \end{center}
+  \vspace{1em}
+  Ipotesi da scaricare: \([\lnot \varphi \lor \lnot \psi]^1 \quad [\lnot \varphi]^2 \quad[\lnot \psi]^2 \quad [\varphi \land \psi]^3\)
+  }
+
+  %guarda slide, onestamente non so come sciverle.
+  Definizione rigorosa delle Deduzioni:\par
+  Derivazioni come alberi: 
+
+  Possiamo individuare le diverse componenti in una deduzione:
+
+  \begin{center}
+
+  \(
+  \textcolor{green!60!black}{\alpha} \hspace{8em} \textcolor{green!60!black}{\alpha}
+  \)\\[-0.5em]
+  \hspace{0.9cm}\rule{1.2cm}{0.4pt}\(\; \land E\)\hspace{1.3cm}\rule{1.4cm}{0.4pt}\(\; \land E\)\\
+  \(
+  \hspace{0.5em}\textcolor{green!60!black}{[\varphi]^1} \quad \textcolor{gray}{\varphi \rightarrow \psi} \hspace{5em} \textcolor{gray}{\varphi \rightarrow \delta} \quad \textcolor{green!60!black}{[\varphi]^1} 
+  \)\\[-0.5em]
+  \hspace{1cm}\rule{3cm}{0.4pt}\(\; \rightarrow E\)\hspace{0.5cm}\rule{3cm}{0.4pt}\(\; \rightarrow E\)\\
+  \(
+  \textcolor{yellow!80!black}{\psi} \hspace{6em} \textcolor{yellow!80!black}{\delta}
+  \)\\[-0.5em]
+  \hspace{1cm}\rule{3cm}{0.4pt}\(\;\;\; \land I\)\\
+  \(
+  \textcolor{red}{\psi \land \delta}
+  \)\\[-0.5em]
+  \hspace{1cm}\rule{3cm}{0.4pt}\(\;\;\; \rightarrow I^1\)\\
+  \(
+  \textcolor{orange}{\varphi \rightarrow (\psi \rightarrow \delta)}
+  \)
+
+  Ipotesi da scaricare: \([\varphi]^1\)
+  \end{center}
+
+  \definizione{Insieme delle derivazioni}{
+    L'insieme delle derivazioni \(\mathcal{D}\) è il più piccolo insieme X tale che:
+    \begin{itemize}
+      \item per ogni \(\varphi \in PROP \) la derivazione composta da una sola formula \(\varphi\) è in X;
+      \item se \(\sqcap_1\) su \(\varphi\), \(\sqcap _2\) su \(\psi\) \(\in\) X allora:
+      \begin{center}
+        \(
+        \sqcap_1 \quad \sqcap_2
+        \)\\
+        \(
+        \varphi \quad \psi
+        \)\\[-0.5em]
+        \hspace{1cm}\rule{3cm}{0.4pt}\(\;\;\; (\land I)\)\\
+        \(
+          \varphi \land \psi
+        \)
+      \end{center}
+      \item se \(\sqcap\) su \(\varphi \land \psi \in\) X allora:
+      \begin{center}
+        \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \(\sqcap \)\\
+        \(\varphi \land \psi\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+        \hspace{1cm} \rule{2cm}{0.4pt} \(\;\;\; \land_1 E\)\\  
+        \(
+          \varphi
+        \) 
+        \end{minipage}
+        \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \(\sqcap\)\\
+        \(\varphi \land \psi\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2.5cm}{0.4pt} \(\;\;\;\land_2 E\)\\  
+      \(
+      \psi
+      \) 
+      \end{minipage}
+    \end{center}
+
+    \item se \(\psi\) su \(\sqcap \) su \(\varphi\) allora: 
+    \begin{center}
+      \( [\psi] \)\\
+      \( \sqcap \)\\
+      \(\varphi\)\\[-0.5em]
+      \hspace{1cm}\rule{3cm}{0.4pt}\(\;\;\; \rightarrow I\)\\
+      \(
+      \psi \rightarrow \varphi
+      \)
+    \end{center}
+
+    \item se \(\sqcap_1\) su \(\varphi\), \(\sqcap_2\) su \(\varphi \rightarrow \psi \in\) X allora:
+    \begin{center}
+    \(\sqcap_1 \qquad \sqcap_2\)\\
+    \(\varphi \qquad \varphi \rightarrow \psi\)\\
+    \hspace{1cm}\rule{3cm}{0.4pt}\(\;\;\; \rightarrow E\)\\
+    \(
+    \psi
+    \)
+    \end{center}
+
+    \item se  \(\sqcap\) su \(\varphi \in \) X allora: 
+    \begin{center}
+        \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \(\sqcap \)\\
+        \(\varphi\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+        \hspace{1cm} \rule{2cm}{0.4pt} \(\;\;\; \lor I  \)\\  
+        \(
+          \varphi \lor \psi
+        \) 
+        \end{minipage}
+        \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \(\sqcap\)\\
+        \(\varphi\)\\[-0.7em] %diminuisce lo spazio tra nell'andata a capo
+      \hspace{1cm} \rule{2.5cm}{0.4pt} \(\;\;\;\lor I\)\\  
+      \(
+      \psi \lor \varphi
+      \)\\[1em]
+      \end{minipage}
+    \end{center}
+
+    \item se \(\sqcap \) su \(\varphi \lor \psi\), se \(\varphi\) su \(\sqcap_1 \) su \(\gamma\), se \(\psi\) \(\sqcap_2 \) su \(\gamma \in\) X allora: 
+    
+    \begin{center}
+    \(\hspace{2.4em} [\varphi] \hspace{2em} [\psi]\)\\
+    \(\sqcap \qquad \sqcap_1 \qquad \sqcap\)\\
+    \(\varphi \lor \psi \qquad \delta \qquad \delta\)\\[-0.5em]
+    \hspace{1cm}\rule{3cm}{0.4pt}\(\;\;\; \lor E\)\\
+    \(
+    \delta
+    \)
+    \end{center}
+
+    \item se \(\lnot \psi\) su \(\sqcap \) su \(\bot \in \) allora:
+    
+    \begin{center}
+    \([\lnot \psi]\)\\
+    \(\sqcap \)\\
+    \(\bot\)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\;\;\; \bot_c\)\\
+    \(
+    \psi
+    \)
+    \end{center}
+
+    \item se \(\sqcap\) su \(\bot \in\) X allora:
+    \begin{center}
+    \(\sqcap \)\\
+    \(\bot\)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\;\;\; \bot_i\)\\
+    \(
+    \psi
+    \)
+    \end{center}
+    
+
+    \end{itemize} 
+
+  }
 
 
 
+% come creare le deduzioni
+\begin{comment}
+  \begin{center}
+    \(
+    [\alpha]^1 \quad [\alpha]^1
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\;\;\; \land I\)\\  
+    \(
+    \alpha \land \alpha
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2.5cm}{0.4pt}\(\;\;\; \to I^1 \)\\  
+    \(
+    \alpha \rightarrow (\alpha \land \alpha)
+    \)
 
+  \end{center}
 
-   
+\end{comment}
+
   
- 
-
 \end{document}
 
