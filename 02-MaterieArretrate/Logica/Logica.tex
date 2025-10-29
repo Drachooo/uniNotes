@@ -742,11 +742,11 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
       [$q \land p$
         [$q$
           [$p \land q$, edge label={node[midway,left]{Assunzione}}]
-          , edge label={node[midway,left]{$\land$E}}]
+          , edge label={node[midway,left]}]
         [$p$
           [$p \land q$, edge label={node[midway,right]{Assunzione}}]
-          , edge label={node[midway,right]{$\land$E}}]
-        , edge label={node[midway,left]{$\land$I}}]
+          , edge label={node[midway,right]}]
+        , edge label={node[midway,left]}]
     \end{forest}
   }
 
@@ -772,7 +772,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   Per specificare a quale regola si riferiscono è necessario indicare un indice numerico.
 
   \subsubsection*{Regole della congiunzione ($\land$)}
-  \addcontentsline{toc}{subsubsection}{Regole della congiunzione ($\land$)}
+  \addcontentsline{toc}{subsubsection}{\texorpdfstring{Regole della congiunzione ($\land$)}{Regole della congiunzione (AND)}}
 
   \definizione{regole della congiunzione}{
     \begin{center}
@@ -834,7 +834,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   }
 
   \subsubsection*{Regole della disgiunzione ($\lor$)}
-  \addcontentsline{toc}{subsubsection}{Regole della disgiunzione ($\lor$)}
+  \addcontentsline{toc}{subsubsection}{\texorpdfstring{Regole della disgiunzione ($\lor$)}{Regole della disgiunzione (OR)}}
 
   \definizione{regole della disgiunzione}{
     \begin{center}
@@ -876,7 +876,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   }
 
   \subsubsection*{Regole dell'implicazione ($\rightarrow$)}
-  \addcontentsline{toc}{subsubsection}{Regole dell'implicazione ($\rightarrow$)}
+  \addcontentsline{toc}{subsubsection}{\texorpdfstring{Regole dell'implicazione ($\rightarrow$)}{Regole dell'implicazione (implica)}}
   
   \definizione{regole dell'implicazione}{
     \begin{center}
@@ -909,7 +909,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   }
 
   \subsubsection*{Regole del bottom ($\bot$)}
-  \addcontentsline{toc}{subsubsection}{Regole del bottom ($\bot$)}
+  \addcontentsline{toc}{subsubsection}{\texorpdfstring{Regole del bottom ($\bot$)}{Regole del bottom (Assurdo)}}
 
   \definizione{regole del bottom}{
     \begin{center}
@@ -940,7 +940,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   }
 
 
-  Osservazione \qquad \qquad $\lnot \varphi \equiv \varphi \rightarrow \bot $ di conseguenza, $\lnot \lnot \varphi \equiv \lnot \varphi \rightarrow \bot$\\
+  \textcolor{red!80!black}{\large Osservazione} \qquad \qquad $\lnot \varphi \equiv \varphi \rightarrow \bot $ di conseguenza, $\lnot \lnot \varphi \equiv \lnot \varphi \rightarrow \bot$\\
 
   \begin{center}
       \begin{minipage}[t]{0.45\textwidth}
@@ -967,9 +967,11 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
     \end{minipage}
   \end{center}
 
-    
-  Dimostrazione: $\models \lnot \lnot \varphi \leftrightarrow \varphi$ è come scrivere $\models (\lnot \lnot \varphi \rightarrow \varphi) \land (\varphi \rightarrow \lnot \lnot \varphi)$
-  \esercizio[Deduzione naturale: $\models \lnot \lnot \varphi \leftrightarrow \varphi$]{
+  \vspace{2em}
+     
+  \esercizio[Dimostrare $\models \lnot \lnot \varphi \leftrightarrow \varphi $]{
+  Scrivere $\models \lnot \lnot \varphi \leftrightarrow \varphi$ è come scrivere $\models (\lnot \lnot \varphi \rightarrow \varphi) \land (\varphi \rightarrow \lnot \lnot \varphi)$\\ Per svolgere l'esercizio si è liberi di usare una o l'altra forma, a seconda della difficoltà.\\
+  \sottolinea{black}{Deduzione naturale:} $\models \lnot \lnot \varphi \leftrightarrow \varphi$\\
     \begin{center}
     \(
     [\lnot \lnot \varphi]^1 \; [\lnot \varphi]^2 \hspace{5em} [\lnot \varphi]^4 \; [\varphi]^3
@@ -996,14 +998,16 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   Le ipotesi individuate in un ramo della deduzione \textbf{devono} essere scaricare all'interno di quel ramo.
   }
 
-  Le deduzioni naturali possono sia essere risolte attraverso la tecnica del bottom-up (a mio parare più semplice), che attraverso l'up-bottom. In alcuni casi l'utilizzo di entrambe è consigliato per poter individuare a pieno i passaggi. 
+  Le deduzioni naturali possono sia essere risolte attraverso la tecnica del \textbf{bottom-up} (a mio parare più semplice), che attraverso l'\textbf{up-bottom}. In alcuni casi l'utilizzo di entrambe è consigliato per poter individuare a pieno i passaggi. 
 
+  \newpage
 
-  Principio del terzo escluso \par
+  \subsection*{Principio del terzo esluso}
+  \addcontentsline{toc}{subsection}{Principio del terzo escluso}
+
   $\vdash \varphi \lor \varphi \qquad \qquad \llbracket \lnot \varphi \lor \lnot \varphi \rrbracket_v = 1$ \quad \textbf{if} $\llbracket \varphi \rrbracket_v = 1$ \textbf{oppure} \sottolinea{green}{$\llbracket \lnot \varphi \rrbracket_v = 1$} $\Leftrightarrow$ \sottolinea{green}{$\llbracket \varphi \rrbracket_v = 0$} \par
   \hspace{7,4em} \textbf{quindi} $\llbracket \varphi \rrbracket_v= 1$ oppure $\llbracket \varphi \rrbracket_v = 0$ \textcolor{red!80!black}{$\rightarrow$ è una tautologia}
 
-  Osserviamo questa cosa svolgendone la deduzione naturale
   \esercizio[Deduzione naturale: $\vdash \varphi \lor \varphi$]{
 
   \begin{center}
@@ -1070,11 +1074,15 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
 
   }
 
-  Leggi di De Morgan
+
+  \subsection*{Leggi di De Morgan}
+  \addcontentsline{toc}{subsection}{Leggi di De Morgan}
   \begin{enumerate}
     \item $\vdash \lnot(\varphi \land \psi) \leftrightarrow \lnot \varphi \lor \lnot \phi$\par
     può essere scritto come: $\lnot(\varphi \land \psi) \rightarrow \lnot \varphi \lor \lnot \psi$ \quad \textbf{\large{$\lor$}} \quad $\lnot \varphi \lor \lnot \psi \rightarrow \lnot(\varphi \land \psi)$
   \end{enumerate}
+
+  Svolgiamone la deduzione naturale:
 
   \esercizio[Deduzione naturale: $\lnot(\varphi \land \psi) \rightarrow \lnot \varphi \lor \lnot \psi$]{
 
@@ -1128,8 +1136,6 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   \vspace{1em}
   Ipotesi da scaricare: $[\lnot (\varphi \land \psi)]^1 \quad [\lnot(\lnot \varphi \lor \lnot \psi)]^2 \quad [\psi]^3 \quad [\varphi]^4$
   }
-
-  \newpage
 
   \esercizio[Deduzione naturale: $\lnot \varphi \lor \lnot \psi \rightarrow \lnot(\varphi \land \psi)$]{
 
