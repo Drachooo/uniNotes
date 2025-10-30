@@ -362,14 +362,14 @@
     
   \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/identificatoreEsterno.png}
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{images/identificatoreEsterno.png}
     \caption{identificatore esterno}
   \end{figure}
   }
 
   \subsection*{Relazioni (associazioni)}
   \addcontentsline{toc}{subsection}{Relazioni (associazioni)}
-  Una \textbf{relazione R} \hl{rappresneta un legame logico tra due o più entità} (\textit{Residenza} è una relazione che può sussistere tra le entità \textit{Città} e \textit{Impiegato}).
+  Una \textbf{relazione R} \hl{rappresenta un legame logico tra due o più entità} (\textit{Residenza} è una relazione che può sussistere tra le entità \textit{Città} e \textit{Impiegato}).
 
   Un'occorenza di relazione è un'ennupla costituita da occorenze di entità, una per ciascuna delle entità coinvolte.
 
@@ -409,7 +409,7 @@
 
   \subsubsection*{Relazioni ternarie}
   \addcontentsline{toc}{subsubsection}{Relazioni ternarie}
-  La relazione ternaria è un particolare tipo di relazione che viene utilizzata quando:
+  La relazione ternaria è un particolare tipo di relazione n-aria che viene utilizzata quando:
   \begin{itemize}
     \item un'istanza del concetto per esistere nel sistema informativo (e quindi nella base di dati) richiede sempre la presenza di tre istanze di entità (una per ogni entità coinvolta nella relazione).
     \item Non esistono eccezioni al punto precedente.
@@ -418,6 +418,19 @@
 
   \sottolinea{red}{Esempio di uso corretto:}\par
   Vogliamo rappresentare il fatto che un prodotto venga fornito ad un dipartimento da un fornitore. Ogni dipartimento può scegliere quali prodotti ordinare dai fornitori selezionando un sottoinsieme dei profotto forniti dal fornitore. Ogni fornitore vende a più dipartimenti prodotto diversi. Ogni prodotto viene venduto da più fornitori.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/relazione_ternaria.png}
+  \end{figure}
+
+  dove le istanze hanno le sequenti caratteristiche:
+  \begin{description}
+    \item[I(FORNITORE)]= \{f1,f2,f3\}
+    \item[I(PRODOTTO)]= \{p1, p2, p3\}
+    \item[I(DIPARTIMENTO)]= \{d1, d2\}
+    \item[I(FORNITURA)]=\{(f1,d1,p1), (f1,d2,p3), (f3,d1,p3), (f3,d2,p2)\}    
+  \end{description}
 
   \subsubsection*{Cardinalità delle relazioni}
   \addcontentsline{toc}{subsubsection}{Cardinalità delle relazioni}
@@ -525,6 +538,73 @@
 
   La generelizzazione tra \textit{Persona}, \textit{Uomo} e \textit{Donna} è totale ed esclusiva, in quanto ogni persona deve essere o un uomo o una donna e non può essere entrambe le cose.
 
+  \newpage
+
+  \section*{Strategie di progetto}
+  \addcontentsline{toc}{section}{Strategie di progetto}
+
+  Lo sviluppo di uno schema concettuale può essere visto come un processo di ingegnerizzazione.
+  È possibile applicare due strategie classice:
+  \begin{itemize}
+    \item \textbf{TOP-DOWN:}
+    \begin{itemize}
+      \item Fase 1: considerare le specifiche GLOBALMENTE e produrre uno schema iniziale completo ma con POCHI CONCETTI molto ASTRATTI
+      \item Fase 2: RAFFINARE i concetti astratti fino ad arrivare allo schema concettuale COMPLETO in ogni DETTAGLLIO
+    \end{itemize}
+    \item \textbf{BOTTOM-UP:}
+    \begin{itemize}
+      \item Fase 1: DECOMPORRE le specifiche iniziali in PARTI ELEMENTARI (frasi che descrivono lo stesso concetto)
+      \item Fase 2: GENERARE gli SCHEMI per tutte le parti elementari individuate.
+      \item Fase 3: FONDERE gli schemi (introducendo altri costrutti del modello E-R) in modo da INTEGRARE tutti gli schemi componenti e generare lo SCHEMA FINALE.
+    \end{itemize}
+    \item \text{INSIDE-OUT:}
+    \begin{itemize}
+      \item Fase 1: INDIVIDUARE nelle specifiche alcuni CONCETTI IMPORTANTI (detti concetti GUIDA)
+      \item Fase 2: GENERARE gli SCHEMI per i concetti GUIDA
+      \item Fase 3: FONDERE gli schemi precedenti e generare lo SCHEMA FINALE
+    \end{itemize}
+  \end{itemize}
+
+  \vspace{1em}
+  \textbf{\large Analisi di qualità dello schema:}
+  \begin{description}
+    \item[Verifica di correttezza:] uno schema E-R è corretto se utilizza propriamente i construtti del modello concettuale.\\
+    Possibili errori: sintattici, semantici(errori d'uso).
+    \item[Verifica di completezza:] uno schema E-R è completo se rappresenta tutte le informazioni di interesse e se tutte le operazioni descritte nelle specifiche possono essere eseguite a partire dai dato dello schema.
+    \item[Verifica di minimalità:] quando tutti i concetti descritti nei requisiti sono rappresentati nello schema UNA VOLTA SOLA
+    \item[Verifica di leggibilità:] quando rappreenta i requisiti in maniera naturale facilmente comprensibile. Attenzione ai nomi (di entità, relazioni e attributi), e alle rappresentazioni contorte.  
+  \end{description}
+
+  Uno schema concettuale \textbf{non minimale} contiene ridondanze. \\
+  Casi di ridondanza: 
+  \begin{itemize}
+    \item Ereditarietà delle Relazioni
+    \item Cicli di Relazioni
+  \end{itemize}
+
+Da inserire le foto dell'ereditarietà e dei cicli di Relazioni
+
+È possibile che una delle relazioni \(R_i\) sia ridondante. Va quindi verificato se \(R_i\) si possa ottenere dalla composizione delle altre relazioni e se così è \(R_i\) va eliminata in quanto effettivamente ridondante.
+
+
+\text{Semplificazioni dello schema}
+Non sempre le relazioni ternarie sono facili da leggere ed interpretare, quindi solitamente la loro eliminazione può comportare una migliore leggibilità dello schema.\par
+Operazioni possibili:
+\begin{itemize}
+  \item Trasformazione di una relazione ternaria in una entità(sempre applicabile)
+  \item riduzione di una relazione ternaria a due relazioni binarie (PRECONDIZIONE: una delle entità partecipa alla relazione ternaria con cardinalità(1,1))
+\end{itemize}
+
+Eliminazione delle relazioni ternarie iMmagine
+
+
+
+
+
+
+
+
+  %-------------PARTE DI ESERCIZI--------%
 
   \chapter*{Esercizi}
   \addcontentsline{toc}{chapter}{Esercizi}
@@ -561,7 +641,7 @@
     \item Dentro all'entitità dovrebbero esserci oggetti appartenneti ad un'unica classe (oggetti simili)
   \end{enumerate}
   
-  Tutto questo porta a \textbf{rindondanza e ritardo nella memorizzazione dei dati.}
+  Tutto questo porta a \textbf{ridondanza e ritardo nella memorizzazione dei dati.}
 
   Una possibile soluzione dell'esercizio è questa.
   \begin{figure}[h] %% Messo H anzichè h in questo modo il testo sotto non passa sopra la foto in quanto troppo grande
@@ -627,5 +707,9 @@
 \draw[line] (conto) -- (numero);
 
 \end{tikzpicture}
+
+
+
+
 
 \end{document}
