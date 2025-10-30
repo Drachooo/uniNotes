@@ -1,13 +1,11 @@
 \documentclass[a4paper, 12pt]{book}
 
 % ===== PACCHETTI NECESSARI ===== %
-\usepackage{personal_commands} %importa comandi del file personal_commands.sty
-
-
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[italian]{babel}
 %\usepackage{wrapfig}
 \usepackage{graphicx}   % per inserire immagini
+\usepackage{ulem} 
 \usepackage{caption}    % per le didascalie
 \usepackage{subcaption} % per sottodidascalie
 \usepackage{hyperref}
@@ -40,6 +38,62 @@
   \renewcommand{\headrulewidth}{0pt} % opzionale: niente linea
 }
 \setcounter{tocdepth}{3}
+
+
+% ===== LISTA COMANDI =====
+%------COMANDO SOTTOLINEA-------%
+\newcommand{\sottolinea}[2]{%
+  {\setulcolor{#1}\ul{#2}}%
+}
+
+%------COMANDO DEFINIZIONE-------%
+\newcommand{\definizione}[2]{%
+  \vspace{15pt}%
+  \begin{tcolorbox}[
+    colback=cyan!5!white,
+    colframe=blue!50!black,
+    title=\textbf{Definizione - #1}, % titolo della definizione
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=3mm,
+    boxrule=0.5pt,
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{15pt}%
+}
+
+%------COMANDO TESTO ESERCIZIO-------%
+\newcommand{\esercizioTesto}[2]{%
+  \vspace{15pt}%
+  \begin{tcolorbox}[
+    colback=green!5!white,
+    colframe=green!60!black,
+    title=\textbf{Esercizio - #1}, % titolo della definizione
+    coltitle=white,
+    colbacktitle=green!40!black, % PARAMETRO per il frame del titolo
+    fonttitle=\bfseries,
+    arc=3mm,
+    boxrule=0.5pt,
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{15pt}%
+}
+
+%------comando ESEMPIO-------%
+\newcommand{\esempio}[2]{%
+  \begin{center}
+    \textbf{#1}\par
+    #2
+  \end{center}
+}
+
+
 
 
 \title{\textbf{Basi di dati - primo semestre}\\uniVR - Dipartimento di Informatica}
@@ -351,7 +405,7 @@
     \caption{relazione ternaria}
   \end{figure}
 
-
+  
 
   \subsubsection*{Relazioni ternarie}
   \addcontentsline{toc}{subsubsection}{Relazioni ternarie}
@@ -362,11 +416,8 @@
     \item Non esistono situazioni nelle quali la terna di entità debba essere rappresentata più volte.
   \end{itemize}
 
-  Esempio di uso corretto:\par
+  \sottolinea{red}{Esempio di uso corretto:}\par
   Vogliamo rappresentare il fatto che un prodotto venga fornito ad un dipartimento da un fornitore. Ogni dipartimento può scegliere quali prodotti ordinare dai fornitori selezionando un sottoinsieme dei profotto forniti dal fornitore. Ogni fornitore vende a più dipartimenti prodotto diversi. Ogni prodotto viene venduto da più fornitori.
-
-
-  
 
   \subsubsection*{Cardinalità delle relazioni}
   \addcontentsline{toc}{subsubsection}{Cardinalità delle relazioni}
