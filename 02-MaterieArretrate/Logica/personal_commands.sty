@@ -1,0 +1,189 @@
+% ===============================================================
+% Pacchetto: personal_commands.sty
+% Autore: Matteo Drago, Mattia Nicolis
+% Descrizione: Definizione di comandi personali aggiunti al lavoro.
+% Data: 2025/10/30
+% ===============================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{personal_commands}[2025/10/30 v1.0 Comando personali]
+
+% ---------------------------------------------------------------
+% 🔧 1. Pacchetti necessari
+% ---------------------------------------------------------------
+\RequirePackage[most]{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\RequirePackage{xcolor}
+\RequirePackage{ifthen}
+\RequirePackage{ulem}        % per sottolineature colorate
+\RequirePackage{etoolbox}    % per \ifstrempty
+
+
+
+% ===== LISTA COMANDI =====
+%------comando DEFINIZIONE-------%
+\newcommand{\definizione}[2]{%
+\vspace{15pt}%
+\begin{tcolorbox}[
+  colback=cyan!5!white,
+  colframe=blue!50!black,
+  title=\textbf{Definizione: #1}, % titolo della definizione
+  coltitle=white,
+  fonttitle=\bfseries,
+  arc=3mm,
+  boxrule=0.5pt,
+  enhanced,
+  breakable
+]
+#2 % testo della definizione
+\end{tcolorbox}
+\vspace{15pt}%
+}
+%Funzionamento: \definizione{TITOLO DA SCRIVRE}{TESTO DA SCRIVERE}
+
+
+
+%------comando PROPOSIZIONE-------%
+\newcommand{\proposizione}[1]{%
+\vspace{15pt}%
+\begin{tcolorbox}[
+  colback=cyan!5!white,
+  colframe=blue!50!black,
+  title=\textbf{Proposizione}, % titolo della proposizione
+  coltitle=white,
+  fonttitle=\bfseries,
+  arc=3mm,
+  boxrule=0.5pt,
+  enhanced,
+  breakable
+]
+#1 % testo della proposizione
+\end{tcolorbox}
+\vspace{15pt}%
+}
+%Funzionamento: \proposizione{TESTO DA SCRIVERE}
+
+
+
+%------comando NOTAZIONE-------%
+\newcommand{\notazione}[1]{%
+\vspace{15pt}%
+\begin{tcolorbox}[
+  colback=cyan!5!white,
+  colframe=blue!50!black,
+  title=\textbf{Notazione}, % titolo della notazione
+  coltitle=white,
+  fonttitle=\bfseries,
+  arc=3mm,
+  boxrule=0.5pt,
+  enhanced,
+  breakable
+]
+#1 % testo della notazione
+\end{tcolorbox}
+\vspace{15pt}%
+}
+%Funzionamento: \notazione{TESTO DA SCRIVERE}
+
+
+
+%------comando CONVENZIONE-------%
+\newcommand{\convenzione}[1]{%
+\vspace{15pt}%
+\begin{tcolorbox}[
+  colback=cyan!5!white,
+  colframe=blue!50!black,
+  title=\textbf{Convenzione}, % titolo della convenzione
+  coltitle=white,
+  fonttitle=\bfseries,
+  arc=3mm,
+  boxrule=0.5pt,
+  enhanced,
+  breakable
+]
+#1 % testo della convenzione
+\end{tcolorbox}
+\vspace{15pt}%
+}
+%Funzionamento: \convenzione{TESTO DA SCRIVERE}
+
+
+
+%------comando ESERCIZIO-------%
+\newcommand{\esercizio}[2][]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[%
+    colback=white,          % colore di sfondo
+    colframe=black!70,      % colore del bordo
+    arc=2mm,                % arrotondamento degli angoli
+    boxrule=0.5pt,          % spessore del bordo
+    left=4pt, right=4pt,    % margini interni orizzontali
+    top=2pt, bottom=2pt,    % margini interni verticali
+    breakable               % permette di andare a capo su più pagine
+  ]
+  \noindent\textbf{Esercizio\ifthenelse{\equal{#1}{}}{}{ - #1}}\\[6pt]
+  \hspace{1em}#2
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
+%Funzionamento: \esercizio[EVENTUALE TITOLO (si può non mettere)]{TESTO ESERCIZIO DA SCRIVERE}
+
+
+
+%------comando SOTTOLINEATURA-------%
+\newcommand{\sottolinea}[2]{%
+  {\setulcolor{#1}\ul{#2}}%
+}
+%Funzionamento: \sottolinea{colore}{testo}
+
+
+
+\newcommand{\regolaInf}[3]{%
+    \begin{array}{c c l} % c: Conclusione, c: Simbolo, l: Etichetta
+        #1 \\ % Premessa
+        \hline 
+        #2 & #3 & {} \\ % Conclusione e Etichetta
+    \end{array}
+}
+
+
+
+
+
+%------comando TEOREMA-------%
+\newcommand{\teorema}[3][]{%
+  \vspace{15pt}%
+  \begin{tcolorbox}[%
+    colback=yellow!5!white,
+    colframe=orange!80!black,
+    title=\textbf{Teorema\ifstrempty{#1}{}{ - #1}}, % titolo
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=3mm,
+    boxrule=0.5pt,
+    enhanced,
+    breakable
+  ]
+  #2 % testo del teorema
+  \ifstrempty{#3}{}{%
+    \par\vspace{8pt}%
+    \textbf{Dimostrazione}
+    #3
+  }
+  \end{tcolorbox}%
+  \vspace{15pt}%
+}
+%Funzionamento: \teorema[TITOLO DA SCRIVERE(si può anche non mettere)]{TESTO DA SCRIVERE}{DIMOSTRAZIONE DA SCRIVERE (si può anche non mettere)}
+
+%------comando ESEMPIO-------%
+\newcommand{\esempio}[2]{%
+  \begin{center}
+    \textbf{#1}\par
+    #2
+  \end{center}
+}
+
+% ---------------------------------------------------------------
+% 🚪 Fine pacchetto
+% ---------------------------------------------------------------
+\endinput
