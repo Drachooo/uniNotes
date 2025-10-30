@@ -1,159 +1,221 @@
-\documentclass[a4paper, 12pt]{book}
+\documentclass[12pt, a4paper, oneside]{book}
 
-% ===== PACCHETTI NECESSARI ===== %
-\usepackage[margin=2.5cm]{geometry}
+% --- LINGUA E CODIFICA ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
-%\usepackage{wrapfig}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{amsmath}
-\setlength{\parindent}{0pt}
-\usepackage{parskip}
-\usepackage{amsfonts}
-\usepackage{soul}
+\renewcommand{\familydefault}{\sfdefault} % Sans-serif moderno
+
+% --- MARGINI E GEOMETRIA ---
+\usepackage[a4paper, margin=2.5cm]{geometry}
+
+% --- COLORI E LINK ---
 \usepackage{xcolor}
+\definecolor{azzurrino}{HTML}{1E88E5}
+\definecolor{grigiochiaro}{HTML}{F5F5F5}
+\definecolor{grigioscuro}{HTML}{424242}
+
+\usepackage[
+    colorlinks=true,
+    linkcolor=azzurrino,
+    citecolor=azzurrino,
+    urlcolor=azzurrino
+]{hyperref}
+
+% --- TITOLI MODERNI ---
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries\color{azzurrino}}
+  {\filleft\Huge\thechapter}
+  {0pt}
+  {\titlerule[1pt]\vspace{1ex}\filright}
+  [\vspace{1ex}\titlerule]
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{azzurrino}}{\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsection}{1em}{}
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+\titleformat{\subsubsection}
+  {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsubsection}{1em}{}
+
+% --- CAPTION COLORATE ---
+\usepackage[font=small, labelfont={bf, color=azzurrino}]{caption}
+
+% --- HEADER E FOOTER ---
+\usepackage{fancyhdr}
+\setlength{\headheight}{25pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\color{grigioscuro}\leftmark}
+\fancyhead[R]{\color{azzurrino}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{azzurrino}\leaders\hrule height \headrulewidth\hfill}}
+\fancyfoot[C]{\color{grigioscuro}\small Intelligenza Artificiale – \thepage}
+
+% --- LISTE ED ENUMERAZIONI ---
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=1.5em}
+
+% --- GRAFICA E FIGURE ---
+\usepackage{graphicx}
+\usepackage{bookmark}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage[normalem]{ulem} % sottolineature
+\usepackage{subcaption}
+\usepackage{soul} % evidenziazione
+\usepackage{parskip} % spaziatura tra paragrafi
+
+% --- Tcolorbox e Listings ---
 \usepackage[most]{tcolorbox}
-\sethlcolor{yellow}
-\usepackage{array}
-\usepackage{booktabs}
-\usepackage{tikz}
-\usetikzlibrary{positioning}
+\tcbuselibrary{listings, skins, breakable, theorems} % theorems utile per ambienti come erexercise
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% --- Tabelle ---
 \usepackage{longtable}
 \usepackage{array}
-\usepackage{fancyhdr}
-\setlength{\headheight}{15pt}
-\pagestyle{fancy}
-\fancyhf{} % pulisce header e footer
-\fancyhead[R]{\thepage} % numero pagina a destra nell'header
-\renewcommand{\headrulewidth}{0pt} % (opzionale) elimina la riga orizzontale sotto l'header
-\fancypagestyle{plain}{%
-  \fancyhf{} % pulisce header e footer
-  \fancyhead[R]{\thepage} % numero sempre in alto a destra
-  \renewcommand{\headrulewidth}{0pt} % opzionale: niente linea
-}
-\setcounter{tocdepth}{3}
+\usepackage{tabularx}
 
+% --- FRONTESPIZIO ---
+\title{\Huge\bfseries Appunti del corso di \\[0.5ex]
+\textcolor{azzurrino}{Fondamenti dell'informatica} \\[1ex]
+\Large UniVR - Dipartimento di Informatica \\[1.5ex]
+\Large Primo semestre - A.A. 2025/26}
+\author{\Large Mattia \and Matteo Drago}
+\date{}
 
-% ===== LISTA COMANDI =====
-%------COMANDO DEFINIZIONE-------%
-\newcommand{\definizione}[2]{%
-  \vspace{15pt}%
-  \begin{tcolorbox}[
-    colback=cyan!5!white,
-    colframe=blue!50!black,
-    title=\textbf{Definizione - #1}, % titolo della definizione
-    coltitle=white,
-    fonttitle=\bfseries,
-    arc=3mm,
-    boxrule=0.5pt,
-    enhanced,
-    breakable
-  ]
-  #2 % testo della definizione
-  \end{tcolorbox}
-  \vspace{15pt}%
-}
+\input{../../../ambienti.sty} %file apposito per definire nuovi comandi
 
-
-
-\title{\textbf{Fondamenti dell'informatica}}
-\author{Mattia Nicolis}
-\date{A.A. 2025-26}
-
+% =================================
 \begin{document}
-
+    \frontmatter
     \maketitle
-
     \tableofcontents
-    \markboth{}{}
+    \thispagestyle{empty}
+    \newpage
 
-    %-------MODULO DI TEORIA------------------------------------
-    %-------Prof: Isabella Mastroeni----------------------------
-    %-------Lez: lunedì (14:00-16:00) [Aula D - Cav.1]----------
-    %-------Lez: martedì (8:30-10:30) [Aula A - Cav.1]----------
+    %===========================
+    \mainmatter
 
-    %-------Ho unito slide della prof, appunti miei e il documento di Lorenzo
-    \chapter*{Introduzione}
-    \addcontentsline{toc}{chapter}{Introduzione}
-    L'informatica si occupa di risolvere problemi.
+    % --- CAPITOLO 1: NOZIONI DI BASE DEL CORSO ---
+    \chapter{Nozioni di base}
 
-    La soluzione di un problema è un \textbf{algoritmo}, ovvero una squenza finita di passi che, se seguiti correttamente, \hl{risolvono il problema}.
+    \section{Cardinalità degli insiemi}
 
-    Poichè ogni dato può essere rappresentato da numeri naturali, tramite una biizeione, è sufficiente considerare funzioni del tipo:
-    \begin{equation*}
-      f:\mathbb{N}\rightarrow\mathbb{N}
-    \end{equation*}
-
-    per modellare tutti i possibili problemi.
+    \teorema{Ciao}{Ciao}
 
 
-    \definizione{funzione calcolabile}{Una \textbf{funzione} $f$ si dice \textbf{calcolabile} se \hl{esiste un algoritmo che, dato un input $x$, restituisce $f(x)$}  
-    }
 
-    Nell'insieme delle funzioni $\mathbb{N}\rightarrow\mathbb{N}$, la parte delle funzioni calcolabili è strettamente contenuta.
 
-    \definizione{alfabeto}{Un \textbf{alfabeto} $\Sigma$ è un'\hl{insieme finito di simboli}.
-    }
-    
-    Esempio: consideriamo l'alfabeto $Sigma = \{0, 1\}$.
 
-    Le stringhe componibili da $Sigma$ sono:
-    \begin{equation*}
-      \Sigma^{*} = \{\epsilon, 0, 1, 00, 01, 10, 11, 0000, \dots\}
-    \end{equation*}
+    % --- CAPITOLO 2: Linguaggi formali ---
+    \chapter{Linguaggi formali}
 
-    $\Sigma^{*}$ = è detto \textbf{insieme delle sequenza di lunghezza finita sull'alfabeto}.
+    \section{Linguaggi regolari}
+    I \textbf{linguaggi regolari} rappresentano la famiglia dei modelli di calcolo più semplice: \hl{corrispondono al processore di un calcolatore}.
 
-    La stringa $\epsilon$ è la stringa vuota.
+    I problemi relativi a questi linguaggi sono \textit{decisionali}: una sequenza di simboli (stringa) appartiene a un linguaggio regolare, allora è risolvibile da un algoritmo e implementabile mediante una macchina stati finiti.
 
-    Poichè non vi è limite alla lunghezza delle stringhe, l'insieme $\Sigma^{*}$ e la sua cardinalità vale:
-    \begin{equation*}
-      |\Sigma^{*}| = |\mathbb{N}|
-    \end{equation*}
+    \definizione{stringhe}{Un \textbf{simbolo} è un'entità primitiva astratta non definita formalmente (lettere e caratteri numerici).}
 
-    \definizione{algoritmo}{Un \textbf{algoritmo} $\Sigma$ è una \hl{seuqenza finita di simboli su un'alfabeto}.
-    }
-    
-    \section*{Induzione matematica}
-    \addcontentsline{toc}{section}{induzione matematica}
-    Per utilizzare il principio di induzione su un insieme, è necassario che su questo sussita una relazione d'ordine ben fondata.
-
-    \definizione{induzione matematica}{
-      Sia $A$ un insieme con una relazione d'ordine $<$ ben fondata.
-      \vspace{1mm}
-
-      Sia $\pi$ una proprietà definita sugli elementi di $A$.
-      \vspace{1mm}
-
-      Allora vale la seguente corrisposndenza:
+    \definizione{alfabeto}{Un \textbf{alfabeto} è un'insieme di simboli denotato con $\Sigma$ e avente le seguenti caratteristiche:
+    \begin{itemize}
+      \item \textbf{cardinalità di $\Sigma$ minore di $\omega$}:
       \begin{equation*}
-        \forall a \in A: \pi(a) \Leftrightarrow \forall a \in A: ((\forall b \in A.b < a: \pi(b))) \Rightarrow \pi(a)
+        |\Sigma| < \omega
       \end{equation*}
-    }
-      
-
-    \chapter*{Linguaggi regolari}
-    \addcontentsline{toc}{chapter}{Linguaggi regolari}
-
-    \definizione{stringa}{Una \textbf{stringa}, o parola, è una \hl{sequenza finita di simboli su un alfabeto $\Sigma$}.
+      \item \textbf{insieme $\Sigma \neq 0$} $\Rightarrow$ è sempre presente almeno un simbolo
+    \end{itemize}
     }
 
-    \definizione{lunghezza di una stringa}{La lunghezza $|x|$ di una stringa $x$ è il numero di occorrenze di simboli al suo interno.
-    }
+    L'\hl{\textbf{insieme delle stringhe} sull'alfabeto $\Sigma$ è rappresentato con $\Sigma$*}: insieme di tutte le sequenze di simboli che appartegono all'alfabeto $\Sigma$.
 
-    Alcuni esempi di linguaggio sono $0$, dato che è sottoinsieme di qualsiasi insieme, e $\{\epsilon\}$, la stringa vuota.
+    \esempio{insieme delle stringhe $\Sigma$*}{Se $\Sigma$ è rappresentato dall'insieme binario $\{0, 1\}$, allora la stringa 101011 appartiene a $\{0, 1\}$*:
+    \begin{equation*}
+      \Sigma = \{0, 1\}, \ \ \ 101011 \in \{0, 1\}^*
+    \end{equation*}}
 
-    Quest'ultimo compone, appunto, il linguaggio $L$ che contiene solo la stringa vuota.
+    La \textit{cardinalità} dell'insieme delle stringhe $\Sigma$*, su qualunque alfabeto, è uguale alla cardinalità dei numeri naturali:
+   \begin{equation*}
+    |\Sigma^*| = |\mathbb{N}| = \omega
+  \end{equation*}
 
-    \section*{Automi a stati finiti deterministici}
-    \addcontentsline{toc}{section}{Automi a stati finiti deterministici}
-    I linguaggi regolari sono tali per cui esiste un automa a stati finiti deterministico che li riconosce.
+  A partire dagli insiemi di sequenze di simboli (stringhe) si formano i \textbf{linguaggi}.
 
-    Un automa è composto da un nastro di lunghezza illimitata, ma in sola lettura e dunque non possiede nessuna alcun tipo di memoria attiva.
+  \definizione{linguaggio}{Un linguaggio $\mathcal{L}$ è un sottoinisieme dell'insieme delle stringhe:
+  \begin{equation*}
+    \mathcal{L} \subseteq \Sigma^*
+  \end{equation*}}
 
-    Il nastro viene letto mediante una testina e scorre in una sola direzione.
+  \textit{Quanti sono i linguaggi?} \\[0.2ex]
+  Se la cardinalità di $\Sigma$* è pari alla cardinalità dei numeri naturali, allora la cardinalità dei sottoinisiemi dei numer naturali è ugale alla Cardinalità dei sottoinisiemi degli insiemi delle stringhe:
+  \begin{equation*}
+    |\Sigma^*| = |\mathbb{N}| = \omega 
+  \end{equation*}
+  \begin{center}
+    $\Downarrow$
+  \end{center}
+  \begin{equation*}
+    |2^N| = |2^{\Sigma^*}| = |\mathbb{N} \rightarrow |\mathbb{N}| = |\mathbb{R}|
+  \end{equation*}
 
-    L'automa possiede inoltre un'entità di controllo, descritta attraverso lo stato in cui si trova.
+  Di conseguenza ci sono tanti linguaggi quanti i numeri reali su un alfabeto finito:
+  \begin{equation*}
+    |\{ \mathcal{L} | \mathcal{L} \subseteq \Sigma^*\}| \subseteq |\mathbb{R}|
+  \end{equation*}
 
-    Un programma in esecuzione sull'unità, infiene, si ossupa di stabilire le transizioni di stato.
+
+
+
+  \subsection{Autommi a stati finiti}
+  Un \textbf{automa a stati finiti} è un dispositivo avente un nastro in \textit{input}, suddiviso a blocchi, su cui la macchina non può scrivere, bensì solo leggere.
+
+  %foto
+
+  La stringa $\sigma$ è formata dai simboli $x_0, x_1, x_2, \dots$, mentre il \textbf{controllore} (dipositivo di lettura) parte da un certo stato $q$ iniziale e può muoversi soltanto da sinistra verso destra. \\[0.2ex]
+  Quindi si può leggere un simbolo $x_i$, consumare questo simbolo, effetture una transizione di stato passando da $q$ a $q^t$ e, infine, passare al simbolo sucessivo $x_{i+1}$. \\[0.2ex]
+  Man mano che la testina procede, essa consuma ciò che è presente sul nastro in \textit{input} fintatochè la stringa $\sigma$ non si esaurisce.
+
+  Poichè le stringhe che si possono mettere sul nastro sono finite, allora le operazioni indicate possono continuare fino a un certo numero di passi, dopodichè la macchina termina.
+
+  Una descrizione matematicaa di questa $M$ consiste nella quintupla:
+  \begin{equation*}
+    M = \langle Q, \Sigma, \delta, q_0, F\rangle
+  \end{equation*}
+
+  \begin{description}
+    \item [$Q$]: insieme di \textit{stati}
+    \item [$\Sigma$]: insieme di \textit{simboli}
+    \item [$\delta$]: funzione di \textit{transizione} 
+    \item [$q_0$]: stato inizale da cui la macchina parte
+    \item [$F$]: insieme di stati finali
+  \end{description}
+
+  \esempio{automa a stato finito}{
+    %disegno
+    \begin{itemize}
+      \item singola freccia entrante $\rightarrow$ \textit{stato iniziale}
+      \item doppio cercio $\rightarrow$ \textit{stato finale}
+      \item frecce $\rightarrow$ \textit{archi} che a seconda del valore letto effettuano una transizione dal nodo cambiando lo stato
+    \end{itemize}
+  }
+
+  Il linguaggio accettato dall'automa è l'insieme di tutte òe stringhe sull'alfabeto tale che $\hat{\delta}(q_0, \sigma) \in F$:
+  \begin{equation*}
+    \mathcal{L}(M) = \{\sigma \in \Sigma^* | \hat{\delta}(q_0, \sigma) \in F\}
+  \end{equation*}
+
+  \definizione{linguaggio regolare}{Se $M$ è un'automa a stati finiti deterministico, allora $\mathcal{L}$ è detto \textbf{regolare}.}
+
+  \subsubsection{Automa a stati finiti deterministico}
+
+
+
 \end{document}
