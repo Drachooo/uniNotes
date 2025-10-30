@@ -1,0 +1,116 @@
+% --- DEFINIZIONE DI AMBIENTI DI LAVORO ---
+%===========================================
+% --- AMBIENTE DEFINIZIONE ---
+\newcommand{\definizione}[2]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=azzurrino!5!white,
+    colframe=blue!50!black,
+    title=\textbf{Definizione: #1}, % titolo della definizione
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm, %arrotondamento degli angoli
+    boxrule=1pt, %spessore del bordo
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
+%===========================================
+%===========================================
+% --- AMBIENTE ESEMPIO ---
+\newcommand{\esempio}[2]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=brown!5!white,
+    colframe=brown!50!black,
+    title=\textbf{Esempio: #1}, % titolo dell'esempio
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm, %arrotondamento degli angoli
+    boxrule=1pt, %spessore del bordo
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
+%===========================================
+% --- AMBIENTE VARIO ---
+%============================================
+\newcommand{\vario}[2]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=orange!10!white,
+    colframe=orange!70!black,
+    title=\textbf{#1}, % titolo della definizione
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm, %arrotondamento degli angoli
+    boxrule=1pt, %spessore del bordo
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
+%===========================================
+% --- AMBIENTE CODICE ---
+\newtcblisting{codice}[2][]{%
+  colback=green!10!white,
+  colframe=green!60!black,
+  title=\textbf{Codice: #2},
+  fonttitle=\bfseries,
+  arc=2mm,
+  boxrule=1pt,
+  enhanced,
+  breakable,
+  listing only,
+  listing options={
+    language=#1,
+    basicstyle=\ttfamily\footnotesize,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=5pt,
+    showstringspaces=false,
+    tabsize=2,
+    breaklines=true
+  }
+}
+%==========================================
+\newtcolorbox{er}[2][]{%
+  enhanced, breakable,
+  colback=gray!3,
+  colframe=blue!50!black,
+  fonttitle=\bfseries,
+  title={Esercizio E-R: #2},
+  before upper={\refstepcounter{erex}},
+  sharp corners=south,
+  boxrule=0.8pt,
+  arc = 2mm
+  #1
+}
+%===========================================
+% --- AMBIENTE DEFINIZIONE ---
+\newcommand{\teorema}[2]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=red!5!white,
+    colframe=red!50!black,
+    title=\textbf{Teorema: #1}, % titolo della definizione
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm, %arrotondamento degli angoli
+    boxrule=1pt, %spessore del bordo
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
