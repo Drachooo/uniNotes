@@ -1,13 +1,15 @@
 \documentclass[a4paper, 12pt]{book}
 
 % ===== PACCHETTI NECESSARI ===== %
+\usepackage{personal_commands} %importa comandi del file personal_commands.sty
+
+
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[italian]{babel}
 %\usepackage{wrapfig}
 \usepackage{graphicx}   % per inserire immagini
 \usepackage{caption}    % per le didascalie
 \usepackage{subcaption} % per sottodidascalie
-\usepackage[normalem]{ulem}   % per sottolineare, barrare o marcare
 \usepackage{hyperref}
 \usepackage{tikz}
 \usetikzlibrary{positioning, shapes, arrows.meta}
@@ -39,46 +41,6 @@
 }
 \setcounter{tocdepth}{3}
 
-
-% ===== LISTA COMANDI =====
-%------COMANDO DEFINIZIONE-------%
-\newcommand{\definizione}[2]{%
-  \vspace{15pt}%
-  \begin{tcolorbox}[
-    colback=cyan!5!white,
-    colframe=blue!50!black,
-    title=\textbf{Definizione - #1}, % titolo della definizione
-    coltitle=white,
-    fonttitle=\bfseries,
-    arc=3mm,
-    boxrule=0.5pt,
-    enhanced,
-    breakable
-  ]
-  #2 % testo della definizione
-  \end{tcolorbox}
-  \vspace{15pt}%
-}
-
-%------COMANDO TESTO ESERCIZIO-------%
-\newcommand{\esercizioTesto}[2]{%
-  \vspace{15pt}%
-  \begin{tcolorbox}[
-    colback=green!5!white,
-    colframe=green!60!black,
-    title=\textbf{Esercizio - #1}, % titolo della definizione
-    coltitle=white,
-    colbacktitle=green!40!black, % PARAMETRO per il frame del titolo
-    fonttitle=\bfseries,
-    arc=3mm,
-    boxrule=0.5pt,
-    enhanced,
-    breakable
-  ]
-  #2 % testo della definizione
-  \end{tcolorbox}
-  \vspace{15pt}%
-}
 
 \title{\textbf{Basi di dati - primo semestre}\\uniVR - Dipartimento di Informatica}
 \author{Mattia Nicolis \and Matteo Drago}
@@ -359,7 +321,7 @@
 
   In uno schema E-R, ogni relazione ha un nome che identifica univocamente e viene rappresentata graficamente mediante un rombo con il nome delle realzione al'interno e da linee che connettono la relazione con ciascuna delle sue componenti.
 
-  L'insieme delle occorrenze di una relazione del modello E-R è, una relazione matematica tra le occorenze delle enttà coinvolte, ossa, un sottoinsieme del loro prodotto cartesiano.
+  L'insieme delle occorrenze di una relazione del modello E-R è, una relazione matematica tra le occorenze delle entità coinvolte, ossia, un sottoinsieme del loro prodotto cartesiano.
 
   Questo significa che tra le occorenze di una relazione del modello E-E non ci possono essere ennuple ripeute.
 
@@ -381,13 +343,30 @@
 
   E' anche possibile avere \textit{relazioni ricorsive}: relazioni tra un'entità e se stessa.
 
-  E' possibile, infiene, avere \textit{relazioni n-arie} che coinvolgono più di due entità.
+  E' possibile, infine, avere \textit{relazioni n-arie} che coinvolgono più di due entità.
 
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth, keepaspectratio]{images/relazioneTernaria.jpeg}
     \caption{relazione ternaria}
   \end{figure}
+
+
+
+  \subsubsection*{Relazioni ternarie}
+  \addcontentsline{toc}{subsubsection}{Relazioni ternarie}
+  La relazione ternaria è un particolare tipo di relazione che viene utilizzata quando:
+  \begin{itemize}
+    \item un'istanza del concetto per esistere nel sistema informativo (e quindi nella base di dati) richiede sempre la presenza di tre istanze di entità (una per ogni entità coinvolta nella relazione).
+    \item Non esistono eccezioni al punto precedente.
+    \item Non esistono situazioni nelle quali la terna di entità debba essere rappresentata più volte.
+  \end{itemize}
+
+  Esempio di uso corretto:\par
+  Vogliamo rappresentare il fatto che un prodotto venga fornito ad un dipartimento da un fornitore. Ogni dipartimento può scegliere quali prodotti ordinare dai fornitori selezionando un sottoinsieme dei profotto forniti dal fornitore. Ogni fornitore vende a più dipartimenti prodotto diversi. Ogni prodotto viene venduto da più fornitori.
+
+
+  
 
   \subsubsection*{Cardinalità delle relazioni}
   \addcontentsline{toc}{subsubsection}{Cardinalità delle relazioni}
