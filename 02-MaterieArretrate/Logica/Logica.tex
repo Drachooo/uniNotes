@@ -1189,9 +1189,9 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
 \addcontentsline{toc}{subsubsection}{Correttezza}
 Il primo passo da eseguire è quello di dimostrare che la deduzione naturale sia corretta.
 
-La \textbf{correttezza} coniste che se da $\Gamma$ si deriva $\varphi \ (\Gamma \vdash \varphi)$, allora $\varphi$ è conseguenza logica logica di $\Gamma \ (\Gamma \models \varphi)$.
+La \textbf{correttezza} consiste che se da $\Gamma$ si deriva $\varphi \ (\Gamma \vdash \varphi)$, allora $\varphi$ è conseguenza logica logica di $\Gamma \ (\Gamma \models \varphi)$.
 
-\lemma{Correttezza}{Per ogni $\varphi$ e per tutte derivazioni in $\Pi$, se $\underset{\varphi}{\Pi}$ allora Hp($\Pi$) $\models \varphi$.}
+\lemma{Correttezza}{Per ogni $\varphi$ e per tutte derivazioni in $\Pi$, se $\underset{\varphi}{\Pi}$ allora Hp($\Pi$) $\models \varphi$.}{}
 
 La dimostrazione procede per induzione sull'altezza delle derivazioni: \\[0.2ex]
 $\Rightarrow$ \textbf{caso base}: se $\Pi$ = $\varphi$, allora dato che $\varphi \models \varphi$ abbiamo la tesi \\[0.2ex]
@@ -1211,4 +1211,100 @@ Una conseguenza del teorema di correttezza è la \hl{\textbf{non} contraddittori
 \nvdash
 \end{equation*}}{\\[0.2ex]Supponiamo che $\vdash \bot$, allora per la correttezza avremmo che $\models \bot$ che è impossibile.}
 
+\subsubsection*{Completezza}
+\addcontentsline{toc}{subsubsection}{Completezza}
+La \textbf{completezza} \hl{consiste nel dimostare che $\Gamma \models \varphi \Rightarrow \Gamma \vdash \varphi$: se una formula è corretta, allora è anche derivabile}.
+
+Per dimostarlo, dobbiamo utilizzare due concetti:
+\begin{enumerate}
+  \item consistenza
+  \item soddisfacibilità
+\end{enumerate}
+
+\definizione{consistenza}{Si dice che un insieme $\Gamma \subseteq PROP$ è \textbf{incosistente} se $\Gamma \vdash \bot$, altrimenti si dice \textbf{consistente} ($\Gamma \nvdash \bot$).}
+
+\hl{\textbf{Soddisfacibilità} e \textbf{consistenza} sono fortemente legati tra di loro}. \\[0.2ex]
+L'obiettivo principale è quello di dimostare che ogni insieme conistente di formule è soddisfacibile, ma è facile dimostare l'implicazione inversa (ogni insieme soddisfacibile di formule è consistente).
+
+\Proposizione{\begin{equation*}
+\Gamma \vdash \bot \Rightarrow \forall v, \llbracket \Gamma \rrbracket_v \neq 1
+\end{equation*}}{\\[0.2ex]Se $\Gamma \vdash \bot$ allora, per la correttezza, $\Gamma \models \bot$ e, quindi, per la definizione di conseguenza logica non esiste nessuna valutazione $v$ tale che $\llbracket \Gamma \rrbracket_v = 1$.}
+
+Per contrapposizione abbiamo, quindi che se $\Gamma$ è soddisfacibile allora $\Gamma$ è consistente. \\
+
+Introduciamo un concetto un pò più forte della consistenza: \textbf{consistenza massimale}.
+
+\definizione{insieme consistente massimale (opzione 1)}{Sia $\mathcal{C} = \{ \Gamma : \Gamma \subseteq PROP$ e $\Gamma \nvdash \bot \}$. \\[0.2ex] Si definiscono \textbf{massimali consistenti} gli elementi massimali dell'ordine parziale $\langle \mathcal{C}, \subseteq \rangle$.}
+
+
+\definizione{insieme consistente massimale (opzione 2)}{Un insieme di formule $\Gamma$ si dice \textbf{massimale consistente} se è consistente e non esiste un insieme $\Delta \neq \Gamma$ tale che $\Gamma \subseteq \Delta$.}
+
+Una caratteristica importante degli insiemi consistenti di formule è che possono estesi ad insiemi massimali consistenti.
+
+\Proposizione{\textit{Ogni insieme consistente} $\Gamma$ \textit{è contenuto in (almeno) un insieme massimale consistente}.}{\\[0.2ex]Fissiamo un'enumerazione $(\varphi_i)_{i < \omega}$ di tutte le formule proposizionali. \\[0.2ex]
+
+Definiamo induttivamente la seguente sucessione $(\Gamma_i)_{i < \omega}$ di insiemi di formule:
+\begin{itemize}
+  \item $\Gamma_0 = \Gamma$
+  \item $\Gamma_{i+1}$ = $\begin{cases}
+    \Gamma_i \cup {\Gamma_i} \cup {\varphi_i} \nvdash \bot \\
+    \Gamma_i \ \text{altrimenti}
+  \end{cases}$
+\end{itemize}
+
+Dimostriamo che:
+\begin{enumerate}
+  \item $\forall \ i. \ \Gamma_i \subseteq \Gamma_{i+1} \Rightarrow \text{verifico correttezza}$ (vero per costruzione)
+  \item $\forall \ i. \ \Gamma_i \nvdash \bot \Rightarrow$ si parte da un insieme consistente e ad ogni passo della costruzione preserva la consistenza (vero per induzione)
+  \item $\Gamma$* = $\cup_{i \in \mathbb{N}} \ \Gamma_i$ è massimale conistente
+\end{enumerate}
+
+Per quest'ultimo caso, dimostriamo per prima cosa che $\Gamma$* è \textit{consistente}.
+
+Supponiamo che $\Gamma$* $\vdash \bot$, allora esiste un sottoinsieme finito $\Sigma$ di $\Gamma$ tale che $\Gamma \vdash \bot$.
+
+Dato che $\Sigma$ non può essere vuoto abbiamo che $\Sigma = \{\varphi_1, \dots, \varphi_n\}$.
+
+Esistono, quindi, $n$ elementi $\Gamma_{i_1}, \dots, \Gamma_{i_n}$ non necessariamente diversi tali che $\varphi_1 \in \Gamma_{i_1}, \dots, \varphi_n \in \Gamma_{i_n}$.
+
+Sia $m = max\{i_1, \dots, i_n\}$, ovviamente $\Sigma \subseteq \Gamma_m$ e, quindi, $\Gamma_m \vdash \bot $ contraddicendo la seconda ipotesi. \\[0.1ex]
+
+Dimostriamo che $\Gamma$* è \textit{massimale}.
+
+Supponiamo che esista $\Delta \neq \Gamma$* consistente tale che $\Gamma$* $\subseteq \Delta$.
+
+Per un certo indice $k$, $\varphi_k \in \Delta - \Gamma$*, e per costruzione $\varphi_k \in \Gamma_{k+1}$ (altrimenti $\Gamma_k \cup \{\varphi_k\} \vdash \bot$) e conseguentemente $\Delta \vdash \bot$, e quindi $\varphi_k \in \Gamma$* contraddicendo l'assunzione.}
+
+Gli insiemi massimali godono di importanti \textbf{proprietà}.
+
+\Proposizione{\textit{Sia} $\Gamma$ \textit{massimale consistente allora}:
+\begin{enumerate}
+  \item $\Gamma \vdash \varphi \Leftrightarrow \varphi \in \Gamma$: insiemi massimali consistenti sono chiusi per derivabilità
+  \item $\forall \varphi, \varphi \in \Gamma$ oppure $\neg \varphi \in \Gamma$
+  \item $\varphi \land \psi \in \Gamma \Leftrightarrow (\varphi \in \Gamma \ \text{e} \ \psi \in \Gamma)$
+  \item $\forall \varphi \ \text{e} \ \psi, \varphi \rightarrow \psi \in \Gamma \Leftrightarrow (\varphi \in \Gamma \rightarrow \psi \in \Gamma)$
+\end{enumerate}}{\\[0.2ex]
+
+\begin{enumerate}
+  \item supponiamo che $\varphi \not \in \Gamma$, per la massimamilità di $\Gamma$ abbiamo che $\Gamma, \varphi \vdash \bot$, e oer le regole dell'implicazione $\Gamma \vdash \neg \varphi$ e, quindi, $\Gamma$ è inconistente $\Rightarrow$ \textbf{assurdo}.
+  
+  Vicerversa, per definizione della relazione $\vdash$ tenendo conto che $\varphi$ è una derivazione, se $\varphi \in \Gamma$, allora $\Gamma \vdash \varphi.$
+  \item se $\varphi \in \Gamma$, allora per la massimalità di $\Gamma$ abbiamo che $\Gamma, \varphi \vdash \bot$ e, quindi, $\Gamma \vdash \neg \varphi$ e per la prima ipotesi $\neg \varphi \in \Gamma$
+  \item $\varphi \land \psi \in \Gamma \underset{\text{per (1)}}{\Leftrightarrow} \Gamma \vdash \varphi \land \psi \underset{\text{per le regole del calcolo}}{\Leftrightarrow} \Gamma \vdash \varphi \ \text{e} \ \Gamma \vdash \psi \underset{\text{per (1)}}{\Leftrightarrow} \varphi \in \Gamma \ \text{e} \ \psi \in \Gamma$
+  \item 
+\end{enumerate}}
+
+\lemma{insieme consistente massimale}{Sia $\Gamma$ un insieme massimale conistente, allora esiste $v$ tale che $\llbracket \Gamma \rrbracket_v$ = 1.}{\\[0.2ex]
+Ciao}
+
+\corollario{Se $\Gamma$ è conistente allora $\Gamma$ è soddisfacibile.}{
+
+Sappiamo che $\Gamma$ è contenuto in un insieme massimale consistente $\Delta$ soddisfacibile, ovvero esiste $v$ tale che $\llbracket \Delta \rrbracket_v$ = 1 e dato che $\Gamma \subseteq \Delta$ abbiamo che $\llbracket \Gamma \rrbracket_v$ = 1.}
+
+
+\teorema[completezza]{\begin{equation*}
+  \Gamma \models \varphi \Rightarrow \Gamma \vdash \varphi
+\end{equation*}}{
+
+Se $\Gamma \not \vdash \varphi$, allora $\Gamma, \neg \varphi$ è inconistente, quindi, esiste una valutazione $v$ tale che $\llbracket \Gamma \rrbracket_v$ = 1 e $\llbracket \varphi \rrbracket_v$ = 0 e, quindi, $\Gamma \not \models \varphi$.}
 \end{document}

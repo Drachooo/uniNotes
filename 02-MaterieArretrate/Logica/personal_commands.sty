@@ -63,6 +63,29 @@
 }
 %Funzionamento: \proposizione{TESTO DA SCRIVERE}
 
+% --- comando PROPOSIZIONE con DIMOSTRAZIONE ---
+\newcommand{\Proposizione}[2]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=cyan!5!white,
+    colframe=blue!50!black,
+    title=\textbf{Proposizione},
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=3mm,
+    boxrule=0.5pt,
+    enhanced,
+    breakable
+  ]
+  #1 % testo della proposizione
+  \ifstrempty{#2}{}{%
+    \par\vspace{8pt}%
+    \textbf{Dimostrazione}#2
+  }
+  \end{tcolorbox}%
+  \vspace{5pt}%
+}
+
 
 
 %------comando NOTAZIONE-------%
@@ -156,7 +179,7 @@
   \begin{tcolorbox}[%
     colback=yellow!5!white,
     colframe=orange!80!black,
-    title=\textbf{Teorema\ifstrempty{#1}{}{ - #1}}, % titolo
+    title=\textbf{Teorema\ifstrempty{#1}{}{: #1}}, % titolo
     coltitle=white,
     fonttitle=\bfseries,
     arc=3mm,
@@ -184,7 +207,7 @@
 }
 
 % - - - COMANDO LEMMA - - -
-\newcommand{\lemma}[2]{%
+\newcommand{\lemma}[3]{%
   \vspace{5pt}%
   \begin{tcolorbox}[
     colback=red!5!white,
@@ -197,7 +220,36 @@
     enhanced,
     breakable
   ]
-  #2 % testo della definizione
+  #2 % testo del teorema
+  \ifstrempty{#3}{}{%
+    \par\vspace{8pt}%
+    \textbf{Dimostrazione}
+    #3
+  }
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
+
+% --- comando COROLLARIO con DIMOSTRAZIONE ---
+\newcommand{\corollario}[2]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=red!5!white,
+    colframe=red!50!black,
+    title=\textbf{Corollario}, % titolo del lemma
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm, %arrotondamento degli angoli
+    boxrule=1pt, %spessore del bordo
+    enhanced,
+    breakable
+  ]
+  #1 % testo del teorema
+  \ifstrempty{#1}{}{%
+    \par\vspace{8pt}%
+    \textbf{Dimostrazione}
+    #2
+  }
   \end{tcolorbox}
   \vspace{5pt}%
 }
