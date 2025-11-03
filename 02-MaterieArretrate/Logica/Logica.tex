@@ -1181,6 +1181,34 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
 
 \end{comment}
 
-  
-\end{document}
+\subsection*{Correttezza e completezza}
+\addcontentsline{toc}{subsection}{Correttezza e completezza}
 
+
+\subsubsection*{Correttezza}
+\addcontentsline{toc}{subsubsection}{Correttezza}
+Il primo passo da eseguire è quello di dimostrare che la deduzione naturale sia corretta.
+
+La \textbf{correttezza} coniste che se da $\Gamma$ si deriva $\varphi \ (\Gamma \vdash \varphi)$, allora $\varphi$ è conseguenza logica logica di $\Gamma \ (\Gamma \models \varphi)$.
+
+\lemma{Correttezza}{Per ogni $\varphi$ e per tutte derivazioni in $\Pi$, se $\underset{\varphi}{\Pi}$ allora Hp($\Pi$) $\models \varphi$.}
+
+La dimostrazione procede per induzione sull'altezza delle derivazioni: \\[0.2ex]
+$\Rightarrow$ \textbf{caso base}: se $\Pi$ = $\varphi$, allora dato che $\varphi \models \varphi$ abbiamo la tesi \\[0.2ex]
+$\Rightarrow$ \textbf{passo induttivo}: per casi sull'ultima regola della derivazione $\Pi$
+
+\teorema[Correttezza]{\begin{equation*}
+\Gamma \vdash \varphi \Rightarrow \Gamma \models \varphi
+\end{equation*}}{\\[0.2ex]Se $\Gamma \vdash \varphi$ allora esiste una derivazione $\underset{\varphi}{\Pi}$ tale che Hp[$\Pi$] $\subseteq \Gamma$. \\[0.2ex]
+Per il Lemma 2 abbiamo che Hp[$\Pi$] $\models \varphi$ e per il Lemma 1 concludiamo che:
+\begin{equation*}
+\Gamma \models \varphi
+\end{equation*}}
+
+Una conseguenza del teorema di correttezza è la \hl{\textbf{non} contraddittorietà} della deduzione naturale.
+
+\teorema[]{\begin{equation*}
+\nvdash
+\end{equation*}}{\\[0.2ex]Supponiamo che $\vdash \bot$, allora per la correttezza avremmo che $\models \bot$ che è impossibile.}
+
+\end{document}
