@@ -94,6 +94,12 @@
 }
 
 
+%------comando EVIDENZIA-------%
+\newcommand{\evidenzia}[2]{%
+  {\sethlcolor{#1}\hl{#2}}%
+}
+
+
 
 
 \title{\textbf{Basi di dati - primo semestre}\\uniVR - Dipartimento di Informatica}
@@ -546,56 +552,87 @@
   Lo sviluppo di uno schema concettuale può essere visto come un processo di ingegnerizzazione.
   È possibile applicare due strategie classice:
   \begin{itemize}
-    \item \textbf{TOP-DOWN:}
+    \item \textbf{\evidenzia{yellow}{TOP-DOWN}:}
     \begin{itemize}
-      \item Fase 1: considerare le specifiche GLOBALMENTE e produrre uno schema iniziale completo ma con POCHI CONCETTI molto ASTRATTI
-      \item Fase 2: RAFFINARE i concetti astratti fino ad arrivare allo schema concettuale COMPLETO in ogni DETTAGLLIO
+      \item \evidenzia{yellow}{Fase 1}: considerare le specifiche GLOBALMENTE e produrre uno schema iniziale completo ma con POCHI CONCETTI molto ASTRATTI.
+      \item \evidenzia{yellow}{Fase 2}: RAFFINARE i concetti astratti fino ad arrivare allo schema concettuale COMPLETO in ogni DETTAGLLIO
     \end{itemize}
-    \item \textbf{BOTTOM-UP:}
+    \item \textbf{\evidenzia{green}{BOTTOM-UP}:}
     \begin{itemize}
-      \item Fase 1: DECOMPORRE le specifiche iniziali in PARTI ELEMENTARI (frasi che descrivono lo stesso concetto)
-      \item Fase 2: GENERARE gli SCHEMI per tutte le parti elementari individuate.
-      \item Fase 3: FONDERE gli schemi (introducendo altri costrutti del modello E-R) in modo da INTEGRARE tutti gli schemi componenti e generare lo SCHEMA FINALE.
+      \item \evidenzia{green}{Fase 1}: DECOMPORRE le specifiche iniziali in PARTI ELEMENTARI (frasi che descrivono lo stesso concetto)
+      \item \evidenzia{green}{Fase 2}: GENERARE gli SCHEMI per tutte le parti elementari individuate.
+      \item \evidenzia{green}{Fase 3}: FONDERE gli schemi (introducendo altri costrutti del modello E-R) in modo da INTEGRARE tutti gli schemi componenti e generare lo SCHEMA FINALE.
     \end{itemize}
-    \item \text{INSIDE-OUT:}
+    \item \text{\evidenzia{blue!50!white}{INSIDE-OUT}:}
     \begin{itemize}
-      \item Fase 1: INDIVIDUARE nelle specifiche alcuni CONCETTI IMPORTANTI (detti concetti GUIDA)
-      \item Fase 2: GENERARE gli SCHEMI per i concetti GUIDA
-      \item Fase 3: FONDERE gli schemi precedenti e generare lo SCHEMA FINALE
+      \item \evidenzia{blue!50!white}{Fase 1}: INDIVIDUARE nelle specifiche alcuni CONCETTI IMPORTANTI (detti concetti GUIDA)
+      \item \evidenzia{blue!50!white}{Fase 2}: GENERARE gli SCHEMI per i concetti GUIDA
+      \item \evidenzia{blue!50!white}{Fase 3}: FONDERE gli schemi precedenti e generare lo SCHEMA FINALE
     \end{itemize}
   \end{itemize}
 
   \vspace{1em}
-  \textbf{\large Analisi di qualità dello schema:}
+  \subsection*{Analisi di qualità dello schema}
+  \addcontentsline{toc}{subsection}{Analisi di qualità dello schema}
   \begin{description}
     \item[Verifica di correttezza:] uno schema E-R è corretto se utilizza propriamente i construtti del modello concettuale.\\
     Possibili errori: sintattici, semantici(errori d'uso).
     \item[Verifica di completezza:] uno schema E-R è completo se rappresenta tutte le informazioni di interesse e se tutte le operazioni descritte nelle specifiche possono essere eseguite a partire dai dato dello schema.
     \item[Verifica di minimalità:] quando tutti i concetti descritti nei requisiti sono rappresentati nello schema UNA VOLTA SOLA
-    \item[Verifica di leggibilità:] quando rappreenta i requisiti in maniera naturale facilmente comprensibile. Attenzione ai nomi (di entità, relazioni e attributi), e alle rappresentazioni contorte.  
+    \item[Verifica di leggibilità:] quando rappresenta i requisiti in maniera naturale facilmente comprensibile. Attenzione ai nomi (di entità, relazioni e attributi), e alle rappresentazioni contorte.  
   \end{description}
 
   Uno schema concettuale \textbf{non minimale} contiene ridondanze. \\
-  Casi di ridondanza: 
+  \large{Casi di ridondanza}: 
   \begin{itemize}
-    \item Ereditarietà delle Relazioni
-    \item Cicli di Relazioni
+    \item \textbf{Ereditarietà delle Relazioni}
+    
+
+  \begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/ereditarietaDelleRelazioni.png}
+      \caption{esempio ereditarietà}
+  \end{figure}
+
+  È probabile, ma non certo, che \(R_2\) sia ridondante. Va quindi verificato se \(R_2\) rappresenta lo stesso legame logico di \(R_1\), e se è cosi, \(R_2\) va eliminata.
+  
+
+  \item \textbf{Cicli di Relazioni}
+  \begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/cicloRelazioni.png}
+      \caption{esempio cicli di relazioni}
+  \end{figure}
+
+  È possibile che una delle relazioni \(R_i\) sia ridondante. Va quindi verificato se \(R_i\) si possa ottenere dalla composizione delle altre relazioni e se così è \(R_i\) va eliminata in quanto effettivamente ridondante.
   \end{itemize}
 
-Da inserire le foto dell'ereditarietà e dei cicli di Relazioni
 
-È possibile che una delle relazioni \(R_i\) sia ridondante. Va quindi verificato se \(R_i\) si possa ottenere dalla composizione delle altre relazioni e se così è \(R_i\) va eliminata in quanto effettivamente ridondante.
+  \subsection*{Semplificazioni dello schema}
+  \addcontentsline{toc}{subsection}{Semplificazioni dello schema}
+  Non sempre le relazioni ternarie sono facili da leggere ed interpretare, quindi solitamente la loro eliminazione può comportare una migliore leggibilità dello schema.\par
+
+  \evidenzia{orange}{Operazioni possibili}:
+  \begin{itemize}
+    \item \sottolinea{orange}{Trasformazione di una relazione ternaria in una entità}(sempre applicabile)
+    
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/trasformazioneTernaria.png}
+      \caption{Trasformazione relazione ternaria}
+    \end{figure}
 
 
-\text{Semplificazioni dello schema}
-Non sempre le relazioni ternarie sono facili da leggere ed interpretare, quindi solitamente la loro eliminazione può comportare una migliore leggibilità dello schema.\par
-Operazioni possibili:
-\begin{itemize}
-  \item Trasformazione di una relazione ternaria in una entità(sempre applicabile)
-  \item riduzione di una relazione ternaria a due relazioni binarie (PRECONDIZIONE: una delle entità partecipa alla relazione ternaria con cardinalità(1,1))
-\end{itemize}
+    \item \sottolinea{orange}{riduzione di una relazione ternaria a due relazioni binarie} (PRECONDIZIONE: una delle entità partecipa alla relazione ternaria con cardinalità(1,1))
+    
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/eliminazioneTernaria.png}
+      \caption{Eliminazione della relazione ternaria}
+    \end{figure}
 
-Eliminazione delle relazioni ternarie iMmagine
+  \end{itemize}
+
 
 
 
