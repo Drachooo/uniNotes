@@ -8,6 +8,7 @@
 %\usepackage{wrapfig}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{bm}
 \usepackage{amsmath}
 \usepackage{forest}
 \raggedbottom
@@ -1291,11 +1292,33 @@ Gli insiemi massimali godono di importanti \textbf{proprietà}.
   Vicerversa, per definizione della relazione $\vdash$ tenendo conto che $\varphi$ è una derivazione, se $\varphi \in \Gamma$, allora $\Gamma \vdash \varphi.$
   \item se $\varphi \in \Gamma$, allora per la massimalità di $\Gamma$ abbiamo che $\Gamma, \varphi \vdash \bot$ e, quindi, $\Gamma \vdash \neg \varphi$ e per la prima ipotesi $\neg \varphi \in \Gamma$
   \item $\varphi \land \psi \in \Gamma \underset{\text{per (1)}}{\Leftrightarrow} \Gamma \vdash \varphi \land \psi \underset{\text{per le regole del calcolo}}{\Leftrightarrow} \Gamma \vdash \varphi \ \text{e} \ \Gamma \vdash \psi \underset{\text{per (1)}}{\Leftrightarrow} \varphi \in \Gamma \ \text{e} \ \psi \in \Gamma$
-  \item 
+  \item se $\varphi \rightarrow \psi \in \Gamma$ allora $\Gamma \vdash \varphi \rightarrow \psi$; se $\varphi \in \Gamma$, allora $\Gamma \vdash \varphi$ e, quindi, per $\rightarrow E$, $\Gamma \vdash \psi$ ed per il punto 1 $\psi \in \Gamma$.
+  
+  Abbiamo due casi:
+  \begin{enumerate}
+    \item  $\varphi \not \in \Gamma$ \\
+    $\varphi \not \in \Gamma \underset{\text{per (1) e (2)}}{\Leftarrow} \Gamma \vdash \neg \varphi$ \\
+    $\underset{\text{(per $\bot_I$ e $\to$ I)}}{\Leftarrow}
+      \Gamma \vdash \varphi \to \psi$
+    \item $\varphi \in \Gamma$ \\
+    $\varphi \in \Gamma \underset{\text{per ipotesi}}{\Rightarrow} \psi \in \Gamma \underset{\text{per (1)}}{\Leftrightarrow} \Gamma \vdash \psi \underset{\text{per} \rightarrow I}{\Rightarrow} \Gamma \vdash \varphi \rightarrow \psi \underset{\text{(per (1))}}{\Leftrightarrow} \varphi \rightarrow \psi \in \Gamma$
+  \end{enumerate}
 \end{enumerate}}
 
-\lemma{insieme consistente massimale}{Sia $\Gamma$ un insieme massimale conistente, allora esiste $v$ tale che $\llbracket \Gamma \rrbracket_v$ = 1.}{\\[0.2ex]
-Ciao}
+\lemma{insieme consistente massimale}{Sia $\Gamma$ un insieme massimale conistente, allora esiste $v$ tale che $\llbracket \Gamma \rrbracket_v$ = 1.}{\\
+
+Sia $v$ la valutazione tale che per ogni simbolo proposizionale $p$, $v(p)$ = 1 $\leftrightarrow p \in \Gamma$.
+
+Dimostriamo che $\llbracket \varphi \rrbracket_v$ = 1 $\Leftrightarrow \varphi \in \Gamma$.
+
+Procediamo per induzione sul rango di $v$: \\
+$\Rightarrow$ \textbf{caso base}: ovvio per definizione di $v$ \\
+$\Rightarrow$ \textbf{passo induttivo}: procediamo per casi \\
+\begin{description}
+  \item $\bm{\varphi = \bot}$: vero in $\llbracket \bot \rrbracket = 0$
+  \item $\bm{\varphi = \psi \land \gamma}$: $\psi \land \gamma \in \Gamma \Leftrightarrow \psi \in \Gamma$ e $\gamma \in \Gamma \underset{\text{per l'i.i}}{\Leftrightarrow} \llbracket \psi \rrbracket_v = 1$
+  \item $\bm{\varphi = \psi \rightarrow \gamma}: \psi \rightarrow \gamma \in \Gamma \Leftrightarrow (\psi \in \Gamma \Leftarrow \gamma \in \Gamma) \underset{\text{per l'i.I}}{\Leftrightarrow} (\llbracket \psi \rrbracket_v = 1 \Rightarrow \llbracket \gamma \rrbracket_v = 1) \Leftrightarrow \llbracket \psi \rightarrow \gamma \rrbracket_v = 1$
+\end{description}}
 
 \corollario{Se $\Gamma$ è conistente allora $\Gamma$ è soddisfacibile.}{
 
