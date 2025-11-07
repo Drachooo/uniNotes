@@ -26,11 +26,32 @@ subplot(212); stem(x2); title('x2')
 % Opzione 2: inizializzazione vettori, calcolo cross correlazione, shifting
 % ....
 
-%vettore riga
-vettore = [ zeros(N-1) zeros (N-1)]
-    
+%OPERAZIONE 1
 
 
 
+
+clc
+crossCorrelazione = zeros(1, N+M-1);
+
+for index = 1:N+M-1
+
+    primoVet = [zeros(1, N-1) x1 zeros(1,N-1)];
+    secondoVet = [zeros(1, index-1) x2 zeros(1, N+M-1-index)];
+    crossCorrelazione(index) = primoVet * secondoVet';
+end
+crossCorrelazione
+
+%OPERAZIONE 2
+%shifto circolarmente il secondo vettore
+ciccio = [x2 zeros(1, N-1+M-1)];
+
+for index = 1:N+M-1
+
+    primoVet = [zeros(1, N-1) x1 zeros(1,N-1)];
+    vettore = circshift(ciccio, index-1);
+    crossCorrelazione(index) = primoVet * vettore';
+end
+crossCorrelazione
 
 % Confrontare il vettore risultante col vettore ottenuto nell'esempio 1
