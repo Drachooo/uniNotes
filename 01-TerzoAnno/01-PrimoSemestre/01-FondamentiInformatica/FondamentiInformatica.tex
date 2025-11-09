@@ -17,7 +17,7 @@
 
 \usepackage[
     colorlinks=true,
-    linkcolor=azzurrino,
+    linkcolor=grigioscuro,
     citecolor=azzurrino,
     urlcolor=azzurrino
 ]{hyperref}
@@ -174,7 +174,7 @@
 
 
 
-  \subsection{Autommi a stati finiti}
+  \section{Automa a stati finiti}
   Un \textbf{automa a stati finiti} è un dispositivo avente un nastro in \textit{input}, suddiviso a blocchi, su cui la macchina non può scrivere, bensì solo leggere.
 
   %foto
@@ -214,8 +214,304 @@
 
   \definizione{linguaggio regolare}{Se $M$ è un'automa a stati finiti deterministico, allora $\mathcal{L}$ è detto \textbf{regolare}.}
 
-  \subsubsection{Automa a stati finiti deterministico}
+  \subsection{Automa a stati finiti deterministico}
 
+  \subsection{Automa stati finiti non deterministico}
+  Un \textcolor{azzurrino}{automa a stati finiti deterministico} è definito come:
+  \begin{equation*}
+    M = \langle Q, \Sigma, \delta, q_0, F \rangle
+  \end{equation*}
+
+  L'unico campo a cambiare è la funzione di stato sucessore \hl{$\delta$, che negli ASFND è una \textbf{relazione}}. \\[0.2ex]
+  Quindi si ha:
+  \begin{equation*}
+    \delta \subseteq (Q \times \Sigma) \times Q
+  \end{equation*}
+
+  Data una coppia $\Rightarrow$ la macchina è in uno stato $q \Rightarrow$ legge un simbolo $x \in \Sigma$ $\Rightarrow$ lo stato $q$ non cambia in un altro stato $p$ (andando a leggere il simbolo sucessore), bensì può cambiare in \textbf{più stati sucessori} $p_1, p_2, \dots, p_n$. \\[0.2ex]
+  In questo modo, la macchina può scegliere in modo non deterministico quale stato sucessore prendere.
+
+  Se l'espressione $\delta \subseteq (Q \times \Sigma) \times Q$, allora si puà rappresentare $\delta$ come:
+  \begin{equation*}
+    \delta : Q \times \Sigma \rightarrow 2^Q
+  \end{equation*}
+
+  Ciò sifgnifica che $\delta$ è una \textbf{funzione} che va dagli stati $Q$ per i simboli $\Sigma$ (legge un simbolo dal nastro) e genera un insieme di stati $2^Q$. \\[0.2ex]
+  Se si va nelle parti, cioè in $2^Q$, allora $\emptyset \subseteq Q$ e $\delta(q,a) = 0$. \\[0.2ex]
+  Ciò significa che nell'automa non deterministico si può non fare passi e rimanere nello steso stato. \\[0.2ex]
+  Inoltre, per ogni stato in $Q$ e ogni simbolo letto in $\Sigma$, un'altra proprietà è quella dove la cardinalità degli stati che si può raggiungere è sempre finita:
+  \begin{equation*}
+    \forall q \in Q, \forall a \in \Sigma: |\delta(q, a)| < \omega
+  \end{equation*}
+
+  \esempio{automa a stati finiti non deterministico}{
+    %disegno
+    $\Rightarrow$ \textcolor{red}{\textit{Perchè non è deterministico?}} \\[0.2ex]
+    In corrispondenza del simbolo 'a' si possono abere più transizioni diverse per lo stesso stato. \\[0.2ex]
+    Perciò questo automa dopo aver letto il simbolo 'a' continua in due strade diverse, mentre se si è nello stato $q_2$ e si legge 'a', allora la macchina rimane bloccata in $q_2$ abortendo l'esecouzione.
+  }
+
+  \vario{}{Se esistono più tranzioni possibili per un simbolo in lettura, allora l'automa non è deterministico.}
+
+  La relazione di transizione applicata a più passi consegue nella seguente definizione di $\delta$:
+  \begin{equation*}
+    \begin{cases}
+      \hat{\delta}(q, \epsilon) = \{q\} & \text{se } \sigma = \epsilon \\[0.5em]
+      \hat{\delta}(q, xa) = \bigcup_{p \in \hat{\delta}(q, x)} \delta(p, a), & \text{se } \sigma = xa, \ a \in \Sigma
+    \end{cases}
+  \end{equation*}
+
+  $\Rightarrow$ se non si legge nulla, si rimane in $q$ generico \\[0.2ex]
+  $\Rightarrow$ se si legge unsimbolo, si genera un insieme di stati: la macchina si duplica in diversi stati
+
+  Il linguaggio accettato dall'automa è l'insieme di tutte le stringhe sull'alfabeto tale che l'intersezione tra gli stati raggiunti e gli stati finali non sia vuota:
+  \begin{equation*}
+    \mathcal{L}(M) = \{\sigma \in \Sigma^* | \hat{\delta}(q_0, \sigma) \cap F \neq \emptyset\}
+  \end{equation*}
+
+  \vario{}{Alla fine dell'intera lettura della stringa si ha n insieme di stati; se almeno uno di questi stati appartiene all'insieme degli stati finali, allora la stringa è accettata.}
+
+  \subsection{Automa a stati finiti non deterministico con \texorpdfstring{$\epsilon$}{epsilon}-transizioni}
+  Un \textcolor{azzurrino}{automa a stati finiti non deterministico \texorpdfstring{$\epsilon$}{epsilon}-transizioni} (transizione senza leggere alcun simbolo) è definito come:
+  \begin{equation*}
+    M = \langle Q, \Sigma, \delta, q_0, F \rangle
+  \end{equation*}
+
+  In questo caso, la funzione di transizione $\delta$ è definita come:
+  \begin{equation*}
+    \delta : Q \times (\Sigma \cup \{\epsilon\}) \rightarrow 2^Q
+  \end{equation*}
+
+  Ciò siginifca che $\Rightarrow$ la macchina è in uno stato $Q$ $\Rightarrow$ legge in input un simbolo di $\Sigma$ ppure nulla $\{\epsilon\}$ $\Rightarrow$ questo va nelle parti di $Q$.
+
+  Ne consegue che anche $\hat{\delta}$ è. definita diversamente e occorre introdurre il concetto di \textbf{chiusura $\epsilon$} di uno stato $q$.
+  
+  \definizione{\texorpdfstring{$\epsilon$}{epsilon}-chiusura}{Se uno stato $p \in Q$, allora l'\textbf{\texorpdfstring{$\epsilon$}{epsilon}-chiusura} di $p$ è dato dall'insieme di tuti gli stati $q \in Q$ tali che da $p$, con un certo numero etichettati $\epsilon$, permettono di arrivare a $q$.
+  \begin{equation*}
+    \epsilon\text{-}chiusura(p) = \{q \in Q \ | \ p \xrightarrow{\epsilon^*} q\}
+  \end{equation*}
+
+  \noindent\rule{\linewidth}{0.4pt}
+  \textbf{N.B.} l'\texorpdfstring{$\epsilon$}{epsilon}-chiusura è  l'insieme di stati che vengo percorsi leggendo $\epsilon$.
+  }
+
+  Per induzione si definisce $\hat{\delta}$ come:
+  \begin{equation*}
+    \begin{cases}
+      \hat{\delta}(q, \epsilon) = \epsilon\text{-}chiusura(q) & \text{se } \sigma = \epsilon \\[0.5em]
+      \hat{\delta}(q, xa) = \epsilon\text{-}chiusura\left(\bigcup_{p \in \hat{\delta}(q, x)} \delta(p, a)\right), & \text{se } \sigma = xa, \ a \in \Sigma
+    \end{cases}
+  \end{equation*}
+
+  \section{Espressioni regolari}
+  Le \textbf{espressioni regolari} sono un \hl{modo compatto per rappresentare i linguaggi regolari}. \\[0.2ex]
+  Esse sono formate da simboli e operatori che permettono di costruire stringhe sull'alfabeto $\Sigma$.
+
+  Il significato delle espressioni regolari è dato dalla funzione \textbf{Exp} che associa a ogni espressione regolare $e$ un linguaggio $\text{\textbf{Exp}}(e)$. \\[0.2ex]
+  Le espressioni regolari sono definite induttivamente come:
+  \begin{itemize}
+    \item se $\emptyset$ è l'insieme vuoto, allora $\emptyset$ è un'espressione regolare e $\text{\textbf{Exp}}(\emptyset) = \emptyset$
+    \item se $\epsilon$ è la stringa vuota, allora $\epsilon$ è un'espressione regolare e $\text{\textbf{Exp}}(\epsilon) = \{\epsilon\}$
+    \item se $a \in \Sigma$, allora $a$ è un'espressione regolare e $\text{\textbf{Exp}}(a) = \{a\}$
+  \end{itemize}
+
+  \vario{}{\textbf{Exp} è un'epressione regolare definita induttivamente, la quale restituisce un linguaggio regolare, ovvero $2^{\Sigma}*$ (insieme di $\Sigma$*).}
+
+  In questo modo, si possono definire i linguaggi sucessivi in modo induttivo:
+  \begin{itemize}
+    \item \textcolor{azzurrino}{\textbf{linguaggio unione}} ($+$): rappresenta la scelta tra due stringhe
+    \begin{equation*}
+      \text{\textbf{Exp}}(e_1+e_2) = \text{Exp}(e_1) \cup \textbf{Exp}(e_2)
+    \end{equation*}
+    \item \textcolor{azzurrino}{\textbf{linguaggio concatenazione}} ($\cdot$): rappresenta la giustapposizione di due stringhe
+    \begin{equation*}
+      \text{\textbf{Exp}}(e_1 \cdot e_2) = \text{\textbf{Exp}}(e_1) \cdot \text{\textbf{Exp}}(e_2)
+    \end{equation*}
+    \item \textcolor{azzurrino}{\textbf{linguaggio iterazione}} ($^*$): rappresenta la ripetizione di una stringa zero o più volte
+    \begin{equation*}
+      \text{\textbf{Exp}}(e^*) = \text{\textbf{Exp}}(e)^*
+    \end{equation*}
+  \end{itemize}
+
+  \subsection{Proprietà delle espressioni regolari}
+  Nelle espressioni regolari valgono le seguenti proprietà:
+  
+  \vario{Propierità delle espressioni regolari}{
+    \begin{itemize}
+      \item \textbf{distributiva sinistra}:
+      \begin{equation*}
+        e_1 \cdot (e_2 + e_3) = (e_1 \cdot e_2) + (e_1 \cdot e_3)
+      \end{equation*}
+      \item \textbf{distributiva destra}:
+      \begin{equation*}
+        (e_1 + e_2) \cdot e_3 = (e_1 \cdot e_3) + (e_2 \cdot e_3)
+      \end{equation*}
+      \item \textbf{associativa}:
+      \begin{equation*}
+        e_1 + (e_2 + e_3) = (e_1 + e_2) + e_3
+      \end{equation*}
+      \item \textbf{elemento neutro}:
+      \begin{equation*}
+        \epsilon e = e \epsilon = e
+      \end{equation*}
+      \item \textbf{elemento vuoto}:
+      \begin{equation*}
+        \emptyset \cdot e = e \cdot \emptyset = \emptyset
+      \end{equation*}
+      \item \textbf{unione di due linguaggi medesimi}:
+      \begin{equation*}
+        e + e = e
+      \end{equation*}
+      \item \textbf{iterazione del vuoto}:
+      \begin{equation*}
+        \emptyset^* = \epsilon
+      \end{equation*}
+      \item \textbf{assorbimento dell'iterazione di e*}:
+      \begin{equation*}
+        e^* + e = e^*
+      \end{equation*}
+      \item \textbf{iterazione del'iterazione di e*}:
+      \begin{equation*}
+        (e^*)^* = e^*
+      \end{equation*}
+      \item \textbf{iterazione della concatenazione}:
+      \begin{equation*}
+        (e_1 \cdot e_2)^* = (e_1^* \cdot e_2^*)^*
+      \end{equation*}
+      \item \textbf{unione di un linguaggio e del vuoto}:
+      \begin{equation*}
+        e + \emptyset = e
+      \end{equation*}
+    \end{itemize}
+  }
+
+  \subsection{Proprietà di chiusura dei linguaggi}
+  In genere, i linguaggi regolari sono \textbf{chiusi}: ci sono delle operazioni che, applicate a due linguaggi regolari, generano un linguaggio regolare. \\[0.2ex]
+  Le operazioni di chiusura sono le operazioni di \textcolor{azzurrino}{\textbf{unione}}, \textcolor{azzurrino}{\textbf{iterazione}} e \textcolor{azzurrino}{\textbf{concatenazione}}.
+  \begin{equation*}
+    \cup, \cdot : \text{REG} \times \text{REG} \rightarrow \text{REG}
+  \end{equation*}
+  \begin{equation*}
+    ^* : \text{REG} \rightarrow \text{REG}
+  \end{equation*}
+
+  Altre proprietà derivano da questa osservazione: \textcolor{red}{\textit{se} $\mathcal{L} \in REG \subseteq 2^{\Sigma}*$, \textit{allora per il complemento di} $\mathcal{L}$, \textit{cioè} $\bar{\mathcal{L}} = \Sigma^* \ \backslash \ \mathcal{L}$, \textit{esiste un ASFD tale che riconosca questo} $\bar{\mathcal{L}}$ \textit{?}} \\[0.2ex]
+  Quando si costruisce un automa deterministico $M'$, occore rispettare la condizione per cui $\hat{\delta}(q_0,x) \notin F$.
+
+  %disegno
+
+  Ogni stato non finale di un automa, che riconosce $\mathcal{L}$, è uno stato finale di un automa che riconosce il complemento di $\mathcal{L}$ ($\bar{\mathcal{L}}$):
+  \begin{align*}
+    M &= \langle Q, \Sigma, \delta, q_0, F \rangle && \text{riconosce } \mathcal{L}
+  \end{align*}
+  \begin{align*}
+    M' &= \langle Q, \Sigma, \delta, q_0, F' \rangle && \text{riconosce } \bar{\mathcal{L}}
+  \end{align*}
+
+  dove $F' = Q \ \backslash F$. \\[0.2ex]
+  Pertanto $\bar{\mathcal{L}}$ si può vedere come:
+  \begin{equation*}
+    \bar{\mathcal{L}} = \Sigma^* \ \backslash \ \mathcal{L} = M'
+  \end{equation*}
+
+  Applicando le \textbf{legge di De Morgano} si ottiene che i linguaggi regolari sono \textcolor{azzurrino}{\textbf{chiusi per intersezione}}:
+  \begin{equation*}
+    \mathcal{L}_1, \mathcal{L}_2 \in \text{REG} \Rightarrow \mathcal{L}_1 \cap \mathcal{L}_2 = \text{REG}
+  \end{equation*}
+
+  \vario{N.B.}{Per De Morgan l'intersezione tra $\mathcal{L}_1$ e $\mathcal{L}_2$ equivale al complemento del comento di $\mathcal{L}_1$ unito al complemento di $\mathcal{L}_2$:
+  \begin{equation*}
+    \mathcal{L}_1 \cap \mathcal{L}_2 = \overline{\overline{\mathcal{L}_1} \cup \overline{\mathcal{L}_2}}
+  \end{equation*}}
+
+  \subsection{Corrispondenza tra espressioni regolari e ASFD}
+
+  \teorema{McNaughton-Yamada (1960)}{Sia $r$ un'espresione regolare. \\[0.2ex]
+  Allora esiste un \texorpdfstring{$\epsilon$}{epsilon}-ASFND $M$ tale che il linguaggio da esso riconosciuto sia uguale al linguaggio dall'espressione regolare $r$:
+  \begin{equation*}
+    \exists M (\epsilon\text{-ASFND}): \mathcal{L}(M) = \text{Exp}(r)
+  \end{equation*}}
+
+  Il teorema afferma che ogni volta in cui si ha un'espressione regolare, allora si ha un linguaggio regolare:
+  \begin{equation*}
+    \text{Exp.REG} \Leftrightarrow \text{Ling.REG}
+  \end{equation*}
+
+  %dimostrazione
+
+
+
+  \section{Automa minimo}
+  Per parlare di un \textbf{automa minimo} occorre introdurre alcuni concetti.
+
+  \definizione{partizione di un insieme S}{Corrisponde a tanti sottoinisiemi $S_1, \dots, S_n$ tali che:
+  \begin{itemize}
+    \item $\forall$ i = 1, $\dots$, n: $S_i \subseteq S$
+    \item se si uniscono tutti gli $S_i$, allora si ottine $S$:
+    \begin{equation*}
+      \bigcup_{i=1}^{n} S_i = S
+    \end{equation*}
+    \item $\forall$ i $\neq$ j: $S_i \cap S_j = \emptyset$
+  \end{itemize}
+  %foto
+  }
+
+  \definizione{relazione di equivalenza}{Se la relazione $\sim$ è di equivalenza, ossia è un sotoinsieme di $S \times S$, allora pre ogni $a \in S$ si ha che la classe di equivalenza di un oggeto, rispetto la relazione $\sim$, è un insieme $b \in S$ tale che $a$ è equivalente a $b$:
+  \begin{equation*}
+    [a]_{\sim} = \subseteq S
+  \end{equation*}
+
+  Se si considera la collezione di tutte le classi di equivalenza tale che $a \in S$, allora è una partizione di $S: \{[a]_{\sim} \ | \ a \in S\}$ è una partizione di $S$.}
+
+  \definizione{indice finito}{Si dice che la relazione $\sim$ sia l'indice finito quando ha una cardinalità finita, ovvero se partiziona l'indice $S$ in un numero finito di clasi di equivalenza:
+  \begin{equation*}
+    |\{[a]_{\sim} : a \in S\}| < \omega
+  \end{equation*}}
+
+  \definizione{relazione raffinata di equivalenza}{E' un raffinamento della relazione $\sim$, se per ogni classe di equivalenza $[a]_{\approx}$ questa è un sottoinisieme di $[b]_{\sim}$:
+  \begin{equation*}
+    [a]_{\approx} \subseteq [b]_{\sim}
+  \end{equation*}}
+
+  \subsection{Relazioni tra linguaggi}
+  Dato un linguaggio $\mathcal{L} \subseteq \Sigma^*$, si definisce la \textcolor{azzurrino}{\textbf{relazione indotta dal linguaggio}} $\mathcal{R}_{\mathcal{L}}$ come sottoinsieme di $\Sigma^* \times \Sigma^*$:
+  \begin{equation*}
+    \mathcal{R}_{\mathcal{L}} \subseteq \Sigma^* \times \Sigma^*
+  \end{equation*}
+
+  Una parola $x$ è in \textbf{relazione} $\mathcal{L}$ con una parola $y$ se e solo se, per ogni parola $z \in \Sigma^*$, si aggiunge a destra di $x$ la $z$ e questa appartiene a $\mathcal{L}$ se e solo se la stessa cosa vale per $y$ con l'aggiunta a destra di $z$:
+  \begin{equation*}
+    x \ \mathcal{R}_{\mathcal{L}} \ y \ \Leftrightarrow \ \forall z \in \Sigma^*: xz \in \mathcal{L} \Leftrightarrow yz \in \mathcal{L}
+  \end{equation*} \\[0.3ex]
+
+  Dato un atoma a stati finiti deterministico $M = \langle Q, \Sigma, \delta, q_0, F \rangle$, si definisce la \textcolor{azzurrino}{\textbf{relazione indotta dall'automa}} $\mathcal{R}_M$ come sottoinsieme di $\Sigma^* \times \Sigma^*$:
+  \begin{equation*}
+    \mathcal{R}_M \subseteq \Sigma^* \times \Sigma^*
+  \end{equation*}
+
+  Una parola $x$ è in \textbf{relazione} $M$ con una parola $y$ se e solo se la macchina, partendo dallo stato iniziale $q_0$ e leggendo $x$, arriva in uno stato $q_x$ e leggendo $y$ arriva in uno stato $q_y$ tali che entrambi gli stati sono finali oppure entrambi non sono finali:
+  \begin{equation*}
+    x \ \mathcal{R}_M \ y \ \Leftrightarrow \ \hat{\delta}(q_0, x) \Leftrightarrow \hat{\delta}(q_0, y)
+  \end{equation*}
+
+  %foto
+
+  \hl{Si può affermmare che entrambe le relazioni sono equivalenti}.
+
+  Una relazione dei linguaggi $\mathcal{R} \subseteq \Sigma^* \times \Sigma^*$ è \textbf{invariante destra} se:
+  \begin{equation*}
+    x \ \mathcal{R} \ y \Rightarrow \forall z \in \Sigma^*: xz \ \mathcal{R} \ yz
+  \end{equation*}
+
+  \vario{Lemma}{Sia $\mathcal{R}_{\mathcal{L}} \text{ e sia } \mathcal{R}_{\mathcal{M}}$ sono invarianati destra.}
+
+  %dimostrazione
+
+  \subsection{Teorema di Myhill-Nerode}
+
+
+
+  \section{Proprietà dei linguaggi regolari}
 
 
 \end{document}
