@@ -9,6 +9,7 @@
 \usepackage{bm}
 \usepackage{amsmath}
 \usepackage{forest}
+\usepackage{enumitem}
 \raggedbottom
 \setlength{\parindent}{0pt}
 \usepackage{etoolbox} % in preambolo
@@ -278,6 +279,24 @@
     \textbf{Dimostrazione}
     #2
   }
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
+
+\newcommand{\example}[2]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=brown!5!white,
+    colframe=brown!50!black,
+    title=\textbf{Esempio: #1}, % titolo dell'esempio
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm, %arrotondamento degli angoli
+    boxrule=1pt, %spessore del bordo
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
   \end{tcolorbox}
   \vspace{5pt}%
 }
@@ -1561,4 +1580,146 @@ Sappiamo che $\Gamma$ è contenuto in un insieme massimale consistente $\Delta$ 
 \end{equation*}}{
 
 Se $\Gamma \not \vdash \varphi$, allora $\Gamma, \neg \varphi$ è inconistente, quindi, esiste una valutazione $v$ tale che $\llbracket \Gamma \rrbracket_v$ = 1 e $\llbracket \varphi \rrbracket_v$ = 0 e, quindi, $\Gamma \not \models \varphi$.}
+
+
+
+% - - - CAPITOLO 3: LOGICA DEL PRIMO ORDINE - - -
+\chapter*{Logica del primo ordine}
+\addcontentsline{toc}{chapter}{Logica del primo ordine}
+
+\example{}{\textit{\hl{Tutti} i predicati sono positivi, 9 è un quadrato, quindi 9 è positivo}. \\[0.2ex]
+$\Rightarrow$ \textbf{tutti} = quantificatore \\[0.3ex]
+Asserzioni di questo tipo, non posso essere espresse dalla logica proposizionale.}
+
+\example{}{\textit{Tutti i numeri \hl{pari} sono \hl{somma} di numeri primi dispari.} \\[0.2ex]
+$\Rightarrow$ \textbf{pari} = proprietà \\[0.2ex]
+$\Rightarrow$ \textbf{somma} = relazione tra numeri \\[0.3ex]
+Nella logica proposizionale non abbiamo la possibiltà di esprimeere proprietà e e relazioni.}
+
+La \hl{logica classica proposizionale ha un basso potere espressivo}, insufficiente a formalizare le strutture matematiche. \\[0.2ex]
+Ecco che la \hl{\textbf{logica del primo ordine} (o \textbf{dei predicati}) estende la sintassi permettendo di trattare i quantificatori $\exists$ e $\forall$}, rispettivamente con il significato di \textit{esiste} e \textit{per ogni}. \\[0.2ex]
+I quantificatori $\forall$ e $\exists$ permettono di esprimere proprietà e relazioni che prima non potevano essere descritte.
+
+\section*{Sintassi}
+\addcontentsline{toc}{section}{Sintassi}
+Il linguaggio della logica del primo ordine è basato su un alfabeto composto da diverse entità distinte.
+
+\definizione{alfabeto della logica del primo ordine}{$\Rightarrow$ \textbf{connettivi}: $\{\land, \lor, \rightarrow, \lnot\}$ \\[0.2ex]
+
+$\Rightarrow$ \textbf{quantificatori}: $\{\forall, \exists\}$ \\[0.2ex]
+
+$\Rightarrow$ \textbf{simboli di variabili}: insieme numerabile $\text{Var} = \{v_0, v_1, \dots\}$ denotate con le etichette $x, y, z$ ed eventualmente indicizzate \\[0.2ex]. \\[0.2ex]
+$\Rightarrow$ \textbf{simboli di relazione}: simboli n-ari (arità) coinvolti $\forall n \in \mathbb{N} \ \backslash \{0\}$ in un insieme $\mathcal{R}^{(n)}$
+\begin{description}[leftmargin=2cm]
+  \item [$\mathcal{R}^{(1)}$]: relazione unaria (proprietà)
+  \item [$\mathcal{R}^{(2)}$]: relazione binaria
+  \item [$\mathcal{R}^{(3)}$]: relazione ternaria
+  \item [$\vdots$]
+\end{description}
+
+$\Rightarrow$ \textbf{simboli di funzione}: simboli n-ari (arità) coinvolti $\forall n \in \mathbb{N} \ \backslash \{0\}$ in un insieme $\mathcal{F}^{(n)}$
+\begin{description}[leftmargin=2cm]
+  \item [$\mathcal{F}^{(1)}$]: funzione unaria
+  \item [$\mathcal{F}^{(2)}$]: funzione binaria
+  \item [$\mathcal{F}^{(3)}$]: funzione ternaria
+  \item [$\vdots$]
+\end{description}
+
+$\Rightarrow$ \textbf{simbolo opzionale}: relazione binario non appartenente a $\mathcal{R}^{(2)}$ denotato con $=$ (uguale).\\
+Se esiste un $n \geq 1$ tale che $\mathcal{F}^{(n)} \neq \emptyset$, allora $\mathcal{L}$ deve contenere $=$ \\[0.2ex]
+
+$\Rightarrow$ \textbf{simboli ausiliari}: parentesi tonde, virgole, punti ecc.}
+
+L'\hl{insieme delle stringhe formate con i simboli dell'alfabeto $\mathcal{L}$} della logica del primo ordine \hl{è chiamato \textbf{$\mathcal{L}\text{-stringhe}$}}.
+
+Le \hl{\textbf{costanti} sono gli elementi di $\mathcal{F}^{(0)}$} (funzioni di arità 0) e che vengono denotate con $\mathcal{C}$. \\[0.4ex]
+
+A differenza del linguaggio proposizionale, dato dalle sole formule logiche, il linguaggio del primo ordine possiede dei \textbf{termini} e a partire da questi si ottiene un linguaggio delle \textbf{formule logiche}.
+
+\definizione{$\mathcal{L}$-termini}{Dato l'alfabeto $\mathcal{L}$, l'insieme dei termini $\text{TERM}_{\mathcal{L}}$ è il più piccolo insieme X tale che:
+\begin{itemize}
+  \item $\text{Var} \in \text{X}$
+  \item $\mathcal{C} \in \text{X}$
+  \item se $t_1, \dots, t_n \in \text{X}$ e $f$ è un simbolo fi funzione n-aria, allora $f(t_1, \dots, t_n) \in \text{X}$
+\end{itemize}}
+
+\definizione{$\mathcal{L}$-formule}{Dato l'alfabeto $\mathcal{L}$, l'insieme delle formule $\text{FORM}_{\mathcal{L}}$ è il più piccolo insieme X tale che:
+\begin{itemize}
+  \item $\bot \in \text{X}$
+  \item se $t_1, \dots, t_n \in \text{TERM}_{\mathcal{L}}$, allora $t_1 = t_2 \in \text{X}$
+  \item se $P$ è una relazione k-aria e $t_1, \dots, t_k \in \text{TERM}_{\mathcal{L}}$, allora $P(t_1, \dots, t_k) \in \text{X}$
+  \item se $\varphi, \psi \in \text{X}$, allora $\varphi \circ \psi \in \text{X}$, con $\circ \in \{\land, \lor, \rightarrow\}$
+  \item se $x \in \text{Var}$ e $\varphi \in \text{X}$, allora $Qx.(\varphi) \in X$, con $Q \in \{\forall, \exists\}$
+\end{itemize}}
+
+Per convenzione i quantificatori $\forall, \exists$ legano più di ogni altro connettivo. \\[0.2ex]
+Di conseguenza, per esempio, la formula $\forall y. \varphi \land \psi$ è da intendersi come $(\forall y. \varphi) \land \psi$. \\[0.2ex]
+Se, invece, si vuole quantificare l'intera congiunzione, allora si deve scrivere $\forall y. (\varphi \land \psi)$.
+
+\definizione{sottoformule}{E' una funzione $\text{SF}: \text{FORM}_{\mathcal{L}} \rightarrow 2^{\text{FORM}_{\mathcal{L}}}$, la quale prende in input una formula e restituisce l'insieme delle sue sottoformule. \\[0.2ex]
+E' definita come segue:
+\begin{itemize}
+  \item $\text{SF}(\bot) = \{\bot\}$
+  \item $\text{SF}[t_1 = t_2] = \{t_1 = t_2\}$
+  \item $\text{SF}[P(t_1, \dots, t_k)] = \{P(t_1, \dots, t_k)\}$
+  \item $\text{SF}(\varphi \circ \psi) = \text{SF}[\varphi] \cup \text{SF}[\psi] \cup \{\varphi \circ \psi\}$, con $\circ \in \{\land, \lor, \rightarrow\}$
+  \item $\text{SF}[Qx.(\varphi)] = \text{SF}[\varphi] \cup \{Qx.(\varphi)\} \cup \text{SF}(\varphi)$, con $Q \in \{\forall, \exists\}$
+\end{itemize}}
+
+\subsection*{Variabili e sostituzioni}
+\addcontentsline{toc}{subsection}{Variabili e sostituzioni}
+All'interno di una formula le variabili possono essere \textbf{libere} e/o \textbf{legate}.
+
+\definizione{variabile libera (induttiva)}{Sull'insieme dei termini $\text{TERM}_\mathcal{L}$:
+\begin{itemize}
+  \item $\text{F}[c] = \emptyset$
+  \item $\text{F}[x] = \{x\}$
+  \item $\text{F}[f(t1_, \dots, t_n)] = \text{FV}[t_1] \cup \text{FV}[t_2] \cup \dots \text{FV}[t_n]$
+\end{itemize}
+
+Sull'insieme delle formule $\text{FORM}_\mathcal{L}$:
+\begin{itemize}
+  \item $\text{FV}[\bot] = \emptyset$
+  \item $\text{FV}[t_1 = t_2] = \text{FV}[t_1] \cup \text{FV}[t_2]$
+  \item $\text{FV}[P(t_1, \dots, t_k)] = \text{FV}[t_1] \cup \text{FV}[t_2] \cup \dots \cup \text{FV}[t_k]$
+  \item $\text{FV}[\varphi \circ \psi] = \text{FV}[\varphi] \cup \text{FV}[\psi]$
+  \item $\text{FV}[Qx.(\varphi)] = \text{FV}[\varphi] \ \backslash \ \{x\}$, con $Q \in \{\forall, \exists\}$
+\end{itemize}}
+
+In modo formale, il concetto di \textbf{variabile libera} è definito come:
+\begin{equation*}
+  \text{FV}[\varphi] = \{x \in \text{Var} : x \text{ è libera in } \varphi\}
+\end{equation*}
+
+Un termine $t \in \text{TERM}_\mathcal{L}$ si dice \textbf{chiuso} se $\text{FV}[t] = \emptyset$. \\[0.2ex]
+Invece, una formula $\varphi \in \text{FORM}_\mathcal{L}$ si dice \textbf{chiusa} (o \textbf{sentenza}) se $\text{FV}[\varphi] = \emptyset$.
+
+\definizione{sostituzione di una variabile (ricorsiva)}{La sostituzione di una variabile $x$ con un termine $t$ in un termine $u$ (denotata con $u[x/t]$) è definita come:
+\begin{itemize}
+  \item $c[x/t] = c$
+  \item $x[x/t] = t$
+  \item $y[x/t] = \begin{cases}
+    t & \text{se } y = x \\
+    y & \text{se } y \neq x
+  \end{cases}$
+  \item $f(t_1, \dots, t_n)[x/t] = f(u_1[x/t], \dots, u_n[x/t])$
+\end{itemize}}
+
+\definizione{sostituzione di una variabile (induttiva)}{La sostituzione di una variabile $x$ con un termine $t$ in una formula $\varphi$ (denotata con $\varphi[x/t]$) è definita assumendo che $t$ è \textbf{libero per} $x$ in $\varphi$:
+\begin{itemize}
+  \item $\bot[x/t] = \bot$
+  \item $(t_1 = t_2)[x/t] = t_1[x/t] = t_2[x/t]$
+  \item $R(t_1, \dots, t_k)[x/t] = R(t_1[x/t], \dots, t_k[x/t])$
+  \item $(\varphi \circ \psi)[x/t] = \varphi[x/t] \circ \psi[x/t]$, con $\circ \in \{\land, \lor, \rightarrow\}$
+  \item $Q \in \{\forall, \exists\} = \begin{cases}
+    Qx.(\varphi)[x/t] = (Qx.\varphi) & \text{se } y = x \\
+    Qy.(\varphi)[x/t] = (Qy.\varphi[x/t]) & \text{se } y \neq x
+  \end{cases}$
+\end{itemize}}
+
+Esistono due tipi di vincoli per le sostituzioni:
+\begin{enumerate}
+  \item sintatticamente non si può sostituire varibaili legate da quantificatori
+  \item non tutti i termini possono essere utilizzati
+\end{enumerate}
 \end{document}
