@@ -20,6 +20,7 @@
 \usepackage{forest} %per costruire parsing tree
 \usepackage[most]{tcolorbox}
 \usepackage{caption}
+\usepackage{bussproofs}
 \usepackage{amsfonts}
 \usepackage{stmaryrd}
 \usepackage{stmaryrd}
@@ -1241,9 +1242,6 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
   }
 
   %guarda slide, onestamente non so come sciverle.
-  Definizione rigorosa delle Deduzioni:\par
-  Derivazioni come alberi: 
-
   Possiamo individuare le diverse componenti in una deduzione:
 
   \begin{center}
@@ -1275,7 +1273,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
     L'insieme delle derivazioni \(\mathcal{D}\) è il più piccolo insieme X tale che:
     \begin{itemize}
       \item per ogni \(\varphi \in PROP \) la derivazione composta da una sola formula \(\varphi\) è in X;
-      \item se \(\sqcap_1\) su \(\varphi\), \(\sqcap _2\) su \(\psi\) \(\in\) X allora:
+      \item se $\underset{\varphi}{\sqcap_1}$, $\underset{\psi}{\sqcap_2}$ \(\in\) X allora:
       \begin{center}
         \(
         \sqcap_1 \quad \sqcap_2
@@ -1288,7 +1286,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
           \varphi \land \psi
         \)
       \end{center}
-      \item se \(\sqcap\) su \(\varphi \land \psi \in\) X allora:
+      \item se $\underset{\varphi \land \psi}{\sqcap}$ $\in$ X allora:
       \begin{center}
         \begin{minipage}[t]{0.45\textwidth}
         \centering
@@ -1310,7 +1308,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
       \end{minipage}
     \end{center}
 
-    \item se \(\psi\) su \(\sqcap \) su \(\varphi\) allora: 
+    \item se $\overset{\psi}{\underset{\varphi}{\sqcap}}$ allora: 
     \begin{center}
       \( [\psi] \)\\
       \( \sqcap \)\\
@@ -1321,7 +1319,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
       \)
     \end{center}
 
-    \item se \(\sqcap_1\) su \(\varphi\), \(\sqcap_2\) su \(\varphi \rightarrow \psi \in\) X allora:
+    \item se $\underset{\varphi}{\sqcap_1}$, $\underset{\varphi \rightarrow \psi}{\sqcap_2} \in$ X allora:
     \begin{center}
     \(\sqcap_1 \qquad \sqcap_2\)\\
     \(\varphi \qquad \varphi \rightarrow \psi\)\\
@@ -1331,7 +1329,8 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
     \)
     \end{center}
 
-    \item se  \(\sqcap\) su \(\varphi \in \) X allora: 
+    \item se  $\underset{\varphi}{\sqcap}$
+    $\in$ X allora: 
     \begin{center}
         \begin{minipage}[t]{0.45\textwidth}
         \centering
@@ -1353,7 +1352,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
       \end{minipage}
     \end{center}
 
-    \item se \(\sqcap \) su \(\varphi \lor \psi\), se \(\varphi\) su \(\sqcap_1 \) su \(\gamma\), se \(\psi\) \(\sqcap_2 \) su \(\gamma \in\) X allora: 
+    \item se $\underset{\varphi \lor \psi}{\sqcap}$, $\overset{\varphi}{\underset{\gamma}{\sqcap_1}}$, $\overset{\psi}{\underset{\gamma}{\sqcap_2}} \in$ X allora:
     
     \begin{center}
     \(\hspace{2.4em} [\varphi] \hspace{2em} [\psi]\)\\
@@ -1365,7 +1364,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
     \)
     \end{center}
 
-    \item se \(\lnot \psi\) su \(\sqcap \) su \(\bot \in \) allora:
+    \item se $\overset{\lnot \psi}{\underset{\bot}{\sqcap}} \in$ X allora:
     
     \begin{center}
     \([\lnot \psi]\)\\
@@ -1377,7 +1376,7 @@ Sono entità linguistiche che possono essere \uline{vere o false}.\\
     \)
     \end{center}
 
-    \item se \(\sqcap\) su \(\bot \in\) X allora:
+    \item se $\underset{\bot}{\sqcap} \in$ X allora: 
     \begin{center}
     \(\sqcap \)\\
     \(\bot\)\\[-0.5em]
@@ -1429,7 +1428,7 @@ La dimostrazione procede per induzione sull'altezza delle derivazioni: \\[0.2ex]
 $\Rightarrow$ \textbf{caso base}: se $\Pi$ = $\varphi$, allora dato che $\varphi \models \varphi$ abbiamo la tesi \\[0.2ex]
 $\Rightarrow$ \textbf{passo induttivo}: per casi sull'ultima regola della derivazione $\Pi$
 
-\teorema[Correttezza]{\begin{equation*}
+\teorema[Correttezza / Soundness]{\begin{equation*}
 \Gamma \vdash \varphi \Rightarrow \Gamma \models \varphi
 \end{equation*}}{\\[0.2ex]Se $\Gamma \vdash \varphi$ allora esiste una derivazione $\underset{\varphi}{\Pi}$ tale che Hp[$\Pi$] $\subseteq \Gamma$. \\[0.2ex]
 Per il Lemma 2 abbiamo che Hp[$\Pi$] $\models \varphi$ e per il Lemma 1 concludiamo che:
@@ -1440,7 +1439,7 @@ Per il Lemma 2 abbiamo che Hp[$\Pi$] $\models \varphi$ e per il Lemma 1 concludi
 Una conseguenza del teorema di correttezza è la \hl{\textbf{non} contraddittorietà} della deduzione naturale.
 
 \teorema[]{\begin{equation*}
-\nvdash
+\textcolor{red}{\not} \vdash
 \end{equation*}}{\\[0.2ex]Supponiamo che $\vdash \bot$, allora per la correttezza avremmo che $\models \bot$ che è impossibile.}
 
 \subsubsection*{Completezza}
@@ -1560,5 +1559,243 @@ Sappiamo che $\Gamma$ è contenuto in un insieme massimale consistente $\Delta$ 
   \Gamma \models \varphi \Rightarrow \Gamma \vdash \varphi
 \end{equation*}}{
 
-Se $\Gamma \not \vdash \varphi$, allora $\Gamma, \neg \varphi$ è inconistente, quindi, esiste una valutazione $v$ tale che $\llbracket \Gamma \rrbracket_v$ = 1 e $\llbracket \varphi \rrbracket_v$ = 0 e, quindi, $\Gamma \not \models \varphi$.}
+Se $\Gamma \textcolor{red}{\not} \vdash \varphi$, allora $\Gamma, \neg \varphi$ è inconistente, quindi, esiste una valutazione $v$ tale che $\llbracket \Gamma \rrbracket_v$ = 1 e $\llbracket \varphi \rrbracket_v$ = 0 e, quindi, $\Gamma \textcolor{red}{\not} \models \varphi$.}
+
+
+\textbf{Esempio}
+\[
+NK^{*} = NK_{p} \setminus 
+\left\{ 
+  \frac{\varphi \quad \psi}{\varphi \land \psi} \; \land I
+\right\}
+\;\cup\;
+\left\{ 
+  \overline{\varphi \to (\psi \to (\varphi \land \psi))}^{Ax}
+\right\}
+\]
+
+\textbf{Dimostrazione}
+
+\(\Gamma \vdash_{NK^*} \varphi \Leftrightarrow \Gamma \vdash_{NK_p} \varphi\)
+$\Rightarrow$ Per induzione sull'altezza della derivazione\par
+\sottolinea{black}{Base}: se $\sqcap_{NK^*}$ è $\varphi$ allora $\sqcap_{NK_p}$ = $\sqcap{NK^*}$\par
+\sottolinea{black}{Passo induttivo}: se $\sqcap_{NK^*}$ si conclude come una regola r diversa da Ax, allora basta applicare l'ipotesi induttiva.
+
+\[
+\Pi_{NK^{*}} 
+= 
+\Pi'_{NK^{*}}
+\;
+\frac{\varphi_i}{\varphi} \; r
+\xrightarrow[\text{i.i.}]{}
+\Pi'_{NK_{p}}
+\;
+\frac{\varphi_i}{\varphi} \; r
+\in
+\Pi_{NK_{p}}
+\]
+
+\hrulefill
+
+Se $\sqcap_{NK*}$ = $\underset{\text{Ax}}{\sqcap}\!_{NK*}$ allora basta sostituire all'Ax la derivazione di $Nk_p$ di \(\varphi \rightarrow (\psi \rightarrow (\varphi \land \psi))\)
+
+\begin{center}
+     \(
+    [\varphi]^1 \hspace{1em} [\psi]^2
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\;\;\; \land I\)\\  
+    \(
+    \varphi \land \psi
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\;\;\; \rightarrow  I^2\)\\  
+    \(
+    \psi \rightarrow (\varphi \land \psi)
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2.5cm}{0.4pt}\(\;\;\; \to I^1 \)\\  
+    \(
+    \varphi \rightarrow (\psi \rightarrow( \varphi \land \psi))
+    \)
+
+  \end{center}
+Ipotesi da scaricare: $[\varphi]^1 \hspace{2em}[\psi]^2$\par
+
+$\Leftarrow$ \sottolinea{black}{Caso base}: (come visto prima)\par
+\sottolinea{black}{Passo induttivo}: se $\sqcap_{Nk_p}$ si conclude con una regola r diversa da ($\land$ I), allora basta applicare l'ipotesi induttiva.
+
+\[
+\Pi'_{NK_p}
+\quad
+% Questo sostituisce il primo \infer
+\frac{\varphi_1 \qquad \varphi_2}{\varphi_1 \land \varphi_2} (\land I)
+\quad
+% \xrightarrow funziona con amsmath, \xRightarrow richiede mathtools
+\xrightarrow[\text{i.i.}]{}
+\quad
+\Pi'_{NK^*}
+\]
+
+\[
+% Questo sostituisce il \infer annidato
+\frac{
+    \varphi_2 \qquad
+    \frac{
+        \varphi_1 \qquad
+        \varphi_1 \to (\varphi_2 \to (\varphi_1 \land \varphi_2))
+    }{
+        \varphi_2 \to (\varphi_1 \land \varphi_2)
+    } (\to E)
+}{
+    \varphi_1 \land \varphi_2
+} (\to E)
+\]
+
+
+\esercizio[3a. $\Gamma = \{p_1 \leftrightarrow(p_0 \land \lnot p_2), p_2 \rightarrow p_0\}$]{
+  \textbf{\sottolinea{black}{Dimostrazione} $\Gamma $\textcolor{red}{$\not$}$ \vdash p_1 \rightarrow p_2$}\\
+  Dalla correttezza $\Gamma $\textcolor{red}{$\not$}$ \vDash p_1 \rightarrow p_2 \Rightarrow$ \textcolor{red}{$\not$}$\vdash p_1 \rightarrow p_2$\\
+  Definiamo v. $\llbracket p_1 \rightarrow p_2 \rrbracket_v = 0$ e $\llbracket p_1 \Leftrightarrow (p_0 \land \lnot p_2)\rrbracket_v = 1$ e $\llbracket p_2 \rightarrow P_0\rrbracket_v = 1$\par
+  v($p_1$) = 1 \qquad v($p_2$) = 0 \qquad v($p_0$) = 1
+  }
+
+  \esercizio[3c. $\vdash (\varphi \rightarrow \psi)\rightarrow((\psi \rightarrow \gamma)\rightarrow( \varphi \rightarrow \gamma))$]{
+
+  \begin{center}
+    
+    \(
+    \hspace{8em}[\varphi \rightarrow \psi]^1 \hspace{1em}[\varphi]^3 
+    \)\\[-0.5em]
+    \hspace{10em}\rule{3cm}{0.4pt}\(\; \to E \)\\  
+    \(
+    [\psi  \rightarrow \gamma]^2 \hspace{3em} \psi
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{3.5cm}{0.4pt}\(\;\;\; \to E \)\\  
+    \(
+    \gamma
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{3.5cm}{0.4pt}\(\;\;\; \to I^3 \)\\  
+    \(
+    (\varphi \rightarrow \gamma)
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{3.5cm}{0.4pt}\(\;\;\; \to I^2 \)\\  
+    \(
+    (\varphi \rightarrow \psi )\rightarrow (\varphi \rightarrow \gamma)
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{6.5cm}{0.4pt}\(\;\;\; \to I^1 \)\\  
+    \(
+    (\varphi \rightarrow \psi) \rightarrow ((\psi \rightarrow \gamma) \rightarrow (\varphi \rightarrow \gamma))
+    \)
+
+    \vspace{2em}
+    Ipotesi da scaricare: $[(\varphi \rightarrow \psi)]^1$ $[(\psi \rightarrow \gamma)]^2$ $[\varphi]^3$
+  \end{center}
+  }
+
+  \esercizio[4. Un insieme $\Gamma$ è completo se per ogni $\varphi$, $\Gamma \vdash \varphi$ oppure $\Gamma \vdash \lnot \varphi$\\Dimostrare che l'insieme di tutti i simboli propositizionali $AF=\{p_0, p_1\dots p_n\}$ è completa]{
+    Per assurdo, supponiamo AF non completo.\\
+    Allora $\exists \varphi$ t.c. AF \textcolor{red}{$\not$}$\vdash \varphi$ e AF \textcolor{red}{$\not$}$\vdash \lnot \varphi$ \par
+    Dalla correttezza abbiamo che AF \textcolor{red}{$\not$}$\vdash \varphi \rightarrow$ AF \textcolor{red}{$\not$}$\vDash \varphi$ da cui si ha v. $\llbracket \varphi \rrbracket_v = 0$ e che AF \textcolor{red}{$\not$}$\vdash \lnot \varphi$ e AF \textcolor{red}{$\not$}$\vDash \lnot \lnot \varphi$ da cui si ha v. $\llbracket \varphi\rrbracket_v = 1$
+  }
+
+  \esercizio[5. $\lnot \varphi \vdash (\varphi \rightarrow \psi) \leftrightarrow \lnot \varphi$]{
+  MI SONO RESO CONTO CHE NON CAPISCO CHE CAZZO ABBIA FATTO
+  \begin{center}
+    
+    \(
+    \hspace{1em} [\varphi]^1 \hspace{1em}[\lnot \varphi] \hspace{7em}
+    \)\\[-0.5em]
+    \rule{3cm}{0.4pt}\(\; \rightarrow E\)\hspace{1em}\\
+    \(
+    \hspace{1em} \bot \hspace{5em} \lnot \varphi \hspace{2em} [\varphi]^2
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\; \bot_i\)\hspace{0.2cm}\rule{2cm}{0.4pt}\(\; \rightarrow E\)\\
+    \(
+    \hspace{1em} \psi \hspace{7em} \bot
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{2cm}{0.4pt}\(\; \rightarrow I^1\)\hspace{0.2cm}\rule{2cm}{0.4pt}\(\; \rightarrow I^2\)\\
+    \(
+    \varphi \rightarrow \psi \hspace{5em} \lnot \varphi
+    \)\\[-0.5em]
+    \hspace{1cm}\rule{6.5cm}{0.4pt}\(\;\;\; \leftrightarrow \)\\  
+    \(
+    (\varphi \rightarrow \psi) \leftrightarrow \lnot \varphi
+    \)\par
+    \vspace{2em}
+    Ipotesi da scaricare: $[\varphi]^1$ $[\varphi]^2$
+    \end{center}
+  }
+
+
+\subsubsection*{Correttezza e Completezza nel sistema con tutti i connettivi}
+\addcontentsline{toc}{subsubsection}{Correttezza e Completezza nel sistema con tutti i connettivi}
+
+Due approcci per estendere il risultato al linguaggio $\mathcal{L}$ con tutti i connettivi:  
+\begin{itemize}
+  \item Metodo diretto: tratta esplicitamente la disgiunzione
+  \item Metodo indiretto: dimostra correttezza e completezza di tutto il sistema sfruttando correttezza e completezza del sistema senza disgiunzione
+\end{itemize}
+
+\textbf{\hl{Metodo diretto}}\\
+Si basa sull’estensione dei risultati dimostrati nella Proposizione 9 e nel Lemma 10.
+
+\textbf{\hl{Metodo indiretto}}\\
+Il metodo indiretto considera due nozioni di derivazione $\vdash$ $\vdash_*$, rispettivamente per le formule in $\mathcal{L}$ (con tutte le regole) e $\mathcal{L}_*$ (in cui sono state eliminate le regole di introduzione ed eliminazione di $\lor$ ) e la seguente traduzione (.)$\ast$ da $\mathcal{L}$ a $\mathcal{L}$*
+
+\begin{itemize}
+  \item ($\varphi$)* = $\varphi$ se $\varphi \in$ \textbf{AT}
+  \item ($\varphi \circ \psi$)* = $\varphi* \circ$ $\psi*$ per $\circ \in$ \{$\rightarrow, \land$\}
+  \item ($\varphi \lor \psi$)* = $\lnot(\lnot \varphi* \land \lnot \psi*)$ 
+\end{itemize}
+
+Una banale induzione permette di dimostrare che:
+
+\proposizione{Se $\varphi$ è una $\mathcal{L}$-formula allora per ogni v, $\llbracket \varphi \rrbracket_v = \llbracket \varphi^* \rrbracket_v$ e conseguentemente $\models$ $\varphi \leftrightarrow \varphi^*$}
+
+\proposizione{Se $\varphi$ è una $\mathcal{L}$-formula allora $\vdash \varphi \leftrightarrow \varphi^*$}
+
+
+\textbf{Dimostrazione:} (per induzione sul rango di $\varphi$)\\
+Base: se $\varphi \in$ \textbf{AT} allora $\varphi = \varphi^*$
+
+Passo induttivo: 
+\begin{itemize}
+  \item Se $\varphi = \varphi_1 \circ \varphi_2$ con $\circ \in \{\rightarrow, \land\}$ allora $(\varphi_1 \circ \varphi_2)^*$ = $(\varphi_1)^* \circ (\varphi_2)^*$. Per i.i $\vdash \varphi_1 \leftrightarrow (\varphi_1)^*$ e $\vdash \varphi_2 \leftrightarrow (\varphi_2)^*$, da cui si deriva $\varphi \leftrightarrow \varphi^*$
+  \item Se $\varphi = \varphi_1 \lor \varphi_2$, allora $(\varphi_1 \lor \varphi_2)^* = \lnot(\lnot(\varphi_1)^*)\land \lnot ((\varphi_1)^*)$. Per i.i. $\vdash \varphi_1 \leftrightarrow (\varphi_1)^*$ e $\vdash \varphi_2 \leftrightarrow (\varphi_2)^*$, da cui si deriva $\vdash (\varphi_1 \lor \varphi_2)^*$ $\leftrightarrow \lnot(\lnot\varphi_1 \land (\lnot \varphi_2))$ e dato che $\vdash \lnot(\lnot\varphi_1) \land \lnot \varphi_2 \leftrightarrow \varphi_1 \lor \varphi_2$ abbiamo la tesi.
+\end{itemize}
+
+
+Correttezza in $\mathcal{L}$
+\proposizione{Se $\varphi$ è una $\mathcal{L}^*$-formula allora $\vdash \varphi \Leftrightarrow$. $\vdash_*\varphi$}
+
+La dimostrazione segue dal fatto che $\varphi^* = \varphi$
+
+\teorema[(Correttezza)]{Se $\Gamma \cup \{\varphi\} \subseteq \textbf{Fbf}_{\mathcal{L}}$ allora $\Gamma \vdash \varphi \Rightarrow \Gamma \vDash \varphi$}{\\Se $\Gamma \vdash \varphi$ allora $\Gamma^* \vdash \varphi^*$ e per la soundness per $\mathcal{L}^*, \Gamma^* \vDash \varphi^*$, e per la proposizione precedente $\Gamma^* \vDash \varphi^*$}
+
+\textbf{Completezza di $\mathcal{L}$}
+
+\teorema[(Correttezza e Completezza)]{
+\begin{equation*}
+\Gamma \vDash \varphi \Leftrightarrow \Gamma \vdash \varphi
+\end{equation*}
+}{
+\[
+\Gamma \vDash \varphi 
+\Leftrightarrow 
+\Gamma^* \vDash \varphi^*
+\overset{\text{(per correttezza e completezza di }\mathcal{L}\text{)}}{\Leftrightarrow} 
+\Gamma^* \vdash \varphi^*
+\Leftrightarrow 
+\Gamma \vdash \varphi
+\]
+}
+
+
+\esercizio[$\varphi = \varphi_1 \lor \varphi_2$ ]{Data v. v($\varphi$) = 1 per ogni $\varphi \in \Gamma$\par
+\textbf{Dimostrazione:} $\llbracket \varphi_1 \lor \varphi_2 \rrbracket_v$= 1 $\leftrightarrow \llbracket \varphi_1 \rrbracket_v$ oppure $\llbracket \varphi_2 \rrbracket_v = 1$
+
+Di conseguenza: $\varphi_1 \in \Gamma$ e $\varphi_2 \in \Gamma$\par
+Dalla prop \quad $\varphi_1 \lor \varphi_2 \in \Gamma \Leftrightarrow \varphi_1 \in \Gamma$ oppure $\varphi_2 \in \Gamma$
+}
+
+
+
 \end{document}
