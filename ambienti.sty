@@ -114,3 +114,27 @@
   \end{tcolorbox}
   \vspace{5pt}%
 }
+%===========================================
+% --- AMBIENTE LEMMA ---
+\newcommand{\lemma}[3]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=red!5!white,
+    colframe=red!50!black,
+    title=\textbf{Lemma: #1}, % titolo del lemma
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm, %arrotondamento degli angoli
+    boxrule=1pt, %spessore del bordo
+    enhanced,
+    breakable
+  ]
+  #2 % testo del teorema
+  \ifstrempty{#3}{}{%
+    \par\vspace{8pt}%
+    \textbf{Dimostrazione}
+    #3
+  }
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
