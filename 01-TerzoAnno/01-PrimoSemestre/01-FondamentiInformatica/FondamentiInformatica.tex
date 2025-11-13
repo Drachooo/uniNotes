@@ -508,10 +508,135 @@
   %dimostrazione
 
   \subsection{Teorema di Myhill-Nerode}
+  \teorema{Myhill-Nerdode (1960)}{I seguenti tre enunciati sono equivalenti:
+  \begin{enumerate}
+    \item $\mathcal{L} \subseteq \Sigma^*$ è regolare
+    \item $\mathcal{L}$ è unione di classi di equivalenza su $\Sigma^*$ indotte da una relazione invariante destra di indice finito
+    \item $\mathcal{R}_\mathcal{L}$ è di indice finito
+  \end{enumerate}}
 
+  %dimostrazione
 
 
   \section{Proprietà dei linguaggi regolari}
+  Il \hl{\textbf{pumping lemma} afferma che se si ha un linguaggio regolare}, allora esiste sempre un numero finito $n$ tale che, per ogni stringa più lunga di questo $n$, \hl{è possibile spezzare la stringa $z$ in tre sottostringhe $uvw$}, in modo che:
+  \begin{itemize}
+    \item le prime due $u$ e $v$ hanno una lunghezza minore o uguale a $n$
+    \item dentro $v$ c'è almeno un simbolo
+    \item si può ripetere la sottostringa $v$ un numero arbitrario di volte e rimanere ancora in $\mathcal{L}$
+  \end{itemize} 
+
+  \lemma{Pumping lemma (linguaggi regolari)}{Sia $\mathcal{L} \subseteq \Sigma^*$ regolare.\\  
+  Allora, esiste un numero $n \in \mathbb{N}$ tale che, per ogni stringa $z \in \mathcal{L}$, se $|z| \geq n$, allora esistono $u, \text{, } v \text{, } w \in \Sigma^*$ tali per cui:
+  \begin{enumerate}
+    \item la stringa $z$ è suddivisa in $uvw: z = uvw$
+    \item la lunghezza di $uv$ è minore o uguale a $n: |uv| \leq n$
+    \item la lunghezza di $v$ è strettamente maggiore di $0 : |v| > 0 \Rightarrow$ in $v$ è presente almeno un simbolo di $\Sigma^*$
+    \item per ogni $i$ maggiore o uguale a $0$, se si pompa $v$ con $i$, allora continua a essere parte di $\mathcal{L}$:
+    \begin{equation*}
+      \forall i \geq 0.uv^iw \in \mathcal{L}
+    \end{equation*}
+  \end{enumerate}}
+
+  Dato questo lemma, valgono le seguenti proprietà.
+
+  \vario{Proprietà pumping lemma}{$\Rightarrow$ \hl{se $\mathcal{L}$ è regolare, allora vale il \textit{pumping lemma} dei linguaggi regolari}:
+  \begin{equation*}
+    \mathcal{L} \in \text{REG} \Rightarrow \text{PL linguaggi regolari}
+  \end{equation*}
+
+  Quindi, esiste un numero $n \in \mathbb{N}$ tale che per ogni $z$ appartenente alle stringhe $\Sigma^*$, se $z \in \mathcal{L}$ e $|z| \geq n$, allora esiste la stringa $uvw$ appartenente alle stringhe $\Sigma^*$ tale per cui $z = uvw$, $|uv \leq n$, $|u| > 0$ e $\forall i \in \mathbb{N}: uv^iw \in \mathcal{L}$:
+  \begin{equation*}
+    \exists n \in \mathbb{N}. \forall z \in \Sigma^*: z \in \mathcal{L} \land |z| \geq n \Rightarrow \exists u, v, w \in \Sigma^*
+  \end{equation*}
+  
+  $\Rightarrow$ \hl{se si nega il PL linguaggi regolari, allora $\mathcal{L}$ non è regolare}:
+  \begin{equation*}
+    \neg \text{PL linguaggi regolari} \Rightarrow \mathcal{L} \notin \text{REG}
+  \end{equation*}
+  
+  Si nega l'espressione vista per la prima propierità:
+  \begin{equation*}
+    \forall n \in \mathbb{N}. \exists z \in \Sigma^*: z \in \mathcal{L} \land |z| \geq u \land \forall n \land \forall u, v, w \in \Sigma^*: \neg (\textcolor{azzurrino}{c_1} \land \textcolor{azzurrino}{c_2} \land \textcolor{azzurrino}{c_3} \land \textcolor{azzurrino}{c_4})
+  \end{equation*}
+  \begin{equation*}
+    : (\textcolor{azzurrino}{c_1} \land \textcolor{azzurrino}{c_2} \land \textcolor{azzurrino}{c_3}) \lor \neg c_4
+  \end{equation*}
+  \begin{equation*}
+    : (\textcolor{azzurrino}{c_1} \land \textcolor{azzurrino}{c_2} \land \textcolor{azzurrino}{c_3}) \Rightarrow \neg c_4
+  \end{equation*}
+  \begin{equation*}
+    : (z = uvw \land |uv| \neq n \land |v| > 0) \Rightarrow \exists : uv^iw \notin \mathcal{L}
+  \end{equation*}
+  
+  \noindent\rule{\linewidth}{0.4pt}
+  \textbf{\textcolor{red}{N.B.}} Si ricorda che $A \Rightarrow B$ equivale a scrivere $\neg A \lor B$ e viceversa.}
+
+  Per dimostrare, quindi, che un linguaggio non è regolare:
+  
+  $\Rightarrow$ si suppone un numero $n$ generico \\[0.1ex]
+  
+  $\Rightarrow$ si sceglie una stringa $z$ dipendente da $n$ e presente nel linguaggio \\[0.1ex] 
+  
+  $\Rightarrow$ si dimostra che per ogni possibile suddivisione della stringa, in tre sottostringhe $uvw$, esiste un valore $i$ tale per cui pompando/spompando $v$ si esce dal linguaggio $\mathcal{L}$
+
+  \esempio{}{Consideriamo il \hl{linguaggio $\mathcal{L} = \{a^nb^n \ | \ n \geq 0\}$} e per qualunque $n$ si deve decidere se la stringa $a^nb^n \in \mathcal{L}$. \\
+  Tuttavia, se l'unica memoria a disposizione è lo stato, allora, per ricordare la precisa quantità di $a$ e $b$ incontrati occorre uno stato per ciascun simbolo, ma in questo modo diventerbbe un automa a stati finiti. \\[0.2ex]
+  
+  $\Rightarrow$ \textcolor{red}{$\mathcal{L}$ \textit{è regolare?}}
+  
+  Si prende un generico $n \in \mathbb{N}$ e si considera una stringa $a^nb^n$ dipendente da $n$ e lunga maggiore o uguale a $n$:
+  \begin{equation*}
+    a^nb^n \in \mathcal{L}, \ \ \ |a^nb^n| \geq n
+  \end{equation*}
+  
+  Per ogni possibile suddivisione in tre stringhe si deve avere:
+  \begin{equation*}
+    |uv| \leq n
+  \end{equation*}
+  
+  %foto
+  
+  Infatti, $uv$ non contiene elementi di $b^n$, ma solo $: uv = a^k$ con $k \leq n$. \\
+  $|v| > 0$, infatti, esiste un valore $i$ per cui esiste un pompaggio che esce da $\mathcal{L}$:
+  \begin{equation*}
+    i = 2 \ \ \rightarrow \ \ uv^2w = uvvw
+  \end{equation*}
+  
+  Poichè $uv = a^k$, allora implica che $v = a^h$ con $h \leq n$. \\
+  Pertanto nella stringa pompata, il numero di $a$ è strettamente maggiore del numero di $b$ e $uv^2w \notin \mathcal{L}$. \\[0.1ex]
+  
+  Ecco dimostrata la negazione del \text{pumping lemma}:
+  \begin{equation*}
+    \forall n \in \mathbb{N}. \exists z \in \Sigma^*: z \in \mathcal{L} \land |z| \geq n \land \forall u, v, w \in \Sigma^*: z = uvw \land |uv| \leq n \land |u| > 0 \Rightarrow  \exists i : uv^2w \notin \mathcal{L}
+  \end{equation*}
+  
+  \noindent\rule{\linewidth}{0.4pt}
+  Poichè è \hl{\textbf{dimostrata} la negazione} del \textit{pumping lemma}, allora \hl{$\mathcal{L} \in \text{REG}$}.}
+
+  \esempio{}{Consideriamo il linguaggio \hl{$\mathcal{L} = \{a^{n^2} \ | \ n \geq 1\}$} e per un qualunque $n$ si deve decidere se $a^{n^2} \in \mathcal{L}$. \\
+  Tuutavia non si riesce ad avere abbastanza memoria, perchè è proporzionale alla crescita del numero. \\[0.2ex]
+  
+  $\Rightarrow$ \textcolor{red}{$\mathcal{L} $\textit{ è regolare?}} \\
+  Consideriamo un generico $n \in \mathbb{N}$ e una stringa $z = a^{n^2}$ dipendente da $n$ e lunga maggiore o uguale a $n$:
+  \begin{equation*}
+    a^{n^2} \in \mathcal{L}, \ \ \ |a^{n^2}| \geq n
+  \end{equation*}
+  
+  Per ogni possibile suddivisione in tre sstringhe si deve avere $|uv| \neq n$ e un valore $i$ tale che il pompaggio di $v$ esca da $\mathcal{L}$.\\
+  Sapendo che:
+  \begin{equation*}
+    |uv| = n^2 < |uv^2w| = |uvvw| = |uvwv| \neq n^2 + n < (n + 1)^2
+  \end{equation*}
+  
+  La stringa pompata $uv^2w$ è compresa tra $n^2$ e $(n + 1)^2$, di conseguenza la lunghezza di $uv^2w$ non è un quadrato.\\
+  Di conseguenza $uv^2w \notin \mathcal{L}$.
+  
+  \noindent\rule{\linewidth}{0.4pt}
+  Poichè è \hl{\textbf{dimostrata} la negazione} del \textit{pumping lemma}, allora \hl{$\mathcal{L} \notin \text{REG}$}.}
+
+
+  \chapter{Automi a pila}
 
 
 \end{document}
