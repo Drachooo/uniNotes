@@ -1950,6 +1950,16 @@ Invece, una formula $\varphi \in \text{FORM}_\mathcal{L}$ si dice \textbf{chiusa
   \end{cases}$
 \end{itemize}}
 
+\esempio{}{
+  Sia $\varphi = \forall x.\mathbf{R}(x,y) \rightarrow \forall y.P(y)$ e $\mathbf{t}$ un termine.
+  \begin{itemize}
+    \item $\varphi[x/t] = \varphi$
+    \item $\varphi[y/f(z)] = \forall x.\mathbf{R}(x,f(z)) \rightarrow \forall y.P(y)$ se $z \neq x$
+    \item $\varphi[y/f(x)]$ non è definita
+  \end{itemize}
+}
+
+
 Esistono due tipi di vincoli per le sostituzioni:
 \begin{enumerate}
   \item sintatticamente non si può sostituire varibaili legate da quantificatori
@@ -1957,6 +1967,157 @@ Esistono due tipi di vincoli per le sostituzioni:
 \end{enumerate}
 
 
+\definizione{Rango}{
+  \begin{enumerate}
+    \item Il rango degli $\mathcal{L}$-termini è ricorsivamente definito come 
+      \begin{itemize}
+        \item rk[\textbf{c}] = 0;
+        \item rk[\textbf{x}] = 0;
+        \item rk[\textbf{f}($t_1$, \dots ,$t_n$)] = max(rk[$\textbf{t}_1$], \dots ,[$\textbf{t}_n$]) +1
+    \end{itemize}
+    \item Il rango delle $\mathcal{L}$-formule è ricorsivamnete definito come:
+    \begin{itemize}
+      \item rk[\textbf{R}($t_1$, \dots, $t_n$)] = 0
+      \item rk[$\textbf{t}_1 = \textbf{t}_2$] = 0
+      \item rk[($\varphi \circ \psi$)] = \textbf{max}(rk[$\varphi$], rk[$\psi$]) + 1 dove $\circ \in$ \{$\rightarrow, \lor, \land$\}
+      \item rk[$\forall$\textbf{x}.$\varphi$] = rk[$\exists $\textbf{x}.$\varphi$] = rk[$\varphi$] +1.
+    \end{itemize}
+  \end{enumerate}
+  Nota che il rango di una formula non dipende dal rango dei termini che vi compaiono.
+}
 
+\textbf{Occorrenze}
+\begin{itemize}
+  \item Data una stringa S =$s_0 \dots s_n$ su un insieme di simboli $\Sigma$ diciamo che il simbolo s $\in \Sigma$ occorre in S se esiste un indice i tale che s = $s_i$
+  \item Chiamiamo occorrenza di un simbolo s in S ogni coppia $\langle s,i \rangle$ tale che $s_i = s$. Data una stringa S=$s_0 \dots s_n$ ed una sua sotto-stringa T = $s_k \dots s_{k+j}$ si dice che un'occorrenza (s,i) di s in S è in T se i $\in$ [k, k+j]
+  \item Data una $\varphi \in$ $\textbf{Fbf}_{\mathcal{L}}$ ed è una variabile \textbf{x} $\in$ \textbf{Var} diciamo che un'occorrenza di (\textbf{x},i) in $\varphi$ è legata se esiste $\psi \in$ SF[$\varphi$] tale che $\psi$ = Q\textbf{x}.$\gamma$ e (\textbf{x},i) è in $\gamma$. Se un'occorrenza di \textbf{x} non è legata allora è detta libera.
+  \item Si dice che una variabile \textbf{x} è libera se esiste alemno una sua occorrena libera, si dicce che \textbf{x} è legata se esiste almeno una sua occorrenza legata.
+\end{itemize}
+
+
+
+\textbf{Alcune considerazioni \dots}
+
+\begin{itemize}
+  \item Nella logica proposizionale il significato delle formule atomiche è un valore di verità assegnato direttamente
+  \item le componenti delle formule atomiche vengono chiamati \textbf{termini}
+  \item il concetto semantico base del linguaggio è quello di \textcolor{red}{interpretazione}
+  \item bisogna interpretare ogni costante individuale, ogni simbolo di relazione e di funzione relativamente ad un universo del discorso D.
+\end{itemize}
+
+
+\esercizio[Riepilogo sintassi]{
+  \( \sigma = (\forall x.\textbf{R}(x,y,z)) \land (\forall z. \textbf{P}(x,z))\)\\
+  dove \( \sigma_1 = (\forall x.\textbf{R}(x,y,z))\) e \(\sigma_2 = (\forall z. \textbf{P}(x,z)) \) \par
+
+  \begin{enumerate}
+    \item \textcolor{red}{f(x) è libera per z in $\sigma$?}\\
+    Verificare che
+    \begin{enumerate}
+      \item f(x) sia libero per z in $\sigma_1$
+      \item f(x) sia libero per z in $\sigma_2$
+    \end{enumerate} 
+    \vspace{1em}
+    a) z $\in$ FV ($\sigma_1$), x  $\textcolor{red}{\not}\in$ FV (f(x)) $\rightarrow$ NO!
+
+    \item \textcolor{red}{f(x) è libera per x in a?}\\
+    \( \sigma[x/f(x)] = \sigma_1[x/f(x)] \land \sigma_2[x/f(x)] \)\\
+    \hspace{2em} = \( \forall x. \textbf{R}(x,y,z) \land \forall z.\textbf{P}(f(x).z)\)
+    \item \textcolor{red}{f(y) è libera per x in $\sigma$?}
+    \item \textcolor{red}{f(x) è libera per y in a?}
+  \end{enumerate}
+
+}
+
+
+\section*{Semantica}
+\addcontentsline{toc}{section}{Semantica}
+
+\subsection*{Intepretazione e valutazione}
+\addcontentsline{toc}{subsection}{Interpretazione e valutazione}
+Chiamiamo \textcolor{red}{$\mathcal{L}$\nobreakdash-interpretazione} ogni coppia $\langle \mathcal{U}, ()^{\mathcal{U}} \rangle$ dove:
+\begin{enumerate}
+  \item $\mathcal{U}$ è una struttura che assegna $\langle A, \mathbb{R}, \mathbb{F}, \mathbb{C} \rangle$;
+\item $()^{\mathcal{U}}$ è una funzione che assegna
+  \begin{enumerate}
+    \item ad ogni \textbf{c} $\in$ $\mathcal{\textbf{C}}$ un $\textbf{c}^{\mathcal{U}} \in \mathbb{C}$;
+    \item ad ogni \textbf{f}$ \in \mathcal{F}^k$ con $k > 0$, un'operazione $\textbf{f}^{\mathcal{U}} : A^k \rightarrow A$ in $\mathbb{F}$;
+    \item ad ogni $R \in \mathcal{R}^{(n)}$, una relazione $\textbf{R}^{\mathcal{U}} \subseteq A^n$ in $\mathbb{R}$.
+  \end{enumerate}
+\end{enumerate}
+
+\vspace{2em}
+Data una $\mathcal{L}$\nobreakdash-interpretazione 
+$\mathcal{U} = \langle A, \mathbb{R}, \mathbb{F}, \mathbb{C} \rangle$, 
+una \textcolor{red}{$\mathcal{L}$-valutazione} relativa a $\mathcal{U}$ 
+è una funzione 
+$p_{\mathcal{U}} : \textbf{Var} \rightarrow |\mathcal{U}|$, 
+dove con $|\mathcal{U}|$ indichiamo il dominio $A$ di $\mathcal{U}$.
+
+
+\subsection*{Interpretazione dei termini}
+\addcontentsline{toc}{subsection}{Interpretazione dei termini}
+Data una $\mathcal{L}$-interpretazione e a $\in |\mathcal{U}|$ con $p_{\mathcal{text}}$[x/a] denotiamo la valutazione\\
+$p_{\mathcal{U}}$[x/a](y)= 
+\(
+\begin{cases}
+p_\mathcal{U}\text{ se x} \neq y\\
+\text{a altrimenti}
+\end{cases}
+\)
+
+
+Chiamiamo $\varepsilon_{\mathcal{U}}$ l'insieme delle $\mathcal{L}$-valutazioni relative all'interpretazione $\mathcal{U}$ 
+
+\definizione{}{
+Dato un linguaggio $\mathcal{L}$ ed una interpretazione $\mathcal{U}$, definiamo per ricorsione sull'altezza dei termini la funzione di interpretazione $\llbracket \bullet \rrbracket$ : $\varepsilon_{\mathcal{U}} \rightarrow$ $\textbf{Term}_{\mathcal{L}} \rightarrow |\mathcal{text}|$
+\begin{enumerate}
+  \item $\llbracket \textbf{x} \rrbracket_{p_{\mathcal{U}}}$ = $\textbf{c}^{\mathcal{U}}$
+  \item $\llbracket \textbf{x} \rrbracket_{p_{\mathcal{U}}}$ = $p_{\mathcal{U}}$(\textbf{x})
+  \item $\llbracket \textbf{f}(t_1 \dots t_n)\rrbracket_{p_{\mathcal{U}}} = f^{\mathcal{U}}(\llbracket t_1 \rrbracket_{p_{\mathcal{U}}} \dots, \llbracket t_n\rrbracket_{p_{\mathcal{U}}})$
+\end{enumerate}
+}
+
+\subsection*{Struttura e soddisfacibilità delle relazioni}
+\addcontentsline{toc}{subsection}{Struttura e soddisfacibilità delle relazioni}
+
+\definizione{Struttura}{
+  Chiamiamo \textcolor{red}{struttura} una quadrupla del tipo\\
+  \begin{center}
+    $\mathcal{(U)} = \langle A, \mathbb{R}, \mathbb{F}, \mathbb{C} \rangle$ 
+  \end{center}
+  dove
+  \begin{enumerate}
+    \item A, detto dominio, è un insieme NON vuoto
+    \item $\mathbb{R}$ è un insieme di relazioni su A
+    \item $\mathbb{F}$ è un insieme di operazioni su A
+    \item $\mathbb{C} \subseteq$ A è un insieme di elementi di A che chiamiamo costanti 
+  \end{enumerate}
+}
+
+\definizione{Soddisfacibilità delle formule}{
+  Dato un linguaggio $\mathcal{L}$ ed una interpretazione $\mathcal{U}$, definiamo per ricorsione rango delle formule la relazione di \textcolor{red}{soddisfacibilità}
+  \begin{enumerate}
+    \item $p_{\mathcal{U}} \vDash \textbf{R}(t_1 \dots t_n) \Leftrightarrow (\llbracket t_1 \rrbracket_{p_{\mathcal{U}}} \dots \llbracket t_n \rrbracket_{p_{\mathcal{U}}}) \in \textbf{R}^{\mathcal{U}}$ 
+    \item $p_{\mathcal{U}} \vDash t_1 = t_2 \Leftrightarrow \llbracket t_1 \rrbracket_{p_{\mathcal{U}}} = \llbracket t_2 \rrbracket_{p_{\mathcal{U}}}$
+    \item $p_{\mathcal{U}} \textcolor{red}{\not} \vDash \bot$ 
+    \item $p_{\mathcal{U}} \vDash \varphi \rightarrow \psi \Leftrightarrow p_{\mathcal{U}} \textcolor{red}{\not} \vDash \varphi \text{ \textbf{o} } p_{\mathcal{U}} \vDash \psi$
+    \item $p_{\mathcal{U}} \vDash \varphi \land \psi \Leftrightarrow p_{\mathcal{U}} \vDash \varphi \text{ \textbf{e} } p_{\mathcal{U}} \vDash \psi$
+    \item $p_{\mathcal{U}} \vDash \varphi \lor \psi \Leftrightarrow p_{\mathcal{U}} \vDash \varphi \text{ \textbf{o} } p_{\mathcal{U}} \vDash \psi$
+    \item $p_{\mathcal{U}} \vDash \forall x.\varphi \Leftrightarrow \forall a\in |\mathcal{U}|, p_{\mathcal{U}}$[x/a] $\vDash \varphi$
+    \item $p_{\mathcal{U}} \vDash \exists x.\varphi \Leftrightarrow \exists a\in |\mathcal{U}|, p_{\mathcal{U}}$[x/a] $\vDash \varphi$
+  \end{enumerate}
+
+  Una $\mathcal{L}$-interpretazione $\varphi$ è \textcolor{red}{soddisfacibile} se esistono un'interpretazione $\mathcal{U}$ ed una valutazione $p_\mathcal{U}$, tali che \textcolor{blue}{$p_{\mathcal{U}} \vDash \varphi$}
+}
+
+Esercizio sul contromodello da prendere dai suoi appunti
+
+\( \Gamma = \{ \forall x,y,z .(\textbf{F}(x,y) \land \textbf{G}(x,z)) \rightarrow ((y,z), \exists x, y .(\textbf{F}(x,y) \land \textbf{G}(x,y))) \} \)
+
+\textbf{Dimostrazione:}\\
+\( \Gamma \textcolor{red}{\not} \vdash \exists x,y.(\textbf{C}(x,y) \land \lnot \textbf{G}(x,y)) \)
+\textbf{Bisogna costruire un contromodello}
+\dots
 
 \end{document}
