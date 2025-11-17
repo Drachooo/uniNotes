@@ -9,6 +9,8 @@
 \usepackage{caption}    % per le didascalie
 \usepackage{subcaption} % per sottodidascalie
 \usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{mdframed}
 \usepackage{tikz}
 \usetikzlibrary{positioning, shapes, arrows.meta}
 \usepackage[T1]{fontenc}
@@ -87,11 +89,12 @@
 
 %------comando ESEMPIO-------%
 \newcommand{\esempio}[2]{%
-  \begin{center}
+  \begin{mdframed}[linewidth=1pt, roundcorner=20pt] % se vuoi angoli arrotondati
     \textbf{#1}\par
     #2
-  \end{center}
+  \end{mdframed}
 }
+
 
 
 %------comando EVIDENZIA-------%
@@ -322,7 +325,7 @@
     \caption{progettazione a cascata}
   \end{figure}
 
-  \section*{Modello entità-relazione}
+  \section*{Modello entità-relazione (progettazione concettuale)}
   \addcontentsline{toc}{section}{Modello entità-relazione}
   Il \textbf{modello entità-relazione} è un \textit{modello concettuale} di dati e fornisce una serie di strutture (\textit{costrutti}), atte a descrivere la realtà di interesse in una maniera facile da comprendere e che prescinde dai criteri di organizzazione dei dati nei calcolatori.
 
@@ -635,13 +638,140 @@
 
 
 
+  \section*{Modello relazionale (progettazione logica)}
+  \addcontentsline{toc}{section}{Modello relazionale}
+
+  Nel corso del tempo sono stati sviluppati diversi modelli:
+  \begin{itemize}
+    \item modello gerarchico/reticolare (anni 1960 - 70)
+    \item \sottolinea{black}{\textbf{Modello relazionale (anni 1980 - oggi)}}
+    \item Modello ad oggetti (anni 1990 - 2000)
+    \item Modello ad oggetti/relazionale o object-relational (anni 2000 – oggi) -> SQL3
+    \item Modello a grafo – RDF (Resource Description Framework) (anni 2005 – oggi) -> Neo4j
+    \item Modelli noSQL – document-based, column-based, key-value, ecc… (anni 2010 - oggi) -> MongoDB, ecc…
+  \end{itemize}
+
+  Costrutti principali
+  \begin{itemize}
+    \item Domini di base
+    \item Relazione o (tabella)
+    \begin{itemize}
+      \item Definizione come insieme di \textbf{ennuple}
+      \item Definizione come insieme di \textbf{tuple}
+    \end{itemize}
+    \item Superchiavi, Chiavi e chiavi primarie
+    \item Vincoli di integrità referenziale
+    \item Vincoli di integrità generici
+  \end{itemize}
+
+  \definizione{Domini di base}{
+    Sono i domini da cui si scelgono i valori delle proprietà delle istanze di informazione da rappresentare. I domini tipici sono:
+    \begin{itemize}
+      \item Caratteri
+      \item Stringhe di caratteri
+      \item Numeri interi
+      \item Numeri decimali a virgola fissa
+      \item Numeri decimali a virgola mobile
+      \item Domini del tempo: per rappresentare istanti e intervalli di tempo
+    \end{itemize}
+  }
+
+  \definizione{Costrutto relazione}{
+    Presentazione intuitiva: una relazione può essere vista come una tabella, ad esempio:
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/costrutto_relazionale.png}
+  \end{figure}
+
+    Una tabella è un contenitore di dati la cui \sottolinea{black}{struttura} è caratterizzata da una \sottolinea{black}{lista di colonne}:
+    \begin{itemize}
+      \item I dati sono scritti nelle righe dove ogni riga descrive le caratteristiche di un’istanza dell’informazione da rappresentare
+      \item I valori contenuti nelle colonne descrivono sempre la stessa proprietà delle istanze di informazione da rappresentare.
+    \end{itemize}
+  }
 
 
+  \definizione{RELAZIONE come insieme di ennuple(LISTS)}{
+    Dati n insiemi di valori (domini) $D_1$, \dots, $D_n$ con n > 0 e indicato con $D_1 \times$ \dots $D_n$ il loro prodotto cartesiano: 
+    \begin{center}
+    $D_1 \ \dots \Box D_n = \{ (v_1, \dots, v_n)| v_1  \Box D_1 \Box \dots \Box v_n \Box D_n \}$
+    \end{center}
+    Una relazione $\rho$ di grado n è un qualsiasi \sottolinea{black}{sottoinsieme di} $D_1 \times \dots \times D_n:$
+    \begin{center}
+      \(\rho \Box D_1 \Box \dots \Box D_n\)
+    \end{center}
+    dove: $(v_1, \dots, v_n)$ è una ennupla della relazione e |$\rho$| è la cardinalità della relazione (numero di ennuple)
+  }
+
+  Si noti che: 
+  \begin{itemize}
+    \item I domini \(D_1, \dots, D_n \) possono essere a \sottolinea{black}{cardinalità infinita}, mentre le relazioni sono SEMPRE a \sottolinea{black}{cadinalità finita}
+    \item Dalla definizione si deduce che 
+    \begin{itemize}
+      \item \sottolinea{black}{Non è definito alcun ordinamento} sulle ennuple di una relazione
+      \item \sottolinea{black}{Non sono ammessi DUPLICATI} di una ennupla
+      \item Nella definizione di relazione come insieme di ennuple, i valori nelle ennuple sono \sottolinea{black}{ordinati}
+    \end{itemize}
+  \end{itemize}
+
+  \vspace{1em}
+  \esempio{Esempio di relazione come insieme di ennuple}{
+    Relazione delle città\par
+    \( \rho =\{\) (MILANO, 20100, 1.300.000), (VERONA, 37100, 350.000), (BRESCIA, 25100, 250.000)\(\}\)
+    \begin{center}
+      \(\rho \Box D_1\Box D_2\Box D_3\) \\
+      $D_1$ = Stringhe di caratteri\\
+      $D_2$ = Numeri interi\\
+      $D_3$ = Numeri interi
+    \end{center}
+
+  }
+
+  \subsection*{Accesso ai valori di una ennupla}
+  \addcontentsline{toc}{subsection}{Accesso ai valori di una ennupla}
+  \begin{itemize}
+    \item Se t è una ennupla ($v_1$,\dots, $v_n$) il valore posto in i-esima posizione si indica con la notazione: 
+    \begin{center}
+      \textbf{t[i]}
+    \end{center}
+    \item Questa modalità di accesso ai valori non è efficace per l’uso pratico delle relazioni. Si preferisce quindi assegnare un \sottolinea{black}{nome alle colonne}; ciò conduce all’introduzione della definizione di relazione come insieme di \textbf{TUPLE}.
+  \end{itemize}
 
 
+  \definizione{RELAZIONE come insieme di tuple (MAPPINGS)}{
+    Sia X un insieme di nomi e sia $\Delta$ l’insieme di tutti i domini di base ammessi dal modello. Si definisce la funzione:
+    \begin{center}
+      DOM: X → $\Delta$
+    \end{center}
+    Tale funzione associa ad ogni nome A di X un dominio DOM(A) di $\Delta$. I nomi di X si dicono \textbf{attributi}.\\
+  Una tupla t su X è una funzione: t : X $\Box$ $\underset{A \Box X}{\cup}$ DOM(A) dove: t[A] = v $\Box$ DOM(A)\par
+  \textbf{Una relazione su X è un \sottolinea{black}{insieme di tuple su X}, dove X è l’insieme di attributi della relazione.}
+  }
+
+  \esempio{Esempio di relazione come insieme di tuple}{
+    Relazione delle città (vista in precedenza):\par
+    X = {Nome, CAP, Abitanti}\\
+    DOM(Nome) = Stringhe di caratteri\\
+    DOM(CAP) = Numeri interi\\
+    DOM(Abitanti) = Numeri interi\par
+    $\rho_X$ =\{t1, t2, t3\}\\
+    t1[Nome] = MILANO, t2[Nome] = VERONA, t3[Nome] = BRESCIA\\
+    t1[CAP] = 20100, t2[CAP] = 37100, t3[CAP] = 25100\\
+    t1[Abitanti] = 1.300.000, t2[Abitanti] = 350.000, t3[Abitanti] = 250.000
+  }
+  
+  Si noti che:
+  \begin{itemize}
+    \item Una relazione è un insieme di tuple e quindi non può contenere tuple duplicate
+    \item I domini per gli attributi possono essere solo domini di base, non sono ammessi altri domini, né il prodotto cartesiano di domini
+    \item In generale una base di dati relazionale è costituita da più relazioni.
+  \end{itemize}
 
 
-  %-------------PARTE DI ESERCIZI--------%
+  %--------------------------------------%
+  %            PARTE DI ESERCIZI         %    
+  %--------------------------------------%
+
 
   \chapter*{Esercizi}
   \addcontentsline{toc}{chapter}{Esercizi}
