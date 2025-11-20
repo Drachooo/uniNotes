@@ -425,8 +425,8 @@
     \item Non esistono situazioni nelle quali la terna di entità debba essere rappresentata più volte.
   \end{itemize}
 
-  \sottolinea{red}{Esempio di uso corretto:}\par
-  Vogliamo rappresentare il fatto che un prodotto venga fornito ad un dipartimento da un fornitore. Ogni dipartimento può scegliere quali prodotti ordinare dai fornitori selezionando un sottoinsieme dei profotto forniti dal fornitore. Ogni fornitore vende a più dipartimenti prodotto diversi. Ogni prodotto viene venduto da più fornitori.
+  \esempio{Esempio di uso corretto}{
+      Vogliamo rappresentare il fatto che un prodotto venga fornito ad un dipartimento da un fornitore. Ogni dipartimento può scegliere quali prodotti ordinare dai fornitori selezionando un sottoinsieme dei profotto forniti dal fornitore. Ogni fornitore vende a più dipartimenti prodotto diversi. Ogni prodotto viene venduto da più fornitori.
 
   \begin{figure}[H]
     \centering
@@ -440,6 +440,8 @@
     \item[I(DIPARTIMENTO)]= \{d1, d2\}
     \item[I(FORNITURA)]=\{(f1,d1,p1), (f1,d2,p3), (f3,d1,p3), (f3,d2,p2)\}    
   \end{description}
+  }
+
 
   \subsubsection*{Cardinalità delle relazioni}
   \addcontentsline{toc}{subsubsection}{Cardinalità delle relazioni}
@@ -566,7 +568,7 @@
       \item \evidenzia{green}{Fase 2}: GENERARE gli SCHEMI per tutte le parti elementari individuate.
       \item \evidenzia{green}{Fase 3}: FONDERE gli schemi (introducendo altri costrutti del modello E-R) in modo da INTEGRARE tutti gli schemi componenti e generare lo SCHEMA FINALE.
     \end{itemize}
-    \item \text{\evidenzia{blue!50!white}{INSIDE-OUT}:}
+    \item \textbf{\evidenzia{blue!50!white}{INSIDE-OUT}:}
     \begin{itemize}
       \item \evidenzia{blue!50!white}{Fase 1}: INDIVIDUARE nelle specifiche alcuni CONCETTI IMPORTANTI (detti concetti GUIDA)
       \item \evidenzia{blue!50!white}{Fase 2}: GENERARE gli SCHEMI per i concetti GUIDA
@@ -766,6 +768,113 @@
     \item I domini per gli attributi possono essere solo domini di base, non sono ammessi altri domini, né il prodotto cartesiano di domini
     \item In generale una base di dati relazionale è costituita da più relazioni.
   \end{itemize}
+
+  \subsection*{Progettazione nel modello relazionale}
+  \addcontentsline{toc}{subsection}{Progettazione nel modello relazionale}
+
+  Nel modello relazionale lo schema è costituito da un insieme di relazioni (o tabelle). Ma come implementare i requisiti direttamente nello schema relazionale? Quante e quali relazioni definire?
+
+  Lo strumento formale per definire le dipendenze tra proprietà elementari (attributi) nel modello relazionale è costituito dalle: 
+  \begin{center}
+    DIPENDENZE FUNZIONALI
+  \end{center}
+  che tuttavia non sono parte del programma del corso.
+  Inoltre la loro funzione viene svolta, nella metodologia di progettazione proposta, dalla progettazione CONCETTUALE nel modello ER.\\
+  \textbf{Detto ciò, quante e quali relazioni generare nello schema relazionale?}
+  
+  \esempio{Esempio}{REQUISITI:\par Vogliamo rappresentare in una base di dati relazionale le informazioni sulla \textbf{proprietà degli appartamenti siti nel comune di Verona.}
+  \begin{itemize}
+    \item Per ogni \sottolinea{black}{appartamento} vogliamo memorizzare: il codice ecografico (univoco), la categoria catastale e l’indirizzo composto da: via, numero civico, subalterno.
+    \item Per ogni \sottolinea{black}{proprietario} si registra: il codice fiscale, il nome, il cognome e la data di nascita.
+    \item \sottolinea{black}{Un appartamento può essere in comproprietà e un proprietario può possedere più appartamenti.}
+  \end{itemize}
+
+  \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/Schema_relazionale_una_relazione.png}
+      \caption{schemino}
+  \end{figure}
+  Nella relazione unica ogni riga rappresenta un contratto di proprietà e richiede di precisare tutti i dati di un appartamento e tutti i dati di un proprietario. Ciò implica che:
+  \begin{itemize}
+    \item \sottolinea{black}{Non è possibile rappresentare un appartamento che non abbia un proprietario}, né rappresentare un proprietario senza appartamento,
+    \item \sottolinea{black}{I dati di un appartamento vengono replicati per ogni proprietario}
+    \item \sottolinea{black}{I dati di un proprietario vengono replicati per ogni appartamento di proprietà}
+  \end{itemize}
+  }
+
+  \subsubsection*{Anomalie}
+  \addcontentsline{toc}{subsubsection}{Anomalie}
+  La presenza di ridondanza inutile nella base di dati provoca le seguenti anomalie:
+  \begin{itemize}
+    \item ANOMALIA DI AGGIORNAMENTO: per aggiornare il valore di un attributo si è obbligati a modificare tale valore su più tuple.
+    \item ANOMALIA DI INSERIMENTO: per inserire una nuova tupla è necessario inserire valori al momento sconosciuti (sostituibili da valori nulli) per gli attributi non disponibili 
+    \item ANOMALIA DI CANCELLAZIONE: per cancellare una tupla è necessario cancellare valori ancora validi oppure inserire valori nulli per gli attributi da cancellare
+
+  \end{itemize}
+
+
+  La rindondanza nei dati può essere ridotta andando a \evidenzia{yellow}{decomporre la relazione.} Sono possibili diverse decomposizioni:
+
+  \begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/decomposizione1.png}
+      \caption{Decomposizione 1}
+  \end{figure}
+
+   \begin{figure}[h]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/decomposizione2_0.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/decomposizione2_1.png}
+    \end{minipage}
+    \caption{Decomposizione 2}
+
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/decomposizione3_0.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/decomposizione3_1.png}
+    \end{minipage}
+    \caption{Decomposizione 3}
+
+\end{figure}
+
+e così via\dots
+
+Si noti che
+\begin{itemize}
+  \item \sottolinea{black}{I legami tra relazioni si realizzano attraverso la replicazione di un insieme di attributi}, dove il legame tra due tuple si intende stabilito quando esse presentano gli stessi valori negli attributi replicati.
+  \item Il modello relazionale è VALUE-BASED (basato sui valori). Il modello \sottolinea{black}{non prevede l’uso di puntatori} per rappresentare legami tra i dati.
+\end{itemize} 
+
+Inoltre il fatto di essere VALUE-BASED: 
+\begin{itemize}
+  \item Completa indipendenza dall’implementazione e dallo schema fisico
+  \item Facilità di trasferimento dei dati tra sistemi
+  \item Viene rappresentato solo ciò che è rilevante per il sistema informativo
+\end{itemize}
+
+
+
+
+  \subsubsection*{Valori nulli e vincoli di integrità}
+  \addcontentsline{toc}{subsubsection}{Valori nulli e vincoli di integrità}
+
+  
+
 
 
   %--------------------------------------%
