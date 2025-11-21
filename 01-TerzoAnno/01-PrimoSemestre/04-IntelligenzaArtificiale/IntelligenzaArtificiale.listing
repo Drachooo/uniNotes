@@ -1,0 +1,2 @@
+      function Simulated-Annealing(problem, schedule) returns solution
+        current <- problem.statoIniziale
