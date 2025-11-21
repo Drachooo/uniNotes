@@ -1,149 +1,145 @@
-\documentclass[a4paper, 12pt]{book}
-\usepackage[margin=2.5cm]{geometry}
+\documentclass[12pt, a4paper, oneside]{book}
+
+% --- LINGUA E CODIFICA ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
-%\usepackage{wrapfig}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{amsthm}       % per \theoremstyle e ambienti tipo theorem, definition, example
-\usepackage{mdframed}     % per \newmdtheoremenv (ambienti incorniciati)
-\usepackage{float}
-\usepackage{mdframed}
-\usepackage{listings}
-\usepackage{amsmath}
-\setlength{\parindent}{0pt}
-\usepackage{parskip}
-\usepackage[most]{tcolorbox}
-\usepackage{amsfonts}
-\usepackage{}
-\usepackage{amssymb}
-\usepackage{soul}
+\renewcommand{\familydefault}{\sfdefault} % Sans-serif moderno
+
+% --- MARGINI E GEOMETRIA ---
+\usepackage[a4paper, margin=2.5cm]{geometry}
+
+% --- COLORI E LINK ---
 \usepackage{xcolor}
-\usepackage{amsmath}
-\sethlcolor{yellow}
-\usepackage{array}
-\usepackage{booktabs}
-\usepackage{tikz}
-\usetikzlibrary{positioning}
-\usepackage{longtable}
-\tcbuselibrary{theorems}
-\usepackage{array}
+\definecolor{azzurrino}{HTML}{1E88E5}
+\definecolor{grigiochiaro}{HTML}{F5F5F5}
+\definecolor{grigioscuro}{HTML}{424242}
+
+\usepackage[
+    colorlinks=true,
+    linkcolor=grigioscuro,
+    citecolor=azzurrino,
+    urlcolor=azzurrino
+]{hyperref}
+
+% --- TITOLI MODERNI ---
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries\color{azzurrino}}
+  {\filleft\Huge\thechapter}
+  {0pt}
+  {\titlerule[1pt]\vspace{1ex}\filright}
+  [\vspace{1ex}\titlerule]
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{azzurrino}}{\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsection}{1em}{}
+
+% --- CAPTION COLORATE ---
+\usepackage[font=small, labelfont={bf, color=azzurrino}]{caption}
+
+% --- HEADER E FOOTER ---
 \usepackage{fancyhdr}
-\setlength{\headheight}{15pt}
+\setlength{\headheight}{25pt}
 \pagestyle{fancy}
-\fancyhf{} % pulisce header e footer
-\fancyhead[R]{\thepage} % numero pagina a destra nell'header
-\renewcommand{\headrulewidth}{0pt} % (opzionale) elimina la riga orizzontale sotto l'header
-\fancypagestyle{plain}{%
-  \fancyhf{} % pulisce header e footer
-  \fancyhead[R]{\thepage} % numero sempre in alto a destra
-  \renewcommand{\headrulewidth}{0pt} % opzionale: niente linea
-}
-\setcounter{tocdepth}{3}
+\fancyhf{}
+\fancyhead[L]{\color{grigioscuro}\leftmark}
+\fancyhead[R]{\color{azzurrino}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{azzurrino}\leaders\hrule height \headrulewidth\hfill}}
+\fancyfoot[C]{\color{grigioscuro}\small Intelligenza Artificiale – \thepage}
 
-\title{\textbf{Intelligenza artificiale}}
-\author{Mattia Nicolis \and Matteo Drago}
-\date{A.A. 2025-26}
+% --- LISTE ED ENUMERAZIONI ---
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=1.5em}
 
+% --- GRAFICA E FIGURE ---
+\usepackage{graphicx}
+\usepackage{bookmark}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage[normalem]{ulem} % sottolineature
+\usepackage{subcaption}
+\usepackage{soul} % evidenziazione
+\usepackage{parskip} % spaziatura tra paragrafi
+
+% --- Tcolorbox e Listings ---
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings, skins, breakable, theorems} % theorems utile per ambienti come erexercise
+\usepackage{amsmath}
+\usepackage{tabularx}
+
+% --- FRONTESPIZIO ---
+\title{\Huge\bfseries Appunti del corso di \\[0.5ex]
+\textcolor{azzurrino}{Intelligenza artificale} \\[1ex]
+\Large UniVR - Dipartimento di Informatica \\[1.5ex]
+\Large Primo semestre - A.A. 2025/26}
+\author{\Large Mattia Nicolis \and  \Large Matteo Drago}
+\date{}
+
+\input{../../../ambienti.sty} %file apposito per definire nuovi comandi
+
+% =================================
 \begin{document}
-
+    \frontmatter
     \maketitle
-
     \tableofcontents
-    \markboth{}{}
+    \thispagestyle{empty}
+    \newpage
 
-    %-------MODULO DI TEORIA------------------------------------
-    %-------Prof: Alessandro Farinell---------------------------
-    %-------Lez: mercoledì (8:30-11:30) [Aula Delta - Cav.3]----
-    %-------Libro: Artificial Intelligence: a modern approach---
+    %===========================
+    \mainmatter
 
+    % --- CAPITOLO 1: INTRODUZIONE ALL'AI ---
+    \chapter{Introduzione}
+    Il compito dell'\textbf{intelligenza artificale} (IA) non è solo quello di \textit{comprendere}, ma anche di \textit{costruire} entità intelligenti.
+    
+    
+    \definizione{entià intelligenti}{Macchine in grado di comprendere come \hl{\textbf{agire in modo efficace e sicuro}} in un'ampia varietà di situazioni nuove.}
 
+    In passato, gli studiosi hanno proposto diverse versioni di IA:
+    \begin{itemize}
+        \item \textbf{IA in termini di \textit{fedeltà alla prestazione umana}}: una scienza empirica correlata alla psicologia, richiedendo osservazioni riguardo al comportamento umano e ai procesi di pensiero 
+        \item \textbf{IA in termini di \textit{razionalità}}: sfrutta una combinazione di matematica e ingegneria e si collega alla statistca, alla teoria del controllo e all'economia
+    \end{itemize}
 
-    % Example frame
-    \newmdenv[
-      linecolor=gray,
-      backgroundcolor=gray!10,
-      innertopmargin=8pt,
-      innerbottommargin=8pt
-    ]{example}
+    \vario{Test di Turing}{Il \textbf{test di Turing}, proposto da Alan Turing nel 1950, mira a comprendere se una macchina è in grado di pensare. 
+    
+    Un computer supera il test, se un esaminatore umano, dopo aver posto alcune domande in forma scritta, non è in grado di distinguere se le risposte provenfono da una persona o da una macchina.
 
-    % Definizione dell'ambiente "definition" in un riquadro
-    \newtcbtheorem[number within=section]{definition}{Definizione}%
-    {colback=blue!5!white,     % colore di sfondo
-    colframe=blue!75!black,   % colore del bordo
-    fonttitle=\bfseries,      % titolo in grassetto
-    coltitle=white,           % colore del titolo
-    boxrule=0.8pt,            % spessore del bordo
-    arc=2mm,                  % angoli arrotondati
-    top=2mm, bottom=2mm, left=2mm, right=2mm,
-    enhanced, breakable       % abilita interruzione su più pagine
-    }{def}
+    \begin{center}
+      \includegraphics[width=0.6\textwidth]{foto/turing.png}
+    \end{center}
+    
+    Per superare il test, il computer deve possedere le seguenti capacità:
+    \begin{itemize}
+      \item \textbf{interpretazione del linguaggio naaturale} per comunicare con successo nel linguaggio umano
+      \item \textbf{rappresentazione della conoscenzza} per memorizzare ciò che \textit{conosce} o \textit{apprende}
+      \item \textbf{ragionamento automatico} per rispondere alle domande e trarre nuove conclusioni
+      \item \textbf{apprendimento autatico} (\textit{machine learning}) per adattarsi a nuove circostanze, individuare ed esplorare schemi
+    \end{itemize}
 
+    Esiste, inoltre un cosidetto \textbf{test di Turing totale}, che richiede l'interazione con oggetti e persone nel mondo reale.
 
+    Per superare qust'ultimo tipo di test, un robot deve anche possedere:
+    \begin{itemize}
+      \item \textbf{visione artificiale} e \textbf{riconoscimento vocale} per percepire il mondo
+      \item \textbf{robotica} èer manipolare gli oggetti e muoversi fisicamente
+    \end{itemize}
+    }
 
+    \section{Tipologie di intelligenza artificiale}
 
-    \chapter*{Introduzione all'intelligenza artificiale}
-    \addcontentsline{toc}{chapter}{Introduzione all'intelligenza artificiale}
-    Il \hl{compito dell’\textbf{intelligenza artificiale} (IA) non è solo quello di \textit{comprendere}, ma anche di \textit{costruire} entità intelligenti}: macchine in grado di calcolare come agire in modo efficace e sicuro in un’ampia varietà di situazioni nuove.
+    \subsection{Agenti autonomi}
+    Sono sistemi che percepiscono l'ambiente e agiscono in modo autonomo per raggiungere obiettivi specifici.
 
-    In passato, gli studiosi hanno proposto diverse versioni di IA: alcuni hanno definito l’intelligenza in termini di fedeltà alla \textbf{prestazione umana}, mentre altri preferiscono una definizione formale di intelligenza come \textbf{razionalità}.
+    \subsection{Data analysis}
+    Consiste nell'utilizzo di algoritmi per analizzare grandi quantità di dati ed estrarre informazioni utili e correlazioni complesse.
 
-    I metodi utilizzati sono necessariamente diversi: l’approccio che persegue un’intelligenza simile a quella umana deve essere in parte una scienza empirica correlata alla psicologia, richiedendo osservazioni e ipotesi riguardo al comportamento umano e ai processi di pensiero.
-
-    Un approccio razionalista, invece, sfrutta una combinazione di matematica e ingegneria e si collega alla statistica, alla teoria del controllo e all’economia.
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Test di Turing},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      Il \textbf{test di Turing}, proposto da Alan Turing nel 1950, mira a comprendere se una macchina è in grado di pensare.
-
-      \vspace{2mm}
-
-      Un computer supera il test se un esaminatore umano, dopo aver posto alcune domande in forma scritta, non è in grado di distinguere se le risposte provengano da una persona o da una macchina.
-
-      \vspace{2mm}
-
-      Per superare il test, il computer deve possedere le seguenti capacità:
-      \begin{itemize}
-        \item \textbf{interpretazione del linguaggio naturale}, per comunicare con successo nel linguaggio umano
-        \item \textbf{rappresentazione della conoscenza}, per memorizzare ciò che conosce o apprende
-        \item \textbf{\textbf{ragionamento automatico}}, per rispondere alle domande e trarre nuove conclusioni
-        \item \textbf{apprendimento automatico} (\textit{machine learning}), per adattarsi a nuove circostanze, individuare ed estrapolare schemi
-      \end{itemize}
-
-      \vspace{2mm}
-
-      Esiste, inoltre, un cosiddetto \textbf{test di Turing totale}, che richiede l’interazione con oggetti e persone nel mondo reale.
-
-      \vspace{2mm}
-
-      Per superare il test di Turing totale, un robot deve anche possedere:
-      \begin{itemize}
-        \item \textbf{visione artificiale} e riconosciemtno vocale, per percepire il mondo
-        \item \textbf{robotica}, per manipolare gli oggetti e muoversi fisicamente
-      \end{itemize}
-    \end{tcolorbox}
-
-    \section*{Tipologie di intelligenza artificiale}
-    \addcontentsline{toc}{section}{Tipologie di intelligenza artificiale}
-
-    \subsection*{\textcolor{blue}{Agenti autonomi}}
-    \addcontentsline{toc}{subsection}{Agenti autonomi}
-    Sono sistemi che percepiscono l’ambiente e agiscono in modo autonomo per raggiungere obiettivi specifici.
-
-    \subsection*{\textcolor{blue}{Data analysis}}
-    \addcontentsline{toc}{subsection}{Data analysis}
-    Consiste nell’utilizzo di algoritmi per analizzare grandi quantità di dati ed estrarre informazioni utili e correlazioni complesse.
-
-    \subsection*{\textcolor{blue}{Machine Learning}}
-    \addcontentsline{toc}{subsection}{Machine Learning}
+    \subsection{Machine Learning}
     È lo sviluppo di algoritmi che permettono ai modelli di apprendere dai dati di esempio e migliorare le proprie prestazioni nel tempo, senza essere esplicitamente programmati.
     
     Un esempio è il riconoscimento di immagini.
@@ -155,8 +151,7 @@
       \item \textbf{reinforced learning}: il modello apprende attraverso interazioni con l’ambiente, ricevendo ricompense o penalità in base alle azioni compiute. L’obiettivo è massimizzare la ricompensa totale nel tempo
     \end{itemize}
 
-    \subsection*{\textcolor{blue}{Time series analysis}}
-    \addcontentsline{toc}{subsection}{Time series analysis}
+    \subsection{Time series analysis}
     L’analisi delle serie temporali è un’area dell’apprendimento automatico che si concentra sull’analisi di dati raccolti nel tempo.
 
     Le serie temporali sono sequenze di dati misurati a intervalli regolari, come la temperatura giornaliera, i prezzi delle azioni o i dati di vendita mensili.
@@ -172,8 +167,7 @@
       \item \textbf{generative transformers}: modelli in grado di predire il prossimo elemento in una sequenza di dati (ad esempio la parola successiva in una frase o il pixel successivo in un’immagine), utilizzando il concetto di \textbf{attenzione} per pesare l’importanza delle diverse parti della sequenza di input.
     \end{itemize}
 
-    \subsection*{\textcolor{blue}{Agenti intelligenti}}
-    \addcontentsline{toc}{subsection}{Agenti intelligenti}
+    \subsection{Agenti intelligenti}
     Un agente intelligente è un sistema che percepisce l’ambiente circostante attraverso sensori e agisce su di esso per raggiungere un obiettivo specifico.
 
     Gli elementi chiave di un agente intelligente sono:
@@ -182,8 +176,7 @@
       \item \textbf{rationality}: l’agente deve agire in modo da massimizzare la performance attesa
     \end{itemize}
 
-    \subsection*{\textcolor{blue}{Markov Decision Process (MDP)}}
-    \addcontentsline{toc}{subsection}{Markov Decision Process (MDP)}
+    \subsection{Markov Decision Process (MDP)}
     Un MDP è un modello matematico utilizzato per rappresentare problemi di decisione sequenziali. I suoi elementi principali sono:
     \begin{itemize}
       \item \textbf{state}: rappresenta l’ambiente in un determinato momento
@@ -202,8 +195,7 @@
         \] 
     \end{itemize}
 
-    \subsection*{\textcolor{blue}{Generative AI}}
-    \addcontentsline{toc}{subsection}{Generative AI}
+    \subsection{Generative AI}
     L’intelligenza artificiale generativa comprende una classe di modelli in grado di creare nuovi contenuti — testo, immagini, musica o video — a partire da dati di addestramento.
 
     Questi modelli possiedono miliardi di parametri e sono pre-addestrati su enormi quantità di dati.
@@ -212,27 +204,13 @@
 
 
 
-    \chapter*{Agenti intelligenti}
-    \addcontentsline{toc}{chapter}{Agenti intelligenti}
-    Un \textbf{agente} è qualsiasi \hl{entità che possa essere vista come un sistema che percepisce il proprio ambiente attraverso dei \textbf{sensori} e agisce su di esso mediante \textbf{attuatori}}.
+    % --- CAPITOLO 2 : AGENTI INTELLIGENTI ---
+    \chapter{Agenti intelligenti}
+    Un \textbf{agente} è una qualsiasi \textit{entità} che può essere visto come un \hl{\textbf{sistema} che \textit{percepisce} il proprio ambiente \textbf{attraverso} dei \textbf{sensori} e \textit{agisce} su di esso mediante \textbf{attuatori}}.
+    
+    Un agente umano possiede come \textbf{sensori} gli \textit{occhi} e \textit{altri organi}, e può utilizzare come \textbf{atturatori} \textit{mani}, \textit{gambe}, \textit{corde vocali} ecc.
 
-    Un agente umano possiede come \textbf{sensori} gli occhi e altri organi, e può utilizzare come \textbf{attuatori} mani, gambe, corde vocali ecc.
-
-    Un agente robotico può invece disporre di telecamere e telemetri a infrarossi come sensori, e di diversi motori come attuatori.
-
-    \begin{tcolorbox}[
-      colback=cyan!5!white,
-      colframe=blue!50!black,
-      title=\textbf{Definizione formale di agente razionale},
-      coltitle=white,
-      fonttitle=\bfseries,
-      arc=3mm,
-      boxrule=0.5pt,
-      enhanced,
-      breakable
-    ]
-      Per ogni possibile sequenza di percezioni, un agente razionale dovrebbe scegliere un’azione che massimizzi il valore atteso della sua misura di performance, date le informazioni fornite dalla sequenza e da ogni ulteriore conoscenza posseduta dall’agente.
-    \end{tcolorbox}
+    Un agente robotico può, invece, disporre di \textit{telecamere} e \textit{telemetri a infrarosso} (es. sensori e diversi motori) come\textbf{attuatori}.
 
     \begin{figure}[h]
       \centering
@@ -240,271 +218,270 @@
       \caption{agente razionale}
     \end{figure}
 
-    Useremo il termine \textbf{percezione} per indicare i dati che i sensori di un agente percepiscono.
+    \definizione{agente razionale (formale)}{
+      Per ogni possibile seuqenza di percezioni, un agente razionale dovrebbe scegliere un'azione che \textbf{massimizzi} il valore atteso della sua \textit{performance measure}, date le informazioni fornite dalla suquenza e da ogni ulteriore conoscenza posseduta dall'agente.
+    }
 
-    La \textbf{seuquenza percettiva} di un agente è la storia completa di tutto ciò che esso ha percepito nella sua esistenza.
-
-    Sèecificando l'azione prescelta dell'agente per ogni possibile sequenza percettiva, abbiamo descritto l'agente in modo completo.
-
-    In termini matematici diciamo, quindi, che il comportamento di un agente è descritto dalla \textbf{funzione agente}, che descrive la corrispondenza tra una qualsiasi sequenza percettiva e una specifica azione:
+    In termini matematici, il comportamento di un agente è descritto dalla \textbf{funzione agente}, che descrive la corrispondenza tra una qualsiasi sequenza percettiva e una specifica azione:
     \begin{equation*}
-      f : \mathcal{P}^{*} \rightarrow \mathcal{A}
+      f: \mathcal{P}* \rightarrow \mathcal{A}
     \end{equation*}
 
-    Possiamo immaginire di rappresentare in forma di tabella la funzione agente che descrive un certo agente.
-
-    Nella maggior parte dei casi questa tabella sarebbe molto grande, di fatto infinito, a meno di non specificare una lunghezza massima delle sequenza percettive che vogliamo prendere in considerazione.
-
-    La tabella è una descrizione esterna dell'agente.
-
-    Internamente, la funzione agente di un agente artificale sarà implementata da un \textbf{programma agente}.
-
-    E' importante tenere distinti questi due concetti:
+    E' importante fare una distinzione tra due concetti distinti:
     \begin{itemize}
-      \item \textit{funzione agente}: descrizione matematica stratta
-      \item \textit{programma agente}: implementazione concreta della funzione agente, in esecuzione all'interno di un sistema fisico.
+      \item \textbf{funzione agente}: descrizione matematica astratta
+      \item \textbf{programma agente}: implementazione concreta della funzione agente, in esecuzione all'interno di un sistema fisico 
     \end{itemize}
 
-    \begin{definition*}{}{}
-      Se un agente ha $|P|$ possibili percezioni, quante voci avrà la funzione agente dopo $T$ passi temporali?
-      
-      \vspace{1mm}
+    \vario{Calcolo (...da rinominare)}{\textit{{Se un agente ha} $|P|$ \textit{possibili percezioni, quante voci avrà la funzione dopo} $T$ \textit{passi temporali?}}
+    \begin{equation*}
+      \sum_{t=1}^{T} |P|^t
+    \end{equation*}
+    }
+
+    L'obiettivo dell'IA è di progettare piccoli programmi agente per rappresentare grandi funzioni agenti.
+
+    \esempio{agente aspirapolvere robotizzato}{Consideriamo un agente aspirapolvere robotizzato in un mondo costituito da riquadri che possono essere sporchi o puliti.
 
       \begin{center}
-        $\sum_{t=1}^T|P|^t$
+        \includegraphics[width=0.4\textwidth]{foto/aspirapolvere.png}
       \end{center}
 
-      \vspace{1mm}
+      L'agente aspirapolvere percepisce in quale riquadro si trova e se tale riquadro è sporco.
 
-      L'obiettivo dell'IA è di progettare piccoli programmi agente per rappresentare grandi funzioni agenti.
-    \end{definition*}
+      Parte nel riquadro A e le azioni che può compiere sono:
+       \begin{itemize}
+        \item \textit{muoversi a destra}
+        \item \textit{muoversi a sinistra}
+        \item \textit{aspirare lo sporco}
+        \item \textit{non fare nulla}
+       \end{itemize}
 
-    %esempio dell'aspirapolvere
+       Una funzione agente molto semplice è: "\textit{se il riquadro corrente è sporco, aspira, altrimenti muoviti nell'altro riquadro}".
 
-    %codice programma agente (aspirapolvere)
+       \begin{center}
+        \begin{tabular}{c c}
+          \textbf{Sequenza percettiva} & \textbf{Azione}\\
+          \hline
+          [A, pulito] & azione \\[0.2ex]
+          [A, sporco] & destra \\[0.2ex]
+          [B, pulito] & aspira \\[0.2ex]
+          [B, sporco] & sinistra \\[0.2ex]
+          [A, pulito], [A, pulito] & destra \\[0.2ex]
+          [A, pulito], [A, sporco] & aspira \\[0.2ex]
+          $\vdots$ \\[0.2ex]
+          [A, pulito], [A, pulito], [A, pulito] & destra \\[0.2ex]
+          [A, pulito], [A, pulito], [A, sporco] & aspira \\[0.2ex]
+          $\vdots$
+        \end{tabular}
+       \end{center}
+    }
 
-    \textit{Qual'è il modo più corretto di progettare la tabella?}, ovvero che cosa rende un agente buono o cattivo, intelligente o stupido?
+    \begin{codice}[python]{programma agente - agente aspirapolvere}
+      function Reflex-Vacuum-Agent([location, status]) returns actions
+        if status = dirty then return suck
+        else if location = A then return right
+        else if location = B the return left
+    \end{codice}
+
+    \textit{Qual'è il modo più corretto di progettare la tabella? Che cosa rende un agente buono o cattivo, intelligente o stupido?}
 
     Abbiamo bisogno di una \textbf{performance measure}.
 
-    \section*{Misure di prestazione}
-    \addcontentsline{toc}{section}{Misure di prestazione}
-    L'IA è fedele al concetto di \textbf{consequenzialismo}: vlautare il comportamento di un agente considernadone le \textit{conseguenze}.
-    
-    Quando un agente viene inserito in un ambiente, genera una sequenza di azioni in base alle percezioni che riceve.
+    \section{Misure di prestazione}
+    L'intelligenza artificiale è fedele al concetto di \textbf{consequenzialismo}: valutare il comportamento di un agente considerandone le \textit{conseguenze}.
 
-    Questa sequenza di azioni porta l'ambiente ad attraversare una sequenza di stati: se tale sequenza è \textit{desiderabile}, significa che l'agente si è comportato bene.
+    Quando un agente viene iscritto in un ambiente, genera una sequenza di azioni in base alle percezioni che riceve. \\[0.5ex]
+    Questa sequenza di azioni porta l'ambiente ad attraversare una sequenza di stati: se tale sequenza è \textit{desiderabile}, significa che l'agente s è comportato bene.
 
-    Questa nozione di desiderabilità è catturata da una \textbf{misura di prestazione} (\textit{performance measure}) che valuta una seuqenza di stati dell'ambiente.
+    Questa nozione di desiderabilità è catturata da \textbf{misura di prestazione} (\textit{performance measure}) che valuta una seuqenza di stati dell'ambiente.
 
-    \subsection*{Razionalità}
-    \addcontentsline{toc}{subsection}{Razionalità}
+    \subsection{Razionalità}
+    \definizione{agente razionale}{Per ogni possibile sequenza di percezioni, un agente dovrebbe scegliere un'azione che massimizzi il valore atteso della sua misura di prestazione, date le informazioni fornite dalla sequenza percettiva e da ogni ulteriore conoscenza dell'agente.}
 
-    \begin{definition*}{agente razionale}{}
-      Per ogni possibile seuqenza di percezioni, un agente dovrebbe scegliere un'azione che massimizzi il valore atteso della sua misura di prestazione, date le informazioni fornite dalla sequenza percettiva e da ogni ulteriore conoscenza dell'agente.
-    \end{definition*}
-
-    Dobbiamo, però, distingure un paio di concetti:
-    \begin{description}
-      \item [razionalità $\neq$ onniscenza]: le percezioni potrebbero non fornire tutte le informazioni rilevanti
-      \item [razionalità $\neq$ chiaroveggente]: i risultati dell'azione potrebbero non essere quelli previsti
-      \item [razionalità $\neq$ riuscito]
-    \end{description}
+    Bisogna, però, distinguere un paio di concetti:
+    \begin{itemize}
+      \item \textbf{razionalità $\neq$ onniscenza}: le percezioni potrebbero non fornire tutte le informazioni rilevanti
+      \item \textbf{razionalità $\neq$ chiaroveggente}: i risultati dell'azione potrebbero non essere quelli previsti
+      \item \textbf{razionalità $\neq$ riuscito}
+    \end{itemize}
 
     Razionale vuol dire \textit{esplorazione}, \textit{apprendimento}, \textit{autonomia}.
-    
-    \section*{Specificare un ambiente (PEAS)}
-    \addcontentsline{toc}{section}{Specificare un ambiente o (PEAS)}
+
+    \section{Specificare un ambiente (PEAS)}
     Per progettare un agente intelligente bisogna definire l'ambiente in cui si opera:
     \begin{itemize}
-      \item \textbf{performance measure}: come viene valutato il successo dell'agente
+      \item \textbf{performance measure}: come viene valutato l successo dell'agente
       \item \textbf{enviroment}: contesto in cui opera l'agente
       \item \textbf{actuators}: mezzi attraverso cui l'agente agisce sull'ambiente
       \item \textbf{sensors}: mezzi attraverso cui l'agente percepisce l'ambiente
     \end{itemize}
 
 
-    \chapter*{Risolvere i problemi con la ricerca}
-    \addcontentsline{toc}{chapter}{Risolvere i problemi con la ricerca}
-    Quando l'azione giusta da compiere non è subito evidente, un agente può avere la necessità di \textit{guardare avanti}, cioè considerare una sequenza di azioni che formano un cammino che porterà a uno \textbf{stato obiettivo}.
-    
-    Questo agente è chiamato \textbf{agente risolutore di problemi} e il processo computazionale che effettua è una \textbf{ricerca}.
-    
-    Questo tipo di agente utilizza \textit{rappresentazioni atomiche} in cui gli stati del mondo sono considerate come entità prive di una struttura interna visibile agli agli algoritmi per la risoluzione dei problemi.
 
-    Gli agenti che utilizzano \textit{rappresentazioni di stati fattorizzate} o \textit{strutture} sono chiamati \textbf{agenti pianificatori}.
-    
-    \section*{Agenti risolutori di problemi}
-    \addcontentsline{toc}{section}{Agenti risolutori di problemi}
-    Gli \textbf{agenti risolutori di problemi} sono una forma ristretta di agenti che formulano un problema e un obiettivo partendo da uno stato, ignorando le percezioni.
+    % --- CAPITOLO 3: RISOLVERE I PROBLEMI CON LA RICERCA ---
+    \chapter{Risolvere i problemi con la ricerca}
+    Quando l'azione giusta da compiere non è subito evidente, un agente può avere la necessità di \textit{guardare avanti}, cioè \hl{considerare una sequenza di azioni che formano un cammino che porterà a uno \textbf{stato obiettivo}}.
 
-    Questo chiama \textit{offline problem solving} perchè l'agente ha completa conoscenza dell'ambiente.
+    Questo agente è chiamato \textcolor{azzurrino}{\textbf{agente risolutore di problemi}} e il processo computazionale che effettua è una \textit{ricerca}.
 
-    %esempio del viaggio in Romania: Arad-Bucarest
+    Questo tipo di agente utilizza \textit{rappresentazioni atomiche} in cui gli stati del mondo sono considerate come entità prive di una struttura interna visibile agli algoritmi per la risoluzione dei problemi.
 
-    \subsection*{Problemi di ricerca e soluzini}
-    \addcontentsline{toc}{subsection}{Problemi di ricerca e soluzini}
-    \dots
+    GLi agenti che utilizzano \textit{rappresentazioni di stati finiti} o \textit{strutture} sono chiamati \textbf{agenti pianificatori}.
 
-    \section*{Algoritmi di ricerca}
-    \addcontentsline{toc}{section}{Algoritmi di ricerca}
-    Un \textbf{algoritmo di ricerca} riceve in input un problema e restituisce una soluzione o un fallimento.
+    \section{Agenti risolutori di problemi}
+    Gli \textbf{agenti risolutori di problemi} sono una \hl{forma ristretta di agenti} che formulano un problema e un obiettivo partendo da uno stato, ignorando le percezioni.
 
-    \subsection*{Tree search}
-    \addcontentsline{toc}{subsection}{Tree search}
-    Consideriamo, quindi, algoritmi che sovrappongono un \textbf{albero di ricerca} al grafo dello spazio degli stati, formando vari cammini a partire dallo stato iniziale e cercando di trovarne uno che raggiunga uno stato obiettivo.
-    \begin{description}
-      \item [nodo]: corrisponde a uno stato nello spazio degli stati
-      \item [ramo]: corrisponde ad un'azione 
-    \end{description}
+    Questo si chiama \textcolor{azzurrino}{\textbf{offline problem solving}} perchè l'agente ha completa conoscenza dell'ambiente.
 
-    La radice dell'albero corrisponde allo stato iniziale del problema.
+    %esempio del viaggio in Romania: Arad-BUcarest
+
+    \section{Algoritmi di ricerca}
+    \definizione{algoritmo di ricerca}{Un \textbf{algoritmo di ricerca} riceve in \textit{input} un roblema e restituisce come \textit{ouput} una soluzione o un fallimento.}
+
+    \subsection{Tree search}
+    Consideriamo, quindi, algoritmi che sovrappongono un \textbf{albero di ricerca} al \textit{grafo dello spazio degli stati}, formanod vari cammini a partire dallo stato iniziale e cercando di trovarne uno che raggiunge uno stato obiettivo. 
+
+    Un albero di ricerca è costituito da:
+    \begin{itemize}
+      \item \textbf{nodo}: corrisponde a uno stato nello spazio degli stati
+      \item \textbf{ramo}: corrisponde a un'azione
+    \end{itemize}
+
+    La radice dell'albero corrisponde allo sttao iniziale del problema.
 
     Nell'albero di ricerca possono esserci più cammini per raggiungere qualsiasi stato, ma per ogni nodo dell'albero c'è un cammino univoco per tornare alla radice.
 
-    %codice tree search
+    \begin{codice}[python]{Tree search}
+      function Tree-Search(problem, strategy) returns solution or failure
+        loop do
+          if no candidates for expansion the return failure
+            choose a leaf node for expansion according to strategy
+          if node contains a goal state the return solution
+          else add successor nodes to the search tree (expansion)
+        end
+    \end{codice}
 
-    Possiamo \textbf{espandere} il nodo, considerando le \textit{azioni} disponibili per quello stato, usando la funzione \textit{risultato} per vedere dove portano tali azioni e \textbf{generare} un nuovo nodo (\textit{nodo figlio} o \textit{sucessore}) per ognuno degli sttati risultanti.
-
+    Possiamo \textbf{espandere} il nodo, considerando le \textit{azioni} disponibili per quello stato, usando la funzioe \textit{risultato} per vedere dove portano tali azioni e \textbf{generare} un nuovo nodo (\textit{nodo figlio} \textit{sucessore}) per ognuno degli stati risultanti. \\[0.5ex]
     Ogni nodo figlio ha un \textbf{nodo padre}.
 
-    % codice tree search generale
+    Chiamiamo l'insieme di questi nodi \textbf{forntiera} dell'albero di ricerca, e diciamo che ogni stato per cui vi è un nodo generato è stato \textit{raggiunto}.
 
-    Chiamiamo l'insieme di questi nodi \textbf{frontiera} dell'albero di ricerca, e diciamo che ogni stato per cui vi è un nodo generato è stato \textbf{raggiunto}.
+    \begin{codice}[python]{Tree search - generale}
+      function Tree-search(problem, frontier) returns solution or failure
+        forntier <- insert(make-node(problem.initilaState))
 
-    La frontiera \textit{separa} due regioni del grafo dello spazio degli stati:
+        while not isEmpty(frontier) do
+          node <- pop(frontier)
+          if problem.goalTest(node.state) then return node
+            forntier <- insertAll(expand(node, problem))
+        end loop
+
+        return failure
+    \end{codice}
+
+    La forntiera \textit{separa} due regioni del grafo dello spazio degli stati:
     \begin{itemize}
-      \item \textbf{regione interna}: ogni stato è stato espanso
+      \item \textbf{regione interna}: ogni stato è stat espanso
       \item \textbf{regione esterna}: stati che non sono stati ancora raggiunti
     \end{itemize}
 
-    \subsection*{Misurare le prestazioni nella risoluzione di problemi}
-    \addcontentsline{toc}{subsection}{Misurare le prestazioni nella risoluzione di problemi}
-    Possiamo valutare le prestazioni di un algoritmo secondo quattro criteri:
-    \begin{itemize}
-      \item \textbf{completezza}: garantisce di trovare una soluzione (se esiste)
-      \item \textbf{ottimalità}: garantisce di trovare la soluzione migliore (a costo minimo)
-      \item \textbf{complessità temporale}: tempo che impiega a trovare una soluzione, calcolato in base al numero di nodi generati o espansi
-      \item \textbf{complessità spaziale}: memoria necessaria per effettuare la ricerca, cioè il numero massimo di nodi memorizzati in memoria
-    \end{itemize}
+    %altri due subsection
 
-    Per essere completo, un algoritmo di ricerca deve procedere in modo \textbf{sistematico} nell'esplorazione di uno spazio degli stati infinito, assicurandosi di poter qualsiasi stato collegato a quello iniziale.
+    \section{Strategie di ricerca non informata}
+    Un \textbf{algoritmo di ricerca non informata} \hl{\textit{non} riceve alcuna informazione} su quanto uno stato sia vicino all'obiettivo.
 
-    La complessità spaziale e quella temporale sono sempre considerate in rapporto a una misura della difficoltà del problema.
+    \esempio{ricerca non informata}{Consideriamo una persona che si trova ad Arad con l'obiettivo di raggiungere Bucarest. \\[0.5ex]
+    %aggiungere cartina della Romania
+    Una persona non informata, priva di conoscenza della geografia romena, non ha modo di sapere se sia meglio come primo passo andare a Zerind o Sibiu}
 
-    La misura tipica è la dimensione del grafo degli stati = $|V|+|E|$:
-    \begin{description}
-      \item [$V$]: insieme dei vertici del grafo (stati)
-      \item [$E$]: insieme dei collegamenti o archi (coppie distinte stato/azione) 
-    \end{description}
+    \subsection{Ricerca in ampiezza}
+    La \textbf{ricerca in ampiezza} è una strategia di ricerca che si può applicare quando le \hl{azioni hanno le stesso costo}: si espande per primo il \textit{nodo radice}, poi tutti i \textit{sucessori}, poi i \textit{sucessori} di quest'ultimi e così via.
 
-    Tuttavia, in molti problemi di IA il grafo è rappresnetato soltanto \textit{implicitamente} dallo stato iniziale, dalle azioni e dal modello di transizione.
+    Si potrebbe implementare con la \textit{funzione di valutazione} $f(n)$ uguale alla profondità del nodo (numero di azioni per raggiungerlo), ma con alcuni trucchi si può ottenere una maggiore efficienza. \\[0.2ex]
+    Una \hl{\textit{coda FIFO} (First In First Out) risulterà più veloce di una \textit{coda con priorità}} e ci fornisce l'ordine corretto dei nodi: i nuovi nodi vanno in fondo alla coda e quelli vecchi, a profondità minore, vengono espansi per primi. \\[0.2ex]
+    Inoltre, \textit{raggiunti} può essere un insieme di stati, anzichè una corrispondenza da stati a nodi, perchè una volta raggiunto uno stato, non si può più trovare un cammino migliore per raggiungerlo. \\[0.2ex]
+    Questo significa che si puà effettuare in \textbf{test obiettivo anticipato}, controllando se un nodo è una soluzione non appena non viene \textit{generato}, invece di effettuare il \textbf{test obiettivo a posteriori}, aspettando che un nodo sia estratto dalla coda.
 
-    Per uno spazio degli stati implicito, la complessità si può misurare in termini di:
-    \begin{itemize}
-      \item $d$ (\textit{depth}): profondità della soluzione meno costosa
-      \item $m$: profondità massima dell'albero di ricerca
-      \item $b$ (\textit{brach factor}): numero massimo di figli per nodo 
-    \end{itemize}
+    La \hl{ricerca in ampiezza \textbf{trova sempre una soluzione} con un numero minimo di azion}i, perchè quando genera nodi di profondità $d$, ha già generato tutti i nodi di profondità $d-1$, perciò se uno di essi fosse una soluzione, sarebbe stato trovato. \\[0.2ex]
+    Questo significa che è \hl{\textit{ottimale rispetto al costo} per i problemi in cui tutte le azioni hanno lo stesso costo}.
 
-    \subsection*{Cammini rindondanti}
-    \addcontentsline{toc}{subsection}{Cammini rindondanti}
-    Fallire nel riconoscere stati ripetuti può trasforare un problema lineare in un problema esponenziale.
-
-    Bisogna, quindi, mantenere una lista di stati già visitati e non espandere nodi che portano a stati già visitati.
-
-    %codice su stati ripetuti
-
-    
-    \section*{Strategie di ricerca non informata}
-    \addcontentsline{toc}{section}{Strategie di ricerca non informata}
-    Un \textbf{algoritmo di ricerca non informata} non riceve alcuna informazione su quanto uno stato sia vicino all'obiettivo.
-
-    Es: consideriamo una persona che si trova ad Arad con l'obiettivo di raggiungere Burarest.
-
-    Una persona non informata, priva di conoscenza della geografia romena, non ha modo di sapre se sia meglio come primo passo andare a Zerind o Sibiu.
-
-    \subsection*{Ricerca in ampiezza}
-    \addcontentsline{toc}{subsection}{Ricerca in ampiezza}
-    Quando tutte le \hl{azioni hanno lo stesso costo}, una strategia appropriata è la \textbf{ricerca in ampiezza}, in cui si espande prima il nodo radice, poi tutti i suoi sucessori, poi i sucessori di quest'ultimi, e così via.
-
-    Potremmo implementare la ricerca in ampiezza, chiamata \textbf{RICERCA-BEST-FIRST}, con la funzione di valutezione $f(n)$ è uguale alla profondità del nodo, cioè al numero di azioni necessario per ragiungerlo.
-
-    Una coda FIFO (First In First Out) risulterà più veloce di una coda con priorità e ci fornirà l'ordine corretto dei nodi: i nuovi nodi vanno in fondo alla coda e quelli vecchi, a profondità minore, vengono espansi per primi.
-
-    Inoltre, raggiunti può essere un insieme di stati, anzichè una corrispondeza da stati a nodi, perchè una volta raggiunto uno stato, non possiamo più trovare un cammino migliore per raggiungerlo.
-
-    LA ricerca in amppiezza trova sempre una soluzione con un numero minimo di azioni, perchè quando genre nodi di profondità $d$, ha già generato tutti i nodi di profondità $d - 1$, perciò se uno di essi fosse una soluzione, sarebbe stato stato trovato.
-
-    Ciò significa che è ottimale rispetto al costo per problemi in cui tutte le azioni hanno lo stesso costo, ma non per problemi che non hanno tale proprietà.
-
-    E' completa in ogni caso.
-
-    In termini di tempo di tempo e spazio, supponiamo di effettuare una ricerca in un albero uniforme dove ogni stato ha $b$ sucessori.
-
-    Allora il numer totale di nodi generati è:
+    In \textit{termini di tempo} e \textit{spazio}, supponiamo di effettuare una ricerca in un albero uniforme dove ogni stato ha $b$ sucessori: la radice dell'albero di ricerca genera $b$ nodi, ognuno dei quali genera altri $b$ nodi, per un totale di $b^2$ al secondo livello. \\[0.2ex]
+    Di conseguenza, il numero totale di nodi generati è:
     \begin{equation*}
       1 + b + b^2 + b^3 + \dots + b^d = O(b^d)
     \end{equation*}
 
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.7\textwidth, keepaspectratio]{foto/ricercaInAmpiezza.jpeg}
-      \caption{algoritmo BFS}
-    \end{figure}
+    %foto
 
-    %pseudo-codice algoritmo
+    \begin{codice}[python]{algoritmo BFS}
+      function BFS(problem) returns solution o failure
+        node <- node with state=proble.inistualState, pathCost = 0
 
-    \begin{example}
-      \begin{lstlisting}[language=Python, breaklines=true, linewidth=\linewidth]
-        function BFS(problem) returns a solution, or failure
-          nodo <- nodo(problema.statoIniziale)
-      \end{lstlisting}
-    \end{example}
+        if problem.goalTest(node.State) the return node
+          explored <- emptyTest
+          forntier <- FIFO queue with node as the only element
+        
+        loop do
+          if forntier is empty the return failure
+            node <- pop(forntier)
+            explored.add(node.state)
 
-    Tutti i nodi rimangono in memoria, perciò le complessità temporale e spaziale sono entrambe $O(b^d)$, quindi, esponenziali.
-    
-    Nella ricerca in ampiezza, i requisiti di memoria rappresentano un problrma più importante rispetto al tempo di esucuzione.
+            for each action in problem.actions(node.state) do
+              child <- child-node(problem, node, action)
 
+              if child.state is not explored or frontier then
+                if problem.goalTest(child.state) the return child
+              end if
+            end for
+        end loop
+    \end{codice}
+
+    Tutti i nodi rimangono in memoria, perciò la complesità temporale e spaziale sono entrambe $O(b^d)$, quindi, esponenziali.
+
+    Nella ricerca in ampiezza, i requisiti di memoria rappresentano un problema più importante rispetto al tempo di esecuzione. \\[0.2ex]
     Tuttavia, il tempo rimane comunque un fattore importante.
 
-    In generale, i problemi di ricerca con complessità esponenziale non possono essere risolti mediante ricercche non informate, se non nelle istante più pisccole.
+    \vario{N.B.}{In generale, i problemi di ricerca con complesità esponenziale non possono essere risolti mediante
+    ricerche non informate, se non nelle istanze più piccole.}
 
-    \subsection*{Ricerca a costo minimo (algoritmo Dijkstra)}
-    \addcontentsline{toc}{subsection}{Ricerca a costo minimo (algoritmo Dijkstra)}
-    Quando le azioni hanno costi diversi, si utilizza BFS in cui la funzione di valutazione è il costo del cammino della radice al nodo corrente: si tratta dell'\textbf{algoritmo di Dijkstra} o \textbf{ricerca a costo uniforme}.
+    \subsection{Ricerca a costo minimo}
+    \hl{Quando le azioni hanno costi diversi, si utilizza una BFS in cui la \textit{funzione di valutazione} è il costo del cammino dalla radice al nodo corrente}; si chiama \textbf{ricerca a costo uniforme} o \textbf{algoritmo di Dijkstra}.
 
     %foto
 
-    La complessità della ricerca a costo uniforme è caraterizzata in termini di $C^*$ (costo della soluzione ottima) ed $\epsilon$ (limite inferiore imposto al costo di ogni azione), con $\epsilon > 0$.
-    \begin{description}
-      \item [caso peggiore] (costi diversi): complessità temporale e spaziale = $O(b^{1 + \lfloor C^*/\epsilon \rfloor})$ 
-      \item [caso migliore] (costi uniformi): complessità temporale e spazionale = $O(b^{d+1})$
-    \end{description}
+    La complessità della ricerca a costo uniforme è caratterizzata in termini di:
+    \begin{itemize}
+      \item C* (costo dela soluzione ottima)
+      \item $\epsilon > 0$ (limite inferiore imposto al costo di ogni azione)
+    \end{itemize}
 
-    La ricerca a costo uniforme è completa e ottima rispetto al costo perchè la prima soluzione che trova avrà un costo basso aleno quanto quello di ogni altro nodo sulla frontiera.
+    Di conseguenza, la complessità sarà:
+    \begin{itemize}
+      \item \textit{caso peggiore} (costi diversi): complessità temporale e spazilae = $O(b^{1 + \lfloor C^*/\epsilon \rfloor})$
+      \item \textit{caso migliore} (costi uniformi): complessità temporale e spaziale = $O(b^{d+1})$
+    \end{itemize}
 
-    Questa riceerca esamina tutti i cammini in ordine di costo crescente, quindi, non rientra mai in un cammino infinito (assumendo che tutti i costi delle azioni $\epsilon > 0$).
+    \hl{La ricerca a costo uniforme è completa e ottima \textit{rispetto al costo}} perchè la prima soluzione che trova avrà un costo basso almeno quanto quello di ogni altro nodo sulla frontiera.
 
-    \subsection*{Ricerca in profondità}
-    \addcontentsline{toc}{subsection}{Ricerca in profondità}
+    Questa ricerca esamina tutti i cammini in ordine di costo crescente, quindi, non rientra mai in un cammino infinito (assumendo che tutti i costi delle azioni siano $> \epsilon > 0$)
+
+    \subsection{Ricerca in profondità}
     La \textbf{ricerca in profondità} espande sempre per primo il nodo a \textit{profondità maggiore} nella frontiera.
 
-    Potrebbe essere implementata con una chiamata di ricerca BFS in cui la funzione di valutazione $f$ è l'opposto (negativo) della profondità.
-
-    Generalemente viene implementata come ricerca ad albero che non mantiene una tabella degli stati raggiunti.
+    Potrebbe essere implementata con una chiamata di ricerca BFS in cui la funzione di valutazione $f$ è l'opposto (negativo) dela profondità. \\[0.2ex]
+    Generalmente viene implementata come ricerca ad albero che non mantiene una tabella egli stati raggiunti.
 
     La ricerca in profondità non è ottima rispetto al costo, infatti, restituisce sempre la prima soluzione che trova anche se non è la meno costosa.
-
-    Per spazi degli stati finiti che sono alberi, la ricerca in profondità è efficiente e completa; per spazi degli stati aciclici potrebbe arrivarre a espandere lo stesso stato più volte attraverso cammini diversi, ma (alla fine) esplorerà sistematicamente l'intero spazio.
+    
+    Per spazi degli \textbf{stati finiti} che sono alberi, la ricerca in profondità è efficiente e completa; per spazi degli \textbf{stati aciclici} potrebbe arrivare a espandere lo stesso stato più volte attraverso cammini diversi, ma (alla fine) esplorerà sistematicamente l'intero spazio.
 
     %foto
 
-    In spazi degli stati ciclici, la ricerca in profondità può bloccarsi in un ciclo infinito, perciò alcune implementanzioni controllano ciascun nodo nuovo per verificare la presenza di cicli.
+    In spazi degli \textbf{stati ciclici}, la ricerca in profondità può bloccarsi in un ciclo infinito, perciò alcune implementanzioni controllano ciascun nodo nuovo per verificare la presenza di cicli. \\[0.2ex]
+    Infine, in spazi degli \textbf{stati infiniti} la ricerca in profondità non è sistematica: può entrare in un cammino infinito, anche se non vi sono cicli.
 
-    Infine, in spazi degli stati infiniti la ricerca in profondità non è sistematica: può entrare in un cammino infinito, anche se non vi sono cicli.
-
-    Quindi, la riceerca in profondità è incompleta.
+    Quindi, la \hl{ricerca in profondità è incompleta}.
 
     Per i problemi in cui è praticabile un ricerca ad albero, la ricerca in profondità ha esigenze di memoria molto più ridotte.
 
@@ -512,145 +489,386 @@
 
     Per uno spazio degli stati finito e a forma di albero una ricerca ad albero in profondità richiede un tempo proporzionale al numero degli stati e ha una complessità di memoria solo $O(bm)$, dove $b$ è il fattore di ramificazione e $m$ è la massima profondità dell'albero.
 
-    \subsection*{Ricerca a profondità limitata}
-    \addcontentsline{toc}{subsection}{Ricerca a profondità limitata}
-    Per evitare che la ricerca in profondità si èerda in un cammino infinito possiamo usare la \textbf{ricerca e profondità limitata}, in cui forniamo un limite di profondità, $\mathcal{l}$ e consideriamo tutti i nodi a profondità $\mathcal{l}$ come se non avessere sucessori.
+    \subsection{Ricerca a profondità limitata}
+    Per evitare che la ricerca in profondità si perda in un cammino infinito possiamo usare la \textbf{ricerca a profondità limitata}, in cui forniamo un limite di profondità $\ell$ e consideriamo tutti i nodi a profondità $\ell$ come se non avessero sucessori. \\[0.2ex]
+    $\Rightarrow$ \textit{complessità temporale} = $O(b^\ell)$ \\[0.2ex]
+    $\Rightarrow$ \textit{complessità spaziale} = $O(b\ell)$ \\[0.2ex]
+    \hl{Se si sceglie male $\ell$ l'algoritmo non riuscirà a trovare la soluzione}, per cui è ancora \textbf{incompleto}.
 
-    %codice
+    Poichè la ricerca in profondità è una ricerca ad albero, non possiamo evitare che perda tempo su cammini rindondanti in generale, ma possiamo eliminare i cammini ciclici al costo di un pò di tempo di calcolo. \\[0.2ex]
+    Se esaminiamo soltanto pochi collegamenti risalendo nella catena di parentela, riusciamo a catturare la maggior parte dei cicli; qulli più lunghi sono rimossi grazie al limite sulla profondità. \\[0.2ex]
+    A volte si può scegliere un buon limite di profondità basandosi sulla conoscenza del problema. \\[5ex]
 
-    La complessitàtemporale è $O(b^{\mathcal{l}})$ e quella spaziale è $O(b\mathcal{l})$.
+    La \textbf{ricerca ad approfondimento iterativo} risolve il problema di trovare un buon valore di $\ell$ provando tutti i valori: prima 0, poi 1, poi 2 e così via, fino a quando si trova una solzuione, ppoure la ricerca a profondità limitata restituisce il valore \textit{fallimento} anzichè il valore \textit{soglia}.
 
-    Se si sceglie male $\mathcal{l}$ l'algoritmo non riuscirà a trovare la soluzione, per cui è ancora incompleto.
+    \begin{codice}[python]{ricerca ad approfondimento iterativo}
+      function IDS(problem) returns solution
+        inputs: problem
 
-    Poichè la ricerca in profondità è una ricerca ad albero, non possiamo che perda tempo sui cammini ridondanti in generale, ma possiamo eliminare i cammini ciclici al posto di un pò di tempo di calcolo in più.
+        for depth <- 0 to $\infty$ do
+          result <- DLS(problem, depth)
 
-    \
+          if reuslt != then return result
+        end
+    \end{codice}
 
-    La \textbf{ricerca ad approfondimento iterativo} risolve il problema di trovare un buon valore di $\mathcal{l}$ provando tutti i valori: prima 0, poi 1, poi 2, e così via fino a quando si trova una soluzione, oppure la ricerca a profondità limitata restituisce il valore \textit{fallimento} anzichè il valore \textit{soglia}.
+    L'approfondimento iterativo riunisce molti vantaggi offerti dalla ricerca in profondità e da quella in ampiezza: \\[0.2ex]
+    $\Rightarrow$ dalla \textbf{ricerca in profondità}: requisiti di memoria modesti
+    \begin{itemize}
+      \item se esiste una soluzione $\rightarrow O(bd)$
+      \item se non esiste una soluzione (spazi degli stati finiti) $\rightarrow O(bm)$
+    \end{itemize}
+    $\Rightarrow$ dalla \textbf{ricerca in ampiezza}: otima per problemi in cui tutte le azioni hanno lo stesso costo, ed è completa su spazi degli stati aciclici finiti, o su qualsiasi spazio degli stati finito quando controlliamo i nodi per la presenza di cicli risalendo l'intero cammino.
 
-    L'approfondimento iterativo riunisce molti vantaggi offerti dalla ricerca in profondità e da quella in ampiezza.
+    In generale, la \textit{complessità temporale} vale $O(b^d)$ se esiste suluzione e $O(b^m)$ se non esiste la soluzione. \\[2ex]
 
-    Come nella ricerca in profondità, i requisiti di memoria sono modesti: $O(bd)$ quando esiste una soluzione, $O(bm)$ su spazi degli stati finiti senza soluzione.
-
-    Come la ricerca in ampiezza, la ricerca ad approfondimento operativo è ottima per problemi in cui tutte le azioni hanno lo stesso costo, ed è completa su spazi degli stati aciclici finiti, o su qualsiasi spazio degli stati finito quando controlliamo i nodi per la presenza di cicli risalendo l'intero cammino.
-
-    La complessità temporale è $O(b^d)$ quando esiste una soluzione, $O(b^m)$ quando non esiste.
-
-    Ogni iterazione della ricerca ad approfondimento iterativo genera un nuovo livello, come la ricerca in ampiezza, ma mentre quest'ultima lo fa memorizzando tutti i nodi in memoria, la ricerca ad approfondimento iterativo lo  fa ricostruendo tutti i lielli precedenti, risparmiando memoria in cambio di un tempo maggiore.
-
-    In una ricerca ad approfondimento iterativo, i nodi al livello più basso (a profondità $d$) sono generati una sola volta, quelli al livello immediatamente superiore due volte, e così via fino ai figli diretti del nodo radice, che sono generati $d$ volte.
-
-    Quindi, nel caso peggiore il numero totale dei nodi generati è:
-    \begin{equation*}
-      N(RAI) = (d)b^1 + (d-1)b^2 + \dots + (1)b^d
-    \end{equation*}
-    il che ci dà una complessità temporale $O(b^d)$, asintoticamente equivalente alla ricerca in ampiezza.
-
-    In gnerale, la ricerca ad approfondimento iterativo è il metodo preferito di ricerca non informata quando lo spazio degli stati in cui creare è troppo grande per essere mantenuto in memoria e la profondità della soluzione non è nota.
-
-    %foto
-
-    \
-
+    % --- Confrontiamo i vari algoritmi di ricerca non informata ---
     \begin{center}
-      \begin{tabular}{|c|c|c|c|c|c|}
-        \hline
-          \textbf{Criterio} & \textbf{In ampiezza} & \textbf{A costo uniforme} & \textbf{In profondità} & \textbf{A profondità limitata} & \textbf{Ad approfondimento ierativo} \\
-        \hline
-          \textbf{completa?} & Si & Si & No & No & Si \\
-        \hline
-          \textbf{ottima rispetto al costo?} & Si & Si & No & No & Si \\
-        \hline
-          \textbf{tempo} & $O(b^d)$ &  $O(b^{1 + \lfloor C^*/\epsilon \rfloor})$ & $O(b^m)$ & $O(b^\mathcal{l})$ & $O(b^d)$ \\ 
-        \hline
-          \textbf{spazio} & $O(b^d)$ & $O(b^{1 + \lfloor C^*/\epsilon \rfloor})$ & $O(bm)$ & $O(b^\mathcal{l})$ & $O(b^d)$ \\
-        \hline
-      \end{tabular}
+      \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|}
+          \hline
+            \textbf{Criterio} & \textbf{In ampiezza} & \textbf{A costo uniforme} & \textbf{In profondità} & \textbf{A profondità limitata} & \textbf{Ad approfondimento iterativo} \\
+          \hline
+            \textbf{Completa?} & Sì & Sì & No & No & Sì \\
+          \hline
+            \textbf{Ottima rispetto al costo?} & Sì & Sì & No & No & Sì \\
+          \hline
+            \textbf{Tempo} & $O(b^d)$ & $O(b^{1 + \lfloor C^*/\epsilon \rfloor})$ & $O(b^m)$ & $O(b^{\mathcal{l}})$ & $O(b^d)$ \\ 
+          \hline
+            \textbf{Spazio} & $O(b^d)$ & $O(b^{1 + \lfloor C^*/\epsilon \rfloor})$ & $O(bm)$ & $O(b^{\mathcal{l}})$ & $O(b^d)$ \\
+          \hline
+        \end{tabular}%
+      }
     \end{center}
 
-    Per le ricerche sul garfo che effettuano tale controllo, le differnze principali sono che la ricerca in profodnità è completa per spazi degli stati finiti e che le complessità spaziale e temporale sono limitate dalla dimensione dello spazio degli stati (numero di vertici e archi, $|V|+|E|$).
 
+    \section{Strategie di ricerca informata}
+    La \textbf{ricerca informata} \hl{sfrutta la conoscenza specifica del dominio applicativo} per fornire suggerimenti su dove si porebbe trovare l'obiettivo. \\[0.2ex]
+    I suggerimenti hanno la stessa forma di una \textit{funzione euristica} ($h(n)$).
 
-    \section*{Strategie di ricerca informata}
-    \addcontentsline{toc}{section}{Strategie di ricerca informata}
-    La \textbf{ricerca informata} sfrutta conoscenza specifica del dominio applicativo per fornire suggerimenti su dove si potrebbe trovare l'obiettivo, possa trovare soluzini in modo più efficiente di una strategia non informata.
+    \definizione{funzione euristica $h(n)$}{Costo stimato del cammino meno costo dallo stato del nodo $n$ a uno stato obiettivo.}
 
-    I sugggerimenti hanno la forma \textit{funzione euristica} denotata con $h(n):^{10}$
-    \begin{description}
-      \item [$h(n)$] = costo stimato del cammino meno costoso dalla stato del nodo $n$ a uno stato obiettivo
-    \end{description}
+    \subsection{Ricerca best-first greedy}
+    La \textbf{ricerca best-first greedy} è una \hl{forma di ricerca BFS che espande prima il nodo con il valore più basso di $h(n)$}, quello più vicino all'obiettivo, sulla base del fatto che è probabile che questo porti rapidamente a una solzuione. \\[0.2ex]
+    $\Rightarrow$ \textit{funzione valutazione} $f(n) = h(n)$
 
-    \subsection*{Ricerca best-first greedy o "golosa"}
-    \addcontentsline{toc}{subsection}{Ricerca best-first greedy o "golosa"}
-    La \textbf{ricerca best-first grredy} è una forma di ricerca BFS che espande prima il nodo con il valore più basso di $h(n)$, cioè quello che appare più vicino all'obiettivo, sulla base del fatto che + probabile che questo porti rapidamente a una soluzione.
+    \esempio{viaggio in Romania}{Consideriamo il problema dell'itinerario in Romania usando come uristica la \textbf{distanza in linea d'aria} ($h_{DLA}$). \\[0.2ex]
+    Se l'obiettivo è Bucarest, dovremo conoscere tutte le distanze in linea d'aria verso quella città. \\[0.1ex]
 
-    Perciò la funzione di valutazione è $f(n) = h(n)$.
+    \begin{center}
+      \begin{tabular}{c c c c}
+        \textbf{Arad} & 366 & \textbf{Mehadia} & 241 \\[0.2ex]
+        \textbf{Bucarest} & 0 & \textbf{Neamt} & 234 \\[0.2ex]
+        \textbf{Craicova} & 160 & \textbf{Oradea} & 380 \\[0.2ex]
+        \textbf{Drobeta} & 242 & \textbf{Pitesti} & 100 \\[0.2ex]
+        \textbf{Eforie} & 161 & \textbf{Rimnicu Vilcea} & 193 \\[0.2ex]
+        \textbf{Fagras} & 176 & \textbf{Sibiu} & 253 \\[0.2ex]
+        \textbf{Giurgiu} & 77 & \textbf{Timisoara} & 329 \\[0.2ex]
+        \textbf{Hirsova} & 151 & \textbf{Urziceni} & 80 \\[0.2ex]
+        \textbf{Iasi} & 226 & \textbf{Vaslui} & 199 \\[0.2ex]
+        \textbf{Lugoj} & 244 & \textbf{Zerind} & 374
+      \end{tabular}
+    \end{center}
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\textwidth]{foto/greedy.jpg}
+      \caption{Algoritmo BFS greedy}
+    \end{figure}
+  
+    Il primo nodo espanso da Arad sarà Sibiu, perchè l'uristica afferma che è più vicino s Bucarest di Zerind e Timisoara. \\[0.2ex]
+    Il nodo sucessivo sarà Fagras, perchè ora è il più vicino secondo l'euristica. \\[0.2ex]
+    Fagras a sua volta generà Bucarest, che è l'obiettivo. \\[0.4ex]
+    
+    Tuttavia, la soluzione trovata non ha un costo ottimo, infatti il cammino che passa da Sibiu-Fagras è di 32 miglia più lungo di quello che attraversa Rimnicu Vilcea-Pitesti.}
 
-    La ricerca BFS greedy su grafo è completa negli spazi degli stati fniti, ma non in quelli infiniti.
+    La \hl{ricerca BFS greedy su grafo è competa negli spazi degli stati finiti, ma non in quelli infiniti}.
 
-    Nel caso peggiore la complessità temporale e spaziale è $O(|V|)$, ma con una buona funzione curistca è possibile ridurla considervolmente, arrivando in certi problemi a $O(bm)$.
+    $\Rightarrow$ \textit{complesità temporale} e \textit{spaziale} = $O(|V|)$ [caso peggiore] \\[0.2ex]
+    $\Rightarrow$ \textit{complessità temporale} e \textit{spaziale} = $O(bm)$ [con buona euristica]
 
-    \subsection*{Ricerca A*}
-    \addcontentsline{toc}{subsection}{Ricerca A*}
-    La forma più diffusa di algoritmo di ricerca informata è la \textbf{ricerca A*} una BFS che utilizza la funzione di valutazione:
+    \subsection{RIcerca A*}
+    La forma più diffusa di algoritmo di ricerca informata è la \textbf{ricerca A*}, una ricerca BFS che utilizza come \textit{funzione valutazione}:
     \begin{equation*}
-      f(n) = g(n) + h(n)
+      f(n) = h(n) + g(n)
     \end{equation*}
 
     \begin{description}
-      \item [$g(n)$] : costo del cammino dal nodo iniziale al nodo $n$
-      \item [$h(n)$] : costo stimato dal cammino più breve da $n$ a uno stato obiettivo
-      \item [$f(n)$] : costo stimato del cammino migliore che continua da $n$ fino a un obiettivo
+      \item [h(n)]: costo stimato dal cammino più breve da $n$ a uno stato obiettivo 
+      \item [g(n)]: costo stimato dal cammino iniziale al nodo $n$
+      \item [f(n)]: costo stimato del cammino migliore che continua da $n$ fino a un obiettivo
     \end{description}
 
-    La ricerca A* è completa.
+    \esempio{viaggio in Romania}{
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.4\textwidth]{foto/A.jpg}
+        \caption{Algoritmo A*}
+      \end{figure}
 
-    Il fatto cche sia o meno ottimale rispetto a costo dipende da alcune proprietà dell'euristica.
+    Notiamo che Bucarest appare prima sulla frontiera al passo (e), ma non è selezionata per l'espansione (non individuata come suluzione) perchè con $f=450$ non è il nodo di costo minimo sulla frontiera, che, invece, è Pitesti con $f=417$. \\[0.2ex]
+    In altre parole, significa che potrebbe esistere una soluzione tramite Pitesti con costo di 417, per cui l'algoritmo non si ferma a una solzuione di costo 450. \\[0.2ex]
+    Al passo (f), un diverso cammino verso Bucarest è il nodo di costo minimo (f=418), per cui viene selezionato e individuato come soluzione ottima.
+    }
 
-    Una proprietà fondamentale è l'\textbf{ammissibilità}: un'\textbf{euristica ammissibile} è tale se non sovrastima mai il costo per raggiungere un obiettivo.
+    La \hl{ricerca A* è completa}. \\[0.2ex]
+    Il fatto che sia meno ottimale rispetto al costo dipende da alcune proprietà dell'uristica. \\[1ex]
 
-    Con un'euristica ammissibile la riceerca A* è ottima rispetto al costo, cosa che possiamo dimostrare per assurdo.
+    Una proprietà fondamentale è l'\textbf{ammissibilità}.
 
-    Un'euristica $h(n)$ si dice \textbf{consistente} (o monotona) se, per ogni nodo $n$ e ogni sucessore $n'$ generato da $n$ mediante un'azione $a$, il costo stimato di raggiungere l'obiettivo da $n$ è minore o uguale al costo per raggiungere $n'$ più il costo stimato di raggiungere l'obiettivo da $n'$:
+    \definizione{euristica ammissibile}{Un'\textbf{euristica ammissibile} è tale se non sovrastima mai il costo per raggiungere un obiettivo.}
+
+    Con un'euristica ammissibile la ricerca A* è ottima \textit{rispetto al costo}. \\[0.5ex]
+
+    \definizione{euristica conistente}{Un'euristica $h(n)$ si dice \textbf{consistente} (o monotona) se, per ogni nod $n$ e ogni sucessore $n'$ generato mediante un'azione $a$, il costo stimato di raggiungere l'obietivo da $n$ è minore o uguale al costo per raggiungere $n'$ per il costo stimato di raggiungere l'obiettivo da $n'$:
     \begin{equation*}
-      h(n) \leq c(n, a, n') + h(n')
+      h(n) \le c(n, a, n') + h(n')
+    \end{equation*}}
+
+    Questa è una forma della \textbf{disugualianza triangolare}, per cui ogni lato di un triangolo deve essere minore o uguale alla somma degli altri due lati.
+
+    \hl{Ogni \textbf{euristica conistente è anche ammissibile}} (non viceversa), perciò la ricerca A* con un'euristica consistente è ottima \textit{rispetto al costo}.
+
+    Con un'euristica consistente, la prima volta che raggiungiamo uno stato sarà su un cammino ottimo, perciò non dovremo mai raggiungere di nuovo uno stato alla frontiera, nè dovremm mai modificare un elemento in \textit{raggiunti}.
+
+
+    \section{Funzioni euristiche}
+
+    \subsection{Effetto dell'acuratezza dell'euristica sulle prestazioni}
+    Un modo di caratterizzare la qualità di un'euristica è il \textbf{fattore di ramificazione efettivo} (b*). \\[0.2ex]
+    Se il numero totale di nodi generati da A* per un particolare problema è \textit{N}, e la profondità è \textit{d}, allora b* è il fattore di ramificazione che un albero uniforme in profondità \textit{d} dovrebbe avere per contenere \textit{N + 1} nodi:
+    \begin{equation*}
+      N + 1 = 1 + b* + (b*)^2 + \dots + (b*)^d
     \end{equation*}
 
-    Questa è una forma della \textbf{disugualianza triangolare}, per cui ogni lato dei un triangolo deve essere minore o uguale alla somma degli altri due lati.
+    \esempio{}{Se A* trova una soluzione a profondità 5 usando 52 nodi, il fattore di ramificazione effettivo è 1.92}
 
-    Ogni euristica consistente è anche ammissibile (non viceversa), perciò la ricerca A* con un'euristica consistente è ottima rispetto al costo.
+    Questo fattore può cambiare da un'istanza del problema all'altra, ma solitamente per un dominio del problema specifico ha un valore abbastanza costante su tutte le istante di problemi non banali. \\[0.2ex]
+    DI conseguenza, misurazioni sperimentali di b* su un numero abbastanza piccolo di problemi può già fornire una buona idea dell'utilità generale dell'euristica.
 
-    Con un'euristica consistente, la prima volta che raggiungiamo uno stato sarà su un cammino ottimo, perciò non dovremo mai aggiungere di nuovo uno stato alla frontiera, nè dovremo mai modificare un elemento in raggiunti.
+    Un'eristica ben progettata dovrebbe avere un valore di b* vicino a 1, permettendo così la soluzione di problemi abbastanza grandi a un costo computazionale ragionevoli.
 
-    \section*{Funzioni euristiche}
-    \addcontentsline{toc}{section}{Funzioni euristiche}
-    %esempio rompicapo
+    \subsection{Generare uristiche da problemi rilassati}
+    $\Rightarrow$ \textcolor{red}{\textit{Com'è possibile inventare un'eristica come} $h_2$ \textit{?}}
 
-    \subsection*{Effetto dell'accuratezza dell'euristica sulle prestazioni}
-    \addcontentsline{toc}{subsection}{Effetto dell'accuratezza dell'euristica sulle prestazioni}
-    %tabella con numero medio di nodi generati per varie euristiche
+    $h_1$ e $h_2$ sono stime della lunghezza del cammino minimo da uno stato a quello obiettivo, ma sono anche lunghezze di cammino perfettamente accurate per versioni semplificate del rompicapo. \\[0.2ex]
+    Se le regole del problema fossero cambiate in modo che un tassello potesse muoversi ovunque, invece che solo nello spazio vuoto, il costo minimo per raggiungere l'obiettivo sarebbe esattamente $h_1$. \\[0.2ex]
+    In modo analogo, se un tassello potesse muoversi di uno sspazio in ogni direzione, anche se la posizione fosse già occupata da un altro tassello, il costo minimo per raggiungere l'obiettivo sarebbe esattamente $h_2$.
 
-    I risultati mostrano che $h_2$ è più accurata di $h_1$, e che entrambe sono miglirori di non usare alcuna euristica ($h(n) = 0$).
+    Un \hl{problema con meno vincoli sulle azioni è detto un \textbf{problema rilassato}}.
 
-    Ci si potrebbe chiedere se $h_2$ sia sempre migliore di $h_1$ e la risposta è \textit{si}: dalle definizioni di $h_1$ e $h_2$ risulta che per ogni stato $n$ (entrambi ammissibili), $h_2(n) \geq h_1(n)$.
+    Il grafo dello spazio degli stati per il problema rilassato è un superparagrafo di quello dello spazio degli stati originale, perchè la rimozione dei vincoi crea nuovi archi nel grafo.
 
-    diciamo, quindi che $h_2$ \textbf{domina} $h_1$.
+    
 
-    La dominazione si traduce dirrettamente in effecienza: la ricerca A* che usa $h_2$ non espanderà mai più nodi di quella che usa $h_1$.
+    
 
-    Se ne deduce che è generalmente meglio usare una funzione euristica con valori più alti, a patto che sia consistentee che il tempo per calcolarla non sia troppo lungo.
 
-    \subsection*{Generare euristicheda problemi rilassati}
-    \addcontentsline{toc}{subsection}{Generare euristiche da problemi rilassati}
-    \textit{Com'è possibile invenatre un'euristica come} $h_2$\textit{?}
+    % --- CAPITOLO 4: RICERCA IN AMBIENTI COMPLESSI
+    \chapter{Ricerca in ambienti complessi}
 
-    $h_1$ e $h_2$ sono stime della lunghezza del cammino minimo da uno stato a quello obiettivo, ma sonno anche lunghezze di cammino perfettamente accurate per versioni semplificate del rompicapo.
+    \section{Ricerca locale}
+    Gli \hl{\textbf{algoritmi di ricerca locale} operano a partire da uno \textit{stato iniziale} e procedendo verso gli \textit{stati adiacenti} senza tenere traccia dei cammini, nè degli stati già raggiunti}.
 
-    Se le regole del problema fossero cambiate in modo che un tassello potesse muoversi ovunque (invece che solo nello spazio vuoto), il costo minimo per raggiungere l'obiettivo sarebbe esattamente $h_1$.
+    Questo significa che \textbf{non sono sistematici}: potrebbero anche non esplorare mai una porzione dello spazio degli stati dove in effetti risiede una soluzione.
 
-    In modo analogo, se un tassello potesse muoversi di uno spazio in ogni direzione, anche se la posizione fosse già occupata da un altro tassello, il costo minimo per raggiungere l'obiettivo sarebbe esattamente $h_2$.
+    Hanno, però, due \textbf{vantaggi}:
+    \begin{itemize}
+      \item usano pochissima memoria
+      \item spesso trovano una soluzione ragionevole in spazi degli stati grandi o infiniti
+    \end{itemize}
 
-    Un problema con meno vincoli sulle azioni è detto un \textbf{problema rilassato}.
+    Gli algoritmi di ricerca di ricerca locale possono anche risolvere \textit{problemi di ottimizzazione}, in cui lo scopo è trovare lo stato migliore secondo una \textit{funzione obiettivo}.
 
-    Il grafo dello spazio degli stati per il problema rilassato è un supergrafo di quello dello spazio degli stati originale, perchè la rimozione dei voncoli crea nuovi archi nel grafo.
-    \end{document}
+    \subsection{Ricerca hill climbing}
+    L'agoritmo di ricerca \hl{\textbf{hill climbing} tiene tracica di un solo stato corrente} e a ogni iterazione passa allo stato vicino con valore più alto, cioè punta nella direzione che presenta l'\textit{ascesca più rapida}, senza guardare oltre gli stati immediatamente vicini a quello corrente.
+
+    L'algoritmo hill climbing viene talvolta chiamato \textbf{ricerca locale greedy} perchè sceglie uno stato vicino "buono" senza pensare a come andrà avanti.
+
+    \begin{codice}[python]{algoritmo hill climbing}
+    function Hill-Climbing(problema) returns state that is a locale maximum 
+      current <- problem.InitialState
+
+      loop do
+        neighbour <- highest valued sucessor of current
+        
+        if neighbour.Value <= current.Value the return current
+        current <- neighbour
+      end
+    \end{codice}
+
+    \esempio{problema delle n-regine}{Questo problema consiste nel \hl{posizionare $n$ regine su una scacchiera $n \times n$ in modo che nessuna regina possa attaccare un'altra} (no due regine su stessa riga/colonna/diadonale). \\[0.2ex]
+    
+    Consideriamo per esempio il caso con $n = 3$.
+    
+    Ad ogni passo, spostiamo una regina in modo da preservare le condizioni iniziali e ridurre il numero di confilitti.
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\textwidth, keepaspectratio]{foto/n-regine.png}
+      \caption{problema n-regine}
+    \end{figure}}
+
+    L'algoritmo hill climbing può procedere molot rapidamente verso la soluzione, perchè di solito è abbastanza facile uno stato sfavorevole.
+
+    L'hill climbing può procedere molto rapidamente verso la soluzione, perchè di solito è abbastanza facile migliorare uno stato sfavorevole. \\[0.2ex]
+    Spesso, però, l'hill climbing rimane bloccato per le seguenti ragioni:
+    \begin{itemize}
+      \item \textbf{massimi locali}: un massimo locale è un picco più alto degli stati vicini, ma inferiore al massimo globale.
+      
+      Gli algoritmi hill climbing che raggiungono la vicinanza di un massimo locale saranno attirati verso il picco, ma rimarranno bloccati lì senza poter andare altrove.
+      \item \textbf{creste}: le creste danno origine a una sequenza di massimi locali molto difficili da esplorare da parte degli algoritmi greedy
+      \item \textbf{plateau}: un plateau è un'area piatta del panorama dello spazio degli stati.
+      
+      Può essere un massimo locale piatto, da cui non è possibile fare ulteriori progressi, oppure una \textbf{spalla}, da cui si potrà salire ulteriormente (hill climbing potrebbe perdersi sul plateau)
+    \end{itemize}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\textwidth, keepaspectratio]{foto/ricercaLocale.jpg}
+      \caption{intoppi hill climbing}
+    \end{figure}
+
+    In ognuno di questi casi, l'algoritmo raggiunge un punto dal quale non riesce a compiere ulteriori progressi.
+
+    $\Rightarrow$ \textit{\textcolor{red}{Come possiamo risolvere un maggior numero di istanze?}} \\[0.2ex]
+    Un modo è quello di proseguire nella ricerca un volta raggiunto un plateau, consentendo una \textbf{mossa laterale} nella speranza che il plateau sia in realtà una spalla. \\[0.2ex]
+    Nel caso in cui fossimo realmente su un massimo locale piatto, con questo approcio finiremmo per vagare sul plateau per sempre.
+
+    \subsection{Simulated annealing}
+
+    \begin{codice}[python]{algoritmo simulated annealing}
+      function Simulated-Annealing(problem, schedule) returns solution
+        current <- problem.statoIniziale
+    \end{codice}
+
+    \subsection{Ricerca local beam}
+
+    \subsection{Algoritmi evolutivi}
+
+
+    \section{Ricerca locale in spazi continui}
+
+
+
+
+    % --- CAPITOLO 5: PROBLEMI DI SODDISFICIMENTO DEI VINCOLI ---
+
+    \chapter{Problemi di soddisfacimento dei vincoli}
+
+    \section{Definizione dei problemi di soddisfacimento dei vincoli}
+    Un \hl{\textbf{problema di soddisfacimento dei vincoli} è costituito da tre componenti $\mathcal{X}$, $\mathcal{D}$, $\mathcal{C}$}.
+
+    \begin{description}[labelindent=0.5cm]
+      \item[$\mathcal{X}$]: insieme di \textit{variabili} [$X_1, \dots, X_n$]
+      \item[$\mathcal{D}$]: insieme dei \textit{domini} [$D_1, \dots, D_n$] (uno per ogni variabile)
+      \item [$\mathcal{C}$]: insieme di \textit{vincoli} (specificano combinazioni di valori ammissi) 
+    \end{description}
+
+    Un dominio $\mathcal{D}_i$ è costituito da un insieme di valori ammessi $\{v_1, \dots, v_n\}$, per la variabile $\mathcal{X}_i$.
+
+    \esempio{valori ammissi per un dominio $\mathcal{D}_i$}{Una variabile booleana avrebbe il dominio $\{vero, falso\}$.}
+
+    Variabili diverse possono avere domini differenti e di dimensioni diverse.
+
+    Ogni vincolo $\mathcal{C}_i$ è costituito da una coppia $\langle$ ambito, ref $\rangle$:
+    \begin{description}[labelindent=0.5cm]
+      \item [ambito]: \textit{tupla di variabili} che partecipano al vincolo
+      \item [ref]: \textit{relazione} che definisce i valori che tali variabili possono assumere  
+    \end{description}
+
+    Una relazione può essere rapprentata come:
+    \begin{itemize}
+      \item \hl{\textbf{insieme esplicito} di tutte le tuple di valori} che soddisfano il vincolo
+      \item \hl{\textbf{funzione}} che è in grado di determinare se una tupla è membro della tupla 
+    \end{itemize}
+
+    \esempio{relazione}{Consideriamo due variabili $\mathcal{X}_1$ e $\mathcal{X}_2$, entrambe con dominio $\{1, 2, 3\}$.\\[0.3ex]
+    Il vincolo che afferma che $\mathcal{X}_1$ deve essere maggiore di $\mathcal{X}_1$ è il seguente:
+    \begin{equation*}
+      \Rightarrow \langle (X_1,X_2), {(3,1), (3,2), (2,1)} \rangle
+    \end{equation*}
+    \begin{equation*}
+      \Rightarrow \langle (X_1, X_2), X_1 > X_2 \rangle
+    \end{equation*}}
+
+    Nei CSP si effettuano \textbf{assegnamenti} di valori a variabili: [$\mathcal{X}_i = v_i, \mathcal{X}_j = v_j$]. \\[0.2ex]
+    Un \hl{assegnamento che non viola nessun vincolo è chiamato \textbf{consistente} o \textbf{legale}}.
+    \begin{description}[labelindent=0.5cm]
+      \item \textbf{assegnamento completo}: se viene assegnato un valore a tutte le variabili $\Rightarrow$ \textbf{soluzione} di un problema è un \textit{assegmanto completo} e \textit{consistente} \\[0.1ex]
+      \item \textbf{assegnamento parziale}: se alcune variabili rimangono non assegnate $\Rightarrow$ \textbf{soluzione parziale} di un problema è un \textit{assegnamento parziale} e \textit{consistente}  
+    \end{description}
+
+    Risolvere un CSP è un problema NP-completo in generale, anche se esistono importanti sottoclassi di CSP che si possono risolvere in modo efficiente.
+
+    \esempio{colorazione di una mappa}{Consideriamo la mappa dell'Australia.
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.4\textwidth, keepaspectratio]{foto/australia-vuota.jpg}
+      \caption{mappa Australia da colorare}
+    \end{figure}
+    
+    L'obiettivo è quello di colorare ogni regione di rosso, verde o blu, in modo tale che non ci siano regioni adiacenti con lo stesso colore.\\[0.2ex]
+    Per formulare questo come CSP, definiamo alcune cose:
+    \begin{description}[labelindent= 0.5cm]
+      \item [variabili]: rappresentate da ogni regione australiana
+      \begin{equation*}
+        \mathcal{X} = { WA, NT, Q, NSW, V, SA, T }
+      \end{equation*}
+      \item [dominio]: ogni variabile possiede il seguente dominio
+      \begin{equation*}
+        \mathcal{D} = { rosso, verde, blu }
+      \end{equation*}
+      \item [vincoli]: le regioni adiacenti non possono avere lo stesso colore
+      \begin{align*}
+        \mathcal{C} = \{ & (SA \neq WA), (SA \neq NT), (SA \neq Q), (SA \neq NSW),\\ 
+        &(SA \neq V), (WA \neq NT), (NT \neq Q), (Q \neq NSW), \\
+        & (NSW \neq V)\}
+      \end{align*}
+    \end{description}
+    
+    Ci sono molte soluzioni possibili come:
+    \begin{align*}
+      \mathcal{C} = \{ &\, WA = \text{rosso},\ NT = \text{verde},\ Q = \text{rosso},\\
+                      &\, NSW = \text{verde},\ V = \text{rosso},\ SA = \text{blu},\ T = \text{rosso} \}
+    \end{align*}
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.4\textwidth, keepaspectratio]{foto/australia-colorata.jpg}
+      \caption{mappa Australia colorata}
+    \end{figure}}
+
+    Può essere utile visualizzare un CSP come un \textbf{grafo di vincoli}: i nodi del grafo corripsondono alle variabili del problema e un arco connette ogni coppia di variabili che partecipano al vincolo.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.4\textwidth, keepaspectratio]{foto/grafo-australia.jpg}
+      \caption{grafo della mappa dell'Australia}
+    \end{figure}
+
+    \textit{Prchè esprimere un problema sotto forma di CSP?}\\[0.3ex]
+    $\Rightarrow$ CSP costituiscono una rappresentazione naturale per un'ampia varietà di problemi \\[0.3ex]
+    $\Rightarrow$ portano rapidamente grandi porzioni dello spazio degli stati, cosa che un algoritmo di ricerca non riesce a fare
+
+    \subsection{Varianti del formalismo CSP}
+
+
+    \section{Programmazione dei vincoli: inferenza nei CSP}
+
+    \subsection{Consistenza di nodo}
+
+    \subsection{Consistenza d'arco}
+
+    \subsection{Consistenza di cammino}
+
+    \subsection{K-consistenza}
+
+    \subsection{Vincoli globali}
+
+
+    \section{Ricerca con backtracking per CSP}
+
+
+\end{document}

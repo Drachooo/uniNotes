@@ -105,11 +105,78 @@
     \mainmatter
 
     % --- CAPITOLO 1: NOZIONI DI BASE DEL CORSO ---
-    \chapter{Nozioni di base}
+    \chapter{Concetti di base}
 
-    \section{Cardinalità degli insiemi}
+    \section{Nozioni di logica}
+    La logica permette di avere un linguaggio (anche formale) utilizzato per descrivere i vari elementi.
 
-    \teorema{Ciao}{Ciao}
+    Il \textbf{linguaggio del primo ordine} è un linguaggio che è formato da un certo insieme di simboli:
+    \begin{itemize}
+      \item \textit{relazionali}: $p, q, r, \dots$
+      \item \textit{funzionali}: $f, g, h, \dots$
+      \item \textit{costanti}: $c, d, \dots$
+      \item \textit{logici}: insieme di simboli
+      \begin{itemize}
+        \item parentesi tonde ( ) e virgola ,
+        \item insieme numerabile ($\mathbb{N}$) di variabili ($v, x, y, \dots$) 
+        \item insieme di connettivi logici ($\land, \lor, \Rightarrow, \Leftrightarrow$)
+        \item quantificatori ($\forall, \exists$)
+      \end{itemize}
+    \end{itemize}
+
+    Mediante questi elementi, l'obiettivo è quello di definire dei termini.
+
+    \definizione{termine (induttivo)}{Definiamo il concetto di \textbf{termine} in maniera induttiva:
+    \begin{itemize}
+      \item \textbf{caso base}: variabili, costanti
+      \item \textbf{passo induttivo}: se $f$ è un simbolo di funzione, $t_1, \dots, t_n$ sono termini, allora $f(t_1, \dots, f_n)$ è un termine
+    \end{itemize}}
+
+    I termini descrivo elementi e sono alla base della costruione di \textbf{formule} che desrivono proprietà.\\[0.2ex]
+    Per descrivere il concetto di formula, bisogna introdurre il concetto di \textit{formula atomica}.
+
+    \definizione{formula atomica}{Se $p$ è un simbolo di relazione ennario (applicabile a $n$ termini) e $t_1, \dots, t_n$ sono termini, allora $p(t_1, \dots, t_n)$ è una formula atomica.}
+
+    \definizione{formula (induttiva)}{Definiamo il concetto di \textbf{formula} mediante induzione:
+    \begin{itemize}
+      \item \textbf{caso base}: formula induttiva
+      \item \textbf{passo induttivo}:
+      \begin{itemize}
+        \item se $\varphi$ è  una formula $\Rightarrow$ $\neg \varphi$ è una formula
+        \item se $\varphi$ e $\psi$ sono formule $\Rightarrow \varphi \land \psi$, $\varphi \lor \psi$, $\varphi \Rightarrow \psi$ sono formule
+        \item se $\varphi$ è una formula e $x$ un variabile $\Rightarrow$ $\forall x(\varphi)$, $\exists x(\varphi)$ sono formule
+      \end{itemize}
+    \end{itemize}}
+
+    Le \textit{equivalenze} permettono di manipolare gli oggetti che vengono utilizzati per descrivere formule sintatticamente diverse, ma lo stesso significato semantico (stesso valore di verità):
+    \begin{itemize}
+      \item $\neg (\neg \varphi) \equiv \varphi$
+      \item \[
+        \left.
+        \begin{aligned}
+        \neg (\varphi \land \psi) \equiv (\neg \varphi) \lor (\neg \psi)\\
+        \neg (\varphi \lor \psi) \equiv (\neg \varphi) \land (\neg \psi)
+        \end{aligned}
+        \right\} \text{legge di De Morgan}
+        \]
+      \item $(\varphi \Rightarrow \psi) \equiv \neg \varphi \lor \psi \equiv ((\neg \psi) \Rightarrow (\varphi))$ (controvariante della logica)
+      \item \[
+        \left.
+        \begin{aligned}
+        \neg (\exists x (\varphi)) \equiv \forall x (\neg \varphi)\\
+        \neg (\forall x (\varphi)) \equiv \exists x (\neg \varphi)
+        \end{aligned}
+        \right\} \text{legge di De Morgan}
+        \]
+    \end{itemize}
+
+    \vario{Notazione}{$\exists x \in S. \varphi \equiv \exists x. (x \in S \land \varphi)$\\[0.1ex]
+    
+    $(\forall x \in S. \varphi) \equiv \forall x (x \in S \Rightarrow \varphi)$}
+
+    \section{Nozioni di insiemistica}
+
+    \section{Nozioni di induzione matematica}
 
 
 
