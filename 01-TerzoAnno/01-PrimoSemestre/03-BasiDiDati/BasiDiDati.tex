@@ -873,8 +873,46 @@ Inoltre il fatto di essere VALUE-BASED:
   \subsubsection*{Valori nulli e vincoli di integrità}
   \addcontentsline{toc}{subsubsection}{Valori nulli e vincoli di integrità}
 
-  
+  Dalla definizione di relazione si ha che ogni tupla deve sempre contenere nei propri attributi \sottolinea{black}{valori significativi appartenenti ai domini di base del modello.}
+  Però non sempre in una base di dati reale esistono i valori per tutti gli attributi di una tupla. Per quali motivi il valore di un attributo in certi casi manca?
 
+  Si possono presentare 2 casi: 
+  \begin{description}
+    \item[Attributo inesistente:] Il valore di un attributo A è inesistente(attributo opzionale a livello concettuale): non esiste per questa tuplaun valore per l’attributo A
+    \item[Attributo sconosciuto:] Il valore di un attributo A è sconosciuto: esiste un valore per l’attributo A di questa tuplama non è noto alla base di dati
+  \end{description}
+
+  Per poter gestire tali situazioni viene introdotto nel modello relazionale un valore speciale detto \textbf{\textcolor{red}{VALORE NULLO}}.
+  Gli attributi di una tupla possono assumere un valore del dominio oppure il valore nullo
+  
+  \definizione{Tuple su X con valori nulli}{
+    Una tupla su X è una funzione: 
+    \begin{center}
+      \( t:X \rightarrow \{NULL\} \cup (\underset{A \in X}{\cup} DOM(A))\)
+    \end{center}
+    dove 
+    \begin{center}
+      \(t[A] = v \in DOM(A) \lor t[A] = NULL\)
+    \end{center}
+
+    La presenza di valori nulli è accettabile solo in alcuni attributi(non è possibile avere tuple di soli valori nulli). In particolare, negli attributi replicati per rappresentare legami tra tuplela presenza di valori nulli può rendere inutilizzabile l’informazione.
+  }
+
+
+  \esempio{Orario ferroviario}{
+    Rappresentare attraverso un insieme di relazioni le informazioni contenute in un orario ferroviario dove si riportino per ogni treno in partenza dalla stazione di Verona Porta Nuova: il numero, l’orario di partenza, la destinazione finale, la categoria, le fermate intermedie (con orario di fermata) e l’orario di arrivo alla destinazione finale.\par
+
+    TRENO (Numero, Categoria, OraPart Destinazione, OraArr)\\
+    FERMATA (NumTreno, Stazione, Orario)\\
+    Come si descrive la stessa informazione a livello concettuale con il modello ER?
+    CHIEDERE A SIMONE LO SCHEMA
+  }
+
+  Spesso è necessario introdurre vincoli(restrizioni) sulla popolazione (istanza) di una base di dati in quanto non tutte le possibili istanze sono corrette rispetto al sistema informativo considerato. Allo scopo di indicare quali sono le istanze corrette si introduce il concetto di:
+  \begin{center}
+    VINCOLO DI INTEGRITA’
+  \end{center}
+  è una condizione (espressa da un predicato) che deve essere sempre soddisfatta da ogni istanzadella base di dati
 
 
   %--------------------------------------%
