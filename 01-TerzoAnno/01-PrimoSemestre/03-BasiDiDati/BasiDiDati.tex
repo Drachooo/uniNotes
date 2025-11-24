@@ -87,6 +87,32 @@
   \vspace{15pt}%
 }
 
+%------comando TEOREMA-------%
+\newcommand{\teorema}[3][]{%
+  \vspace{15pt}%
+  \begin{tcolorbox}[%
+    colback=yellow!5!white,
+    colframe=orange!80!black,
+    title=\textbf{Teorema\ifstrempty{#1}{}{: #1}}, % titolo
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=3mm,
+    boxrule=0.5pt,
+    enhanced,
+    breakable
+  ]
+  #2 % testo del teorema
+  \ifstrempty{#3}{}{%
+    \par\vspace{8pt}%
+    \textbf{Dimostrazione}
+    #3
+  }
+  \end{tcolorbox}%
+  \vspace{15pt}%
+}
+%Funzionamento: \teorema[TITOLO DA SCRIVERE(si può anche non mettere)]{TESTO DA SCRIVERE}{DIMOSTRAZIONE DA SCRIVERE (si può anche non mettere)}
+
+
 %------comando ESEMPIO-------%
 \newcommand{\esempio}[2]{%
   \begin{mdframed}[linewidth=1pt, roundcorner=20pt] % se vuoi angoli arrotondati
@@ -870,8 +896,8 @@ Inoltre il fatto di essere VALUE-BASED:
 
 
 
-  \subsubsection*{Valori nulli e vincoli di integrità}
-  \addcontentsline{toc}{subsubsection}{Valori nulli e vincoli di integrità}
+  \subsection*{Valori nulli e vincoli di integrità}
+  \addcontentsline{toc}{subsection}{Valori nulli e vincoli di integrità}
 
   Dalla definizione di relazione si ha che ogni tupla deve sempre contenere nei propri attributi \sottolinea{black}{valori significativi appartenenti ai domini di base del modello.}
   Però non sempre in una base di dati reale esistono i valori per tutti gli attributi di una tupla. Per quali motivi il valore di un attributo in certi casi manca?
@@ -912,7 +938,183 @@ Inoltre il fatto di essere VALUE-BASED:
   \begin{center}
     VINCOLO DI INTEGRITA’
   \end{center}
-  è una condizione (espressa da un predicato) che deve essere sempre soddisfatta da ogni istanzadella base di dati
+  è una condizione (espressa da un \textbf{predicato}) che \sottolinea{black}{deve essere sempre soddisfatta da ogni istanza della base di dati}
+
+  \esempio{Esempi di vincolo}{
+    TRENO(Numero, OraPart, MinutoPart, Categoria, Destinazione, OraArrivo, MinArr)\\
+    FERMATA(NumTreno, Stazione, OraFer, MinutoFer)\\
+    \textbf{Predicati che esprimono possibili vincoli:}\\
+    $ \forall t \in$ TRENO: t[OraPart] $\in$ \{ 0,1,\dots, 23\}\\
+    $ \forall t \in$ TRENO: t[MinutoPart] $\in$ \{ 0,1,\dots, 59\}\\
+    $ \forall t \in$ TRENO: t[Numero] > 0\\
+    $ \forall t \in$ TRENO: t[Numero] > 5000 $\Rightarrow$ t[Categoria] = 'regionale'\\
+    \textbf{quindi:}
+
+    $ \forall t, t'  \in$ TRENO: t $\neq t' \Rightarrow$ t[Numero] $\neq$ t'[Numero]\\
+    $ \forall f \in$ FERMATA: $\exists$t $\in$ TRENO: t[Numero] = f[NumTreno]\\
+    $ \forall f \in$ TRENO: t[Categoria] = 'regionale' $\Rightarrow \exists$ f $\in$ FERMATA: f[NumTreno] = t[Numero]\\
+  }
+
+  Si vogliono inoltre distinguere alcuni vincoli particolari che hanno una maggiore importanza degli altri in quanto garantiscono proprietà generali valide per tutti gli schemi relazional (\textbf{“vincoli strutturali”})
+
+  \begin{itemize}
+    \item VINCOLI DI DOMINIO
+    \item VINCOLI DI TUPLA
+    \item VINCOLI INTRARELAZIONALI
+    \begin{itemize}
+      \item CHIAVI
+    \end{itemize}
+    \item VINCOLI INTERRELAZIONALI
+    \begin{itemize}
+      \item VINCOLI DI INTEGRITA’ REFERENZIALE
+    \end{itemize}
+  \end{itemize}
+
+  \textbf{Vediamoli nel dettaglio:}
+  
+  \subsubsection*{Vincoli di dominio}
+  \addcontentsline{toc}{subsubsection}{Vincoli di dominio}
+
+  Impongono una restrizione sul \sottolinea{black}{dominio di un attributo di una relazione}, ad esempio: 
+  \esempio{Data la relazione:}{
+    TRENO (Numero, OraPart, MinutoPart, Categoria, Destinazione, OraArr, MinutoArr)\\
+    i seguenti vincoli riguardano il dominio di un attributo di TRENO:
+
+    \textbf{$ \forall t \in$ TRENO: t[OraPart] $\in$ \{ 0,1,\dots, 23\}\\
+    $ \forall t \in$ TRENO: t[MinutoPart] $\in$ \{ 0,1,\dots, 59\}\\
+    $ \forall t \in$ TRENO: t[Numero] > 0}\\
+
+  }
+
+
+  \subsubsection*{Vincoli di tupla}
+  \addcontentsline{toc}{subsubsection}{Vincoli di tupla}
+
+  Impongono una restrizione alla \sottolinea{black}{combinazione di valori che una tupla della relazione} può assumere indipendentemente dalle altre tuple, ad esempio: \esempio{Data la relazione:}{
+    TRENO (Numero, OraPart, MinutoPart, Categoria, Destinazione, OraArr, MinutoArr)\\
+    il seguente è un vincolo di tupla:\\
+    \textbf{$ \forall t \in$ TRENO: t[Numero] > 5000 $\Rightarrow$ t[Categoria] = 'regionale'}\\
+
+  }
+
+  \subsubsection*{Vincoli intrarelazioni}
+  \addcontentsline{toc}{subsubsection}{Vincoli intrarelazioni}
+
+  Impongono una restrizione al contenuto di una relazione e specificano una condizione che ogni tupladella relazione deve soddisfare rispetto alle altre tupledella medesima relazione.
+  Una sottocategoria importante di tali vincoli include i \sottolinea{black}{\textbf{vincoli di chiave}}:
+  \begin{itemize}
+    \item Superchiave
+    \definizione{Superchiave}{
+      Data una relazione di schema R(X), un insieme di attributi K, sottoinsieme di X, è SUPERCHIAVE per R(X) se, per ogni istanza r di R(X) vale la seguente condizione:
+      \begin{center}
+        \textbf{$\forall t,t' \in $ r:t $\neq$ t' $\Rightarrow$t[K] $\neq$ t'[K]}
+      \end{center}
+      dove
+      \begin{center}
+        \textbf{t[K] $\neq$ t'[K] $ \equiv \exists A_i \in$ K :t $[A_i] \in$ K:t$[A_i] \neq t'[A_i]$}
+      \end{center}
+    }
+    \item Chiave candidata
+    \definizione{Chiave candidata}{
+      Data una relazione di schema R(X), un insieme di attributi K, sottoinsieme di X, è CHIAVE CANDIDATA (o CHIAVE) per R(X), se K è superchiaveper R(X) e vale la seguente condizione:
+      \begin{center}
+        \textbf{$\lnot \exists K' \subset$ K:K' è superchiave per R(X)}
+      \end{center}
+    }
+
+    \teorema[]{Esiste sempre una chiave candidata K per una relazione R(X)}{
+      \begin{itemize}
+        \item X è superchiave per R(X)
+        \item se X non ha sottoinsiemi propri che sono superchiave, allora X è chiave
+        \item altrimenti si riapplica il medesimo ragionamento ricorsivamente al sottoinsieme di X che è superchiave
+        \item poiché la cardinalità di X è finita e poiché l’insieme vuoto non è superchiave si troverà in un numero finito di passi una chiave per R(X)
+      \end{itemize}
+      
+    }
+
+    \item Chiave primaria
+    \definizione{Chiave primaria}{Data una relazione di schema R(X) la sua CHIAVE PRIMARIA è la chiave candidata scelta per identificare le tupledella relazione.
+    Una chiave primaria K ha le seguenti caratteristiche:
+    \begin{itemize}
+      \item Non contiene mai valori nulli
+      \item Su K il sistema genera una struttura d’accesso ai dati (o indice) per supportare le interrogazioni
+    \end{itemize}
+    }
+  \end{itemize}
+
+
+  \esempio{Data la relazione}{
+    TRENO (Numero, OraPart, MinutoPart, Categoria, Destinazione, OraArr, MinutoArr)\\
+    Considerando i seguenti sottoinsiemi di X, dire se, rispetto al contesto applicativo, il sottoinsieme è superchiaveo no e, se è superchiave, dire se è anche chiave:
+    \begin{itemize}
+      \item K1 = {Numero}
+      \item K2 = {Numero, Categoria}
+      \item K3 = {OraPart, MinutoPart, Destinazione, Categoria}
+    \end{itemize}
+  }
+
+  \esempio{Data la relazione}{
+    FERMATA (NumTreno, Stazione, OraFer, MinutoFer)
+    \\Considerando i seguenti sottoinsiemi di X, dire se, rispetto al contesto applicativo, il sottoinsieme è superchiaveo no e, se è superchiave, dire se è anche chiave:
+    \begin{itemize}
+      \item K1 = {NumTreno}
+      \item K2 = {NumTreno, Stazione}
+      \item K3 = {OraFer, MinutoFer, Stazione}
+    \end{itemize}
+  }
+
+
+  \subsubsection*{Vincoli interrazionali}
+  \addcontentsline{toc}{subsubsection}{Vincoli interrazionali}
+
+  Impongono una restrizione al contenuto di una relazione e specificano una condizione che ogni tupladella relazione deve soddisfare rispetto alle tupledi altre relazioni della base di dati.
+  Una sottocategoria importante di tali vincoli include i \textbf{vincoli di integrità referenziale (o vincoli sulle chiavi esportate)}
+
+  \definizione{Vincolo di integrità referenziale}{
+    Un vincolo di integrità referenziale tra un insieme di attributi Y=$\{A_1, \dots, A_p\}$ di $R_1$ e un insieme di attributi K=$\{K_1,\dots, K_p\}$, chiave primaria di un’altra relazione $R_2$, è soddisfatto, se per ogni istanza $r_1$ di $R_1$e per ogni istanza $r_2$ di $R_2$ vale la seguente condizione:
+
+    \begin{center}
+      \textbf{$\forall t \in r_1: \exists s \in r_2: \forall i \in \{1,\dots, p\}$ :t$[A_i]$ = s$[K_i]$}
+    \end{center}
+  }
+
+  \definizione{Vincolo di integrità referenziale in presenza di valori nulli (legame opzionale)}{
+    Un vincolo di integrità referenziale tra un insieme di attributi $Y={A_1, \dots, A_p}$ di $R_1$ e un insieme di attributi $K={K_1, \dots, K_p}$, chiave primaria di un’altra relazione R2, è soddisfatto se, per ogni istanza $r_1$ di R1 e per ogni istanza $r_2$ di R2 vale la seguente condizione:
+    \begin{center}
+      $\forall t \in r_1: \exists s \in r_2: (\forall i \in \{1,\dots,p\}:t[A_i] = s[K_i]) \lor ()\exists i \in \{1,\dots,p\}: t[A_i] = NULL$
+    \end{center}
+  }
+
+  \subsection*{Notazione per i vincoli strutturali}
+  \addcontentsline{toc}{subsection}{Notazione per i vincoli strutturali}
+
+  La chiave primaria di una relazione R(X): viene indicata sottolineando gli attributi della chiave.
+  
+  \esempio{Supposto che venga scelta come chiave primaria di TRENO l’insieme \{Numero\} la notazione per indicare tale chiave è la seguente:
+  }{TRENO(\sottolinea{black}{Numero}, OraPart, MinutoPart, Categoria, Destinazione, OraArr, MinutoArr)}
+  \esempio{La chiave primaria di FERMATA sarà indicata invece come segue:}{FERMATA(\sottolinea{black}{NumTreno}, Stazione, OraFer, MinutoFer)}
+
+  Vincolo di integrità referenziale: viene indicato riquadrando gli attributi soggetti al vincolo e collegando con una freccia il riquadro alla relazione (tabella) da cui la chiave proviene.\par
+  Supposto che esista un vincolo di integrità referenziale sull’attributo NumTreno della tabella FERMATA rispetto alla tabella TRENO, la notazione per indicare tale vincolo è la seguente:\par
+  \begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/vincoli_strutturali.png}
+      \caption{esercizio}
+  \end{figure}
+
+  \vspace{2em}
+
+  \begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/esercizio2punto7.png}
+      \caption{esercizio 2.7}
+  \end{figure}
+
+  \begin{figure}[h]
+      \centering
+      \includegraphics[width=1\textwidth]{images/soluzioneEsercizio2punto7.png}
+      \caption{Soluzione esercizio 2.7}
+  \end{figure} 
 
 
   %--------------------------------------%
