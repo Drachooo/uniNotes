@@ -1,43 +1,109 @@
-\documentclass[a4paper, 12pt]{book}
-\usepackage[margin=2.5cm]{geometry}
+\documentclass[12pt, a4paper, oneside]{book}
+
+% --- LINGUA E CODIFICA ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
-%\usepackage{wrapfig}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{amsmath}
-\setlength{\parindent}{0pt}
-\usepackage{parskip}
-\usepackage{soul}
+\renewcommand{\familydefault}{\sfdefault} % Sans-serif moderno
+
+% --- MARGINI E GEOMETRIA ---
+\usepackage[a4paper, margin=2.5cm]{geometry}
+
+% --- COLORI E LINK ---
 \usepackage{xcolor}
-\sethlcolor{yellow}
-\usepackage{array}
-\usepackage{booktabs}
+\definecolor{azzurrino}{HTML}{0D47A1}
+\definecolor{grigiochiaro}{HTML}{F5F5F5}
+\definecolor{grigioscuro}{HTML}{424242}
+%altra opzione: 1A237E
+
+\usepackage[
+    colorlinks=true,
+    linkcolor=grigioscuro,
+    citecolor=azzurrino,
+    urlcolor=azzurrino
+]{hyperref}
+
+% --- TITOLI MODERNI ---
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries\color{azzurrino}}
+  {\filleft\Huge\thechapter}
+  {0pt}
+  {\titlerule[1pt]\vspace{1ex}\filright}
+  [\vspace{1ex}\titlerule]
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{azzurrino}}{\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsection}{1em}{}
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+\titleformat{\subsubsection}
+  {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsubsection}{1em}{}
+
+% --- CAPTION COLORATE ---
+\usepackage[font=small, labelfont={bf, color=azzurrino}]{caption}
+
+% --- HEADER E FOOTER ---
+\usepackage{fancyhdr}
+\setlength{\headheight}{25pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\color{grigioscuro}\leftmark}
+\fancyhead[R]{\color{azzurrino}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{azzurrino}\leaders\hrule height \headrulewidth\hfill}}
+\fancyfoot[C]{\color{grigioscuro}\small Basi di dati – \thepage}
+
+% --- LISTE ED ENUMERAZIONI ---
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=1.5em}
+
+% --- GRAFICA E FIGURE ---
+\usepackage{graphicx}
+\usepackage{bookmark}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage[normalem]{ulem} % sottolineature
+\usepackage{subcaption}
+\usepackage{soul} % evidenziazione
+\usepackage{parskip} % spaziatura tra paragrafi
 \usepackage{tikz}
-\usetikzlibrary{positioning}
+
+% --- Tcolorbox e Listings ---
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings, skins, breakable, theorems} % theorems utile per ambienti come erexercise
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{textcomp}
+
+% --- Tabelle ---
 \usepackage{longtable}
 \usepackage{array}
-\usepackage{fancyhdr}
-\setlength{\headheight}{15pt}
-\pagestyle{fancy}
-\fancyhf{} % pulisce header e footer
-\fancyhead[R]{\thepage} % numero pagina a destra nell'header
-\renewcommand{\headrulewidth}{0pt} % (opzionale) elimina la riga orizzontale sotto l'header
-\fancypagestyle{plain}{%
-  \fancyhf{} % pulisce header e footer
-  \fancyhead[R]{\thepage} % numero sempre in alto a destra
-  \renewcommand{\headrulewidth}{0pt} % opzionale: niente linea
-}
-\setcounter{tocdepth}{3}
+\usepackage{tabularx}
 
-\title{\textbf{Basi di dati - secondo semestre}}
-\author{Mattia Nicolis}
-\date{A.A. 2025-26}
+% --- FRONTESPIZIO ---
+\title{\Huge\bfseries Appunti del corso di \\[0.5ex]
+\textcolor{azzurrino}{Basi di dati} \\[1ex]
+\Large UniVR - Dipartimento di Informatica \\[1.5ex]
+\Large secondo semestre - A.A. 2025/26}
+\author{\bfseries \Large \textcolor{azzurrino}{Mattia Nicolis} \and \bfseries \Large \textcolor{azzurrino}{Matteo Drago}}
+\date{}
 
+\input{../../../ambienti.sty} %file apposito per definire nuovi comandi
+
+% =================================
 \begin{document}
-
+    \frontmatter
     \maketitle
-
     \tableofcontents
-    \markboth{}{}
+    \thispagestyle{empty}
+    \newpage
 
+    %===========================
+    \mainmatter
 \end{document}
