@@ -1,587 +1,232 @@
-\documentclass[a4paper, 12pt]{book}
+\documentclass[12pt, a4paper, oneside]{book}
 
-% ===== PACCHETTI NECESSARI ===== %
-\usepackage[margin=2.5cm]{geometry}
+% --- LINGUA E CODIFICA ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
-%\usepackage{wrapfig}
-\usepackage{graphicx}
-\usepackage{amssymb}
-\usepackage{hyperref}
-\usepackage{subcaption}
-\usepackage{amsmath}
-\usepackage{float}
-\setlength{\parindent}{0pt}
-\usepackage{parskip}
-\usepackage[most]{tcolorbox}
-\usepackage{soul}
+\renewcommand{\familydefault}{\sfdefault} % Sans-serif moderno
+
+% --- MARGINI E GEOMETRIA ---
+\usepackage[a4paper, margin=2.5cm]{geometry}
+
+% --- COLORI E LINK ---
 \usepackage{xcolor}
-\sethlcolor{yellow}
-\usepackage{array}
-\usepackage{booktabs}
+\definecolor{azzurrino}{HTML}{0D47A1}
+\definecolor{grigiochiaro}{HTML}{F5F5F5}
+\definecolor{grigioscuro}{HTML}{424242}
+%altra opzione: 1A237E
+
+\usepackage[
+    colorlinks=true,
+    linkcolor=grigioscuro,
+    citecolor=azzurrino,
+    urlcolor=azzurrino
+]{hyperref}
+
+% --- TITOLI MODERNI ---
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries\color{azzurrino}}
+  {\filleft\Huge\thechapter}
+  {0pt}
+  {\titlerule[1pt]\vspace{1ex}\filright}
+  [\vspace{1ex}\titlerule]
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{azzurrino}}{\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsection}{1em}{}
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+\titleformat{\subsubsection}
+  {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsubsection}{1em}{}
+
+% --- CAPTION COLORATE ---
+\usepackage[font=small, labelfont={bf, color=azzurrino}]{caption}
+
+% --- HEADER E FOOTER ---
+\usepackage{fancyhdr}
+\setlength{\headheight}{25pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\color{grigioscuro}\leftmark}
+\fancyhead[R]{\color{azzurrino}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{azzurrino}\leaders\hrule height \headrulewidth\hfill}}
+\fancyfoot[C]{\color{grigioscuro}\small Basi di dati – \thepage}
+
+% --- LISTE ED ENUMERAZIONI ---
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=1.5em}
+
+% --- GRAFICA E FIGURE ---
+\usepackage{graphicx}
+\usepackage{bookmark}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage[normalem]{ulem} % sottolineature
+\usepackage{subcaption}
+\usepackage{soul} % evidenziazione
+\usepackage{parskip} % spaziatura tra paragrafi
 \usepackage{tikz}
-\usetikzlibrary{positioning}
+
+% --- Tcolorbox e Listings ---
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings, skins, breakable, theorems} % theorems utile per ambienti come erexercise
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{textcomp}
+
+% --- Tabelle ---
 \usepackage{longtable}
 \usepackage{array}
-\usepackage{fancyhdr}
-\setlength{\headheight}{15pt}
-\pagestyle{fancy}
-\fancyhf{} % pulisce header e footer
-\fancyhead[R]{\thepage} % numero pagina a destra nell'header
-\renewcommand{\headrulewidth}{0pt} % (opzionale) elimina la riga orizzontale sotto l'header
-\fancypagestyle{plain}{%
-  \fancyhf{} % pulisce header e footer
-  \fancyhead[R]{\thepage} % numero sempre in alto a destra
-  \renewcommand{\headrulewidth}{0pt} % opzionale: niente linea
-}
-\setcounter{tocdepth}{3}
+\usepackage{tabularx}
 
+% --- FRONTESPIZIO ---
+\title{\Huge\bfseries Appunti del corso di \\[0.5ex]
+\textcolor{azzurrino}{Elaborazione di segnali e immagini} \\[1ex]
+\Large UniVR - Dipartimento di Informatica \\[1.5ex]
+\Large primo semestre - A.A. 2025/26}
+\author{\bfseries \Large \textcolor{azzurrino}{Mattia Nicolis} \and \bfseries \Large \textcolor{azzurrino}{Matteo Drago}}
+\date{}
 
-% ===== LISTA COMANDI =====
-%------COMANDO DEFINIZIONE-------%
-\newcommand{\definizione}[2]{%
-  \vspace{15pt}%
-  \begin{tcolorbox}[
-    colback=cyan!5!white,
-    colframe=blue!50!black,
-    title=\textbf{Definizione - #1}, % titolo della definizione
-    coltitle=white,
-    fonttitle=\bfseries,
-    arc=3mm,
-    boxrule=0.5pt,
-    enhanced,
-    breakable
-  ]
-  #2 % testo della definizione
-  \end{tcolorbox}
-  \vspace{15pt}%
-}
+\input{../../../ambienti.sty} %file apposito per definire nuovi comandi
 
-
-\title{\textbf{Elaborazione di segnali e immagini}}
-\author{Mattia Nicolis \and Matteo Drago}
-\date{A.A. 2025-26}
-
+% =================================
 \begin{document}
-
+    \frontmatter
     \maketitle
-
     \tableofcontents
-    \markboth{}{}
+    \thispagestyle{empty}
+    \newpage
 
-    %-------MODULO DI TEORIA------------------------------------
-    %-------Prof: Manuele Bicego--------------------------------
-    %-------Lez: mercoledì (8:30-11:30) [Aula Delta - Cav.3]----
-    \chapter*{Teoria}
-    \addcontentsline{toc}{chapter}{Teoria}
+    %===========================
+    \mainmatter
 
-    \section*{Sistemi e segnali}
-    \addcontentsline{toc}{section}{Sistemi e segnali}
-
-    \begin{figure}[htbp]
-      \centering
-      \includegraphics[width=0.6\textwidth, keepaspectratio]{foto/images-teoria/sistemi&segnali.png}
-      \caption{sistema e segnali}
-    \end{figure}
-
-    \definizione{segnale}{Un \textbf{segnale} è un \hl{insieme di dati o informazioni}.
+    \chapter{Sistemi e segnali}
+    \definizione{segnale}{
+      Un \textbf{\textcolor{azzurrino}{segnale}} è una porzione di informazione di dati e rappresenta ogni tipo di variabile fisica (scalare o vettoriale) soggetta a variazione.
     }
 
-
-    Un segnale rappresenta qualsiasi tipo di variabile fisica soggetta a variazioni. 
-
-    I segnali sono funzioni della variabile indipendente \textit{tempo} ($t$) o \textit{spazio} ($x, x = [x_1, x_2], x = [x_1, x_2, x_3]$).
-
-    Sia la variabile indipendente che la variabile fisica possono essere scalari o vettoriali.
-
-    Esempi di segnali:
-    \begin{description}
-      \item [segnali 1D]: segnale elettrocardiografico (EEG), segnale vocale, segnale audio
-      \item [segnali 2D]: segnale immagine, segnale video 
-      \item [segnali 3D]: segnale di dati volumetrici
-    \end{description}
-
-    \begin{figure}[htbp]
-      \centering
-
-      \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-audio.png}
-        \caption{segnale 1D - segnale audio}
-      \end{subfigure}
-      \hfill
-      \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-elettrocardiogramma.png}
-        \caption{segnale 1D - elettrocardiogramma}
-     \end{subfigure}
-    \end{figure}
-
-    \
-    
-    Un segnale può essere elaborato da un \textbf{sistema}.
-
-    \definizione{Sistema}{Un \textbf{sistema} è un'\hl{entità che elabora un insieme di segnali (\textit{input}) per produrre un altro insieme di segnali (\textit{output})}.
-    }
-
-    I sistemi processano i segnali per:
-    \begin{itemize}
-      \item estrarre informazioni
-      \item consentire la trasmissione su canali con capacità limitata (JPEG, JPEG2000, codifica MPEG)
-      \item migliorare la sicurezza sulle reti (crittografia, watermarking)
-      \item migliorare la sicurezza sulle reti (crittografia, watermarking)
+    Un segnale vive in uno spazio N-dimensionale:
+    \begin{itemize}[label=$\triangleright$]
+      \item \textbf{immagini}: segnali 2D
+      \smallskip
+      \item \textbf{video}: segnali 2D + tempo
+      \smallskip
+      \item \textbf{dati volumetrici (MRI)}: segnali 3D
+      \smallskip
+      \item \textbf{functional MRI}: seganli 3D + tempo
+      \smallskip
+      \item \textbf{diffusion MRI}: segnali multidimensionali
     \end{itemize}
 
-    \begin{figure}[htbp]
-      \centering
-      \includegraphics[width=0.6\textwidth, keepaspectratio]{foto/images-teoria/sistema.png}
-      \caption{sistema}
-    \end{figure}
+    \definizione{sistema}{
+      Un \textbf{\textcolor{azzurrino}{sistema}} prende in input un segnale e lo processa per:
+      \begin{itemize}[label=$\diamond$]
+        \item estrarre informazioni
+        \item abilitare trasmissioni tra canali a capacità limitata
+        \item migliorare la sicurezza delle reti (crittografia)
+        \item formulare diagnosi mediche e pianificare il trattamento (ambito medico)
+      \end{itemize}
+    }
 
-    La funzione che collega l'uscita del sistema con il segnale di ingresso è chiamata \textbf{risposta all'impulso} $h(t)$ nel dominio del \textit{tempo} e \textbf{funzione di trasferimento} $H(\omega)$ nel dominio della \textit{frequenza}. 
-
-    \subsection*{Classificazione dei segnali}
-    \addcontentsline{toc}{subsection}{Classificazione dei segnali}
-    I segnali possono essere di 4 tipologie:
-    \begin{itemize}
-      \item \textbf{segnali a tempo continuo} e \textbf{a tempo discreto}
-      \item \textbf{segnali analogici} e \textbf{digitali}
-      \item \textbf{segnali periodici} e \textbf{aperiodici}
-      \item \textbf{segnali energetici} e \textbf{segnali di potenza}
-      \item \textbf{segnali deterministici} e \textbf{probabilistci}
-      \item \textbf{segnali deterministici e probabilistci}
+    La funzione che collega input e output si chiama:
+    \begin{itemize}[label=$\Rightarrow$]
+      \item \textbf{risposta impulsiva h(t)}: dominio del tempo
+      \smallskip
+      \item \textbf{funzione di trasferimento H($\boldsymbol{\omega}$)}: dominio delle frequenze
     \end{itemize}
 
-    \subsubsection*{Segnali a tempo continuo e a tempo discreto}
-    \addcontentsline{toc}{subsubsection}{Segnali a tempo continuo e a tempo discreto}
-    \definizione{segnale a tempo continuo}{Un segnale è detto \textbf{a tempo continuo} se è definito per ogni valore reale di $t$ in un intervallo continuo:
-      \begin{itemize}
-        \item $f = f(t)$
-        \item $t \in \mathbb{R}$
-        \item variabile indipendente $\leftrightarrow$ tempo (t), posizione (x) 
-      \end{itemize}
+    \section{Tipi di segnali}
+
+    \vario{Segnale a tempo continuo VS segnale a tempo discreto}{
+      Un \textbf{\textcolor{azzurrino}{segnale a tempo continuo}}, se esiste, per ogni valore reale della variabile indipendente.
+
+      Il dominio della funzione che rappresenta il segnale avrà la stessa cardinalità dell'insieme dei numeri reali $\mathbb{R}$.
+
+      \medskip
+      Un \textbf{\textcolor{azzurrino}{segnale a tempo discreto}}, se esiste,  solo per alcuni valori della variabile indipendente con cardinalità pari a quella dell'insieme dei numeri interi $\mathbb{Z}$.
     }
 
-    \definizione{segnale a tempo discreto}{Un segnale è detto \textbf{a tempo discreto} se è definito solo per un insieme di valori di $t$:
-      \begin{itemize}
-        \item $f = f[n]$
-        \item $n \in \mathbb{Z}$
-        \item variabile indipendente $\leftrightarrow$ indice discreto (n)
-      \end{itemize}
+    \vario{Segnale analogico VS segnale digitale}{
+      Un \textbf{\textcolor{azzurrino}{segnale}} è \textbf{\textcolor{azzurrino}{analogico}} se la sua ampiezza comprende tutti i valori in un range continuo e il codominio della sua funzione avrà la stessa cardinalità dell'insieme dei numeri reali $\mathbb{R}$.
+
+      \medskip
+      Un \textbf{\textcolor{azzurrino}{segnale}} è \textbf{\textcolor{azzurrino}{digitale}} se la sua ampiezza comprende un numero finito di valori n-ario.
     }
 
-    \begin{figure}[htbp]
-      \centering
+    Un segnale analogico equivale a un segnale a tempo continuo, ma sull'asse y.
 
-      \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-tempo-continuo.png}
-        \caption{segnale a tempo continuo}
-      \end{subfigure}
-      \hfill
-      \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-tempo-discreto.png}
-        \caption{segnale a tempo discreto}
-     \end{subfigure}
-    \end{figure}
+    Un segnale digitale corrisponde a un segnale a tempo discreto, ma sull'asse y.
 
-    \subsubsection*{Segnali analogici e digitali}
-    \addcontentsline{toc}{subsubsection}{Segnali analogici e digitali}
-    \definizione{segnale analogico}{Un segnale è detto \textbf{analogico} se può assumere qualsiasi valore in un intervallo continuo:
-      \begin{itemize}
-        \item $f = f(t)$
-        \item $f(t) \in \mathbb{R}$
-      \end{itemize}
+    \vario{Segnale periodico VS segnale a-periodico}{
+      Un \textbf{\textcolor{azzurrino}{segnale}} f(t) è \textbf{\textcolor{azzurrino}{periodico}} se esiste una costante positiva $T_0$ tale che:
+      \begin{equation*}
+        f(t+T_0) = f(t) \ \ \forall t
+      \end{equation*}
 
-      \vspace{0.5mm}
-
-      \textbf{N.B.} Un segnale analogico può essere sia a tempo continuo che a tempo discreto.
+      Il valore minore di $T_0$ è detto \hl{periodo} di f(t).
     }
 
-    \definizione{segnale digitale}{Un segnale è detto \textbf{digitale} se può assumere solo un insieme finito di valori distinti (quantizzati):
-      \begin{itemize}
-        \item $f = f[n]$
-        \item $f[n] \in \{v_1, v_2, ..., v_k\}$
-      \end{itemize}
+    \vario{Segnale casuale VS segnale anti-casuale VS segnale non-causale}{
+      Un \textbf{\textcolor{azzurrino}{segnale}} è \textbf{\textcolor{azzurrino}{casuale}} se ha valore nullo per ogni tempo negativo:
+      \begin{equation*}
+        f(t) = 0 \ \ \forall t < 0
+      \end{equation*}
 
-      \vspace{0.5mm}
+      Un \textbf{\textcolor{azzurrino}{segnale}} è \textbf{\textcolor{azzurrino}{anti-casuale}} se ha valore nullo per ogni tempo positivo:
+      \begin{equation*}
+        f(t) = 0 \ \ \forall t \geq 0
+      \end{equation*}
 
-      Un segnale digitale la cui ampiezza può assumere solo M valori diversi è detto M-ario (es. segnale binario per M=2).
+      Un \textbf{\textcolor{azzurrino}{segnale}} è \textbf{\textcolor{azzurrino}{non-casuale}} se non ha mai valore nullo, sia per tempi negativi che positivi:
+      \begin{equation*}
+        f(t) \neq 0 \ \ \forall t
+      \end{equation*}
     }
 
-    \begin{figure}[htbp]
-      \centering
+    \vario{Segnale pari VS segnale dispari}{
+      Un \textbf{\textcolor{azzurrino}{segnale}} f(t) è \textbf{\textcolor{azzurrino}{pari}} se vale:
+      \begin{equation*}
+        f(t) = f(-t) \ \ (es. coseno)
+      \end{equation*}
 
-      \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-conitnuo-analogico.png}
-        \caption{segnale analogico continuo}
-      \end{subfigure}
-      \hfill
-      \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-continuo-digitale.png}
-        \caption{segnale digitale continuo}
-     \end{subfigure}
-    \end{figure}
-
-    \begin{figure}[htbp]
-      \centering
-
-      \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-discreto-analogico.png}
-        \caption{segnale analogico discreto}
-      \end{subfigure}
-      \hfill
-      \begin{subfigure}[b]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-discreto-digitale.png}
-        \caption{segnale digitale discreto}
-     \end{subfigure}
-    \end{figure}
-
-    \subsection*{Segnali periodici e aperiodici}
-    \addcontentsline{toc}{subsubsection}{Segnali periodici e aperiodici}
-    \definizione{segnale periodico}{Un segnale è detto \textbf{periodico} se si ripete identico a se stesso dopo un intervallo di tempo fisso chiamato \textbf{periodo} $T$:
-      \begin{itemize}
-        \item $f(t) = f(t + T) \ \ \forall t$
-        \item $T > 0$
-      \end{itemize}
-
-      \vspace{0.5mm}
-
-      Un segnale periodico rimane invariato quando viene spostato nel tempo di multipli interi del periodo.
+      Un \textbf{\textcolor{azzurrino}{segnale}} f(t) è \textbf{\textcolor{azzurrino}{dispari}} se vale:
+      \begin{equation*}
+        f(t) = -f(-t) \ \ (es. seno)
+      \end{equation*}
     }
 
-    \begin{figure}[htbp]
-      \centering
-      \begin{subfigure}[b]{0.45\textwidth}
-          \centering
-          \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-periodico.png}
-          \caption{segnale periodico}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[b]{0.45\textwidth}
-          \centering
-          \includegraphics[width=\textwidth, height=3.8cm]{foto/images-teoria/segnale-aperiodico.png}
-          \caption{segnale aperiodico}
-      \end{subfigure}
-    \end{figure}
+    Ogni segnale può essere riscritto come combinazione di un segnale pari e un segnale dispari.
+
+    \vario{Segnale determinisco VS segnale random}{
+      Un \textbf{\textcolor{azzurrino}{segnale}} è \textbf{\textcolor{azzurrino}{determinisco}} se può essere descritto e previsto in ogni istante di tempo matematicamente o graficamente (es. seno, coseno).
+
+      \medskip
+      Un \textbf{\textcolor{azzurrino}{segnale}} è \textbf{\textcolor{azzurrino}{random}} se non può essere descritto in ogni istante di tempo e sono caratterizzati da variabilità.
+
+      Ogni segnale che deriva da una misurazione è un segnale random (ECG, audio, immagini scanerizzate).
+    }
+
+    \vario{Segnale finito VS segnale infinito}{
+      Un \textbf{\textcolor{azzurrino}{segnale}} è \textbf{\textcolor{azzurrino}{finito}} se possiede un dominio finito:
+      \begin{equation*}
+        f = f(t), \forall t : t_1 < t < t_2
+      \end{equation*}
+
+      Un \textbf{\textcolor{azzurrino}{segnale}} è \textbf{\textcolor{azzurrino}{infinito}} se possiede un dominio infinito:
+      \begin{equation*}
+        f(t) = sin(\omega t)
+      \end{equation*}
+    }
 
 
-    \subsection*{Funzioni pari e dispari}
-    \addcontentsline{toc}{subsection}{Funzioni pari e dispari}
+    \section{Energia e potenza}
 
-    \subsection*{Propertà delle funzioni pari e dispari}
-    \addcontentsline{toc}{subsubsection}{Propertà delle funzioni pari e dispari}
-
-    \subsubsection*{Componenti pari e dispari dei segnali}
-    \addcontentsline{toc}{subsubsection}{Componenti pari e dispari dei segnali}
-
-
-    \subsection*{Dimensione del segnale}
-    \addcontentsline{toc}{subsection}{Dimensione del segnale}
-
-    \subsubsection*{Segnale energetico}
-    \addcontentsline{toc}{subsubsection}{Segnale energetico}
-
-    \subsubsection*{Segnale di potenza}
-    \addcontentsline{toc}{subsubsection}{Segnale di potenza}
-
-
-    \subsection*{Operazioni tra segnali}
-    \addcontentsline{toc}{subsection}{Operazioni tra segnali}
-
-    \subsubsection*{Traslazione temporale}
-    \addcontentsline{toc}{subsubsection}{Traslazione temporale}
-
-    \subsubsection*{Scaling temporale}
-    \addcontentsline{toc}{subsubsection}{Scaling temporale}
-    
-    \subsubsection*{Riflessione temporale}
-    \addcontentsline{toc}{subsubsection}{Riflessione temporale}
-
-    
-    
-    
-
-
-
-
-
-
-
-    %-------MODULO DI LABORATORIO-------------------------------
-    %-------Prof: Menegaz Gloria--------------------------------
-    %-------Lez: giovedì (15:30-18:30) [Aula A - Cav.1]---------
-    \chapter*{Laboratorio}
-    \addcontentsline{toc}{chapter}{Laboratorio}
-
-    \section*{Introduzione a Matlab}
-    \addcontentsline{toc}{section}{Introduzione a Matlab}
-
-    \subsection*{Layout di Matlab}
-    \addcontentsline{toc}{subsection}{Layout di Matlab}
-    \begin{figure}[htbp]
-      \centering
-      \includegraphics[width=0.8\textwidth, keepaspectratio]{foto/images-lab/layout.png}
-      \caption{layout di Matlab}
-    \end{figure}
-
-    Il layout di Matlab è costituito da 4 sezioni principali:
-    \begin{itemize}
-      \item \textbf{Command Window}: finestra principale di interazione e contiene il comando prompt(\verb|>>|).
-      
-      E' la finestra che ci permette di interagire con Matlab: serve oer inserire comandi e stampare a video i risultati.
-
-      \item \textbf{Command History}: visualizza una lista di comandi precendetemente digitati.
-      
-      La cronologia rimane per più sessione, i comandi possono essere caricati direttamente sulla command window ed eventualmente modificati oppure doppio click per rieseguirli
-
-      \item \textbf{Workspace}: contiene la lista di tutte le variabili create durante la sessione di lavoro corrente, insieme alle loro informazioni principali
-      \item \textbf{Current Folder}: mostra i file che sono contenuti nella cartella di lavoro corrente, anche suddivisi per tipologia
-    \end{itemize}
-
-    Matlab può essere utilizzato per eseguire calcoli di base (operazioni aritmetiche, esponenziali e numeri complessi) come una normale calcolatrice scientifica.
-
-    \subsection*{Definizione di matrici e vettori}
-    \addcontentsline{toc}{subsection}{Definizione di matrici e vettori}
-    Matlab è un \hl{linguaggio di programmazione orientato alle matrici}.
-
-    Gli \textbf{scalari} sono rappresentati come matrici $1 \times 1$.
-
-    I \textbf{vettori} sono particolari metrici con una sola riga e n colonne (\textit{vettori riga}) o con una sola colonna e m righe (\textit{vettori colonna}).
-
-    Matlab alloca utomaticamente le matrici in memoria pertanto non è necessario dichiararne le dimensioni prima di usarle.
-
-    \begin{figure}[htbp]
-      \centering
-      \includegraphics[width=0.6\textwidth, keepaspectratio]{foto/images-lab/matrici.png}
-      \caption{tipologie di matrici in Matlab}
-    \end{figure}
-
-    Le matrici si inserisco come segue:
-    \begin{itemize}
-      \item gli elementi di una colonna sono separati da spazi o virgole
-      \item le righe sono separate da punto e virgola (;)
-      \item le matrici si racchiudono tra parentesi quadre []
-    \end{itemize}
-
-    %esempio: istruzione A = [1 2 3; 4 5 6; 7 8 9] risulato ....
-
-    Per accedere agli elementi di una matrice si usano gli indici di riga e colonna racchiusi tra parentesi tonde ():
-    \begin{description}
-      \item [\texttt{>>} x(3)] restituisce il terzo elemento del vettore x
-      \item [\texttt{>>} A(2,3)] restituisce l'elemento alla seconda riga e terza colonna della matrice A
-      \item [\texttt{>>} A(1,:)] restituisce la seconda riga della matrice A
-      \item [\texttt{>>} A(:,1)] restituisce la prima colonna della matrice A
-      \item [\texttt{>>} A(2:3,1:2)] estrae una sottomatrice di A costituita dagli elementi delle righe 1 e 2 e delle colonne 2 e 3
-    \end{description}
-
-    Le matrici possono esser costruite a partire da matrici di dimensioni minori:
-    \begin{description}
-      \item [\texttt{>>} x(5) = abs(x(1))] produce x = [-1.3000 2.6667 4.8000 0 1.3000]
-    \end{description}
-
-    La dimensione di $x$ viene automaticamente incrementata per inglobare il nuovo elemento e gli elementi indefinti viene posto uguale a zero.
-
-    Per creare un vettore di punti equispaziati si può usare l'istruzione x = [inizio:passo:fine]:
-    \begin{description}
-      \item [\texttt{>>} x = [1:4]] produce x = [1 2 3 4]
-      \item [\texttt{>>} x = [1:3:8]] produce y = [1 4 7]
-    \end{description}
-
-    In alternativa si può usare l'istruzione \texttt{linspace(inizio, fine, num\_punti)}, se si vuole un vettore di numri linearmente spaziati, altrimenti il comando \texttt{logspace(inizio, fine, num\_punti)} per vettori con spaziatura logaritmica:
-    \begin{description}
-      \item [\texttt{>>} z = linspace(2,14,6)] produce z = [2.0000 4.4000 6.8000 9.2000 11.6000 14.0000]
-      \item [\texttt{>>} k = logspace(1,2,7)] produce k = [10.0000 14.6780 21.5443 31.6228 46.4159 68.1292 100.0000]
-    \end{description}
-
-    In Matlab, sono implementate varie funzioni che permettono di definire in maniera semplice delle matrici particolari:
-    \begin{description}
-      \item [\texttt{>>} zeros(m,n)] crea una matrice m x n di zeri
-      \item [\texttt{>>} ones(m,n)] crea una matrice m x n di uni
-      \item [\texttt{>>} eye(n)] crea una matrice identità di dimensione n x n
-      \item [\texttt{>>} rand(m,n)] crea una matrice m x n di numeri casuali uniformemente distribuiti nell'intervallo (0,1)
-      \item [\texttt{>>} randn(m,n)] crea una matrice m x n di numeri casuali con distribuzione normale standard (media 0 e varianza 1)
-      \item [\texttt{>>} diag(v)] crea una matrice diagonale con gli elementi del vettore v sulla diagonale principale
-    \end{description}
-
-    Per verificare la dimensione di una matrice o il numero di elementi inclusi, ci sono diverse funzioni:
-    \begin{description}
-      \item [\texttt{>>} size(A)] restituisce la dimensione della matrice A
-      \item [\texttt{>>} length(A)] restituisce la lunghezza del vettore A
-      \item [\texttt{>>} numel(A)] restituisce il numero totale di elementi della matrice A
-    \end{description}
-
-    \subsection*{Operazioni tra matrici}
-    \addcontentsline{toc}{subsection}{Operazioni tra matrici}
-    Le operazioni fondamentali tra matrici, che devono avere la stessa dimensione per poter essere eseguite, sono:
-    \begin{description}
-      \item [\texttt{+}] somma tra matrici
-      \item [\texttt{-}] sottrazione tra matrici
-      \item [\texttt{.*}] moltiplicazione elemento per elemento
-      \item [\texttt{./}] divisione elemento per elemento
-      \item [\texttt{.\^}] elevamento a potenza elemento per elemento
-    \end{description}
-
-    Per valutare un'operazione "termine a termine", come molteplicare ogni termine del vettore $A$ per ogni termine del vettore $B$, si usa l'operatore \texttt{.*}:
-    \begin{description}
-      \item [\texttt{>>} A = [1 3 2]]
-      \item [\texttt{>>} B = [-1 2 1]]
-      \item [\texttt{>>} C = A .* B] 
-      \item [C = [-1 6 2]]
-    \end{description}
-
-    Lo stesso si applica anche ad altre operazioni come la divisione e l'elevamento a potenza.
-    
-    L'operazione di \textit{trasposizione} è eseguita con l'operatore \texttt{'}:
-    \begin{description}
-      \item [\texttt{>>} A = [1 2 3; 4 5 6]]
-      \item [\texttt{>>} B = A'] 
-      \item [B = [1 4; 2 5; 3 6]]
-    \end{description}
-
-    Altre operazioni tra matrici imporatanti sono:
-    \begin{description}
-      \item [\texttt{>>} inv(A)] calcolo dell'inversa della matrice A (quadrata)
-      \item [\texttt{>>} det(A)] calcolo del determinante della matrice A (quadrata)
-      \item [\texttt{>>} diag(A)] estrae la diagonale principale della matrice A come vettore
-      \item [\texttt{>>} trace(A)] calcola la somma degli elementi della diagonale principale della matrice A (quadrata)
-      \item [\texttt{>>} eig(A)] calcola gli autovalori e gli autovettori della matrice A (quadrata)
-      \item [\texttt{>>} rank(A)] calcola il rango della matrice A
-      \item [\texttt{>>} norm(A)] calcola la norma della matrice A
-      \item [\texttt{>>} sum(A)] calcola la somma degli elementi di ogni colonna della matrice A
-      \item [\texttt{>>} prod(A)] calcola il prodotto degli elementi di ogni colonna della matrice A
-      \item [\texttt{>>} min(A)] calcola il minimo degli elementi di ogni colonna della matrice A
-      \item [\texttt{>>} max(A)] calcola il massimo degli elementi di ogni colonna della matrice A
-      \item [\texttt{>>} mean(A)] calcola la media degli elementi di ogni colonna della matrice A
-    \end{description}
-
-    \subsection*{Comandi utili e istruzioni dos-like}
-    \addcontentsline{toc}{subsection}{Comandi utili e istruzioni dos-like}
-    In Matlab, ci sono una serie di funzioni di base che possono essere d'aiuto nella programmazione:
-    \begin{description}
-      \item [\texttt{>>} clc] pulisce la Command Window
-      \item [\texttt{>>} dir] elenca i file nella cartella corrente
-      \item [\texttt{>>} pwd] mostra il percorso della cartella corrente
-    \end{description}
-
-    Altre istruzioni utili sono:
-    \begin{description}
-      \item [\texttt{>>} type filename] visualizza il contenuto del file filename.m
-      \item [\texttt{>>} delete filename] elimina il file filename.m
-      \item [\texttt{>>} save filename] salva le variabili del workspace nella cartella corrente nel file filename.mat
-      \item [\texttt{>>} load filename] carica le variabili dal file filename.mat nel workspace
-      \item [\texttt{>>} ! command] esegue il comando di sistema command (es. \texttt{!dir} elenca i file nella cartella corrente)
-      \item [\texttt{>>} $\uparrow$] richiama l'ultimo comando eseguito nella Command Window
-    \end{description}
-    
-    Inoltre, per ottenere aiuto su una funzione o un comando specifico, si può utilizzare:
-    \begin{description}
-      \item [\texttt{>>} help functionname] visualizza la documentazione della funzione functionname
-      \item [\texttt{>>} doc functionname] apre la documentazione completa della funzione functionname in una finestra separata
-      \item [\texttt{>>} lookfor keyword] cerca la keyword nella documentazione di tutte le funzioni di Matlab
-    \end{description}
-
-    \subsection*{Script e function}
-    \addcontentsline{toc}{subsection}{Script e function}
-    Invece di inserire comandi direttamente nella Command Window, è possibile creare dei file di testo chiamati \textbf{script} o \textbf{function} che contengono una serie di comandi Matlab (estensione \texttt{.m}).
-
-    Gli \textit{script file} contengono una serie di comandi Matlab che vengono eseguiti in sequenza quando lo script viene richiamato. 
-    
-    Gli script condividono lo stesso workspace della Command Window, quindi possono accedere e modificare le variabili definite nella Command Window.
-
-    \
-
-    Le \textit{function file} sono simili agli script, ma hanno una struttura più formale. 
-    
-    Le variabili vengono passate per valore, quindi contengono vari comandi che necessitano di variabili di input per essere eseguiti e producono variabili di output:
-    \begin{center}
-      \begin{verbatim}
-        function [output] = functionName(input)
-            % Corpo della function
-        end
-      \end{verbatim} 
-    \end{center}
-    
-    Le variabili definite all'interno di una function sono locali a quella function e non influenzano il workspace della Command Window.
-    
-    Esempio di function che calcola una gaussiana:
-    \begin{center}
-      \begin{verbatim}
-        function g1 = guassian(alpha, t)
-            g1 = exp(-alpha*t.^2);
-            ... command
-        end
-      \end{verbatim}
-    \end{center}
-
-    I commenti in Matlab iniziano con il "\%" e durano fino a afine della riga.
-
-    Un doppio commento ha un significato particolare: delimita l'inizio di un blocco di codice che può essere eseguito singolarmente all'interno di uno script o di una function.
-
-    E' una caratteristica utile per testare porzioni di codice senza dover eseguire l'intero script o function.
-
-    \subsection*{Istruzioni di controllo}
-    \addcontentsline{toc}{subsection}{Istruzioni di controllo}
-    Tra le istruzioni di controllo che ci possono essere utili in Matlab
-    \begin{description}
-      \item [\texttt{if ... elseif ... else ... end}]: istruzione condizionale
-        \begin{verbatim}
-          if condizione1
-              ... comandi se condizione1 è vera
-          elseif condizione2
-              ... comandi se condizione2 è vera
-          else
-              ... comandi se nessuna condizione è vera
-          end
-        \end{verbatim}
-
-      \item [\texttt{for ... end}]: ciclo for
-        \begin{verbatim}
-          for indice = inizio:passo:fine
-              ... comandi da eseguire in ogni iterazione
-          end
-        \end{verbatim}
-
-      \item [\texttt{while ... end}]: ciclo while
-        \begin{verbatim}
-          while condizione
-              ... comandi da eseguire finché la condizione è vera
-          end
-        \end{verbatim}
-    \end{description}
-    
-    Gli operatori logici principali in Matlab sono:
-    \begin{description}
-      \item [\texttt{\&}]: operatore AND logico
-      \item [\texttt{|}]: operatore OR logico
-      \item [\texttt{~}]: operatore NOT logico
-      \item [\texttt{xor}]: operatore XOR logico
-    \end{description}
-
-    Gli operatori relazionali principali in Matlab sono:
-    \begin{description}
-      \item [\texttt{==}]: uguale a
-      \item [\texttt{~=}]: diverso da
-      \item [\texttt{>}]: maggiore di
-      \item [\texttt{<}]: minore di
-      \item [\texttt{>=}]: maggiore o uguale a
-      \item [\texttt{<=}]: minore o uguale a
-    \end{description}
-
-    \subsection*{Debug}
-    \addcontentsline{toc}{subsection}{Debug}
-
-
-    \section*{Visualizzazione grafica}
-    \addcontentsline{toc}{section}{Visualizzazione grafica}
-
-    \subsection*{Segnali}
-    \addcontentsline{toc}{subsection}{Segnali}
-
-    \subsection*{Immagini}
-    \addcontentsline{toc}{subsection}{Immagini}
+    \section{Operazioni sui segnali}
 \end{document}
