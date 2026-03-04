@@ -96,6 +96,7 @@
 
 \input{../../../ambienti.sty} %file apposito per definire nuovi comandi
 
+
 % =================================
 \begin{document}
     \frontmatter
@@ -106,4 +107,211 @@
 
     %===========================
     \mainmatter
+
+
+    \section*{Tecnologie per le basi di dati}
+    \addcontentsline{toc}{section}{Tecnologie per le basi di dati}
+    Argomenti visti nel Modulo di Teoria:
+    \begin{itemize}
+      \item Progettazione concettuale
+      \item Progettazione logica
+      \item Linguaggi di interrogazione (algebra relazionale e calcolo relazionale)
+    \end{itemize}
+
+    \subsection*{Tecnologia dei DBMS}
+    \addcontentsline{toc}{subsection}{Tecnologia dei DBMS}
+    Un DBMS \textbf{(Database Management System)} o sistema di gestione di basi di dati è un sistema software in grado di gestire collezioni di dati che siano e \textbf{persistenti} assicurando la loro \textbf{affidabilità} e \textbf{privatezza}.
+
+    Un DBMS in quanto sistema software deve essere efficiente ed efficace e deve inoltre estendere le funzionalità del file system.
+    Esempio: Gestione in memoria secondaria collezioni di dati.
+
+
+    \definizione{Basi di dati}{Una base di dati è una collezione di dati gestita da un DBMS.}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/schema.png} 
+      \caption{Architettura su 3 livelli del DBMS.}
+    \end{figure}
+
+    Un DBMS basato sul modello relazionale è nella maggior parte dei casi anche un sistema transazionale: fornisce un meccanismo per la definizione ed esecuzione di transazioni.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/DBMS.png}
+      \caption{Ssistema transizionale}
+    \end{figure}
+
+    In sintesi, durante il corso si affronteranno i seguenti argomenti:
+    \begin{itemize}
+      \item Transazioni: definizione e proprietà
+      \item Architettura di un DBMS:
+      \begin{itemize}
+        \item Gestore delle interrogazioni: scrittura query in SQL
+        \item Gestore delle interrogazioni: ottimizzazione delle interrogazioni
+        \item Gestore dei metodi di accesso: indici primari e secondari, indici B+-tree e indici Hash
+        \item Gestore del buffer: interazione tra memoria secondaria e memoria centrale
+        \item Gestore della memoria secondaria: strutture fisiche per la memorizzazione dei dati in memoria secondari
+        \item Gestore della concorrenza: gestione dell’esecuzione concorrente (VSR, CSR, locking a due fasi)
+        \item Gestore dell’affidabilità: gestione dei guasti
+        \end{itemize}
+      \item Architettura di un sistema document-based
+      
+    \end{itemize}
+
+
+    \subsubsection*{Transazione}
+    \addcontentsline{toc}{subsubsection}{Transazione}
+
+    \definizione{Transazione}{È \textcolor{red}{un’unità di lavoro} svolta da un programma applicativo (che interagisce con una base di dati) per la quale si vogliono garantire proprietà di correttezza, robustezza e isolamento.}
+
+    Le caratteristiche principali sono:
+    \begin{itemize}
+      \item Una transazione o va a buon fine e ha effetto sulla base di dati o abortisce e non ha nessun effetto sulla base di dati.
+      \item \textcolor{red}{O tutto o niente!} Non sono ammesse esecuzioni parziali
+    \end{itemize}
+
+
+    Sintassi per definire una transazione in SQL:\\
+    
+    \textcolor{purple}{<transazione> $\rightarrow$ begin transaction}\par
+    \textcolor{purple}{\hspace{8em}<programma>}\par
+    \textcolor{purple}{\hspace{8em}end transaction}\\
+   \textcolor{purple} {<programma> $\rightarrow$ $\langle$ <istruzione> | commit work | rollback work $\rangle$\\}
+    \hspace{8em}\textcolor{purple}{\{ $\langle$ <istruzione> | commit work | rollback work $\rangle$\}}
+
+    La transazione va a buon fine all’esecuzione di un commit work ma non ha alcun effetto se viene eseguito un rollback work.
+    
+    Una transazione è ben formata se:
+    \begin{itemize}
+      \item Inizia con un begin transaction.
+      \item Termina con un end transaction.
+      \item La sua esecuzione comporta il raggiungimento di un commit o di un rollback work e dopo il commit/rollback non si eseguono altri accessi alla base di dati.
+    \end{itemize}
+
+    Esempio di transazione ben formata:\\
+    \textcolor{cyan}{begin transaction}\\
+    \textcolor{cyan}{\hspace{2em}update CONTO set saldo = saldo - 1200}\\
+    \textcolor{cyan}{\hspace{4em}where filiale = '005' and numero = 15;}\\
+    \textcolor{cyan}{\hspace{2em}update CONTO set saldo = saldo + 1200}\\
+    \textcolor{cyan}{\hspace{4em}where filiale = '005' and numero = 205}\\
+    \textcolor{cyan}{\hspace{2em}commit work;\\
+    end transaction}
+
+
+    \vario{Proprietà delle transazioni}{Una transazione ha quattro proprietà:
+    \begin{itemize}
+    \item Atomicità
+    \item Consistenza
+    \item Isolamento
+    \item Persistenza
+    \end{itemize}
+    }
+
+    \subsubsection*{Atomicità}
+    \addcontentsline{toc}{subsubsection}{Atomicità}
+    Una transazione è una unità di esecuzione \textbf{indivisibile}. O viene eseguita completamente o non viene eseguita affatto.\par
+    Implicazioni:
+    \begin{itemize}
+      \item Se una transazione viene \textbf{interrotta prima} del commit, il lavoro fin qui eseguito dalla transazione deve essere disfatto ripristinando la situazione in cui si trovava la base di dati prima dell’inizio della transazione. 
+      \item Se una transazione viene \textbf{interrotta dopo} l’esecuzione del commit (commit eseguito con successo), il sistema deve assicurare che la transazione abbia effetto sulla base di dati.
+
+    \end{itemize}
+    
+    \subsubsection*{Consistenza}
+  \addcontentsline{toc}{subsubsection}{Consistenza}
+  L’esecuzione di una transazione non deve violare i \textbf{vincoli di integrità}.\par
+  Implicazioni:
+    \begin{description}
+      \item[Verifica immediata]:
+      \begin{itemize}
+        \item Fatta nel corso della transazione
+        \item Viene abortita solo l’ultima operazione e il sistema restituisce all’applicazione una segnalazione d’errore
+        \item L’applicazione può quindi reagire alla violazione.
+      \end{itemize}
+      \item[Verifica differita]: 
+      \begin{itemize}
+        \item Al commit se un vincolo di integrità viene violato la transazione viene abortita senza possibilità da parte dell’applicazione di reagire alla violazione
+      \end{itemize}
+    \end{description}
+    
+
+    
+
+    \subsubsection*{Isolamento}
+    \addcontentsline{toc}{subsubsection}{Isolamento}
+    L’esecuzione di una transazione deve essere \textbf{indipendente} dalla contemporanea esecuzione di altre transazioni.
+
+    Implicazioni:
+    \begin{itemize}
+      \item Il rollback di una transazione non deve creare rollback a catena di altre transazioni che si trovano in esecuzione contemporaneamente.
+      \item Il sistema deve regolare l’esecuzione concorrente con meccanismi di controllo dell’accesso alle risorse
+    \end{itemize}
+
+
+    \subsubsection*{Persistenza}
+  \addcontentsline{toc}{subsubsection}{Persistenza}
+    L’effetto di una transazione che ha eseguito il commit non deve andare perso.
+    Implicazioni:
+    \begin{itemize}
+      \item Il sistema deve essere in grado, in caso di guasto, di garantire gli effetti delle transazioni che al momento del guasto avevano già eseguito un commit.
+    \end{itemize}
+
+
+
+    \subsection*{Architettura di un DBMS}
+    \addcontentsline{toc}{subsection}{Architettura di un DBMS}
+    
+    L’architettura mostra i moduli principali che possiamo individuare nei DBMS attuali, considerando le diverse funzionalità che il DBMS svolge durante l’esecuzione delle transazioni. Per ogni modulo dell’architettura presentiamo le funzionalità che esso svolge e alcune delle tecniche che applicativo
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/ArchitetturaDBMS.png} 
+      \caption{Architettura di riferimento di un DBMS.}
+    \end{figure}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/Architettura2.png} 
+      \caption{Architettura di riferimento di un DBMS.}
+    \end{figure}
+
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/passaggio1.png} 
+
+    \end{figure}
+
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/passaggio2.png} 
+    \end{figure}
+
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/passaggio3.png} 
+    \end{figure}
+
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/passaggio4.png} 
+    \end{figure}
+
+    Quali modulo contribuiscono a garantire le proprietà delle transizioni?
+    \begin{description}
+      \item[Gestore dei metodi d'accesso:] Consistenza
+      \item[Gestore dell'esecuzione concorrente:]Atomicità e Isolamento
+      \item[Gestore dell'affidabilità:] Atomicità e Persistenza  
+    \end{description}
+
+
+
+    \section*{SQL}
+    \addcontentsline{toc}{section}{SQL}
+
+
 \end{document}
