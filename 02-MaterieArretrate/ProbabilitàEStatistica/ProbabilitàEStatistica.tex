@@ -108,19 +108,29 @@
     \mainmatter
 
     \chapter{Introduzione}
-    La \textcolor{viola}{\textbf{statistica}} si occupa della \hl{raccolta dati, della loro descrizione e della loro analisi}, guidandoci nel trarre le conclusioni.
+    La \textcolor{viola}{\textbf{statistica}} si occupa della \hl{raccolta dati, nella loro descrizione e analisi}, guidandoci nel trarre le conclusioni.
 
     \section{Raccolta dati e statistica descrittiva}
-    La statistica permette di descrivere, sintettizzare e analizzare dati presi da un campiione di dati definito.\\[0.2ex]
+    La statistica permette di descrivere, sintettizzare e analizzare dati presi da un campione di dati definito.\\[0.2ex]
     Altre volte, il lavoro dello statistico inizia prima che i dati siano stati ottenuti e il suo primo obiettivo consiste nell'ideare un procedimento ottimale per la loro raccolta.
 
-    \esempio{}{
+    \esempio{indagine statistica}{
       Immaginiamo che un docente voglia determinare quale sia il più efficace tra due diversi metodi per insegnare la programmazione a dei neofiti.
 
-      Un possibile approcio potrebbe essere: dividere gli studenti in due gruppi e usare un metodo didattico per ciascun gruppo.
+      \smallskip
+      Un possibile approcio potrebbe essere:
+      \begin{enumerate}
+        \item dividere gli studenti in due gruppi
+        \smallskip
+        \item usare un metodo didattico per ciascun gruppo
+      \end{enumerate}
 
-      Alla fine del corso gli studenti vengono esaminati e i punteggi dei membri dei due gruppo vengono confrontati: se i risultati di uno dei due gruppi risultassarso notelvolemente più alti, sarebbe ragionevole pensare che il corrispondente metodo di insegnamento sia migliore.
+      \smallskip
+      Alla fine del corso gli studenti vengono esaminati e i punteggi dei membri dei due gruppo vengono confrontati.
+      
+      Se i risultati di uno dei due gruppi risultassarso notelvolemente più alti, sarebbe ragionevole pensare che il corrispondente metodo di insegnamento sia migliore.
 
+      \smallskip
       È importante notare che per poter trarre delle conclusioni valide dei dati è essenziale che gli studenti siano divisi in modo che in nessuno dei due gruppi si vengano a trovare elementi con una maggiore predispozione alla programmazione.
 
       Il metodo accettato per superare questo problema consiste nel dividere "a caso" gli studenti in due gruppi.
@@ -132,50 +142,56 @@
     La parte della \hl{statistica che si occupa di illustrare e sintettizzare i dati} è chiamata \textcolor{viola}{\textbf{statistica descrittiva}}.
 
     \section{Inferenza statistica e modelli probabilistici}
-    Considerando l'esempio fatto in precedenza, dopo che la prova si è conclusa e i dati sono stati illustrati e sintetizzati, vorremmo poter tarre una conclusione su quale dei due metodi di insegnamento sia superiore.
+    Considerando l'esempio fatto in precedenza, dopo che la prova si è conclusa e i dati sono stati illustrati e sintetizzati, vorremmo poter trarre una conclusione su quale dei due metodi di insegnamento sia superiore.
 
     \medskip
     La parte della statistica che si occupa di questo aspetto è detta \textcolor{viola}{\textbf{inferenza statistica}}.
 
     Per dedurre enenunciati formalmemte validi dai dati raccolti, è necessario prendere in considerazione l'influenza del caso.
 
-    \esempio{}{
+    \esempio{indagine statistica}{
       Potrebbe accadere che il punteggio medio dei membri del primo gruppo sia superiore, ma di poco, a quello del secondo gruppo.
 
+      \smallskip
       \textcolor{viola}{\textbf{È corretto concludere che questa differenza sia dovuta al metodo didattico utilizzato?}}
 
+      \smallskip
       \textcolor{viola}{\textbf{È possible che sia una casualità?}}
     }
 
     Per poter giungere a conclusioni pienamente giustificate è necessario fare alcune assunzioni sulla probabilità che i dati che vengono misurati assumano diversi valori possibili.\\[0.2ex]
-    L'insieme di queste ipotesi è detto \textbf{modello probabilistico} per i dati.
+    L'\hl{insieme di queste ipotesi} è detto \textbf{modello probabilistico} per i dati.
 
     A volte la natura dei dati suggerisce la forma del modello probabilistico da adottare.
 
-    \esempio{}{
+    \esempio{indagine statistica}{
       Consideriamo un ingegnere della produzione che vuole scoprire la frazione di circuiti integrati difettosi riscontrata con un nuovo metodo produttivo.
 
+      \smallskip
       Egli potrebbe selezionare un certo numero di chip e testarli: il numero di quelli difettosi costituirà il dato sperimentale.
 
-      Se la scelta del campione da testare è stata fatta "a caso" è ragionevole supporre che ciascuno dei chip sarà difettoso con probabilità p, pari alla frazione incognita di chip difettosi sul totale di quelli prodotti.
+      \smallskip
+      Se la scelta del campione da testare è stata fatta "a caso" è ragionevole supporre che ciascuno dei chip sarà difettoso con probabilità $\mathrm{p}$, pari alla frazione incognita di chip difettosi sul totale di quelli prodotti.
     }
 
     In altre situazioni potrebbe non essere evidente quale sia il modello di probabilità per un certo campione di dati.\\[0.2ex]
     Molto spesso, un'attenta descrizione e presentazione dei dati ci permette di inferire quale sia un modello accettabile, che può eventualmente essere messo alla prova raccogliendo nuovi dati.
 
     \section{Popolazioni e campioni}
-    La statistica è normalmente interessata a ottenere informazioni su un insieme completo di oggetti che viene detto \textbf{popolazione}.\\[0.2ex]
+    La statistica è normalmente interessata a ottenere informazioni su un \hl{insieme completo di oggetti} che viene detto \textbf{popolazione}.\\[0.2ex]
     Esso, però, è spesso troppo grande perchè sia possibile un esame esaustivo.\\[0.2ex]
     In questi casi, si cerca di imparare qualcosa sulle popolazioni scegliendo e poi esaminnado dei sottogruppi di loro elementi.\\[0.2ex]
-    Un sottogruppo della popolazione è detto \textbf{campione}.\\[0.2ex]
+    Un \hl{sottogruppo della popolazione} è detto \textbf{campione}.\\[0.2ex]
     Siccome il campione deve contenere informazioni sulla popolazione complessiva, deve essere rapresentativo di quella popolazione.
 
-    \esempio{}{
+    \esempio{indagine statistica}{
       Consideriamo di effettuare una ricerca sulla distribuzione delle età degli abitati di un certo comune e, intervistati i primi 100 che entrano in una biblioteca, venisse trovata che l'età media è di 46.2 anni.
 
+      \smallskip
       \textcolor{viola}{\textbf{Possiamo concludere che questa sia l'età media dell'intera popolazione?}}
 
-      Probabilmente no: il campione scelto non è rappresentativo della popolazione in esame, essendo gli utent della biblioteca più facilmente studenti ed anziani che non persone in età lavorativa.
+      \smallskip
+      Probabilmente no, perchè il campione scelto non è rappresentativo della popolazione in esame, essendo gli utenti della biblioteca più facilmente studenti e anziani che non persone in età lavorativa.
     }
 
 
@@ -186,16 +202,16 @@
     La statistica riguarda i metodi scientifici per raccogliere, ordinare, riassumere e presentare i dati, per trarre valide conclusioni ed eventualmente prendere ragionevoli decisioni sulla base di tale analisi.
 
     \Definizione{variabili alleatorie}{
-      Le variabili oggetto di osservazione statistica si classificano in tre tipologie:
+      Le variabili oggetto di osservazione statistica si classificano in due tipologie:
       \begin{itemize}[label=$\triangleright$]
-        \item \textbf{varibili numeriche}: assume solo valori numerici ($N = 0, 1, \dots$):
+        \item \textbf{varibili numeriche}: assume solo valori numerici ($\mathrm{N = 0, 1, \dots}$)
          \begin{itemize}[label=$\diamond$]
           \item discrete: insieme dei valori che può assumere è finito o numerabile
           \smallskip
-          \item continue: insieme dei valori che può assumere è l'insieme dei numeri reali $\mathbb{R}$ o un intervallo $I \subset \mathbb{R}$ ($H \in \mathbb{R}$)
+          \item continue: insieme dei valori che può assumere è l'insieme dei numeri reali $\mathbb{R}$ o un intervallo $\mathrm{I \subset \mathbb{R}}$ ($\mathrm{H \in \mathbb{R}}$)
         \end{itemize}
         \medskip
-        \item \textbf{variabili categoriche}: C = marrone, blue, verde, $\dots$
+        \item \textbf{variabili categoriche}: $\mathrm{C = marrone, blue, verde, \dots}$
       \end{itemize}
     }
 
@@ -208,7 +224,7 @@
     \section{Distribuzine di frequenze: classi}
     Per studiare i dati a disposizione occorre costruire una \textcolor{viola}{\textbf{distribuzione di frequenze}}: una tabella dove in una colonna si mettono i valori assunti dalla variabile e in un'altra il numero delle volte che tali valori vengono assunti (frequenze).
 
-    \esempio{}{
+    \esempio{istrogramma}{
       Consideriamo la varibile P peso di un gruppo di 100 studenti.
 
       \medskip
@@ -247,7 +263,7 @@
     \end{itemize}
 
     \subsection{Istogramma}
-    Un \textcolor{viola}{\textbf{istogramma}} consiste in un \hl{insieme di rettangoli adiacenti avaventi base sull'asse x} con:
+    Un \textcolor{viola}{\textbf{istogramma}} consiste in un \hl{insieme di rettangoli adiacenti aventi base sull'asse x} con:
     \begin{itemize}
       \item \textbf{punto medio} nel valore centrale della classe
       \smallskip
@@ -262,7 +278,7 @@
       \item 100: frequenze percentuali
     \end{itemize}
 
-    \esempio{}{
+    \esempio{diagramma a barre}{
       Si consideri la seguente distribuzione di frequenze:
 
       \smallskip
@@ -276,7 +292,7 @@
           150 < D $\le$ 170 & 60\\
           170 < D $\le$ 210 & 80\\
           \hline
-          \textcolor{red}{\textbf{Totoale}} & \textcolor{red}{\textbf{200}}\\
+          \textcolor{red}{\textbf{Totale}} & \textcolor{red}{\textbf{200}}\\
           \hline
         \end{tabular}
       \end{center}
@@ -295,7 +311,7 @@
           150 < D $\le$ 170 & 60 & 30$\%$\\
           170 < D $\le$ 210 & 80 & 40$\%$\\
           \hline
-          \textcolor{red}{\textbf{Totoale}} & \textcolor{red}{\textbf{200}} & \textcolor{red}{\textbf{100$\%$}}\\
+          \textcolor{red}{\textbf{Totale}} & \textcolor{red}{\textbf{200}} & \textcolor{red}{\textbf{100$\%$}}\\
           \hline
         \end{tabular}
       \end{center}
@@ -348,7 +364,7 @@
           Verde & 30 & 10$\%$\\
           Altro & 30 & 10$\%$\\
           \hline
-          \textcolor{red}{\textbf{Totoale}} & \textcolor{red}{\textbf{300}} & \textcolor{red}{\textbf{100$\%$}}\\
+          \textcolor{red}{\textbf{Totale}} & \textcolor{red}{\textbf{300}} & \textcolor{red}{\textbf{100$\%$}}\\
           \hline
         \end{tabular}
       \end{center}
@@ -362,12 +378,12 @@
 
 
     \section{Frequenze cumulate e loro rappresentazione}
-    La \textcolor{viola}{\textbf{frequenza cumulata}} (variabili numeriche) è la somma di tutte le frequenza inferiori o uguali al confine di una fissata classe.\\[0.2ex]
+    La \textcolor{viola}{\textbf{frequenza cumulata}} (variabili numeriche) è la \hl{somma di tutte le frequenza inferiori o uguali al confine} di una fissata classe.\\[0.2ex]
     Per questo motivo le classi vengono prese aperte a sinistra e chiuse a destra.
 
     Il grafico delle freuqenze cumulata è detto \textbf{ogiva}.
 
-    \esempio{}{
+    \esempio{calcolo delle frequenze cumulate}{
       Consideriamo le seguenti distibuzioni di frequenza:
 
       \smallskip
@@ -381,7 +397,7 @@
           150 < D $\le$ 170 & 60\\
           170 < D $\le$ 210 & 80\\
           \hline
-          \textcolor{red}{\textbf{Totoale}} & \textcolor{red}{\textbf{200}}\\
+          \textcolor{red}{\textbf{Totale}} & \textcolor{red}{\textbf{200}}\\
           \hline
         \end{tabular}
       \end{center}
@@ -400,7 +416,7 @@
           150 < D $\le$ 170 & 60 & 30$\%$ & 60$\%$\\
           170 < D $\le$ 210 & 80 & 40$\%$ & 100$\%$\\
           \hline
-          \textcolor{red}{\textbf{Totoale}} & \textcolor{red}{\textbf{200}} & \textcolor{red}{\textbf{100$\%$}} & \\
+          \textcolor{red}{\textbf{Totale}} & \textcolor{red}{\textbf{200}} & \textcolor{red}{\textbf{100$\%$}} & \\
           \hline
         \end{tabular}
       \end{center}
@@ -416,4 +432,286 @@
 
     %------------------------------------------------------------------
     \chapter{Indici di posizione e dispersione}
+    Al giorno d'oggi non è raro dover trattare grandi quantità di dati.\\[0.2ex]
+    Per avere una sensazione di un così vasto campione di dati, è utile saperli sintettizzare in qualche misura
+
+    \section{Indici di posizione}
+    Gli \textcolor{viola}{\textbf{indici di posizione}} \hl{aiutano a capire quali sono i valori che assume una certa distribuzione} con particolare attenzione al centro di questa.
+
+    \subsection{Media}
+    Consideriamo di avere la seguente distribuzione: N rappresenta la numerisità della popolazione, n il numero delle classi.
+
+    \begin{center}
+        \begin{tabular}{|c|c|c|}
+          \hline
+          \textbf{X} & \textbf{Frequenze} & \textbf{Frequenze relative}\\
+          \hline
+          $\mathrm{x_1}$ & $\mathrm{f_1}$ & $\mathrm{p_1}$\\
+          $\mathrm{x_2}$ & $\mathrm{f_2}$ & $\mathrm{p_2}$\\
+          $\vdots$ & $\vdots$ & $\vdots$\\
+          $\mathrm{x_n}$ & $\mathrm{f_n}$ & $\mathrm{p_n}$\\
+          \hline
+          \textcolor{red}{\textbf{Totale}} & \textcolor{red}{\textbf{N}} & \textcolor{red}{\textbf{1}}\\
+          \hline
+        \end{tabular}
+      \end{center}
+
+      \Definizione{media}{
+        Si chiama \textbf{media} di X è la quantità:
+        \begin{equation*}
+          \boldsymbol{\mathrm{\bar{X} =\frac{1}{N}\sum_{i=1}^{n}x_i \cdot f_i = \sum_{i=1}^{n}xi \cdot p_i}}
+        \end{equation*}
+      }
+
+      \esempio{calcolo della media}{
+        Consideriamo la distribuzione di alcuni studenti.
+
+        \smallskip
+        \begin{center}
+          \begin{tabular}{|c|c|c|}
+            \hline
+            \textbf{Peso (Kg)} & \textbf{Frequenze} & \textbf{Frequenze relative}\\
+            \hline
+            65 & 2 & 0.2\\
+            68 & 1 & 0.1\\
+            69 & 1 & 0.1\\
+            70 & 2 & 0.2\\
+            72 & 1 & 0.1\\
+            74 & 3 & 0.3\\
+            \hline
+            \textcolor{red}{\textbf{Totale}} & \textcolor{red}{\textbf{10}} & \textcolor{red}{\textbf{1.0}}\\
+            \hline
+          \end{tabular}
+        \end{center}
+
+        \medskip
+        Si ha:
+        \begin{equation*}
+          \boldsymbol{\mathrm{\bar{P}}} = \frac{1}{10}(65 \cdot 2 + 68 \cdot 1 + 69 \cdot 1 + 70 \cdot 2 + 72 \cdot 1 + 74 \cdot 3) = \boldsymbol{70.1}
+        \end{equation*}
+      }
+
+      \subsection{Mediana, quatrili e percentili}
+      \Definizione{mediana}{
+        La \textbf{mediana} è il valore che provoca la ripartione della popolazione in esame in due parti ugulamente numerose: per il 50$\%$ della popolazione il dato è minore della mediana, per il restante 50$\%$ il dato è maggiore della mediana.
+      }
+
+      Se abbiamo i dati non raggruppati, possiamo pensarli sotto forma di fila ordinata.\\[0.2ex]
+      La mediana, allora, è:
+      \begin{itemize}[label=$\triangleright$]
+        \item \textbf{valore centrale}: numeri dispari
+        \smallskip
+        \item \textbf{media dei valori centrali}: numeri pari
+      \end{itemize}
+
+      \esempio{calcolo della mediana}{
+        Consideriamo il seguente campione X di numeri:
+        \smallskip
+        \begin{center}
+          67, 72, 78, 78, 84, 85, 87, 91 
+        \end{center}
+
+        \smallskip
+        Si tratta di un campione di numerosità 8 (pari):
+        \begin{equation*}
+          \mathrm{\boldsymbol{Med(X)}} = \frac{1}{2}(78 + 84) = 81
+        \end{equation*}
+
+        \bigskip
+        Consideriamo il seguente campione X di numeri:
+        \begin{center}
+          65, 67, 72, 78, 78, 84, 85, 87, 91 
+        \end{center}
+
+        \smallskip
+        Si tratta di un campione di numerosità 9 (dipari):
+        \begin{equation*}
+          \mathrm{\boldsymbol{Med(X)}} = 78
+        \end{equation*}
+      }
+
+      La \hl{media e la mediana sono statitsiche utili per descrivere i valori centrali dei dati}.\\[0.2ex]
+      La media fa uso di tutti i dati e, in particolare, è influenzata in maniera sensibile dai valori eccezionalmente alti o bassi.\\[0.2ex]
+      La mediana, invece, dipende direttamente solo da uno o due valori in centro alla distribuzione e non risente dei dati estremi.
+
+      \bigskip
+      \Definizione{quartili}{
+        I \textbf{quartili} sono quei valori che ripartiscono la popolazione (ordinata), in quattro parti ugulamente numerose (ciasuna pari al 25$\%$ del totale):
+        \begin{itemize}[label=$\diamond$]
+          \item \textbf{primo quartile ($q_1$)}: 25$\%$ della popolazione a sinistra e il 75$\%$ a destra
+          \smallskip
+          \item \textbf{secondo quartile ($q_2$)}: 50$\%$ della popolazione a sinistra e il 50$\%$ a destra (mediana)
+          \smallskip
+          \item \textbf{terzo quartile ($q_3$)}: 75$\%$ della popolazione a sinistra e il 25$\%$ a destra
+        \end{itemize}
+      }
+
+      Se il campione si trova sotto forma di fila ordinata ($\mathrm{x_1, x_2, \dots, x_N}$), allora per il calcolo si procede in modo analogo a quanto fatto per la mediana.\\[0.2ex]
+      Se si vuole calcolare $\mathrm{q_k}$ si moltiplica $\mathrm{p = 0.k}$ per la numerosità del campione N:
+      \begin{itemize}
+        \item se pN è intero:
+        \begin{equation*}
+          \mathrm{q_k = \frac{1}{2}(x_{pN} + x_{pN + 1})}
+        \end{equation*}
+        \smallskip
+        \item se pN non è un numero intero:
+        \begin{equation*}
+          \mathrm{q_k = x_{\lfloor pN \rfloor + 1}}
+        \end{equation*}
+      \end{itemize}
+
+      \esempio{calcolo dell'n-simo quartile}{
+        Consideriamo il seguente campione X di numeri:
+        \smallskip
+        \begin{center}
+          67, 72, 78, 78, 84, 85, 87, 91 
+        \end{center}
+
+        \smallskip
+         Si tratta di un campione di numerosità 8 (pari). 
+         
+         \textcolor{red}{Quanto valgono i quartili?}
+         \begin{itemize}[label=$\triangleright$]
+          \item \textbf{primo quartile}: 0.25 $\cdot$ 8 = 2
+          \begin{equation*}
+            \mathrm{q_1 = \frac{1}{2}(x_2 + x_3)} = \frac{1}{2}(72+78) = \boldsymbol{75}
+          \end{equation*}
+          \item \textbf{secondo quatrile}:
+          \begin{equation*}
+            \mathrm{q_2 = Med(X) = \frac{1}{2}(78 + 84)} = \boldsymbol{81}
+          \end{equation*}
+          \item \textbf{terzo quatrile}: 0.75 $\cdot$ 8 = 6
+          \begin{equation*}
+            \mathrm{q_3 = \frac{1}{2}(x_6 + x_7)} = \frac{1}{2}(85 + 87) = \boldsymbol{86}
+          \end{equation*}
+         \end{itemize}
+      }
+
+      \subsection{Moda}
+
+      \Definizione{moda}{
+        La \textbf{moda} di un insieme di dati, se esiste, è l'\hl{unico valore che ha la freuqunza massima}.
+
+        Se non vi è solo valore con frequenza massima, ciascuno di essi è detto \textbf{valore modale}.
+      }
+
+      \textcolor{red}{Perchè sccegliere la moda, invece, di media o mediana?}\\[0.2ex]
+      La moda identifica il picco della distribuzione (scelta prevalente), mentre la media può rappresentare un valore che non è mai stato osservato.
+
+
+      \section{Indici di dispersione}
+      Gli \textcolor{viola}{\textbf{indici di disperisione }} indicano quanto i dati sono concetrati o viceversa dispersi attorno a tali valori tipici.
+
+      \subsection{Varianza e scarto quadratico medio}
+      È interessante misurare, quindi, il grado di disperisione dei dati rispetto, ad esempio, alla media.\\[0.2ex]
+      Si osserva che la somma di tutte le derivazioni dalla media è sempre zero:
+      \begin{equation*}
+        \mathrm{\sum_{i=1}^{n}(x_i - \bar{X}) \cdot f_i = 0}
+      \end{equation*} 
+
+      Perciò, per misurare in modo significativo la disperisione dei dati rispetto alla media, si può considerare, ad esempio, la somma dei moduli delle derivazioni, oppure la somma dei quadrati delle derivazioni.
+
+      \medskip
+      Consideriamo di avere la seguente distribuzione: N rappresenta la numerisità della popolazione.
+
+      \begin{center}
+        \begin{tabular}{|c|c|c|}
+          \hline
+          \textbf{X} & \textbf{Frequenze} & \textbf{Frequenze relative}\\
+          \hline
+          $\mathrm{x_1}$ & $\mathrm{f_1}$ & $\mathrm{p_1}$\\
+          $\mathrm{x_2}$ & $\mathrm{f_2}$ & $\mathrm{p_2}$\\
+          $\vdots$ & $\vdots$ & $\vdots$\\
+          $\mathrm{x_n}$ & $\mathrm{f_n}$ & $\mathrm{p_n}$\\
+          \hline
+          \textcolor{red}{\textbf{Totale}} & \textcolor{red}{\textbf{N}} & \textcolor{red}{\textbf{1}}\\
+          \hline
+        \end{tabular}
+      \end{center}
+
+      \Definizione{varianza}{
+        Si chiama \textbf{varianza} di X la media degli scarti al quadrato:
+        \begin{equation*}
+          \boldsymbol{\mathrm{s_X^2 = \frac{1}{N}\sum_{i=1}^{n}(x_i - \bar{X})^2 \cdot f_i = \sum_{i=1}^{n}(x_i - \bar{X})^2 \cdot p_i}}
+        \end{equation*}
+      }
+
+
+      \Definizione{scarto quadratico medio}{
+        Si chiama \textbf{scarto quadratico medio} o \textbf{deviazione standard} di X la radice della varianza:
+        \begin{equation*}
+          \boldsymbol{\mathrm{s_X = \sqrt{\frac{1}{N}\sum_{i=1}^{n}(x_i - \bar{X})^2 \cdot f_i} = \sqrt{\sum_{i=1}^{n}(x_i - \bar{X})^2 \cdot p_i}}}
+        \end{equation*}
+      }
+
+      La varianza e la deviazione standard sono grandezze non negative che si annullano solo quanto gli $\mathrm{x_i}$, sono tutti uguali tra loro e, quindi, uguali alla loro media.
+
+      \medskip
+      Il calcolo della varianza può essere semplificato se si nota che, prese comunque due costanti $\mathrm{a}$ e $\mathrm{b}$, se si considera il nuovo insieme di dati $\mathrm{y_i := ax_i + b}$, dove $\mathrm{i = 1, 2, \dots, n}$, allora per quanto già detto $\mathrm{\bar{Y} = a \bar{X} + b}$ e, quindi:
+      \begin{equation*}
+        \mathrm{\sum_{i=1}^{n}(y_i - \bar{Y})^2 = a^2 \sum_{i=1}^{n}(x_i - \bar{X})^2}
+      \end{equation*}
+
+
+      Perciò, se $\mathrm{s_y^2}$ e $\mathrm{s_x^2}$ sono le rispettive varianza campionarie, si ha che:
+      \begin{equation*}
+        \mathrm{s_y^2 = a^2 s_x^2}
+      \end{equation*}
+
+      \esempio{calcolo della varianza e deviazione standard}{
+        Consideriamo la seguente distribuzione di frequenze:
+
+        \smallskip
+        \begin{center}
+          \begin{tabular}{|c|c|}
+            \hline
+            \textbf{Distrubuzione} & \textbf{Frequenze}\\
+            \hline
+            110 < D $\le$ 130 & 20\\
+            130 < D $\le$ 150 & 40\\
+            150 < D $\le$ 170 & 60\\
+            170 < D $\le$ 210 & 80\\
+            \hline
+            \textcolor{red}{\textbf{Totoale}} & \textcolor{red}{\textbf{200}}\\
+            \hline
+          \end{tabular}
+        \end{center}
+
+        \bigskip
+        La media è uguale a:
+        \begin{equation*}
+          \mathrm{\bar{D}} = \frac{1}{200}(120 \cdot 20 + 140 \cdot 40 + 160 \cdot 60 + 190 \cdot 80) = \boldsymbol{164}
+        \end{equation*}
+
+        \smallskip
+        \begin{center}
+          \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Distrubuzione} & $\boldsymbol{\mathrm{(D - \bar{D})^2}}$ & $\boldsymbol{\mathrm{D^2}}$ & \textbf{Frequenze}\\
+            \hline
+            110 < D $\le$ 130 & $(120 - 164)^2$ & $120^2$ & 20\\
+            130 < D $\le$ 150 & $(140 - 164)^2$ & $140^2$ & 40\\
+            150 < D $\le$ 170 & $(160 - 164)^2$ & $160^2$ & 60\\
+            170 < D $\le$ 210 & $(190 - 164)^2$ & $190^2$ & 80\\
+            \hline
+            \textcolor{red}{\textbf{Totoale}} & & & \textcolor{red}{\textbf{200}}\\
+            \hline
+          \end{tabular}
+        \end{center}
+
+        \bigskip
+        La varianza è uguale a:
+        \begin{equation*}
+          \mathrm{s_D^2} = \frac{1}{200}[(120 - 164)^2 \cdot 20 + (140 - 164)^2 \cdot 40 + (160 - 164)^2 \cdot 60 + (190 - 164)^2 \cdot 80] = \boldsymbol{584}
+        \end{equation*}
+
+        Lo scarto quadratico medio è uguale a:
+        \begin{equation*}
+         \mathrm{ s_D = \sqrt{s_D^2}} = \boldsymbol{24.17}
+        \end{equation*}
+      }
+
+      \subsection{Indice di Gini}
+
+      \subsection{Entropia di Shannon}
 \end{document}
