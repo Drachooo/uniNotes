@@ -11,7 +11,7 @@
 
 % --- COLORI E LINK ---
 \usepackage{xcolor}
-\definecolor{azzurrino}{HTML}{0D47A1}
+\definecolor{verde}{HTML}{008B45}
 \definecolor{grigiochiaro}{HTML}{F5F5F5}
 \definecolor{grigioscuro}{HTML}{424242}
 %altra opzione: 1A237E
@@ -19,22 +19,22 @@
 \usepackage[
     colorlinks=true,
     linkcolor=grigioscuro,
-    citecolor=azzurrino,
-    urlcolor=azzurrino
+    citecolor=verde,
+    urlcolor=verde
 ]{hyperref}
 
 % --- TITOLI MODERNI ---
 \usepackage{titlesec}
 
 \titleformat{\chapter}[display]
-  {\normalfont\Huge\bfseries\color{azzurrino}}
+  {\normalfont\Huge\bfseries\color{verde}}
   {\filleft\Huge\thechapter}
   {0pt}
   {\titlerule[1pt]\vspace{1ex}\filright}
   [\vspace{1ex}\titlerule]
 
 \titleformat{\section}
-  {\normalfont\Large\bfseries\color{azzurrino}}{\thesection}{1em}{}
+  {\normalfont\Large\bfseries\color{verde}}{\thesection}{1em}{}
 
 \titleformat{\subsection}
   {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsection}{1em}{}
@@ -46,7 +46,7 @@
   {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsubsection}{1em}{}
 
 % --- CAPTION COLORATE ---
-\usepackage[font=small, labelfont={bf, color=azzurrino}]{caption}
+\usepackage[font=small, labelfont={bf, color=verde}]{caption}
 
 % --- HEADER E FOOTER ---
 \usepackage{fancyhdr}
@@ -54,9 +54,9 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\color{grigioscuro}\leftmark}
-\fancyhead[R]{\color{azzurrino}\thepage}
+\fancyhead[R]{\color{verde}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\headrule}{\hbox to\headwidth{\color{azzurrino}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{verde}\leaders\hrule height \headrulewidth\hfill}}
 \fancyfoot[C]{\color{grigioscuro}\small Basi di dati – \thepage}
 
 % --- LISTE ED ENUMERAZIONI ---
@@ -88,10 +88,10 @@
 
 % --- FRONTESPIZIO ---
 \title{\Huge\bfseries Appunti del corso di \\[0.5ex]
-\textcolor{azzurrino}{Linguaggi} \\[1ex]
+\textcolor{verde}{Linguaggi} \\[1ex]
 \Large UniVR - Dipartimento di Informatica \\[1.5ex]
 \Large secondo semestre - A.A. 2025/26}
-\author{\bfseries \Large \textcolor{azzurrino}{Mattia Nicolis} \and \bfseries \Large \textcolor{azzurrino}{Matteo Drago}}
+\author{\bfseries \Large \textcolor{verde}{Mattia Nicolis} \and \bfseries \Large \textcolor{verde}{Matteo Drago}}
 \date{}
 
 \input{../../../ambienti.sty} %file apposito per definire nuovi comandi
@@ -106,4 +106,85 @@
 
     %===========================
     \mainmatter
+
+    \chapter{Introduzione}
+    Il problema dell'informatica consiste nel voler far eseguire a una macchina algoritmi per la manipolazione dei dati.
+
+    Il primo meccanismo che viene associato alla storia dei computer è la \textcolor{verde}{\textbf{macchina di Babbage}}, che può essere visto come il primo "computer" perchè nasce come macchina per eseguire calcoli matematici complessi in modo automatico.\\[0.2ex]
+    Il salto si verifica quando si decide che la macchina debba essere programmabile, cioè deve eseguire ciò che gli viene detto.\\[0.2ex]
+    In questo senso nasce \textcolor{verde}{\textbf{Enigma}} che nasce per decifrare un codice mediante un algoritmo di forza bruta e prova tutte le combinazioni possibili.
+
+    \medskip
+    La prima architettura che darà origine alla stuttura moderna dei computer è l'\textcolor{verde}{architettura di Von Neumann}.\\[0.2ex]
+    Si tratta di una tipologia di architettura hawdware che è in grado di interpretare solo \textbf{linguaggio binari} (stringhe di bit).\\[0.2ex]
+    Questo fa si che l'uomo per poter interagire con la macchina ci sia un'evoluzione dei linguaggio, ovvero bisgogna costruire un linguaggio che sia più comprensibile all'essere umano.
+
+    \section{Perchè studiare i linguaggi}
+    Lo studio dei libguaggi di programmazione (PL) permette di:
+    \begin{itemize}[label=$\triangleright$]
+      \item \textbf{miglioare la capicità di esprimere idee in forma algoritmica}
+      
+      I programmatori, infatti, sono vincolati ai lingauggi che già conoscono e non sfruttano il fatto che i linguaggi di programmazione si sono evoluti per rispondere a certe esigenze in modo efficace ed efficiente
+      \smallskip
+      \item \textbf{scegliere il linguaggio di programmazione appropriatamente}
+      \smallskip
+      \item \textbf{studiare/progettare più agevolemente nuovi linguaggi}
+      
+      Una volta aquisiti questi concetti diventa più semplice capire come questi concetti sono incorporato nel linguaggi che si sta studiando
+      \smallskip
+      \item \textbf{comprendere meglio il significato ed efficienza dei lingauggi di programmazione}
+    \end{itemize}
+
+    \section{Cosa sono i linguaggi di programmazione}
+    L'evoluzione dei linguaggi di programmazione dipende strettamente dal tipo di architettura di Von Neumann adottata.
+
+    \medskip
+    L'\textbf{architettura di Von Neumann} è una \hl{macchina programmabile con programma memorizzato}, dove dati e istruzioni condividono la stessa area di memoria (prima era esterno [es. schede perforate])
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.5\textwidth]{images/arch-Von-Neumann}
+      \caption{architettura di Von Neumann}
+    \end{figure}
+
+    Il linguaggio di programmazione, quindi, per poter operare su questa architettura, deve istruire una CPU per eseguire i calcoli (algoritmi) su dti conservati in memoria.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.4\textwidth]{images/PL.png}
+      \caption{lingauggio di programmazione}
+    \end{figure}
+
+    Da questa definizione, ne deriva che, anche il linguaggio binario è un lingauggio di programmazione, ma non è umanamente comprensibile perchè dati e istruzioni sono rappresentati nello stesso modo.\\[0.2ex]
+   \hl{Un linguaggio di programmazione deve permttere di superare questa difficoltà}.
+
+   \definition{algoritmo}{
+    Un \textbf{algoritmo} è una sequenza passi, il cui scopo è il calcolo di una funzione.
+   }
+
+   Un algoritmo è un concetto astratto che trova forma concreta in un \textbf{programma}.
+
+   \definition{programma}{
+    Un \textbf{programma} è una sequenza (finita) di istruzioni.
+   }
+
+   \bigskip
+   I \textcolor{verde}{\textbf{linguaggi di programmazione}} nascono, quindi, proprio per questo motivo: linguaggi formali le cui frasi sono programmi, ovvero forme concrete di algoritmi eseguibili/interpretabili da una macchina.
+
+
+   \section{Cosa sono i linguaggi di programmazione}
+   Il programma è la concretizzazione di un algoritmo che manipola i dati.\\[0.2ex]
+   manca, però, un altro ingrediente: la \textbf{trasformazione} dei dati che l'algoritmo vuole eseguire.\\[0.2ex]
+   \hl{Questa trasformazione è il significato dell'algoritmo, la semantica del programma}.
+   \begin{itemize}[label=$\triangleright$]
+    \item \textbf{programma}: costituisce la sintassi
+    \smallskip
+    \item \textbf{effetto dell'esecuzione del programma} (trasformazione dei dati): costituisce la semantica
+   \end{itemize}
+
+   \medskip
+   Il programma è necessariamente un oggetto finito (sempre concreto), mentre il calcolo di una funzione richiede l'esecuzione di un insieme di passi primitivi, che però possono essere infiniti.\\[0.2ex]
+   Questo significa che bisogna pensare al \hl{programma come a una rappresentazioen finita di un insieme potenzialmente inifinito, di passi primitivi di computazione}.
+
+   \textbf{I linguaggi di programmazione devono dare specifica finita di oggetti potenzialmente infiniti}.
 \end{document}
