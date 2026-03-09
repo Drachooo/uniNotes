@@ -18,6 +18,26 @@
   \end{tcolorbox}
   \vspace{5pt}%
 }
+% --- DEFINIZIONE DI AMBIENTI DI LAVORO ---
+%===========================================
+% --- AMBIENTE DEFINIZIONE ---
+\newcommand{\Definizione}[2]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=viola!5!white,
+    colframe=viola!50!black,
+    title=\textbf{Definizione: #1}, % titolo della definizione
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm, %arrotondamento degli angoli
+    boxrule=1pt, %spessore del bordo
+    enhanced,
+    breakable
+  ]
+  #2 % testo della definizione
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
 %===========================================
 %===========================================
 % --- AMBIENTE ESEMPIO ---
@@ -137,4 +157,16 @@
   }
   \end{tcolorbox}
   \vspace{5pt}%
+}
+
+\lstset{
+  language=SQL,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{keywordcolor}\bfseries,
+  breaklines=true,
+  backgroundcolor=\color{backcolor},
+  frame=single,
+  rulecolor=\color{blue!30}, % Bordo blu sottile come nell'immagine
+  showstringspaces=false,
+  morekeywords={DISTINCT, AS, FROM, WHERE, GROUP, BY, HAVING, UNION, INTERSECT, EXCEPT, ORDER, ASC, DESC, USING}
 }

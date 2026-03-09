@@ -14,6 +14,8 @@
 \definecolor{azzurrino}{HTML}{0D47A1}
 \definecolor{grigiochiaro}{HTML}{F5F5F5}
 \definecolor{grigioscuro}{HTML}{424242}
+\definecolor{keywordcolor}{RGB}{128, 0, 128} % Viola
+\definecolor{backcolor}{RGB}{245, 245, 245}  % Grigio chiaro sfondo
 %altra opzione: 1A237E
 
 \usepackage[
@@ -80,9 +82,11 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{textcomp}
+\usepackage{listings}
 
 % --- Tabelle ---
 \usepackage{longtable}
+\usepackage{multirow}
 \usepackage{array}
 \usepackage{tabularx}
 
@@ -109,8 +113,7 @@
     \mainmatter
 
 
-    \section*{Tecnologie per le basi di dati}
-    \addcontentsline{toc}{section}{Tecnologie per le basi di dati}
+    \chapter{Tecnologie per le basi di dati}
     Argomenti visti nel Modulo di Teoria:
     \begin{itemize}
       \item Progettazione concettuale
@@ -118,8 +121,7 @@
       \item Linguaggi di interrogazione (algebra relazionale e calcolo relazionale)
     \end{itemize}
 
-    \subsection*{Tecnologia dei DBMS}
-    \addcontentsline{toc}{subsection}{Tecnologia dei DBMS}
+    \section{Tecnologia dei DBMS}
     Un DBMS \textbf{(Database Management System)} o sistema di gestione di basi di dati è un sistema software in grado di gestire collezioni di dati che siano e \textbf{persistenti} assicurando la loro \textbf{affidabilità} e \textbf{privatezza}.
 
     Un DBMS in quanto sistema software deve essere efficiente ed efficace e deve inoltre estendere le funzionalità del file system.
@@ -160,8 +162,7 @@
     \end{itemize}
 
 
-    \subsubsection*{Transazione}
-    \addcontentsline{toc}{subsubsection}{Transazione}
+    \subsection{Transazione}
 
     \definizione{Transazione}{È \textcolor{red}{un’unità di lavoro} svolta da un programma applicativo (che interagisce con una base di dati) per la quale si vogliono garantire proprietà di correttezza, robustezza e isolamento.}
 
@@ -208,8 +209,7 @@
     \end{itemize}
     }
 
-    \subsubsection*{Atomicità}
-    \addcontentsline{toc}{subsubsection}{Atomicità}
+    \subsection{Atomicità}
     Una transazione è una unità di esecuzione \textbf{indivisibile}. O viene eseguita completamente o non viene eseguita affatto.\par
     Implicazioni:
     \begin{itemize}
@@ -218,8 +218,7 @@
 
     \end{itemize}
     
-    \subsubsection*{Consistenza}
-  \addcontentsline{toc}{subsubsection}{Consistenza}
+    \subsubsection{Consistenza}
   L’esecuzione di una transazione non deve violare i \textbf{vincoli di integrità}.\par
   Implicazioni:
     \begin{description}
@@ -238,8 +237,7 @@
 
     
 
-    \subsubsection*{Isolamento}
-    \addcontentsline{toc}{subsubsection}{Isolamento}
+    \subsubsection{Isolamento}
     L’esecuzione di una transazione deve essere \textbf{indipendente} dalla contemporanea esecuzione di altre transazioni.
 
     Implicazioni:
@@ -249,8 +247,7 @@
     \end{itemize}
 
 
-    \subsubsection*{Persistenza}
-  \addcontentsline{toc}{subsubsection}{Persistenza}
+    \subsubsection{Persistenza}
     L’effetto di una transazione che ha eseguito il commit non deve andare perso.
     Implicazioni:
     \begin{itemize}
@@ -259,8 +256,7 @@
 
 
 
-    \subsection*{Architettura di un DBMS}
-    \addcontentsline{toc}{subsection}{Architettura di un DBMS}
+    \section{Architettura di un DBMS}
     
     L’architettura mostra i moduli principali che possiamo individuare nei DBMS attuali, considerando le diverse funzionalità che il DBMS svolge durante l’esecuzione delle transazioni. Per ogni modulo dell’architettura presentiamo le funzionalità che esso svolge e alcune delle tecniche che applicativo
 
@@ -310,8 +306,56 @@
 
 
 
-    \section*{SQL}
-    \addcontentsline{toc}{section}{SQL}
+    \chapter{SQL}
+    Il \textcolor{azzurrino}{\textbf{termine SQL}} in origine era l'acronimo di \textbf{S}tructured \textbf{Q}uery \textbf{L}enguagge, ma ad oggi è diventato un nome proprio.
+
+    SQL è un linguaggio che permette di:
+    \begin{itemize}[label=$\triangleright$]
+      \item \textbf{definire delle strutture dati e i vincoli di integrità}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{D}}efinition \textcolor{azzurrino}{\textbf{L}}enguagge
+      \medskip
+      \item \textbf{manipolare i dati} (inserimento, aggiornamento e cancellazione): \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{M}}anipilation \textcolor{azzurrino}{\textbf{L}}enguagge
+      \smallskip
+      \item \textbf{interrogare}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{Q}}uery \textcolor{azzurrino}{\textbf{L}}enguagge
+    \end{itemize}
+
+    Esistono diverse versioni:
+
+    \begin{center}
+      \begin{longtable}{|c|c|l|}
+      \hline
+      \textbf{Nome informale} & \textbf{Nome ufficiale} & \multicolumn{1}{c|}{\textbf{Caratteristiche}} \\ \hline
+      \endfirsthead
+      \hline
+      \textbf{Nome informale} & \textbf{Nome ufficiale} & \multicolumn{1}{c|}{\textbf{Caratteristiche}} \\ \hline
+      \endhead
+
+      \multirow{2}{*}{SQL base} & SQL-86 & Costrutti base \\ \cline{2-3} 
+                                & SQL-89 & Integrità referenziale \\ \hline
+      SQL-2                     & SQL-92 & \begin{tabular}[c]{@{}l@{}}Modello relazionale\\ Vari costrutti nuovi\\ 3 livelli: entry, intermediate, full\end{tabular} \\ \hline
+      \multirow{10}{*}{SQL-3}   & SQL:1999 & \begin{tabular}[c]{@{}l@{}}Modello relazionale a oggetti\\ Organizzato in diverse parti\\ Trigger, funzioni esterne, ...\end{tabular} \\ \cline{2-3} 
+                                & SQL:2003 & \begin{tabular}[c]{@{}l@{}}Estensioni del modello a oggetti\\ Eliminazione di costrutti non usati\\ Nuove parti: SQL/JRT, SQL/XML, ...\end{tabular} \\ \cline{2-3} 
+                                & SQL:2006 & Estensione della parte XML \\ \cline{2-3} 
+                                & SQL:2008 & Lievi aggiunte (per esempio, \texttt{trigger instead of}) \\ \cline{2-3} 
+                                & SQL:2011 & Ricco supporto per dati temporali \\ \cline{2-3} 
+                                & SQL:2016 & Gestione del formato JSON \\ \hline
+      \end{longtable}
+    \end{center}
+
+    La parte di SQL dedicata alle dichiarazioni fa parte dei DML.\\[0.2ex]
+    Le dichiarazioni vengono espresse in modo dichiarativo: specifica l'obiettivo e non la procedura per ottenerlo (algebra relazionale).
+
+    \section{Istruzione SELECT}
+
+    \begin{lstlisting}
+    SELECT [ DISTINCT ]
+    [ * | expression [[ AS ] output_name ] [, ...] ]
+    [ FROM from_item [, ...] ]
+    [ WHERE condition ]
+    [ GROUP BY grouping_element [, ...] ]
+    [ HAVING condition [, ...] ]
+    [ { UNION | INTERSECT | EXCEPT } [ DISTINCT ] other_select ]
+    [ ORDER BY expression [ ASC | DESC | USING operator ]]
+    \end{lstlisting}
 
     SQL è il linguaggio di riferimento per le basi di dati relazionali.\par
     Originariamente SQL era l'acronimo di "Structured Query Language" (ora "nome proprio").\\
