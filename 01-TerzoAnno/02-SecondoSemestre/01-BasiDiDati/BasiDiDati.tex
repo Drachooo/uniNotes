@@ -357,16 +357,231 @@
     [ ORDER BY expression [ ASC | DESC | USING operator ]]
     \end{lstlisting}
 
-    SQL è il linguaggio di riferimento per le basi di dati relazionali.\par
-    Originariamente SQL era l'acronimo di "Structured Query Language" (ora "nome proprio").\\
-    SQL è un linguaggio con varie funzionalità:
-    \begin{itemize}
-      \item Linguaggio per la definizione delle strutture dati e dei vincoli di integrità: \textcolor{red}{Data Definition Language (DDL)}
-      \item Linguaggio per manipolare i dati: inserimento, aggiornamento e cancellazione: \textcolor{red}{Data Manipulation Language (DML)}
-      \item Linguaggio per interrogare: \textcolor{red}{Data Query Language (DQL o QL)}
-    \end{itemize}
-    
-     
-    Ne esistono varie versioni
+    \subsection{Struttura}
 
-\end{document}
+    \begin{description}
+      \item[expression:] è un’espressione che determina un attributo.
+      \item[from\_item:] è un’espressione che determina una sorgente per gli attributi.
+      \item[condition:]è un’espressione booleana per selezionare i valori degli attributi.
+      \item[grouping\_element:] è un’espressione per poter eseguire operazioni su più valori di un attributo e considerare il risultato.
+    \end{description}
+
+    \begin{flushleft}
+        \textcolor{cyan}{SELECT} attributo\\
+        \textcolor{cyan}{FROM} tabella\\
+        {[} \textcolor{cyan}{WHERE} Condizione {]}\\
+    \end{flushleft}
+
+    \begin{itemize}
+      \item SELECT, FROM e WHERE sono chiamate clausole
+      \item Estrae dal prodotto cartesiano delle tabelle elencate nella clausola \textcolor{cyan}{FROM}, le righe che soddisfano la condizione specificata nella clausola WHERE.
+      \begin{itemize}
+        \item Il risultato dell‘interrogazione è una tabella con una riga per ogni riga prodotta dalla clausola \textcolor{cyan}{FROM} ed eventualmente filtrata dalla clausola \textcolor{cyan}{WHERE} (se esiste), le cui colonne dipendono dalla lista degli attributi nella clausola SELECT.
+      \end{itemize}
+    \end{itemize}
+
+    \vspace{2em}
+
+    \begin{lstlisting}
+    SELECT [ DISTINCT ]
+    [ * | expression [[ AS ] output_name ] [, ...] ]
+    \end{lstlisting}
+
+    \begin{itemize}
+      \item \textcolor{purple}{*} è un’abbreviazione per indicare tutti gli attributi delle tabelle.
+      \item \textcolor{cyan}{expression} è un’espressione che coinvolge gli attributi della tabella (può anche essere semplicemente il nome di un attributo).
+      \item \textcolor{purple}{output\_name} è il nome assegnato all’attributo che conterrà il risultato della valutazione dell’espressione expression nella relazione risultato.
+      \item \textcolor{purple}{DISTINCT}: se presente richiede l’eliminazione delle tuple duplicate.
+
+    \end{itemize}
+
+    \subsection{Interrogazione: Clausola SELECT}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/Q1.png} 
+  
+    \end{figure}
+
+
+    \begin{flushleft}
+        SELECT Stipendio \textcolor{cyan}{as} Salario $\leftarrow$ \textcolor{purple}{alias}\\ 
+        FROM Impiegato\\
+        WHERE Cognome = 'Rossi'\\
+    \end{flushleft}
+
+    Restituisce lo stesso risultato della query precedente, ma ridenomina (temporaneamente) la colonna output Stipendio
+
+    \subsection{Interrogazione: Clausola SELECT ALL}
+    
+    \begin{flushleft}
+        SELECT Stipendio \textcolor{purple}{*} \hspace{4em} $\leftarrow$ \textcolor{purple}{Seleziona tutti gli attributi della tabella}\\
+        FROM Impiegato\\
+        WHERE Cognome = 'Rossi'\\
+    \end{flushleft}
+
+
+    L'asterisco permette di non elencare il nome di tutte le colonne di una tabella (simile alla proiezione)
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/SelectAll.png}
+    \end{figure}
+
+
+    \subsection{Interrogazione: Clasuola FROM}
+
+
+    \begin{lstlisting}
+    FROM from_item [, ...]
+    \end{lstlisting}
+
+
+    dove \textcolor{purple}{from\_item} può essere UNA delle seguenti clausole (versione semplificata):
+    \begin{enumerate}
+      \item table\_name [[\textcolor{purple}{AS}] alias [(column\_alias [, ...])]
+      \begin{itemize}
+        \item Se sono presenti due o più tabelle, si esegue il prodotto cartesiano tra tutte le tabelle. Se ci sono attributi con lo stesso nome su tabelle diverse, nella SELECT questi attributi sono identificati anteponendo il nome della tabella e un ’.’: nomeTabella.nomeAttributo
+      \end{itemize}
+      \item (other\_select) [\textcolor{purple}{AS}] nomeRisultato [(column\_alias [,...])]
+      \begin{itemize}
+        \item è una \textcolor{purple}{SELECT} innestata. Il risultato della \textcolor{purple}{SELECT} interna è lo schema con nome nomeRisultato su cui fare la \textcolor{purple}{SELECT} corrente.
+      \end{itemize}
+      \item from\_item [\textcolor{purple}{NATURAL}] join\_type from\_item [\textcolor{purple}{ON} condition]
+      \begin{itemize}
+        \item è la clausola JOIN.
+        \item Metodo più sofisticato di 1) che permette di selezionare un sottoinsieme del prodotto cartesiano di due o più tabelle. join\_type specifica il tipo di join. I tipi principali sono riassunti nelle slide seguenti.
+
+      \end{itemize}
+    \end{enumerate}
+
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/Q2.png}
+    \end{figure}
+
+    In alternatica nella voce FROM Impiegato, Dipartimento potevo utilizzare un alias.
+
+    \subsection{Interrogazione: Clausola WHERE}
+
+    \begin{lstlisting}
+    WHERE condition
+    \end{lstlisting}
+
+
+    \begin{itemize}
+      \item La clausola \textcolor{purple}{WHERE} ammette come argomento un’espressione booleana costruita combinando predicati semplici con gli operatori \textcolor{purple}{AND}, \textcolor{purple}{OR} e \textcolor{purple}{NOT}
+      \begin{itemize}
+        \item AND: seleziona le righe in cui tutti i predicati sono veri
+        \item OR: seleziona le righe in cui almeno un predicato è vero
+        \item NOT: seleziona le righe in cui il predicato è falso
+      \end{itemize}
+      \item Ciascun predicato semplice usa gli operatori \textcolor{purple}{=} , \textcolor{purple}{<>}, \textcolor{purple}{<}, \textcolor{purple}{>}, \textcolor{purple}{<=} e \textcolor{purple}{>=} per confrontare un’espressione costruita a partire dal valore di un attributo con un valore costante, oppure un’altra espressione.
+      \item Per esprimere la precedenza degli operatori AND e OR si fa uso della parentesi.
+    \end{itemize}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/Q3.png}
+    \end{figure}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/Q4.png}
+    \end{figure}
+
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/Q5.png}
+    \end{figure}
+
+
+    \section{Clausola WHERE}
+    \subsection{Operatore LIKE}
+    \begin{itemize}
+      \item Per il confronto tra stringhe, SQL mette a disposizione anche l’operatore \textcolor{purple}{LIKE} che consente verificare se una stringa rispetta un certo “pattern” (oppure \textcolor{purple}{ILIKE} per case insentive).
+      \item Due caratteri speciali per il confronto “\_” e “\%”:
+      \begin{itemize}
+        \item “\_”: confronto con un carattere arbitrario
+        \item “\%”: confronto con una stringa di lunghezza arbitraria (anche 0) di caratteri arbitrari
+      \end{itemize}
+      \item ‘\_o\%i’ = stringa che ha una o in seconda posizione, seguita da una sequenza qualsiasi di caratteri (anche vuota) e che termina con una i.
+    \end{itemize}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/Q6.png}
+    \end{figure}
+
+
+    \subsection{Operatore SIMILAR TO}
+
+    \begin{itemize}
+      \item  L’operatore \textcolor{purple}{SIMILAR TO} è un \textcolor{purple}{LIKE} più espressivo che accetta, come pattern, un sottoinsieme delle espressioni regolari POSIX (versione SQL).
+      \item Esempi di componenti di espressioni regolari:
+      \begin{itemize}
+        \item \_ = 1 carattere qualsiasi.
+        \item \% = 0 o più caratteri qualsiasi.
+        \item * = ripetizione del precedente match 0 o più volte.
+        \item + = ripetizione del precedente match UNA o più volte.
+        \item {n,m} = ripetizione del precedente match almeno n e non più di m volte.
+        \item [...] = ... è un elenco di caratteri ammissibili
+      \end{itemize}
+    \end{itemize}
+
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/EsempioSimilarTo.png}
+    \end{figure}
+
+
+    \subsection{Operatore BETWEEN}
+
+     \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/EsempioBetween.png}
+    \end{figure}
+
+
+    \subsection{Operatore IN}
+    Nella clausola \textcolor{purple}{WHERE} può apparire l’operatore {[}\textcolor{purple}{NOT}{]} \textcolor{purple}{IN} per testare l’appartenenza di un valore ad un insieme.
+
+    \begin{lstlisting}
+    WHERE attributo [NOT] IN (valore, [, ...]);
+    \end{lstlisting}
+
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/EsempioIn.png}
+    \end{figure}
+
+
+    \subsection{Operatore IS NULL}
+    \begin{itemize}
+      \item Per verificare se un attributo ha un valore nullo o meno si utilizza il predicato \textcolor{purple}{IS NULL}.
+      \item \textcolor{purple}{Attributo IS NULL}: ritorna true se l’attributo ha valore nullo.
+      \item \textcolor{purple}{IS NOT NULL}: è la negazione, ritorna true se l’attributo ha valore diverso da nullo.
+    \end{itemize}
+
+     \begin{lstlisting}
+    WHERE attributo IS [NOT] IN NULL;
+    \end{lstlisting}
+
+     SQL-2 implementa la logica a 3 valori:
+    \begin{itemize}
+      \item Un predicato semplice restituisce il valore NULL quando uno qualsiasi dei termini del predicato ha valore nullo.
+      \item Il predicato IS NULL è una eccezione, restituendo sempre il valore vero oppure false, mai il valore NULL.
+    \end{itemize}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=1\textwidth]{images/EsempioIsNull.png}
+    \end{figure}
+
+
+
+
+  \end{document}
