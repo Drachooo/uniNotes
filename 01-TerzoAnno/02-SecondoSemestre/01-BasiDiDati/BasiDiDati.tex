@@ -177,7 +177,7 @@
     \end{itemize}
 
 
-    Sintassi per definire una transazione in SQL:\\
+    Sintassi per definire una transazione in SQL:
     
     \textcolor{purple}{<transazione> $\rightarrow$ begin transaction}\par
     \textcolor{purple}{\hspace{8em}<programma>}\par
@@ -712,7 +712,7 @@
 \end{minipage}
 
   \noindent
-\begin{minipage}[c]{0.45\textwidth}
+\begin{minipage}[c]{0.44\textwidth}
     \centering
     % Inserisci qui il nome del tuo file immagine (es. schema.png)
     \includegraphics[width=\textwidth]{images/Impiegati3.png}
@@ -946,6 +946,7 @@ dove \textcolor{cyan}{join\_condition} è un’espressione booleana che selezion
 
 Il join si può spostare nella clausola from, a livello delle tabelle (nello svolgere gli esercizi, useremo questa sintassi dedicata).
 
+\newpage
 
   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \noindent \textbf{SQL:} \quad
@@ -954,6 +955,7 @@ Il join si può spostare nella clausola from, a livello delle tabelle (nello svo
     FROM  Tabella1 \textcolor{purple}{JOIN} Tabella2 \textcolor{purple}{ON} ( CondizioneDiJoin )\\
     {[}WHERE AltraCondizione {]} 
     \end{tabular}
+
   \end{mdframed}
 
   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
@@ -1043,7 +1045,7 @@ del primo attributo si usa il secondo, e così via in sequenza.
     
     Gli operatori insiemistici, al contrario del resto del linguaggio, assumono come default di eseguire un’eliminazione dei duplicati, a
 meno che si usi \textcolor{purple}{ALL}.\par
-Sono sufficienti domini compatibili ed ugual numero di attributi.\\
+Sono sufficienti domini compatibili ed ugual numero di attributi.
     \begin{itemize}
       \item \textcolor{cyan}{Ordine posizionale}: la corrispondenza degli attributi si basa sulla posizione
       \item Se i nomi degli attributi sono diversi di solito il sistema usa il nome del primo operando
@@ -1248,8 +1250,7 @@ La clausola permette di specificare un insieme di attributi e l’interrogazione
   \noindent
 \begin{minipage}[c]{0.45\textwidth}
   \begin{enumerate}[resume=passaggiSQL]
-    \item Dopo che le righe sono state raggruppate in sottoinsiemi,
-l’operatore aggregato viene applicato separatamente su ogni
+    \item Dopo che le righe sono state raggruppate in sottoinsiemi, l’operatore aggregato viene applicato separatamente su ogni
 sottoinsieme.
   \end{enumerate}
     
