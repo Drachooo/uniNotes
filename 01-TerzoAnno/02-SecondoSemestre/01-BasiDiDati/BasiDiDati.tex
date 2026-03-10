@@ -463,6 +463,7 @@
 
     In alternatica nella voce FROM Impiegato, Dipartimento potevo utilizzare un alias.
 
+    
     \subsection{Interrogazione: Clausola WHERE}
 
     \begin{lstlisting}
@@ -497,6 +498,7 @@
       \includegraphics[width=1\textwidth]{images/Q5.png}
     \end{figure}
 
+    \newpage
 
     \section{Clausola WHERE}
     \subsection{Operatore LIKE}
@@ -580,6 +582,255 @@
       \centering
       \includegraphics[width=1\textwidth]{images/EsempioIsNull.png}
     \end{figure}
+
+
+
+    \section{SQL e ALGEBRA RELAZIONALE}
+
+
+    Cerchiamo ora di capire la relazione con le corrispondenti interrogazioni procedurali in algebra relazionale.
+
+    Scrivere questa espressione in SQL: 
+    \begin{flushleft}
+        SELECT $T_1$.attributo$_{1l}$,$\dots$, T$_h$.attributo$_{hm}$\\
+        FROM Tabella$_{1}$ as T$_{1}$,$\dots$, Tabella$_{h}$ as T$_{h}$\\
+        WHERE Condizione
+    \end{flushleft}
+
+    Corrisponde a fare questa operazione in algebra relazionale:
+
+    \begin{figure}[H]
+      \includegraphics[width=0.7\textwidth]{images/SqlRelazionale1.png}
+    \end{figure}
+
+    \large{\textbf{Esempi più concreti}}
+
+    \begin{figure}[H]
+      \includegraphics[width=1\textwidth]{images/TabelleEsempio.png}
+      \caption{Tabelle di riferimento}
+    \end{figure}
+
+    \subsection{Selezione e proiezione}
+    \underline{Nome e reddito delle persone con meno di trenta anni}
+
+    \textbf{Algebra relazionale}: $\pi_{\text{Nome, Reddito}}(\sigma_{\text{Età<30}}(\text{Persone}))$ 
+
+    \noindent \textbf{SQL:} \quad
+    \begin{tabular}[t]{@{}l@{}}
+    SELECT Nome, Reddito\\
+    FROM Persone\\
+    WHERE età < 30
+    \end{tabular}
+
+    \vspace{2em}
+
+    {\large \textbf{SELECT: alias di tabella o di attributo}}
+
+    \noindent
+\begin{minipage}[t]{0.45\textwidth}
+    \textbf{Con ALIAS di Tabella}
+    \begin{flushleft}
+        SELECT \textcolor{cyan}{p}.nome, \textcolor{cyan}{p}.reddito\\
+        FROM persone \textcolor{cyan}{as p}\\
+        WHERE \textcolor{cyan}{p}.Età < 30
+    \end{flushleft}
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.45\textwidth}
+    \textbf{ALIAS di attributo}
+    \begin{flushleft}
+      SELECT \textcolor{cyan}{p}.nome as \textcolor{black!40!green}{nomePersona},
+      \textcolor{cyan}{p}.reddito as \textcolor{black!40!green}{redditoPersona}\\
+      FROM persone \textcolor{cyan}{as p}\\
+      WHERE \textcolor{cyan}{p}.Età < ’30‘
+    \end{flushleft}
+\end{minipage}
+
+
+    \subsection{SELECT: Senza proiezione}
+    \underline{Nome, reddito ed età delle persone con meno di trenta anni}
+
+    \textbf{Algebra relazionale}: $\sigma_{\text{Età<30}}(\text{Persone})$
+
+    \noindent \textbf{SQL:} \quad
+    \begin{tabular}[t]{@{}l@{}}
+    SELECT *\\
+    FROM Persone\\
+    WHERE età < 30
+    \end{tabular}
+
+
+    \subsection{Proiezione: gestione dei duplicati in SQL}
+
+    Una significativa differenza tra SQL e algebra relazionale è la gestione dei duplicati.
+    L’operazione di eliminazione delle righe doppie (ad esempio al seguito di una selezione con where) è molto costosa, quindi di default SQL mantiene le righe duplicate.
+    
+    Il costrutto \textcolor{purple}{DISTINCT} dopo la parola chiave SELECT permette di eliminare i duplicati. Il costrutto \textcolor{purple}{ALL} permette invece di mantenerli, ma questa è già la scelta di default.
+
+
+    \large{\textbf{Vediamone un esempio}}
+    \begin{figure}[H]
+      \includegraphics[width=0.8 \textwidth]{images/Impiegati.png}
+    \end{figure}
+    \underline{Trovare cognome e filiale di tutti gli impiegati}
+
+    \textbf{Algebra relazionale}: $\pi_{\text{Cognome,Filiale}}\text{(Impiegati)}$\\
+    Output:\{(Neri, Napoli), (Rossi, Roma)\}
+
+
+
+    \noindent
+\begin{minipage}[c]{0.45\textwidth}
+    \centering
+    % Inserisci qui il nome del tuo file immagine (es. schema.png)
+    \includegraphics[width=\textwidth]{images/Impiegati2.png}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.45\textwidth}
+    \textbf{SQL}
+    \begin{flushleft}
+    SELECT Cognome, Filiale\\
+    FROM Impiegati\\
+    \end{flushleft}
+\end{minipage}
+
+  \noindent
+\begin{minipage}[c]{0.45\textwidth}
+    \centering
+    % Inserisci qui il nome del tuo file immagine (es. schema.png)
+    \includegraphics[width=\textwidth]{images/Impiegati3.png}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.45\textwidth}
+    \textbf{SQL}
+    \begin{flushleft}
+    SELECT DISTINCT Cognome, Filiale\\
+    FROM Impiegati\\
+    \end{flushleft}
+\end{minipage}
+
+\vspace{2em}
+
+  \begin{figure}[H]
+    \centering
+    % Inserisci qui il nome del tuo file immagine (es. schema.png)
+    \includegraphics[width=\textwidth]{images/Q7.png}
+  \end{figure}
+
+
+\subsection{SELECT: Selezione, Proiezione, Join}
+L’istruzione SELECT, con una sola relazione nella clausola FROM permette di realizzare: \textcolor{black!40!green}{selezioni}, \textcolor{black!40!green}{proiezioni}, \textcolor{black!40!green}{ridenominazioni}.\\
+Invece con più relazioni nella clausola FROM si realizzano join (e prodotti
+cartesiani)
+
+
+
+  \begin{flushleft}
+SELECT \hspace{3em} $\pi$Proiezione + $\rho$Ridenominazione (con AS)\\
+FROM \hspace{4em} $\bowtie$Join(prodotto cartesiano)\\
+WHERE \hspace{3em} $\sigma$Selezione + $\bowtie$ Join(condizion)\\       
+    \end{flushleft}
+
+
+    \subsection{Interrogazioni con JOIN}
+In SQL il join si può definire in due modi diversi
+\begin{itemize}
+  \item Il primo non richiede l’uso di nuova sintassi, e specifica il legame tra le tabelle coinvolte a livello della clausola WHERE.
+  \item Il secondo usa una sintassi riservata a livello di clausola FROM (useremo questo). 
+\end{itemize}
+
+ La clausola \textcolor{purple}{FROM} ammette come argomento:
+  \begin{center}
+    table\_name [[\textcolor{purple}{AS}] name]] [, ...] \\
+  \end{center}
+ Si è visto che se sono presenti due o più nomi di tabelle, si esegue il prodotto cartesiano tra tutte le tabelle e lo schema del risultato
+può contenere tutti gli attributi del prodotto cartesiano. \\
+Il prodotto cartesiano di due o più tabelle è un \textcolor{cyan}{CROSS JOIN}. \\
+A partire da SQL-2, esistono altri tipi di JOIN (join\_type): \textcolor{cyan}{INNER JOIN}, \textcolor{cyan}{LEFT [OUTER] JOIN}, \textcolor{cyan}{RIGHT [OUTER] JOIN} e \textcolor{cyan}{FULL [OUTER] JOIN}.
+
+  \qquad
+
+\textbf{Sintassi generale}
+\begin{lstlisting}
+    table_name [NATURAL] join_type table_name [ ON join_condition [, ...]].
+    \end{lstlisting}
+
+dove \textcolor{cyan}{join\_condition} è un’espressione booleana che seleziona le tuple del join da aggiungere al risultato. Le tuple selezionate possono essere poi filtrate con la condizione della clausola \textcolor{purple}{WHERE} 
+
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{images/Join.png}
+\end{figure}
+
+  \subsubsection{Interrogazioni con INNER JOIN}
+
+    \textbf{Sintassi generale}
+  \begin{lstlisting}
+    table1 [ INNER ] JOIN table2 ON join_condition [, ...]
+    \end{lstlisting}
+
+
+
+  Rappresenta il tradizionale $\theta$ join dell’algebra relazionale. Combina ciascuna riga r1 di table1 con ciascuna riga di table2 che soddisfa la condizione della clausola \textcolor{purple}{ON}
+
+
+
+
+
+   \noindent
+\begin{minipage}[c]{0.45\textwidth}
+    \textbf{SQL}
+    \begin{flushleft}
+    \textcolor{purple}{SELECT} I.cognome , R.nomeRep, R.sede\\
+    \textcolor{purple}{FROM} Impiegato \textcolor{purple}{AS} I\\
+     \quad \textcolor{purple}{INNER JOIN} Reparto  \textcolor{purple}{AS} R\\
+    \quad \textcolor{purple}{ON} I.nomerep = R.nomerep;
+
+    \end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.45\textwidth}
+    \centering
+    % Inserisci qui il nome del tuo file immagine (es. schema.png)
+    \includegraphics[width=\textwidth]{images/tabellina.png}
+\end{minipage}
+
+
+\subsubsection{Interrogazioni con LEFT OUTER JOIN}
+
+
+
+  \textbf{Sintassi generale}
+  \begin{lstlisting}
+    table1 LEFT [ OUTER ] JOIN table2 ON join_condition [, ...].
+    \end{lstlisting}
+
+
+    Si esegue un \textcolor{purple}{INNER JOIN}. Poi, per ciascuna riga r1 di table1 che non soddisfa la condizione con qualsiasi riga di table2, si aggiunge una riga al risultato con i valori di r1 e assegnando \textcolor{purple}{NULL} agli altri attributi..
+
+
+
+    \vspace{3em}
+  
+\noindent
+\begin{minipage}[c]{0.55\textwidth} % <-- Aumentato al 55%
+    \textbf{SQL}
+    \begin{flushleft}
+      \small % <-- Rimpicciolisce un po' il font del blocco
+      \textcolor{purple}{INSERT INTO} Reparto (nomerep, sede, telefono) \textcolor{purple}{VALUES} ('Finanza', 'Padova', '02 8028888');\\
+      \textcolor{purple}{SELECT} R.nomeRep, I.cognome\\
+      \textcolor{purple}{FROM} Reparto \textcolor{purple}{AS} R\\
+      \quad \textcolor{purple}{LEFT OUTER JOIN} Impiegato \textcolor{purple}{AS} I\\ % <-- Corretto un piccolo refuso qui!
+      \quad \textcolor{purple}{ON} I.nomerep = R.nomerep;
+    \end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.40\textwidth} % <-- Ridotto al 40%
+    \centering
+    \includegraphics[width=\textwidth]{images/tabellina2.png}
+\end{minipage}
 
 
 
