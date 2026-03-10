@@ -1188,7 +1188,7 @@ Per risolvere questa situazione serve il meccanismo di \textbf{raggruppamento} c
 non vediamo}
 
 
-  \subsubsection{Interrogazione con Raggruppamento}
+  \subsection{Interrogazione con Raggruppamento}
 
   Gli operatori aggregate possono essere applicati separatamente a sottoinsiemi di righe.
   La clausola \textcolor{purple}{GROUP BY} permette di specificare come dividere le
@@ -1268,16 +1268,249 @@ sottoinsieme.
 In una interrogazione che fa uso della clausola GROUP BY può comparire come argomento della SELECT solo un sottoinsieme degli attributi usati nella
 clausola GROUP BY oppure operatori di aggregazione.
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{images/esempioGroupBu.png}
 \end{figure}
 
 
+ È possibile applicare delle selezioni ai gruppi generati tramite la clausola GROUP BY. La clausola \textcolor{purple}{HAVING} permette di specificare delle condizioni che devono essere soddisfatte dai gruppi generati dopo l’esecuzione del raggruppamento tramite GROUP BY.
+
+
+ \vspace{2em}
+
+ \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
+ \begin{flushleft}
+         SELECT Dipart, SUM(Stipendio) as SommaStipendi\\
+FROM Impiegato \\
+GROUP BY Dipart\\
+HAVING SUM(Stipendio) > 100\\
+
+    \end{flushleft}
+  \end{mdframed}
+
+
+
+Dopo aver eseguito i raggruppamenti, vengono mantenuti solo i gruppi che soddisfano la condizione specificata nella clausola HAVING.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{images/esempio.png}
+\end{figure}
+
+
+\vario{OSSERVAZIONE}{ 
+\begin{itemize}
+  \item La clausola \textcolor{purple}{WHERE} applica delle selezioni su SINGOLE RIGHE, \textcolor{purple}{\textbf{prima}} dell’eventuale raggruppamento tramite GROUP BY.
+\item La clausola \textcolor{purple}{HAVING} applica delle selezioni su GRUPPI, generati a \textcolor{purple}{\textbf{seguito}} dell’esecuzione del raggruppamento tramite GROUP BY
+\end{itemize} .
+
+
+\noindent
+\begin{minipage}[c]{0.39\textwidth}
+    % --- INIZIO RIQUADRO ---
+    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
+        \textbf{SQL}
+        \begin{flushleft}
+          \small 
+          SELECT Dipart\\   
+FROM Impiegato\\
+WHERE Ufficio = 20\\
+GROUP BY Dipart\\
+HAVING AVG(Stipendio) > 25\\
+        \end{flushleft}
+    \end{mdframed}
+    % --- FINE RIQUADRO ---
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.60\textwidth} 
+    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
+        \begin{flushleft}
+          \small 
+          \begin{enumerate}
+            \item WHERE→ seleziona le righe che
+            verranno raggruppate 
+            \item GROUP BY → forma i gruppi con le righe selezionate 
+            \item HAVING → seleziona i gruppi che faranno parte del risultato
+          \end{enumerate}
+        \end{flushleft}
+    \end{mdframed}
+\end{minipage}
+
+}
 
 
 
 
+
+\subsection{Interrogazioni nidificate}
+
+
+Una interrogazione nidificata è una interrogazione che contiene al suo interno altre interrogazioni.\par
+La nidificazione può avvenire sia nella clausola \textcolor{cyan}{SELECT}, che nella
+clausola \textcolor{cyan}{FROM}, che nella clausola \textcolor{cyan}{WHERE}.
+Il caso tipico è la nidificazione nella clausola WHERE, dove un
+predicato contiene un confronto tra un valore (espressione su una
+singola riga) ed il risultato di un’interrogazione SQL.
+
+\subsubsection{Interrogazioni nidificate: WHERE}
+
+Se in un predicato si confronta un attributo o una espressione che
+produce un valore singolo con il risultato di un’interrogazione, sorge il problema di disomogeneità dei termini del confronto. \par
+I normali operatori di confronto (=, <>, <, >, <=, =>) possono essere estesi con le parole chiave \textcolor{cyan}{ANY} e \textcolor{cyan}{ALL}.
+
+\begin{itemize}
+  \item \textcolor{cyan}{ANY}: la riga soddisfa la condizione se risulta vero il confronto (con l’operatore specificato) tra il valore dell’attributo (o espressione) e \textcolor{cyan}{ALMENO} uno degli elementi restituiti dall’interrogazione. 
+  \item \textcolor{cyan}{ALL}: la riga soddisfa la condizione se risulta vero il confronto (con l’operatore specificato) tra il valore dell’attributo (o espression) e \textcolor{cyan}{TUTTI} gli elementi restituiti dall’interrogazione.
+\end{itemize}
+
+
+
+  \noindent
+\begin{minipage}[t]{0.49\textwidth}
+   \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q23.png}
+  \end{figure}
+
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.49\textwidth}
+      \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q23_1.png}
+  \end{figure}
+  
+\end{minipage}
+
+
+   \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q23_2.png}
+   \end{figure}
+
+
+   
+   \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q24.png}
+   \end{figure}
+
+
+   In particolare, scrivere: 
+    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]    
+     \begin{flushleft}
+        SELECT Nome\\
+FROM Dipartimento\\
+WHERE Nome <> ALL (SELECT Dipart\\
+\hspace{4em}FROM Impiegato\\
+\hspace{4em}WHERE Cognome = ‘Rossi’);
+
+    \end{flushleft}
+  \end{mdframed}
+
+
+è equivalente a scrivere
+
+    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]    
+     \begin{flushleft}
+      SELECT Nome\\
+FROM Dipartimento\\
+\textcolor{cyan}{EXCEPT}\\
+SELECT Dipart\\
+FROM Impiegato\\
+WHERE Cognome = ‘Rossi’
+    \end{flushleft}
+  \end{mdframed}
+
+
+
+
+  
+  Per il controllo di appartenenza o esclusione rispetto ad un insieme si possono uare anche gli operatori IN (= ANY) e NOT IN (<> ALL).
+
+   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]    
+     \begin{flushleft}
+    SELECT Nome\\
+FROM Dipartimento\\
+WHERE Nome NOT IN (SELECT Dipart\\
+\hspace{4em}FROM Impiegato  \\
+\hspace{4em}WHERE Cognome = ‘Rossi’);
+    \end{flushleft}
+  \end{mdframed}
+
+
+
+
+  \vario{Attenzione!}{Per le interrogazioni nidificate viste fino ad ora, l’interrogazione
+può essere eseguita una volta sola ed il risultato ottenuto può essere salvato in una tabella temporanea usata per eseguire
+ciascun confronto con le righe dalla tabella esterna.\par 
+Talvolta però l’interrogazione nidificata fa riferimento al contesto
+dell’interrogazione che la racchiude attraverso l’uso di una
+variabile (\textcolor{cyan}{passaggio di binding}).L’interrogazione nidificata dovrà essere \textcolor{cyan}{valutata separatamente per ciascuna riga} prodotta dalla valutazione della query esterna.}
+ 
+  \subsubsection{Interrogazioni nidificate: Binding e EXISTS}
+
+   L’operatore logico \textcolor{cyan}{EXISTS} riceve come parametro
+un’interrogazione nidificata e restituisce il valore vero solo se
+l’interrogazione fornisce un risultato non vuoto.\par 
+Questo operatore può essere usato in modo significativo solo
+quando si ha un passaggio di binding tra la query esterna e quella
+interna
+
+
+
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q25.png} 
+    \end{figure}
+
+
+
+    
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q26.png} 
+    \end{figure}
+
+
+     \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q26alt.png} 
+    \end{figure}
+
+
+\subsubsection{Interrogazioni nidificate: SELECT}
+
+Le interrogazioni nidificate possono essere specificate anche come elemento della clausola SELECT.
+\begin{itemize}
+  \item Spesso l’uso di query nidificate nella SELECT sostituiscono l’uso del JOIN.
+\end{itemize}
+
+
+ \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q27.png} 
+    \end{figure}
+
+
+    \subsubsection{Interrogazioni nidificate: FROM}
+
+    Le interrogazioni nidificate possono essere utilizzate nella
+clausola FROM come sorgente dati su cui eseguire
+l’interrogazione.\par
+È possibile creare una catena di interrogazioni, dove ciascuna
+interrogazione utilizza il risultato della precedente come una
+tabella di base.
+
+
+ \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q28.png} 
+    \end{figure}  
+
+    
 
 
   \end{document}
