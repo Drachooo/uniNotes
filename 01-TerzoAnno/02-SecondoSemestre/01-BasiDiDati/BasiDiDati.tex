@@ -6,6 +6,8 @@
 \usepackage[italian]{babel}
 \renewcommand{\familydefault}{\sfdefault} % Sans-serif moderno
 
+\usepackage{mdframed}
+
 % --- MARGINI E GEOMETRIA ---
 \usepackage[a4paper, margin=2.5cm]{geometry}
 
@@ -591,11 +593,13 @@
     Cerchiamo ora di capire la relazione con le corrispondenti interrogazioni procedurali in algebra relazionale.
 
     Scrivere questa espressione in SQL: 
+     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \begin{flushleft}
         SELECT $T_1$.attributo$_{1l}$,$\dots$, T$_h$.attributo$_{hm}$\\
         FROM Tabella$_{1}$ as T$_{1}$,$\dots$, Tabella$_{h}$ as T$_{h}$\\
         WHERE Condizione
     \end{flushleft}
+  \end{mdframed}
 
     Corrisponde a fare questa operazione in algebra relazionale:
 
@@ -615,28 +619,33 @@
 
     \textbf{Algebra relazionale}: $\pi_{\text{Nome, Reddito}}(\sigma_{\text{Età<30}}(\text{Persone}))$ 
 
+     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \noindent \textbf{SQL:} \quad
     \begin{tabular}[t]{@{}l@{}}
     SELECT Nome, Reddito\\
     FROM Persone\\
     WHERE età < 30
     \end{tabular}
+  \end{mdframed}
 
     \vspace{2em}
 
     {\large \textbf{SELECT: alias di tabella o di attributo}}
 
     \noindent
-\begin{minipage}[t]{0.45\textwidth}
+\begin{minipage}[t]{0.39\textwidth}
+   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \textbf{Con ALIAS di Tabella}
     \begin{flushleft}
         SELECT \textcolor{cyan}{p}.nome, \textcolor{cyan}{p}.reddito\\
         FROM persone \textcolor{cyan}{as p}\\
         WHERE \textcolor{cyan}{p}.Età < 30
     \end{flushleft}
+  \end{mdframed}
 \end{minipage}
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
-\begin{minipage}[t]{0.45\textwidth}
+\begin{minipage}[t]{0.60\textwidth}
+   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \textbf{ALIAS di attributo}
     \begin{flushleft}
       SELECT \textcolor{cyan}{p}.nome as \textcolor{black!40!green}{nomePersona},
@@ -644,6 +653,7 @@
       FROM persone \textcolor{cyan}{as p}\\
       WHERE \textcolor{cyan}{p}.Età < ’30‘
     \end{flushleft}
+  \end{mdframed}
 \end{minipage}
 
 
@@ -652,12 +662,14 @@
 
     \textbf{Algebra relazionale}: $\sigma_{\text{Età<30}}(\text{Persone})$
 
+     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \noindent \textbf{SQL:} \quad
     \begin{tabular}[t]{@{}l@{}}
     SELECT *\\
     FROM Persone\\
     WHERE età < 30
     \end{tabular}
+  \end{mdframed}
 
 
     \subsection{Proiezione: gestione dei duplicati in SQL}
@@ -687,11 +699,14 @@
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.45\textwidth}
+  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \textbf{SQL}
     \begin{flushleft}
     SELECT Cognome, Filiale\\
     FROM Impiegati\\
     \end{flushleft}
+        \end{mdframed}
+    
 \end{minipage}
 
   \noindent
@@ -701,12 +716,14 @@
     \includegraphics[width=\textwidth]{images/Impiegati3.png}
 \end{minipage}
 \hfill
-\begin{minipage}[c]{0.45\textwidth}
+\begin{minipage}[c]{0.55\textwidth}
+  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \textbf{SQL}
     \begin{flushleft}
     SELECT DISTINCT Cognome, Filiale\\
     FROM Impiegati\\
     \end{flushleft}
+  \end{mdframed}
 \end{minipage}
 
 \vspace{2em}
@@ -781,6 +798,8 @@ dove \textcolor{cyan}{join\_condition} è un’espressione booleana che selezion
 
    \noindent
 \begin{minipage}[c]{0.45\textwidth}
+  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
+    \small
     \textbf{SQL}
     \begin{flushleft}
     \textcolor{purple}{SELECT} I.cognome , R.nomeRep, R.sede\\
@@ -789,6 +808,8 @@ dove \textcolor{cyan}{join\_condition} è un’espressione booleana che selezion
     \quad \textcolor{purple}{ON} I.nomerep = R.nomerep;
 
     \end{flushleft}
+    \end{mdframed}
+
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.45\textwidth}
@@ -815,24 +836,260 @@ dove \textcolor{cyan}{join\_condition} è un’espressione booleana che selezion
     \vspace{3em}
   
 \noindent
-\begin{minipage}[c]{0.55\textwidth} % <-- Aumentato al 55%
-    \textbf{SQL}
-    \begin{flushleft}
-      \small % <-- Rimpicciolisce un po' il font del blocco
-      \textcolor{purple}{INSERT INTO} Reparto (nomerep, sede, telefono) \textcolor{purple}{VALUES} ('Finanza', 'Padova', '02 8028888');\\
-      \textcolor{purple}{SELECT} R.nomeRep, I.cognome\\
-      \textcolor{purple}{FROM} Reparto \textcolor{purple}{AS} R\\
-      \quad \textcolor{purple}{LEFT OUTER JOIN} Impiegato \textcolor{purple}{AS} I\\ % <-- Corretto un piccolo refuso qui!
-      \quad \textcolor{purple}{ON} I.nomerep = R.nomerep;
-    \end{flushleft}
+\begin{minipage}[c]{0.55\textwidth}
+    % --- INIZIO RIQUADRO ---
+    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
+        \textbf{SQL}
+        \begin{flushleft}
+          \small 
+          \textcolor{purple}{INSERT INTO} Reparto (nomerep, sede, telefono) \textcolor{purple}{VALUES} ('Finanza', 'Padova', '02 8028888');\\
+          \textcolor{purple}{SELECT} R.nomeRep, I.cognome\\
+          \textcolor{purple}{FROM} Reparto \textcolor{purple}{AS} R\\
+          \quad \textcolor{purple}{LEFT OUTER JOIN} Impiegato \textcolor{purple}{AS} I\\ 
+          \quad \textcolor{purple}{ON} I.nomerep = R.nomerep;
+        \end{flushleft}
+    \end{mdframed}
+    % --- FINE RIQUADRO ---
 \end{minipage}
 \hfill
-\begin{minipage}[c]{0.40\textwidth} % <-- Ridotto al 40%
+\begin{minipage}[c]{0.40\textwidth} 
     \centering
     \includegraphics[width=\textwidth]{images/tabellina2.png}
 \end{minipage}
 
 
+
+
+  \vario{Nota}{\underline{Il \textcolor{purple}{LEFT} [\textcolor{purple}{OUTER}] \textcolor{purple}{JOIN} non è simmetrico!}\\
+  Con le medisime tabelle si possono ottenere risultati diversi invertendo l’ordine delle tabelle nel join!
+
+  \noindent
+\begin{minipage}[c]{0.55\textwidth}
+    % --- INIZIO RIQUADRO ---
+    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
+        \textbf{SQL}
+        \begin{flushleft}
+          \small 
+          \textcolor{purple}{SELECT} I.cognome, R.nomeRep\\
+\textcolor{purple}{FROM} Impiegato I \textcolor{purple}{LEFT OUTER JOIN} RepartoR\\
+\textcolor{purple}{ON} I.nomerep = R.nomerep 
+        \end{flushleft}
+    \end{mdframed}
+    % --- FINE RIQUADRO ---
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.40\textwidth} 
+    \centering
+    \includegraphics[width=\textwidth]{images/tabellina3.png}
+\end{minipage}
+
+}
+
+
+\subsubsection{Interrogazioni con RIGHT OUTER JOIN}
+
+
+\textbf{Sintassi generale}
+ \begin{lstlisting}
+    table1 RIGHT [ OUTER ] JOIN table2 ON join_condition [, ...].
+    \end{lstlisting}
+
+
+
+
+    \noindent
+\begin{minipage}[c]{0.55\textwidth}
+    % --- INIZIO RIQUADRO ---
+    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
+        \textbf{SQL}
+        \begin{flushleft}
+          \small 
+          \textcolor{purple}{SELECT} I.cognome , R.nomeRep\\
+\textcolor{purple}{FROM} Impiegato I \textcolor{purple}{RIGHT OUTER JOIN} RepartoR\\
+\textcolor{purple}{ON} I. nomerep = R. nomerep
+        \end{flushleft}
+    \end{mdframed}
+    % --- FINE RIQUADRO ---
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.40\textwidth} 
+    \centering
+    \includegraphics[width=\textwidth]{images/tabellina2.png}
+\end{minipage}
+
+\subsubsection{Interrogazioni con FULL OUTER JOIN
+}
+\textbf{Sintassi generale}
+ \begin{lstlisting}
+   table1 FULL [ OUTER ] JOIN table2 ON join_condition [, ...].
+
+    \end{lstlisting}
+
+ È equivalente a:
+    \begin{itemize}
+      \item INNER JOIN + LEFT OUTER JOIN + RIGHT OUTER JOIN.
+      \item \textcolor{black!40!red}{Non è equivalente a CROSS JOIN!}
+    \end{itemize}
+
+    \vspace{2em}
+
+    \large\textbf{Esempio}\\
+    \underline{ Nome, Cognome di tutti gli impiegati e città del Dipartimento in cui lavora}
+
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/esempioJoin.png}
+    \end{figure}
+
+Il join si può spostare nella clausola from, a livello delle tabelle (nello svolgere gli esercizi, useremo questa sintassi dedicata).
+
+
+  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
+    \noindent \textbf{SQL:} \quad
+    \begin{tabular}[t]{@{}l@{}}
+    SELECT ListaAttributi\\
+    FROM  Tabella1 \textcolor{purple}{JOIN} Tabella2 \textcolor{purple}{ON} ( CondizioneDiJoin )\\
+    {[}WHERE AltraCondizione {]} 
+    \end{tabular}
+  \end{mdframed}
+
+  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
+    \noindent \textbf{SQL:} \quad
+    \begin{tabular}[t]{@{}l@{}}
+   SELECT i.Nome, d.Città\\
+FROM Impiegato AS i JOIN Dipartimento as d ON ( i.Dipart = \\d.Nome ) 
+    \end{tabular}
+  \end{mdframed}
+
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q8.png}
+  \end{figure}
+
+
+  \subsection{Uso di variabili(alias)}
+  SQL permette di associare un nome alternativo (alias) alle tabelle che compaiono nella clausola FROM. Il nome viene usato per far riferimento alla tabella nel contesto dell’interrogazione Motivi:
+  \begin{itemize}
+    \item Far riferimento alla tabella in modo compatto.
+    \item Fare accesso più volte alla stessa tabella
+  \end{itemize}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q9.png}
+    \caption{Questa interrogazione confronta ciascuna riga di Impiegato con tutte le righe di Impiegato associate al dipartimento Produzione.}
+  \end{figure}
+
+
+
+  \textbf{\large Funzionamento}
+   Si può immaginare che al momento della definizione dell’alias vengano create due copie della tabella Impiegato, ciascuna associata ad una delle due variabili i1 e i2.
+   
+   \noindent
+\begin{minipage}[c]{0.50\textwidth}
+    \begin{itemize}
+        \item Le due copie contengono tutte le righe di Impiegato.
+        \item Sulla copia i2 vengono selezionate solo le righe del dipartimento `Produzione'.
+    \end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/Alias.png}
+\end{minipage}
+
+
+
+  \subsection{Ordinamento del risultato}
+
+   Come abbiamo visto, una relazione è un insieme di tuple non ordinato. Nella realtà, però, sorge spesso il bisogno di costruire un ordine sulle righe.
+    SQL permette di specificare un ordinamento (ascendente o discendente)
+sulle righe dell‘output grazie alla clausola ORDER BY che chiude
+l‘interrogazione.
+
+\textbf{Sintassi generale}
+
+\begin{lstlisting}
+    ORDER BY attributo [{ ASC | DESC }] [, ... ];
+    \end{lstlisting}
+ Le righe vengono ordinate per il primo attributo nell’elenco, a parità di valore
+del primo attributo si usa il secondo, e così via in sequenza.
+
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q10.png}
+    \end{figure}
+
+
+ \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q11.png}
+    \end{figure}
+
+    \subsection{Operazioni Insiemistiche}
+    SQL mette a disposizione degli operatori insiemistci
+
+
+     \begin{flushleft}
+        SELECT
+{ \textcolor{purple}{UNION} | \textcolor{purple}{INTERSECT}| \textcolor{purple}{EXCEPT}\\
+{[}\textcolor{purple}{ALL}] SELECT }
+    \end{flushleft}
+    
+    Gli operatori insiemistici, al contrario del resto del linguaggio, assumono come default di eseguire un’eliminazione dei duplicati, a
+meno che si usi \textcolor{purple}{ALL}.\par
+Sono sufficienti domini compatibili ed ugual numero di attributi.\\
+    \begin{itemize}
+      \item \textcolor{cyan}{Ordine posizionale}: la corrispondenza degli attributi si basa sulla posizione
+      \item Se i nomi degli attributi sono diversi di solito il sistema usa il nome del primo operando
+    \end{itemize}
+
+
+
+\subsubsection{Unione}
+
+\begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q12.png}
+    \end{figure}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q13.png}
+    \end{figure}
+
+\subsubsection{Intersezione}
+\begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q14.png}
+    \end{figure}
+
+\subsubsection{Differenza}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{images/Q15.png}
+    \end{figure}
+
+
+    \subsection{Operatori aggregati
+    }
+
+    Una delle più importanti estensioni di SQL rispetto all’algebra relazionale sono gli operatori: \textcolor{purple}{COUNT, SUM, MAX, MIN e AVG} \\
+    In algebra relazionale tutte le condizioni specificate vengono valutate su una tupla alla volta.\par
+    Gli operatori di aggregazione permettono di valutare proprietà che
+dipendono da insiemi di tuple.
+\begin{itemize}
+  \item Prima viene eseguita l’interrogazione considerando solo le clausole
+\textcolor{purple}{FROM} e \textcolor{purple}{WHERE}, quindi l’operatore di aggregazione viene applicato alla tabella contenente il risultato
+
+\end{itemize}
+
+
+\subsubsection{COUNT}
 
 
   \end{document}
