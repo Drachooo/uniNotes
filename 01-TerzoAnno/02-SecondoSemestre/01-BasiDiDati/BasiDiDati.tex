@@ -20,6 +20,8 @@
 \definecolor{backcolor}{RGB}{245, 245, 245}  % Grigio chiaro sfondo
 %altra opzione: 1A237E
 
+
+
 \usepackage[
     colorlinks=true,
     linkcolor=grigioscuro,
@@ -1090,6 +1092,192 @@ dipendono da insiemi di tuple.
 
 
 \subsubsection{COUNT}
+
+L'operatore COUNT conta il numero di righe di una tabella o il numero di valori di uno o più attributi: 
+\begin{flushleft}
+    \textcolor{purple}{COUNT} ( $\langle$\textcolor{cyan}{*} | [\textcolor{cyan}{DISTINCT} | \textcolor{cyan}{ALL}] ListaAttributi$\rangle$ )
+\end{flushleft}
+
+\begin{itemize}
+    \item \textcolor{cyan}{*}: conta il numero di righe della tabella
+    \item \textcolor{cyan}{DISTINCT ListaAttributi}: conta il numero di valori diversi degli attributi ListaAttributi
+    \item \textcolor{cyan}{ALL ListaAttributi}: conta il numero di righe che hanno valori diversi da NULL negli attributi in ListaAttributi
+    \begin{itemize}
+        \item Comportamento di default
+    \end{itemize}
+\end{itemize}
+  
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{images/Q16.png}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{images/Q17.png}
+\end{figure}
+
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{images/Q18.png}
+\end{figure}
+
+\subsubsection{ SUM, MAX, MIN, AVG}
+
+
+  \begin{flushleft}
+<\textcolor{cyan}{SUM} | \textcolor{cyan}{MAX} | \textcolor{cyan}{MIN} | \textcolor{cyan}{AVG} > ( [\textcolor{cyan}{DISTINC} | \textcolor{cyan}{ALL}] AttrExpr )    \end{flushleft}
+
+
+  \begin{itemize}
+    \item SUM: restituisce la somma dei valori posseduti dall’espressione
+    \item MAX/MIN: restituisce il massimo/minimo dei valori posseduti dall’espressione
+    \item AVG: restiusce la media dei valori
+  \end{itemize}
+
+Altre caratteristiche sono:
+  \begin{itemize}
+    \item SUM e AVG ammettono come argomento solo espressioni che rappresentano valori numerici o intervalli di tempo
+    \item MAX e MIN ammettono come argomento solo espressioni su cui è definito un ordinamento (quindi anche stringhe)
+    \item DISTINCT elimina i duplicati
+    \item ALL trascura solo i valori nulli
+  \end{itemize}
+
+  \vspace{2em}
+  \textbf{\large SUM}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q19.png}
+  \end{figure}
+
+    \textbf{\large MAX, MIN, AVG}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q20.png}
+  \end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q21.png}
+  \end{figure}
+
+  \vario{ATTENZIONE}{
+
+  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]   
+    \begin{flushleft}
+        SELECT Cognone, Nome, MAX( I.Stipendio )\\
+FROM Impiegato as I JOIN Diparmento as D\\
+\hspace{2em}ON I.Dipart = D.Nome\\
+WHERE D.Città = ‘Milano’\\
+    \end{flushleft}
+  \end{mdframed}
+    \textcolor{black!60!red}{\textbf{La seguente interrogazione non è corretta!}}\par
+Gli operatori aggregati non sono un meccanismo di selezione, ma solo
+funzioni che restituiscono un valore quando sono applicate ad un insieme.\\
+Cognome e Nome restituiscono un valore per ogni tupla selezionata, mentre
+MAX() restituisce un valore unico per tutto l’insieme.\\
+Per risolvere questa situazione serve il meccanismo di \textbf{raggruppamento} che
+non vediamo}
+
+
+  \subsubsection{Interrogazione con Raggruppamento}
+
+  Gli operatori aggregate possono essere applicati separatamente a sottoinsiemi di righe.
+  La clausola \textcolor{purple}{GROUP BY} permette di specificare come dividere le
+tabelle in sottoinsiemi.
+La clausola permette di specificare un insieme di attributi e l’interrogazione raggrupperà le righe che possiedono gli stessi valori per questo insieme di attributi
+
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q22.png}
+  \end{figure}
+
+
+  \textbf{\large Esecuzione}
+
+
+
+
+  \noindent
+\begin{minipage}[c]{0.45\textwidth}
+  \begin{enumerate}[series=passaggiSQL]
+    \item Viene eseguita l’interrogazione come se la clausola GROUP BY non esistesse: 
+    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
+    \begin{flushleft}
+      \small
+        SELECT Dipart, SUM(Stipendio)\\
+        FROM Impiegato
+    \end{flushleft}
+  \end{mdframed}
+  \end{enumerate}
+    
+\end{minipage}
+ \hfill
+\begin{minipage}[c]{0.45\textwidth}
+    \centering
+    % Inserisci qui il nome del tuo file immagine (es. schema.png)
+    \includegraphics[width=\textwidth]{images/tabellina4.png}
+\end{minipage}
+
+  \noindent
+\begin{minipage}[c]{0.45\textwidth}
+  \begin{enumerate}[resume=passaggiSQL]
+    \item La tabella ottenuta viene analizzata, dividendo le righe in insiemi caratterizzati dallo stesso valore degli attributi che compaiono nella clausola GROUP BY.
+  \end{enumerate}
+    
+\end{minipage}
+ \hfill
+\begin{minipage}[c]{0.45\textwidth}
+    \centering
+    % Inserisci qui il nome del tuo file immagine (es. schema.png)
+    \includegraphics[width=\textwidth]{images/tabellina5.png}
+\end{minipage}
+
+
+
+
+  \noindent
+\begin{minipage}[c]{0.45\textwidth}
+  \begin{enumerate}[resume=passaggiSQL]
+    \item Dopo che le righe sono state raggruppate in sottoinsiemi,
+l’operatore aggregato viene applicato separatamente su ogni
+sottoinsieme.
+  \end{enumerate}
+    
+\end{minipage}
+ \hfill
+\begin{minipage}[c]{0.45\textwidth}
+    \centering
+    % Inserisci qui il nome del tuo file immagine (es. schema.png)
+    \includegraphics[width=\textwidth]{images/tabellina6.png}
+\end{minipage}
+
+
+\vspace{2em}
+
+
+In una interrogazione che fa uso della clausola GROUP BY può comparire come argomento della SELECT solo un sottoinsieme degli attributi usati nella
+clausola GROUP BY oppure operatori di aggregazione.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{images/esempioGroupBu.png}
+\end{figure}
+
+
+
+
+
+
 
 
   \end{document}
