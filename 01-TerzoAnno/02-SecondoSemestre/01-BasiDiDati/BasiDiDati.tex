@@ -178,12 +178,16 @@
 
 
     Sintassi per definire una transazione in SQL:
-    
+     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
     \textcolor{purple}{<transazione> $\rightarrow$ begin transaction}\par
     \textcolor{purple}{\hspace{8em}<programma>}\par
     \textcolor{purple}{\hspace{8em}end transaction}\\
+     \end{mdframed}
+
+      \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
    \textcolor{purple} {<programma> $\rightarrow$ $\langle$ <istruzione> | commit work | rollback work $\rangle$\\}
     \hspace{8em}\textcolor{purple}{\{ $\langle$ <istruzione> | commit work | rollback work $\rangle$\}}
+      \end{mdframed}
 
     La transazione va a buon fine all’esecuzione di un commit work ma non ha alcun effetto se viene eseguito un rollback work.
     
@@ -194,7 +198,8 @@
       \item La sua esecuzione comporta il raggiungimento di un commit o di un rollback work e dopo il commit/rollback non si eseguono altri accessi alla base di dati.
     \end{itemize}
 
-    Esempio di transazione ben formata:\\
+    Esempio di transazione ben formata:
+     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
     \textcolor{cyan}{begin transaction}\\
     \textcolor{cyan}{\hspace{2em}update CONTO set saldo = saldo - 1200}\\
     \textcolor{cyan}{\hspace{4em}where filiale = '005' and numero = 15;}\\
@@ -202,6 +207,7 @@
     \textcolor{cyan}{\hspace{4em}where filiale = '005' and numero = 205}\\
     \textcolor{cyan}{\hspace{2em}commit work;\\
     end transaction}
+     \end{mdframed}
 
 
     \vario{Proprietà delle transazioni}{Una transazione ha quattro proprietà:
@@ -226,13 +232,13 @@
   L’esecuzione di una transazione non deve violare i \textbf{vincoli di integrità}.\par
   Implicazioni:
     \begin{description}
-      \item[Verifica immediata]:
+      \item[Verifica immediata:]
       \begin{itemize}
         \item Fatta nel corso della transazione
         \item Viene abortita solo l’ultima operazione e il sistema restituisce all’applicazione una segnalazione d’errore
         \item L’applicazione può quindi reagire alla violazione.
       \end{itemize}
-      \item[Verifica differita]: 
+      \item[Verifica differita:] 
       \begin{itemize}
         \item Al commit se un vincolo di integrità viene violato la transazione viene abortita senza possibilità da parte dell’applicazione di reagire alla violazione
       \end{itemize}
@@ -258,7 +264,7 @@
       \item Il sistema deve essere in grado, in caso di guasto, di garantire gli effetti delle transazioni che al momento del guasto avevano già eseguito un commit.
     \end{itemize}
 
-
+    \newpage
 
     \section{Architettura di un DBMS}
     
@@ -393,7 +399,7 @@
 
     \begin{itemize}
       \item \textcolor{purple}{*} è un’abbreviazione per indicare tutti gli attributi delle tabelle.
-      \item \textcolor{cyan}{expression} è un’espressione che coinvolge gli attributi della tabella (può anche essere semplicemente il nome di un attributo).
+      \item \textcolor{purple}{expression} è un’espressione che coinvolge gli attributi della tabella (può anche essere semplicemente il nome di un attributo).
       \item \textcolor{purple}{output\_name} è il nome assegnato all’attributo che conterrà il risultato della valutazione dell’espressione expression nella relazione risultato.
       \item \textcolor{purple}{DISTINCT}: se presente richiede l’eliminazione delle tuple duplicate.
 
@@ -408,24 +414,29 @@
     \end{figure}
 
 
+    Un'alternativa a Q1 è questa:
+     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
     \begin{flushleft}
         SELECT Stipendio \textcolor{cyan}{as} Salario $\leftarrow$ \textcolor{purple}{alias}\\ 
         FROM Impiegato\\
         WHERE Cognome = 'Rossi'\\
     \end{flushleft}
+  \end{mdframed}
 
-    Restituisce lo stesso risultato della query precedente, ma ridenomina (temporaneamente) la colonna output Stipendio
+    Restituisce lo stesso risultato della query precedente, ma \textbf{ridenomina} (\underline{temporaneamente}) la colonna output Stipendio
 
     \subsection{Interrogazione: Clausola SELECT ALL}
     
+     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
     \begin{flushleft}
         SELECT Stipendio \textcolor{purple}{*} \hspace{4em} $\leftarrow$ \textcolor{purple}{Seleziona tutti gli attributi della tabella}\\
         FROM Impiegato\\
         WHERE Cognome = 'Rossi'\\
     \end{flushleft}
+  \end{mdframed}
 
 
-    L'asterisco permette di non elencare il nome di tutte le colonne di una tabella (simile alla proiezione)
+    L'\textbf{asterisco} permette di non elencare il nome di tutte le colonne di una tabella (simile alla proiezione)
 
     \begin{figure}[H]
       \centering
@@ -507,7 +518,7 @@
     \section{Clausola WHERE}
     \subsection{Operatore LIKE}
     \begin{itemize}
-      \item Per il confronto tra stringhe, SQL mette a disposizione anche l’operatore \textcolor{purple}{LIKE} che consente verificare se una stringa rispetta un certo “pattern” (oppure \textcolor{purple}{ILIKE} per case insentive).
+      \item Per il confronto tra stringhe, SQL mette a disposizione anche l’operatore \textcolor{purple}{LIKE} che consente verificare se una stringa rispetta un certo “pattern” (oppure \textcolor{purple}{ILIKE} per \textbf{case insentive}).
       \item Due caratteri speciali per il confronto “\_” e “\%”:
       \begin{itemize}
         \item “\_”: confronto con un carattere arbitrario
@@ -609,8 +620,9 @@
       \includegraphics[width=0.7\textwidth]{images/SqlRelazionale1.png}
     \end{figure}
 
-    \large{\textbf{Esempi più concreti}}
+    {\textbf{\large Esempi più concreti}}
 
+    Prendiamo queste tabelle come riferimento iniziale:
     \begin{figure}[H]
       \includegraphics[width=1\textwidth]{images/TabelleEsempio.png}
       \caption{Tabelle di riferimento}
@@ -648,7 +660,7 @@
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
 \begin{minipage}[t]{0.60\textwidth}
    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \textbf{ALIAS di attributo}
+    \textbf{Con ALIAS di attributo}
     \begin{flushleft}
       SELECT \textcolor{cyan}{p}.nome as \textcolor{black!40!green}{nomePersona},
       \textcolor{cyan}{p}.reddito as \textcolor{black!40!green}{redditoPersona}\\
@@ -682,7 +694,7 @@
     Il costrutto \textcolor{purple}{DISTINCT} dopo la parola chiave SELECT permette di eliminare i duplicati. Il costrutto \textcolor{purple}{ALL} permette invece di mantenerli, ma questa è già la scelta di default.
 
 
-    \large{\textbf{Vediamone un esempio}}
+    {\textbf{\large Vediamone un esempio}}
     \begin{figure}[H]
       \includegraphics[width=0.8 \textwidth]{images/Impiegati.png}
     \end{figure}
@@ -695,12 +707,6 @@
 
     \noindent
 \begin{minipage}[c]{0.45\textwidth}
-    \centering
-    % Inserisci qui il nome del tuo file immagine (es. schema.png)
-    \includegraphics[width=\textwidth]{images/Impiegati2.png}
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.45\textwidth}
   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \textbf{SQL}
     \begin{flushleft}
@@ -708,16 +714,16 @@
     FROM Impiegati\\
     \end{flushleft}
         \end{mdframed}
-    
+    \hfill
 \end{minipage}
-
-  \noindent
-\begin{minipage}[c]{0.44\textwidth}
+\begin{minipage}[c]{0.45\textwidth}
     \centering
     % Inserisci qui il nome del tuo file immagine (es. schema.png)
-    \includegraphics[width=\textwidth]{images/Impiegati3.png}
+    \includegraphics[width=\textwidth]{images/Impiegati2.png}
 \end{minipage}
-\hfill
+
+
+  \noindent
 \begin{minipage}[c]{0.55\textwidth}
   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
     \textbf{SQL}
@@ -726,7 +732,15 @@
     FROM Impiegati\\
     \end{flushleft}
   \end{mdframed}
+  
 \end{minipage}
+\hfill
+\begin{minipage}[c]{0.44\textwidth}
+    \centering
+    % Inserisci qui il nome del tuo file immagine (es. schema.png)
+    \includegraphics[width=\textwidth]{images/Impiegati3.png}
+\end{minipage}
+
 
 \vspace{2em}
 
@@ -743,13 +757,13 @@ Invece con più relazioni nella clausola FROM si realizzano join (e prodotti
 cartesiani)
 
 
-
+    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
   \begin{flushleft}
 SELECT \hspace{3em} $\pi$Proiezione + $\rho$Ridenominazione (con AS)\\
 FROM \hspace{4em} $\bowtie$Join(prodotto cartesiano)\\
 WHERE \hspace{3em} $\sigma$Selezione + $\bowtie$ Join(condizion)\\       
     \end{flushleft}
-
+  \end{mdframed}
 
     \subsection{Interrogazioni con JOIN}
 In SQL il join si può definire in due modi diversi
@@ -935,7 +949,7 @@ dove \textcolor{cyan}{join\_condition} è un’espressione booleana che selezion
 
     \vspace{2em}
 
-    \large\textbf{Esempio}\\
+    \textbf{\large Esempio}\\
     \underline{ Nome, Cognome di tutti gli impiegati e città del Dipartimento in cui lavora}
 
 
@@ -1036,12 +1050,13 @@ del primo attributo si usa il secondo, e così via in sequenza.
     \subsection{Operazioni Insiemistiche}
     SQL mette a disposizione degli operatori insiemistci
 
-
+  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
      \begin{flushleft}
         SELECT
 { \textcolor{purple}{UNION} | \textcolor{purple}{INTERSECT}| \textcolor{purple}{EXCEPT}\\
 {[}\textcolor{purple}{ALL}] SELECT }
     \end{flushleft}
+  \end{mdframed}
     
     Gli operatori insiemistici, al contrario del resto del linguaggio, assumono come default di eseguire un’eliminazione dei duplicati, a
 meno che si usi \textcolor{purple}{ALL}.\par
@@ -1096,9 +1111,11 @@ dipendono da insiemi di tuple.
 \subsubsection{COUNT}
 
 L'operatore COUNT conta il numero di righe di una tabella o il numero di valori di uno o più attributi: 
+  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
 \begin{flushleft}
     \textcolor{purple}{COUNT} ( $\langle$\textcolor{cyan}{*} | [\textcolor{cyan}{DISTINCT} | \textcolor{cyan}{ALL}] ListaAttributi$\rangle$ )
 \end{flushleft}
+\end{mdframed}
 
 \begin{itemize}
     \item \textcolor{cyan}{*}: conta il numero di righe della tabella
