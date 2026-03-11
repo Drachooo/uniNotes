@@ -187,4 +187,229 @@
    Questo significa che bisogna pensare al \hl{programma come a una rappresentazioen finita di un insieme potenzialmente inifinito, di passi primitivi di computazione}.
 
    \textbf{I linguaggi di programmazione devono dare specifica finita di oggetti potenzialmente infiniti}.
+
+   \section{Contesti di sviluppo}
+   Il contesto in cui il lingauggio deve operare determina le funzionalità che il linguaggio deve gestire efficientemente:
+   \begin{itemize}[label=$\diamond$]
+    \item \textbf{applicazioni scientifiche}: computazione floating-point, utilizzo array (es. \textbf{Fortran})
+    \smallskip
+    \item \textbf{applicazioni economiche}: produrre report, usare numeri decimali e caratteri (es. \textbf{COBOL})
+    \item \textbf{intelligenza artificiale}: manipolazione di simboli (es. \textbf{LISP})
+    \smallskip
+    \item \textbf{programmazione di sistemi}: necessita efficienza per l'uso continuo (es. \textbf{C})
+    \item \textbf{web software}: linguaggi markup (es. \textbf{HTML}), scripting (es. \textbf{PHP}), general-purpose (es. \textbf{Java})
+   \end{itemize}
+
+   Nuove metodologie e nuove esigenze hanno portato all'estensione di linguaggi esistenti, ma anche allo sviluppo di nuovi paradigmi e nuovi linguaggi di programmazione.
+
+   \section{Classificazione dei linguaggi}
+
+   \subsection{Linguaggi a basso livello}
+   I linguaggi a basso livello sono più vicini al linguaggio macchina e hanno caratteristiche specifiche dipendenti dall'architettura che si sta programmando:
+   \begin{itemize}[label=$\triangleright$]
+    \item \textbf{linguaggio binario}
+    \smallskip
+    \item \textbf{Assembly}
+   \end{itemize}
+
+   \subsection{Linguaggi ad alto livello}
+   I linguaggi di alto livello si possono classificare in base:
+   \begin{itemize}[label=$\triangleright$]
+    \item \textbf{classificazione per paradigma di programmazione}:
+    \begin{itemize}[label=$\diamond$]
+      \item \hl{procedurale}: codice diviso in sub-routine che eseguono compiti semplici basato su molti condizionali [GOTO] (es. COBOL)
+      \smallskip
+      \item \hl{strutturali (imperativo)}: procedurale senza goto (es. C, Pascal, Ada)
+      \smallskip
+      \item \hl{OOP}: si basa sul concetto di classe (es. Java, C++, c$\#$).
+      
+      Un linguaggio OOP deve avere tre requisiti:
+      \begin{itemize}
+        \item incapsulamento
+        \item eridetarietà
+        \item polimorfismo
+      \end{itemize}
+
+      \item \hl{dichiarativo}: basati fortemente sulla matematica
+      \begin{itemize}
+        \item logici: si basano sulla logica proposizionale del primo ordine (dimostrazioni di fatti) (es. PROLOG)
+        \item funzionali: si basano su applicazioni di funzioni (es. LISP, ML)
+      \end{itemize}
+    \end{itemize}
+    \smallskip
+    \item \textbf{classificazione generazionale}
+      \begin{enumerate}[label=$\Roman*$]
+        \item linguaggi di basso livello, linguaggi proprietari
+        \item linguaggi di basso livello con prima astrazione (es. Assembly)
+        \item linguaggi di alto livello con primo approcio verso il linguaggio naturale (es. C)
+        \item lingauggi dichiarativi per poter manipolare i dati in modo matematico  (es. SQL)
+        \item non semplice esecuzione di programmi scritti e fissati (AI e linguaggi dinamici) 
+      \end{enumerate}
+   \end{itemize}
+
+   \section{Implemmentazione di un linguaggio}
+
+
+   %-----------------------------------------
+   \chapter{Descrivere i linguaggi}
+   Un linguaggio di programmazione non è alto che come un linguaggio naturale, ma semplificato e non ambiguo.
+
+   La descrizione di un linguaggio avviene su tre dimensioni:
+   \begin{itemize}[label=$\triangleright$]
+    \item \textcolor{verde}{\textbf{sintassi}}: insieme delle regole che permettono di costruire frasi corrette.
+    
+    \hl{Descrive la relazione tra simboli}.
+
+    La fase che determina la corretta struttura delle frasi, ovvero che verifica se una frase rispetta le regole della grammatica è chiamata \textbf{parsing}.
+    \smallskip
+    \item \textcolor{verde}{\textbf{semantica}}: attribuzione di un significato ai simboli (cosa vuol dire una frase corretta).
+    
+    \hl{Descrive la relazione tra simboli e singnificato}.
+    \smallskip
+    \item \textcolor{verde}{\textbf{pragmatica}}: insieme delle regole di buon utilizzp di un linguaggio di programmazione (qual'è il modo corretto du usare frasi corrette e sensate).
+    
+    \hl{Descrive la relazione tra segni, simboli e utente}.
+  \end{itemize}
+
+      \begin{center}
+        \rule{0.5\textwidth}{0.4pt} \
+        \textit{\small Caratteristiche generali di qualsiasi PL}
+      \end{center}
+
+  \begin{itemize}[label=$\triangleright$]
+    \item \textcolor{verde}{\textbf{implememtazione}}: strumenti di esecuzione di frasi be formate dal linguaggio di programmazione
+   \end{itemize}
+
+   \section{Sintassi}
+   Le regole sintattiche del linguaggio specificano quali stringhe di caratteri sono legali nel lingauggio:
+   \begin{itemize}[label=$\diamond$]
+    \item \textbf{parola}: stringa di caratteri su un alfabeto $\Sigma$
+    \smallskip
+    \item \textbf{frase}: sequenza di parole (ben formate)
+    \smallskip
+    \item \textbf{lingauggio}: insieme di fraasi (ben formate)
+   \end{itemize}
+
+   \esempio{linguaggi VS fondamenti}{
+    \begin{equation*}
+      \{a^nb^n \mid n \in \mathbb{N}\}
+    \end{equation*}
+
+    \begin{itemize}[label=$\Rightarrow$]
+      \item \textbf{alfateto}:
+      \begin{gather*}
+          \Sigma = \{a, b\} \text{ --- Fondamenti} \\
+          \mathcal{F} = \{\text{if, while, then, else, \dots}\} \text{ --- Linguaggi}
+      \end{gather*}
+      \item \textbf{stringhe}:
+      \begin{gather*}
+          \{e, ab, a^2b^2, \dots\} \text{ --- Fondamenti} \\
+          \text{programma}
+           \text{ --- Linguaggi}
+      \end{gather*}
+      \item \textbf{linguaggio}:
+      \begin{gather*}
+          \{a^nb^n \mid n \in \mathbb{N}\} \text{ --- Fondamenti} \\
+          \{\text{PL: insieme di programmi}\} \text{ --- Linguaggi}
+      \end{gather*}
+    \end{itemize}
+   }
+
+   Nell'ambito dei linguaggi di programmazione gli stessi concetti prendono nomi differenti:
+   \begin{itemize}
+    \item \textbf{parola = lessema}: parola con significato specifico.
+    
+    Nella grammtica corrispoonde ad un terminale, ovvero l'unità minima sintattica.
+
+    \esempio{lessema}{
+      \begin{equation*}
+        \text{index = 2} 
+      \end{equation*}
+
+      $\Rightarrow$ index, =, 2 sono lessemi
+    }
+    \smallskip
+    \item \textbf{frasi = token}: elementi delle categorie sintattiche del linguaggio di programmazione.
+    
+    Nella grammatica corrispondono alle sequenze generate dai simboli non terminali.
+
+    \esempio{token}{
+      \begin{equation*}
+        \text{index = 2}
+      \end{equation*}
+
+      $\Rightarrow$ si tratta di un asegnamento/comando
+    }
+   \end{itemize}
+
+   \medskip
+   C'è bisogno di strumenti formali per descrivere parole e frasi legali di un linguaggio, che permettano in modo automatico di verificare l'appartenenza o meno del linguaggio.
+
+   Nei linguaggi di programmazione, il linguaggio dei lessemi è in generale sempre un linguaggio regolare, quindi riconosciuto da un automa a stati finiti.
+
+   \definition{riconoscitore}{
+    Uno strumento di riconosciemento leggee in input stringhe sull'alfabeto del linguaggio e decide se la stringa appartiene o meno al linguaggio.
+
+    \smallskip
+    \textcolor{red}{\textbf{Es}}: automa stati finiti $\rightarrow$ analisi lesicale per il riconosciemento di lessemi
+   }
+
+   \definition{generatore}{
+    Uno strumento che genera stringhe di un linguaggio.
+
+    Si può determinare se la sintassi di una particolare frase è sintatticamente corretta confrontandola con la sturttura del generatore (parser).
+   }
+
+   \subsection{Grammatiche context-free}
+   Le grammatiche CF permettono di descrivere la sintassi dei linguaggi di programmazione.
+
+   \definition{grammatica CF}{
+    Una \textbf{grammtica context-free} è definita dalla quadrupla $G = \langle V, T, P, S \rangle$
+
+    \begin{itemize}[label=$\triangleright$]
+      \item \textbf{V}: insieme finito di variabili (simboli non terminali) $\rightarrow$ \hl{categorie sintattiche}
+      \smallskip
+      \item \textbf{T}: insieme finito si simboli ($V \cap T = \emptyset$) $\rightarrow$ \hl{vocabolario}
+      \smallskip
+      \item \textbf{P}: insieme finito di produzioni. $\rightarrow$ \hl{collezione di regole di formazione/composizione}
+      
+      Ogni produzione è definita nella forma $A \rightarrow \alpha$, dove:
+      \begin{itemize}[label=$\diamond$]
+        \item $A \in V$: variabile
+        \item $\alpha \in (V \cup T)^*$
+      \end{itemize}
+      \smallskip
+      \item \textbf{S}: simbolo iniziale $\rightarrow$ \hl{categoria delle frasi}
+    \end{itemize}
+   }
+
+   Nella grammtica i \textbf{simboli terminali} costituiscono le parole/lessemi del linguaggio (vocabolario), mentre i \textbf{simboli non terminali} sono le categorie sintattiche (diversi tipi di elementi).\\[0.2ex]
+   Le \textbf{produzioni} sono le regle di composizione degli elementi di una frase.\\[0.2ex]
+   Il \textbf{linguaggio} è l'insieme di tuttel le possibili frasi (stringhe di simboli non terminali).
+
+   \medskip
+   Il fatto che il linguaggio sia context-free costituisce un vincolo sulle produzioni perchè in un \textbf{qualunque contesto} troviamo quel non terminale, lo possiamo sotiure/rimpiazzare applicando una delle produzioni per il non terminale.\\[0.2ex]
+   In altre parole, il contesto in cui si trova un non terminale A, non pone un voncolo sulle produzioni per A che noi possiamo applicare.
+
+   Nei linguaggi si programmazione questo significa che il modo con cui possiamo sviluppare, per sostituzione, una categoria sintattica è indipendente dal contesto.
+
+   Questo è un vantaggio perché dato un programma abbiamo il problema di capire quale grammatica può averlo generato (parsing), e per le grammatiche CF esistono strumenti automatici efficienti di parsing.\\[0.2ex]
+   Dal punto di vista della complessità del parsing, questa dipende dal numero di simboli terminali della grammatica e dal grado di non determinismo delle produzioni. 
+   
+   Un linguaggio può essere generato da diverse grammatiche, quindi ai fini dell’efficenza del linguaggio è importante come si sceglie la grammatica.
+
+   \subsection{Notazione BNF}
+   La BNF è un metalinguaggio usato per descrivere linguaggi di programmazione.
+
+   \definition{notazione BNF}{
+    Notazione è usata per descrivere grammatiche CF, dove si usano intere parole come simboli terminali.\\[0.2ex]
+   I simboli non terminali sono identificati racchiudendoli tra parentesi angolate $\langle \rangle$ e per le produzion si una il simbolo $::=$ al posto della freccia.
+
+   \begin{equation*}
+    \langle A \rangle ::= \alpha \langle B \rangle \gamma \mid \alpha
+   \end{equation*}
+   \begin{equation*}
+    \langle B \rangle ::= \epsilon \mid \beta_1 \mid \beta_1 \mid \beta_2
+   \end{equation*}
+   }
 \end{document}
