@@ -187,4 +187,65 @@
    Questo significa che bisogna pensare al \hl{programma come a una rappresentazioen finita di un insieme potenzialmente inifinito, di passi primitivi di computazione}.
 
    \textbf{I linguaggi di programmazione devono dare specifica finita di oggetti potenzialmente infiniti}.
+
+   \section{Contesti di sviluppo}
+   Il contesto in cui il lingauggio deve operare determina le funzionalità che il linguaggio deve gestire efficientemente:
+   \begin{itemize}[label=$\diamond$]
+    \item \textbf{applicazioni scientifiche}: computazione floating-point, utilizzo array (es. \textbf{Fortran})
+    \smallskip
+    \item \textbf{applicazioni economiche}: produrre report, usare numeri decimali e caratteri (es. \textbf{COBOL})
+    \item \textbf{intelligenza artificiale}: manipolazione di simboli (es. \textbf{LISP})
+    \smallskip
+    \item \textbf{programmazione di sistemi}: necessita efficienza per l'uso continuo (es. \textbf{C})
+    \item \textbf{web software}: linguaggi markup (es. \textbf{HTML}), scripting (es. \textbf{PHP}), general-purpose (es. \textbf{Java})
+   \end{itemize}
+
+   Nuove metodologie e nuove esigenze hanno portato all'estensione di linguaggi esistenti, ma anche allo sviluppo di nuovi paradigmi e nuovi linguaggi di programmazione.
+
+   \section{Classificazione dei linguaggi}
+
+   \subsection{Linguaggi a basso livello}
+   I linguaggi a basso livello sono più vicini al linguaggio macchina e hanno caratteristiche specifiche dipendenti dall'architettura che si sta programmando:
+   \begin{itemize}[label=$\triangleright$]
+    \item \textbf{linguaggio binario}
+    \smallskip
+    \item \textbf{Assembly}
+   \end{itemize}
+
+   \subsection{Linguaggi ad alto livello}
+   I linguaggi di alto livello si possono classificare in base:
+   \begin{itemize}[label=$\triangleright$]
+    \item \textbf{classificazione per paradigma di programmazione}:
+    \begin{itemize}[label=$\diamond$]
+      \item \hl{procedurale}: codice diviso in sub-routine che eseguono compiti semplici basato su molti condizionali [GOTO] (es. COBOL)
+      \smallskip
+      \item \hl{strutturali (imperativo)}: procedurale senza goto (es. C, Pascal, Ada)
+      \smallskip
+      \item \hl{OOP}: si basa sul concetto di classe (es. Java, C++, c$\#$).
+      
+      Un linguaggio OOP deve avere tre requisiti:
+      \begin{itemize}
+        \item incapsulamento
+        \item eridetarietà
+        \item polimorfismo
+      \end{itemize}
+
+      \item \hl{dichiarativo}: basati fortemente sulla matematica
+      \begin{itemize}
+        \item logici: si basano sulla logica proposizionale del primo ordine (dimostrazioni di fatti) (es. PROLOG)
+        \item funzionali: si basano su applicazioni di funzioni (es. LISP, ML)
+      \end{itemize}
+    \end{itemize}
+    \smallskip
+    \item \textbf{classificazione generazionale}
+      \begin{enumerate}[label=$\Roman*$]
+        \item linguaggi di basso livello, linguaggi proprietari
+        \item linguaggi di basso livello con prima astrazione (es. Assembly)
+        \item linguaggi di alto livello con primo approcio verso il linguaggio naturale (es. C)
+        \item lingauggi dichiarativi per poter manipolare i dati in modo matematico  (es. SQL)
+        \item non semplice esecuzione di programmi scritti e fissati (AI e linguaggi dinamici) 
+      \end{enumerate}
+   \end{itemize}
+
+   \section{Implemmentazione di un linguaggio}
 \end{document}
