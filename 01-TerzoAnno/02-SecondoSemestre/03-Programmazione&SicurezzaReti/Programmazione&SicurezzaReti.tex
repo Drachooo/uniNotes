@@ -106,4 +106,56 @@
 
     %===========================
     \mainmatter
+
+    \chapter{Analisi di rete}
+    Esistono diversi strumenti software che consentono di analizzare i pacchetti che arrivano alla propria interfaccia di rete:
+    \begin{itemize}[label=$\triangleright$]
+      \item \textbf{TCPDUMP}: tool da linea di comando (OS e Linux)
+      \smallskip
+      \item \textbf{WinDUMP}: tool da linea di comando (OS e Windows)
+      \smallskip
+      \item \textbf{Wireshark}: tool con GUI (Linux, Windows e Mac)
+    \end{itemize}
+
+    Tutti questi software sulla libreria C $\verb|libcap|$.
+
+    Le principali funzionalità di questa libreria sono:
+    \begin{itemize}[label=$\diamond$]
+      \item cercare/trovare interfacce di rete
+      \smallskip
+      \item gestire in modo avanzato i filtri di cattura
+      \smallskip
+      \item gestire gli errori e statistiche di cattura
+    \end{itemize}
+
+    \definizione{sniffing all'interno di reti non switched}{
+      In queste reti, il mezzo trasmissivo è condiviso e di conseguenza le chede di rete dei PC ricevono tutti i pacchetti (anche queli destinati ad altri).
+
+      \smallskip
+      I propri sono, invece, selezionati a seconda dell'indirizzo MAC (indirizzo hw specifico della scheda di rete).
+
+      \smallskip
+      In questo caso, lo \textbf{sniffing} consiste nell'impostare sull'interfaccia di rete la \hl{modalità promisqua} che disattiva il "filtro hardware" basato sul MAC.
+
+      \smallskip
+      I questo modo, si permette al sistema l'ascolto di tutto il trafico passante per il cavo.
+
+      \medskip
+      \textcolor{red}{Es}: rete WiFi
+    }
+
+    \definizione{sniffing all'interno di reti Ethernet switched}{
+      In questi reti, l'apparato centrale (switch). si preoccupa di inoltrare su ciascuna porta solo il traffico destinato ai dispositivi collegati a quella porrta.
+
+      \smallskip
+      Ciasuna interfaccia di rete, quindi, riceve solo i pacchetti destinati al proprio indirizzo: pacchetti multicast e broadcast.
+
+      \smallskip
+      L'impostazione della modalità promisqua è insufficiente per poter intercettare il traffico in una rete gestita da switch.
+    }
+
+    \section{Wireshark}
+
+
+    \section{Comandi di rete}
 \end{document}
