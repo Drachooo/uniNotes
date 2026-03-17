@@ -1107,7 +1107,6 @@ dipendono da insiemi di tuple.
 
 \end{itemize}
 
-
 \subsubsection{COUNT}
 
 L'operatore COUNT conta il numero di righe di una tabella o il numero di valori di uno o più attributi: 
@@ -1529,6 +1528,294 @@ tabella di base.
     \end{figure}  
 
     
+
+
+
+
+
+    \chapter{Laboratorio}
+PostgrSQL è un Relational Data Base Management System (RDBMS o DBMS) con alcune funzionalità orientate agli oggetti. L’interazione tra un utente (programmatore/utente finale) e le basi di dati gestite da PostgreSQL avviene secondo il modello client-server.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width= \textwidth]{images/ClientServer.png}
+    \end{figure}
+
+    \section{Creazione di una tabella}
+Struttura base
+\begin{lstlisting}
+CREATE TABLE tabella (
+  attributo dominio [ valoreDefault ] { vincolo }
+  {, attributo dominio [ valoreDefault ] { vincolo } }
+  {, vincoloTabella }
+]);
+\end{lstlisting}
+
+Costrutti inseriti: 
+\begin{itemize}
+  \item {[}{]} indicano parti opzionali / facoltative (il termine può non comparire o comparire una sola volta) Indica che quell'elemento può apparire zero o una volta. Sta al programmatore decidere se inserirlo o meno a seconda di ciò che si vuole ottenere)
+\item {[} valoreDefault {]}: Significa che quando definisco l’attributo posso decidere se attribuirgli un valore predefinito
+\item \{ \} Tutto ciò che è racchiuso tra parentesi graffe rappresenta un elemento che può essere ripetuto zero, una o più volte.
+\item \{ vincolo \}: Significa che a una singola colonna puoi applicare nessun vincolo, un solo vincolo, oppure una serie di vincoli uno dopo l'altro (es. NOT NULL, UNIQUE)
+\end{itemize}
+
+
+\textbf{\large Ecco un esempio}
+\begin{lstlisting}
+CREATE TABLE Impiegato (
+  Matricola CHARACTER(6) PRIMARY KEY, 
+  Nome VARCHAR(20) NOT NULL, 
+  Cognome VARCHAR(20) NOT NULL,
+  Dipart VARCHAR(15), 
+  Stipendio NUMERIC(9) DEFAULT 0,
+  FOREIGN KEY(Dipart) 
+    REFERENCES Dipartimento(NomeDip),     /*vincolo di tabella*/
+  UNIQUE (Cognome,Nome)                   /*vincolo di tabella*/
+)
+\end{lstlisting}
+
+
+\subsection{Identificatori}
+ Sono stringhe che iniziano con una lettera (UTF-8) o un underscore (\_) e che possono contenere anche cifre (0-9). Gli identificatori SQL \textbf{NON} sono sensibili al minuscolo/maiuscolo:
+ \begin{itemize}
+  \item idPersona e idpersona rappresentano un solo identificatore.
+ \end{itemize}
+
+\subsection{Domini}
+I domini elementari (predefiniti) sono:
+\begin{itemize}
+  \item \textbf{caratteri}: singoli caratteri o stringhe anche di lunghezza variabile
+  \item \textbf{bit}: bit singoli (booleani) o stringhe di bit
+  \item \textbf{numerici esatti e approssimati}
+  \item \textbf{istanti temporali}
+  \item \textbf{intervalli temporali}
+\end{itemize}
+Oppure si possono avere domini definiti dall'utente
+
+\subsubsection{Tipo carattere}
+Permette di rappresentare singoli caratteri oppure stringhe.
+Un carattere o stringa di caratteri sono rappresentati tra apici (’):
+’a’, ’Questa è una stringa’.\par
+La lunghezza delle stringhe può essere fissa o variabile: 
+\textcolor{cyan}{CHARACTER [VARYING][(lunghezza)]}
+\begin{itemize}
+  \item \textbf{CHARACTER}: carattere singolo
+  \item \textbf{CHARACTER(20)}: stringa di \textbf{lunghezza fissa}. Se si assegna una stringa di lunghezza inferiore a 20, la stringa viene riempita di spazi fino a rendere la stringa lunga 20.
+  \item \textbf{CHARACTER VARYING(20)}: stringa di \textbf{lunghezza variabile} (max 20).
+  \item \textbf{TEXT}: \underline{stringa di lunghezza variabile senza limite fissato}. Questa è un’estensione PostgreSQL
+\end{itemize}
+
+\subsubsection{Tipo boolean}
+Permette di rappresentare i valori booleani TRUE/FALSE, rappresentati anche 
+come t/f, 1/0, yes/NO, più lo stato unknown (valore nullo), rappresentato 
+come NULL
+
+\subsubsection{Tipo numerici esatti}
+Permettono di rappresentare valori esatti: interi o con una parte decimale di 
+lunghezza prefissata
+\begin{itemize}
+  \item \textbf{Valori interi}:
+\begin{itemize}
+  \item SMALLINT: valori interi (2 bytes: da -32.768 (215) a +32.767 (215-1)).
+  \item INTEGER: valori interi (4 bytes: da -2147483648 (231) to +2147483647 (231-1) ).
+\end{itemize}
+\item \textbf{Valori decimali}:
+\begin{itemize}
+  \item NUMERIC [(precisione [, scala])]: precisione è il numero totale di cifre  significative (cioè di cifre a sinistra e a destra della virgola), scala è il numero di cifre dopo la virgola (vuoto = 0).
+\item DECIMAL [(precisione [, scala])]: equivalente al precedente.
+\end{itemize}
+\end{itemize}
+
+\esempio{}{NUMERIC(5,2) permette di rappresentare valori come 100.01, 100.999 
+(arrotondato a 101.00), ma non valori come 1000.01}
+
+\subsubsection{Tipo numerici approssimati}
+Permettono di rappresentare valori in virgola mobile:
+\begin{itemize}
+  \item \textbf{REAL}: una precisione di 6 cifre decimali.
+  \item \textbf{DOUBLE PRECISION}: una precisione di 15 cifre decimali.
+\end{itemize}
+Ciascun numero è rappresentato da una coppia di valori: la mantissa e 
+l’esponente.
+\begin{itemize}
+  \item La mantissa è un numero frazionario, l’esponente è un numero intero
+  \item Il valore si ottiene moltiplicando la mantissa per la potenza di 10 con grado pari all’esponente
+\end{itemize}
+Il numero 0.17E16 corrisponde a 1,7 x 1015           
+Il numero -0.4E-6 corrisponde a -4 x 10-7
+
+\subsubsection{Istanti temporali}
+Permettono di rappresentare istanti di tempo.
+\begin{itemize}
+  \item \textbf{DATE}: istanti del tipo (anno, mese, giorno).
+  \begin{itemize}
+    \item Un valore DATE si rappresenta tra apici (’) e lo standard ISO prescrive il formato \texttt{YYYY-MM-DD}.
+  \end{itemize}
+  \item \textbf{TIME [(precisione)][WITH TIME ZONE]}: istanti del tipo (hour, minute, second)
+  \begin{itemize}
+    \item precisione: numero cifre decimali per rappresentare frazioni del secondo;
+    \item WITH TIME ZONE: permette di specificare anche [+-]hour:minute, che rappresentano la differenza con l’ora di Greenwich, o nomeFusoOrario.
+  \end{itemize}
+  \item \textbf{TIMESTAMP [(precisione)][WITH TIME ZONE]}: date + time.
+\end{itemize}
+
+\subsubsection{Intervalli temporali}
+INTERVAL PrimaUnitàDiTempo[TO UltimaUnitàDiTempo]
+PrimaUnitàDiTempoe UltimaUnitàDiTempodefiniscono le unità di misura che 
+devono essere utilizzate, dalla più precisa alla meno precisa.
+L’insieme delle unità di misura è diviso in due insiemi distinti:
+\begin{itemize}
+  \item Year-Month
+  \item Day-Hour–Minute-Second
+\end{itemize}
+
+\subsubsection{Domini definiti dall'utente}
+
+\begin{lstlisting}
+  CREATE DOMAIN nome AS tipoBase [valoreDefault][vincolo]
+\end{lstlisting}
+
+
+\textcolor{purple}{\textbf{CREATE DOMAIN}}: definisce un dominio, utilizzabile in definizioni di relazioni, anche con 
+vincoli e valori di default
+Il dominio può essere definito a partire da un dominio elementare oppure da un altro 
+dominio definito dall‘utente
+\begin{lstlisting}
+CREATE DOMAIN giorniSettimana AS CHARACTER (3)
+CHECK (VALUE IN ('LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB', 'DOM'));
+\end{lstlisting}
+
+\begin{lstlisting}
+CREATE DOMAIN Voto AS SMALLINT DEFAULT NULL
+CHECK ( value >=18 AND value <= 30 )
+\end{lstlisting}
+
+
+
+
+\subsection{Vincoli intrarelazionali}
+
+\begin{itemize}
+  \item \textbf{NOT NULL}: il valore nullo non è ammesso per l'attributo, quindi il valore deve sempre essere specificato, o si assegna un valore di default
+  \item \textbf{UNIQUE}: definisce (super)chiavi
+  \begin{lstlisting}
+Nome VARCHAR(20),
+Cognome VARCHAR(20),
+UNIQUE(Nome,Cognome)
+
+/* impone che non ci siano due righe che abbiano uguale sia il nome che il cognome*/
+  \end{lstlisting}
+
+  \begin{lstlisting}
+Nome VARCHAR(20) UNIQUE,
+Cognome VARCHAR(20) UNIQUE
+
+/* impone che non ci siano due righe che abbiano lo stesso nome o lo stesso cognome*/ 
+  \end{lstlisting}
+  \item \textbf{PRIMARY KEY}: chiave primaria (una sola, implica NOT NULL) 
+  \begin{lstlisting}
+matricola CHAR (6) PRIMARY KEY;
+/* se unico componente della chiave primaria*/
+  \end{lstlisting}
+
+  \begin{lstlisting}
+nome VARCHAR(20),
+cognome VARCHAR(20),
+PRIMARY KEY(nome, cognome)
+
+/* Se la chiave primaria ha piu attributi */
+  \end{lstlisting}
+  \item \textbf{CHECK}: specifica un vincolo generico che deve soddisfare le tuple della tabella. Viene soddisfatto se la sua espressione è vera o nulla.
+  
+\begin{lstlisting}
+CREATE TABLE Impiegato (
+matricola CHAR(6) PRIMARY KEY,
+nome VARCHAR(20) NOT NULL,
+cognome VARCHAR(20) NOT NULL,
+qualifica VARCHAR(20),
+stipendio NUMERIC(8,2) DEFAULT 500.00 NOT NULL
+CHECK( stipendio >= 0.0 ),    /* check di attributo */
+UNIQUE( cognome, nome ),
+CHECK( nome <> cognome )      /* check di tabella */
+)
+  \end{lstlisting}
+
+\end{itemize}
+
+\subsection{Vincoli interrelazionali}
+Un vincolo di integrità referenziale (= interrelazionale) crea un legame tra i 
+valori di un attributo (o di un insieme di attributi) A della tabella corrente (detta interna/slave) e i valori di un attributo (o di un insieme di attributi) B di un’altra tabella (detta esterna/master):
+\begin{itemize}
+  \item Impone che, in ogni tupla della tabella interna, il valore di A, se diverso dal valore nullo, sia presente tra i valori di B nella tabella esterna.
+  \item  L’attributo B della tabella esterna deve essere soggetto a un vincolo 
+UNIQUE (o PRIMARY KEY).
+\end{itemize}
+\vario{Nota:}{L’attributo (o insieme di attributi) B può anche non essere la 
+chiave primaria, ma deve essere identificante per le tuple della tabella 
+esterna}
+
+\textbf{REFERENCES e FOREIGN KEY permettono di definire vincoli di integrità referenziale}
+
+Per singoli attributi, basta utilizzare il costrutto \textcolor{purple}{\textbf{REFERENCES}}
+\begin{lstlisting}
+CREATE TABLE Impiegato (
+  Matricola CHARACTER(6) primary key,
+  Nome CHARACTER VARYING(20)  not null,
+  Cognome CHARACTER VARYING(20)  not null,
+  Dipart CHARACTER VARYING(15) 
+  REFERENCES Dipartimento(NomeDip),   
+  /* Attributo chiave (singolo) di tabella esterna*/
+  Ufficio NUMERIC(3),
+  Stipendio  NUMERIC(9) default 0,
+  UNIQUE (Cognome, Nome)
+)
+\end{lstlisting}
+
+Per attributi multipli, si usa il costrutto \textcolor{purple}{\textbf{FOREIGN KEY}} alla fine della definizione degli attributi, seguito da \textcolor{purple}{\textbf{REFERENCES}}
+\begin{lstlisting}
+CREATE TABLE Impiegato (
+  Matricola CHARACTER(6) primary key,
+  Nome CHARACTER VARYING(20)  not null,
+  Cognome CHARACTER VARYING(20)  not null,
+  Dipart CHARACTER VARYING(15),
+  REFERENCES Dipartimento(NomeDip),   
+  Ufficio NUMERIC(3),
+  Stipendio  NUMERIC(9) default 0,
+  FOREIGN KEY(Nome, Cognome)
+    REFERENCES Anagrafica (Nome, Cognome) 
+    /* Tabella esterna con attributi chiave*/
+)
+\end{lstlisting}
+
+Vediamo un esempio più concreto:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width= \textwidth]{images/esempioReferences.png}
+\end{figure}
+
+\begin{lstlisting}
+CREATE TABLE Infrazione(
+  Codice CHAR(6) PRIMARY KEY, 
+  Data DATE NOT NULL,  
+  Vigile INTEGER NOT NULL
+  REFERENCES Vigile(Matricola),
+  Provincia CHAR(2),  
+  Numero CHAR(6) ,
+  FOREIGN KEY(Provincia, Numero)
+    REFERENCES Auto(Provincia, Numero)
+)
+
+\end{lstlisting}
+
+\section{Modifica degli schemi}
+\begin{itemize}
+  \item ALTER:effettua modifiche (a domini, tabelle...), ad esempio aggiungere una colonna a una relazione
+  \item DROP DOMAIN: permette di rimuovere i domini
+  \item DROP TABLE: cancella una tabella
+\end{itemize}
+
+\subsection{ALTER: modifiche alla struttura di una tabella}
 
 
   \end{document}
