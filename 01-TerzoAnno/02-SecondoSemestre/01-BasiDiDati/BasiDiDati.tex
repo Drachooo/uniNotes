@@ -2224,6 +2224,26 @@ ORDER BY Nome DESC
 \subsubsection{Operatori di aggregazione}
 
 
+Sono operatori che permettono di determinare un valore considerando i valori 
+ottenuti da una SELECT.
+Due tipi principali:
+\begin{itemize}
+  \item COUNT.
+  \item MAX, MIN, AVG, SUM.
+\end{itemize}
+
+\begin{lstlisting}
+SELECT MAX(Reddito) 
+FROM Persone;
+\end{lstlisting}
+
+\vario{Nota}{Quando si usano gli operatori aggregati, dopo la SELECT non possono 
+comparire espressioni che usano i valori presenti nelle singole tuple perché il 
+risultato è sempre e solo una tupla
+}
+
+SLIDE 22 DEL PDF 02.
+
 
 
   \end{document}
