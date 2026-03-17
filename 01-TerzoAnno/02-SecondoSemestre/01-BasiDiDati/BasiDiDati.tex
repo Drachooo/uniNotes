@@ -10,6 +10,7 @@
 
 % --- MARGINI E GEOMETRIA ---
 \usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage[export]{adjustbox}
 
 % --- COLORI E LINK ---
 \usepackage{xcolor}
@@ -1810,12 +1811,419 @@ CREATE TABLE Infrazione(
 
 \section{Modifica degli schemi}
 \begin{itemize}
-  \item ALTER:effettua modifiche (a domini, tabelle...), ad esempio aggiungere una colonna a una relazione
+  \item ALTER: effettua modifiche (a domini, tabelle...), ad esempio aggiungere una colonna a una relazione
   \item DROP DOMAIN: permette di rimuovere i domini
   \item DROP TABLE: cancella una tabella
 \end{itemize}
 
 \subsection{ALTER: modifiche alla struttura di una tabella}
+Il costrutto \textbf{Alter} permette di:
+
+Aggiungere un nuovo attributo (ADD COLUMN):
+\begin{lstlisting}
+ALTER TABLE tabella ADD COLUMN attributo tipo;
+ALTER TABLE impiegato ADD COLUMN stipendio NUMERIC(8,2);
+\end{lstlisting}
+
+Rimuovere un attributo (DROP COLUMN):
+\begin{lstlisting}
+ALTER TABLE tabella DROP COLUMN attributo;
+ALTER TABLE impiegato DROP COLUMN stipendio;
+\end{lstlisting}
+Modificare valore di default di un attributo (ALTER COLUMN):
+\begin{lstlisting}
+ALTER TABLE tabella ALTER COLUMN attributo { SET DEFAULT valore | 
+DROP DEFAULT };
+ALTER TABLE impiegato ALTER COLUMN stipendio SET DEFAULT 1000.00;
+\end{lstlisting}
+
+\section{Cancellazione dati in una tabella}
+Le tuple di una tabella vengono cancellate con il comando \textcolor{purple}{\textbf{DELETE}}.
+condizione è una espressione booleana che seleziona quali tuple cancellare. 
+\begin{lstlisting}
+  DELETE FROM tabella [ WHERE condizione ];
+\end{lstlisting}
+
+\vario{}{
+  \textbf{Se WHERE non è presente, tutte le tuple saranno cancellate.}
+}
+\begin{lstlisting}
+  DELETE FROM impiegato WHERE matricola = 'A001 ';
+\end{lstlisting}
+
+Una tabella viene cancellata con il comando \textcolor{purple}{\textbf{DROP TABLE}}:
+\begin{lstlisting}
+  DROP TABLE tabella;
+\end{lstlisting}
+
+
+
+
+\section{Inserimento e aggiornamento di tuple}
+
+\textbf{\large Inserimento di valori all'interno di una tupla}
+
+\begin{lstlisting}
+INSERT INTO Tabella [ ( Attributi ) ] 
+VALUES( Valori ) 
+\end{lstlisting}
+oppure
+\begin{lstlisting}
+  INSERT INTO Tabella [ ( Attributi )]
+(SELECT ...)
+\end{lstlisting}
+
+\textbf{ Esempio inserimento}
+\begin{lstlisting}
+INSERT INTO Museo (nome, citta, indirizzo, numeroTelefono, giornoChiusura, prezzo)
+VALUES('Arena', 'Verona', 'piazza Bra', '045 8003204', 'MARTEDI', 20) 
+
+\end{lstlisting}
+
+
+\textbf{\large Aggiornamento di valori all'interno di una tupla}
+
+\begin{lstlisting}
+UPDATE NomeTabella
+  SET Attributo = < 
+  Espressione |
+  SELECT ... | 
+  NULL | 
+  DEFAULT >
+  [ WHERE Condizione ]
+\end{lstlisting}
+
+\textbf{Esempio}
+\begin{lstlisting}
+UPDATE Museo SET sitoInternet = 'www.ciao.it' WHERE citta ='Verona'  
+\end{lstlisting}
+
+
+\section{Selezione}
+
+\textbf{\large Struttura base}
+
+\begin{lstlisting}
+SELECT [ DISTINCT ]
+[ * | expression [[ AS] output_name ] [, 
+...] ]
+FROM from_item [, ...] 
+[ WHERE condition ]
+[ GROUP BY grouping_element [, ...] ]
+[ HAVING condition [, ...] ]
+[ { UNION | INTERSECT | EXCEPT } [ DISTINCT
+] other_select ]
+[ ORDER BY expression [ ASC | DESC | USING 
+operator ]]
+
+\end{lstlisting}
+
+
+\subsection{Clausola SELECT}
+\begin{lstlisting}
+SELECT [ DISTINCT ]
+[{* | expression [[ AS] output_name ]} [, ...]]
+\end{lstlisting}
+\begin{description}
+  \item [\textbf{*}] è un’abbreviazione per indicare tutti gli attributi delle tabelle.
+  \item [\textbf{expression}] è un’espressione che coinvolge gli attributi della tabella (può anche essere semplicemente il nome di un attributo).
+  \item [\textbf{output\_name}] è il nome assegnato all’attributo che conterrà il risultato della valutazione dell’espressione expression nella relazione risultato.
+  \item [\textbf{DISTINCT}:] se presente richiede l’eliminazione delle tuple duplicate.
+
+\end{description}
+
+
+L’esecuzione di una \textbf{SELECT} produce una relazione che:
+\begin{itemize}
+  \item ha come schema tutti gli attributi elencati nella clausola \textbf{SELECT};
+  \item ha come contenuto tutte le tuple ottenute proiettando sugli attributi 
+indicati nella \textbf{SELECT} provenienti dalle tabelle del \textbf{FROM} (prodotto 
+cartesiano), limitate a quelle che soddisfano le eventuali condizioni 
+specificate nelle clausole \textbf{WHERE}, \textbf{GROUP BY} e \textbf{HAVING}
+\end{itemize}
+
+
+\subsubsection{Target List}
+
+\begin{minipage}[t]{0.39\textwidth}
+   \begin{lstlisting}
+SELECT *
+FROM Tabella
+   \end{lstlisting}
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.50\textwidth}
+  \vspace{1em}
+   Selezione di tutti gli attributi 
+delle tabelle indicate nella 
+clausola FROM
+\end{minipage}
+
+\begin{minipage}[t]{0.39\textwidth}
+   \begin{lstlisting}
+SELECT Attributo1, Attributo2
+FROM Tabella
+   \end{lstlisting}
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.50\textwidth}
+  \vspace{1em}
+   Selezione di tutti gli attributi 
+delle tabelle indicate nella 
+clausola FROM
+\end{minipage}
+
+
+\textbf{Esempio}
+
+
+
+\begin{minipage}[t]{0.39\textwidth}
+ \begin{lstlisting}
+SELECT Nome, Reddito
+FROM Persone
+WHERE Eta < 30
+\end{lstlisting}
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.50\textwidth}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{images/nomeReddito.png}
+  \caption{selezionati solo le tuple dove è rispettata la condizione}
+\end{figure}
+\end{minipage}
+
+
+\subsection{Clausola FROM}
+\begin{lstlisting}
+  FROM from_item [, ...]
+\end{lstlisting}
+
+\begin{enumerate}
+  \item  table\_name [[AS] alias [(column\_alias [, ...])]]
+  \begin{itemize}
+    \item Se sono presenti due o più tabelle, si esegue il prodotto cartesiano tra tutte le  tabelle. Se ci sono attributi con lo stesso nome su tabelle diverse, nel SELECT 
+questi attributi sono identificati anteponendo il nome della tabella e un ’.’: 
+nomeTabella.nomeAttributo
+  \end{itemize}
+
+  \item  (other\_select) [AS] nomeRisultato [(column\_alias [,...])
+  \begin{itemize}
+    \item  è una SELECT innestata. Il risultato della SELECT interna è lo schema con nome 
+nomeRisultato su cui fare la SELECT corrente.
+  \end{itemize}
+
+  \item  from\_item [NATURAL] join\_type from\_item [ON condition]
+  \begin{itemize}
+    \item  è la clausola JOIN.
+    \item Metodo più sofisticato di 1) che permette di selezionare un sottoinsieme del 
+prodotto cartesiano di due o più tabelle. join\_type specifica il tipo di join. I tipi 
+principali sono riassunti nelle slide seguenti
+  \end{itemize}
+\end{enumerate}
+
+
+\subsubsection{Uso di alias}
+
+\begin{lstlisting}
+SELECT P.Reddito, R.Telefono
+FROM Reparti as R, Persona ad P
+WHERE ... ;
+\end{lstlisting}
+
+Utile quando è necessario specificare la provenienza dell’attributo, 
+perchè nella base di dati sono presenti più attributi con lo stesso nome
+
+\subsubsection{Target List}
+\begin{lstlisting}
+SELECT P.Nome as NPersona, P.Reddito as RPersona
+FROM Persone as P
+WHERE P.Eta < 30
+\end{lstlisting}
+
+
+
+
+\subsection{Clausola WHERE}
+\begin{lstlisting}
+  WHERE condition
+\end{lstlisting}
+
+\textbf{\textcolor{black!50!red}{condition}} è un’espressione booleana combinando condizioni semplici $C_{i}$ con gli 
+operatori AND, OR, NOT.
+\begin{enumerate}
+  \item  $C_{i}$ := expr [ $\theta$ \{expr | const\}]
+dove
+\begin{itemize}
+  \item expr := espressione che contiene riferimenti agli attributi delle tabelle che compaiono 
+nella clausola FROM.
+\item $\theta \in$ \{=,<>,<,>,<=,>=\}
+\item const := valore dei domini di base.
+\end{itemize}
+\item Una riga soddisfa \textcolor{black!50!red}{condition} se l’espressione è vera quando valutata con i valori 
+della riga.
+\item Una riga che non soddisfa condition è scartata dal risultato finale
+\end{enumerate}
+
+
+
+
+
+\begin{minipage}[t]{0.39\textwidth}
+ \begin{lstlisting}
+SELECT Nome, Reddito
+FROM Persone
+WHERE Eta < 30;
+\end{lstlisting}
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.50\textwidth}
+SELECT Nome, Reddito
+FROM Persone
+WHERE Età < 30 OR Reddito > 50;
+\end{minipage}
+
+
+
+
+\subsubsection{Operatore LIKE}
+\begin{lstlisting}
+WHERE attributo [NOT] LIKE 'pattern';
+\end{lstlisting}
+
+Nella clausola WHERE può apparire l’operatore LIKE per il confronto di stringhe. 
+LIKE è un operatore di pattern matching. I pattern si costruiscono con i 
+caratteri speciali \_ e \%:
+\begin{itemize}
+  \item \_ = 1 carattere qualsiasi.
+  \item \% = 0 o più caratteri qualsiasi.
+\end{itemize}
+
+
+\begin{minipage}[t]{0.39\textwidth}
+  \vspace{2em}
+  \begin{lstlisting}[aboveskip=0pt] % <-- Azzera lo spazio vuoto sopra il codice
+SELECT Nome,Reddito
+FROM Persona
+WHERE Nome LIKE 'A\%a'
+  \end{lstlisting}
+\end{minipage}
+\hfill 
+\begin{minipage}[t]{0.50\textwidth}
+  \vspace{0pt}
+  % Rimosso totalmente \begin{figure}[H] e \end{figure}
+  \includegraphics[width=0.8\textwidth]{images/nomeReddito2.png}
+\end{minipage}  
+
+
+\subsubsection{Operatore SIMILAR TO}
+
+
+L’operatore \textbf{\textcolor{purple}{SIMILAR TO}} è un \textbf{\textcolor{purple}{LIKE}} più espressivo che accetta, come pattern, 
+un sottoinsieme delle espressioni regolari POSIX (versione SQL). 
+Esempi di componenti di espressioni regolari:
+\begin{itemize}
+  \item \_ = 1 carattere qualsiasi. 
+  \item \% = 0 o più caratteri qualsiasi.
+  \item * = ripetizione del precedente match 0 o più volte.
+  \item + = ripetizione del precedente match UNA o più volte.
+  \item \{n,m\} = ripetizione del precedente match almeno n e non più di m volte.
+  \item {[} ... {]} = ... è un elenco di caratteri ammissibili
+\end{itemize}
+
+
+\begin{minipage}[t]{0.50\textwidth}
+  \vspace{2em}
+  \begin{lstlisting} 
+SELECT *
+FROM Persone
+Per trovare nomi che
+iniziano con A, F o O
+WHERE Nome SIMILAR TO '[AFO]'
+  \end{lstlisting}
+\end{minipage}
+\hfill 
+\begin{minipage}[t]{0.45\textwidth}
+  \vspace{3em}
+Per trovare nomi che inziano per A,F o O
+\end{minipage}  
+
+
+\subsubsection{Operatore BETWEEN}
+
+\begin{lstlisting}
+WHERE attributo [NOT] BETWEEN valore_iniziale AND valore_finale;
+\end{lstlisting}
+
+Nella clausola \textcolor{purple}{\textbf{WHERE}} può apparire l’operatore \textcolor{purple}{\textbf{BETWEEN}} per testare l’appartenenza 
+di un valore ad un intervallo (non limitato ai valori numerici, usato anche con date e 
+stringhe)
+
+
+\begin{minipage}[t]{0.40\textwidth}
+  \begin{lstlisting} 
+SELECT *
+FROM Persone
+WHERE Eta BETWEEN 20 AND 40
+  \end{lstlisting}
+\end{minipage}
+\hfill 
+\begin{minipage}[t]{0.45\textwidth}
+  \includegraphics[width=0.8\textwidth, valign=t]{images/nomeEtaReddito.png}
+\end{minipage}
+
+
+\subsubsection{Operatore IN}
+\begin{lstlisting}
+  WHERE attributo [NOT] IN ( valore [, ...] );
+
+\end{lstlisting}
+Nella clausola WHERE può apparire l’operatore [\textbf{\textcolor{purple}{NOT}}] \textbf{\textcolor{purple}{IN}} per testare 
+l’appartenenza di un valore ad un insieme.
+\begin{lstlisting}
+SELECT *
+FROM Persone
+WHERE Nome NOT IN ('Andrea', 'Franco')
+\end{lstlisting}
+
+\subsubsection{Operatore IS NULL}
+\begin{lstlisting}
+WHERE attributo IS [ NOT ] NULL;
+\end{lstlisting}
+Nella clausola WHERE può apparire l’operatore \textbf{\textcolor{purple}{IS}} [\textbf{\textcolor{purple}{NOT}}] \textbf{\textcolor{purple}{NULL}} per testare se un 
+valore è \textbf{\textcolor{purple}{NOT KNOWN (NULL)}} o no.
+Il valore NULL non rappresenta lo zero o una stringa vuota, ma l'assenza di dati 
+o un valore sconosciuto.
+A partire dalle versioni SQL-2 è stata adottata una logica a tre valori (true, 
+false, unknown) e i valori nulli non sono considerati né veri, né falsi.\par
+\begin{center}
+NON SI PUÒ usare ’=’ o ’<>’ con il valore NULL!  
+\end{center}
+
+\begin{lstlisting}
+SELECT *
+FROM Persone
+WHERE Reddito IS NOT NULL
+\end{lstlisting}
+
+\subsubsection{Operatore ORDER BY}
+\begin{lstlisting}
+  ORDER BY attributo [{ ASC | DESC }] [, ... ];
+\end{lstlisting}
+La clausola ORDER BY ordina le tuple del risultato in ordine rispetto agli attributi 
+specificati,
+ASCendente è lo standard.
+\begin{lstlisting}
+SELECT Nome
+FROM Persone
+ORDER BY Nome DESC
+
+\end{lstlisting}
+
+\subsubsection{Operatori di aggregazione}
+
+
 
 
   \end{document}
