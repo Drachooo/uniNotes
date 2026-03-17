@@ -190,3 +190,23 @@
   showstringspaces=false,
   morekeywords={DISTINCT, AS, FROM, WHERE, GROUP, BY, HAVING, UNION, INTERSECT, EXCEPT, ORDER, ASC, DESC, USING}
 }
+% --- DEFINIZIONE DI AMBIENTI DI LAVORO ---
+%===========================================
+% --- AMBIENTE OSSERVAZIONE ---
+\newcommand{\osservazione}[1]{%
+  \vspace{5pt}%
+  \begin{tcolorbox}[
+    colback=white!5!white,
+    colframe=white!50!black,
+    title=\textbf{Osservazione}, % titolo della definizione
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm, %arrotondamento degli angoli
+    boxrule=1pt, %spessore del bordo
+    enhanced,
+    breakable
+  ]
+  #1 % testo dell'osservazione
+  \end{tcolorbox}
+  \vspace{5pt}%
+}
