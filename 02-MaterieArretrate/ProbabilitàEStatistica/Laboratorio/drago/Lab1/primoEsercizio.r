@@ -139,7 +139,3 @@ B <- matrix(data = 1:9, nrow= 3)
 matriceSomma = A + B
 
 C <- 3
-
-
-
-
