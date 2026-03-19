@@ -412,4 +412,101 @@
     \langle B \rangle ::= \epsilon \mid \beta_1 \mid \beta_1 \mid \beta_2
    \end{equation*}
    }
+
+   \subsection{Definizione non formale}
+   Un linguaggio può essere descritto anche in modo informale, descrivendo i costrutti base:
+   \begin{itemize}[label=$\circ$]
+    \item niente dichiarazioni
+    \smallskip
+    \item solo variabili ed espressioni booleane
+    \smallskip
+    \item asseganmento e composizione sequenziale
+    \smallskip
+    \item comando condizionale
+    \smallskip
+    \item comando iterativo (loop)
+   \end{itemize}
+
+   Il linguaggio è descritto su più livelli di astrazione, ognuno descritto da una grammatica.
+
+   \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/livelli-PL.png}
+    \caption{livelli di un PL}
+   \end{figure}
+
+   \[
+    \begin{aligned}
+      &\textcolor{orange}{\texttt{<program>}} \quad &&\textcolor{orange}{\texttt{S}} \mathrel{\textcolor{orange}{\rightarrow}} \textcolor{violet}{\texttt{C}}\\
+      &\textcolor{violet}{\texttt{<com>}} \quad && \textcolor{violet}{\texttt{C}} \mathrel{\textcolor{orange}{\rightarrow}} \textcolor{verde}{\texttt{A}} \mathrel{\textcolor{red}{\mid}} \textcolor{violet}{\texttt{C}} \verb| ; C| \mathrel{\textcolor{red}{\mid}} \verb|if | \textcolor{blue}{\texttt{B}} \verb| then | \textcolor{violet}{\texttt{C}} \verb| else | \textcolor{violet}{\texttt{C}} \mathrel{\textcolor{blue}{\mid}} \verb|while | \textcolor{blue}{\texttt{B}} \verb| do | \textcolor{violet}{\texttt{C}}\\
+      &\textcolor{verde}{\texttt{<atomic com>}} \quad &&\textcolor{verde}{\texttt{A}} \mathrel{\textcolor{orange}{\rightarrow}} \verb|v := | \textcolor{blue}{\texttt{B}}\\
+      &\textcolor{blue}{\texttt{b-expr}} \quad &&\textcolor{blue}{\texttt{B}} \mathrel{\textcolor{orange}{\rightarrow}} \verb|true| \mathrel{\textcolor{red}{\mid}} \verb|false| \mathrel{\textcolor{red}{\mid}} \verb|v| \mathrel{\textcolor{red}{\mid}} \verb|(not | \textcolor{blue}{\texttt{B}} \verb|)| \mathrel{\textcolor{red}{\mid}} \verb|(| \textcolor{blue}{\texttt{B }} \verb|and | \textcolor{blue}{\texttt{B}} \verb|)| \mathrel{\textcolor{red}{\mid}} \verb|(| \textcolor{blue}{\texttt{B }} \verb|or | \textcolor{blue}{\texttt{B}} \verb|)|
+    \end{aligned}
+   \]
+
+   Nelle espressioni abbiamo una notazione completamente "parentesitizzata" per evitare ambiguità.\\[0.2ex]
+   L'ambiguità consiste nell'esistenza di più parse-tree per la stessa espressione.
+   
+   \section{Analisi semantica}
+   L'analisi semantica verifica (identifica) i \textbf{vincoli sintattici} (es. n parametri attuali = n parametri formali).\\[0.2ex]
+   Questi sono vincoli sul codice, quindi non catturati dalla grammatica e si definiscono \textcolor{verde}{contestuali}.
+
+   \begin{itemize}
+    \item sintassi $\rightarrow$ grammatica CF
+    \item semantica $\rightarrow$ tutti i processi di verifica ed esclusione che non sono descritti dalla sintassi
+   \end{itemize}
+
+   \subsection{Induzione strutturale}
+   L'\textbf{induzione matematica} permette di dimostrare prorprietà di insiemi numerabili, dove possiamo identificare ogni eleemnto con un elemento naturale su cui facciamo induzione.
+
+   L'\textcolor{verde}{\textbf{induzione strutturale}}, invece, permette di dimostrare prorietà di oggetti (es. insiemi) definiti in modo induttivo/ricorsivo.\\[0.2ex]
+   Ciò significa che su qualunque oggetto definito in modo induttivo possiamo fare induzione strutturale, ovvero dimostrare proprietà sulla struttura dell'oggetto, determinata dalla costruzione induttiva.
+
+   \definition{induzione strutturale}{
+    Per definire una proprietà $\Pi$ su tutti gli elemementi di un insieme definito in modo strutturale si può utilizzare l'induzione strutturale da una grammtica bisogna:
+    \begin{enumerate}
+      \item (\textbf{caso base}): dimostrare la proprietà su tutti gli elemementi base, cioè quelli che sono eplicitamente inseriti nell'insieme di stringhe generate dalla grammatica
+      \smallskip
+      \item (\textbf{passo induttivo}): dimostrare la proprietà sugli elementi composti sotto l'ipotesi induttiva che la proprietà valga per gli elementi che la compongono
+    \end{enumerate}
+   }
+
+   \esempio{}{
+    Considerimo l'insieme $X \subseteq \mathrm{N}$:
+    \begin{enumerate}
+      \item (caso base): $0 \in X$
+      \item (passo induttivo): se $n \in X$, allora $n + 3 \in X$
+    \end{enumerate}
+
+    La proprietà è $X = 3\mathrm{N}$.
+    La proprietà dimostrabile in modo strutturale è: $X \subseteq 3\mathrm{N}$:
+    \begin{enumerate}
+      \item (caso base): 0 è la base di $X$ e $0 \in 3\mathrm{N}$
+      \item (passo induttivo): dimostriamo $\forall n. n \in X \Rightarrow n \in 3\mathrm{N}$
+      
+      Prendiamo $n \in X$, l'ipotesi induttiva è la seguente:
+      \begin{equation*}
+        n \in X \rightarrow 3\mathrm{N}
+      \end{equation*}
+      bisogna dimostare che $n + 3 \in 3\mathrm{N}$.
+
+      Sappiamo che:
+      \[
+        \begin{aligned}
+          n \in 3\mathrm{N} &\Rightarrow \exists i. n = 3i\\
+          &\Rightarrow n + 3 = 3i + 3 = 3(i + 1) \in 3\mathrm{N}
+        \end{aligned}
+      \]
+    \end{enumerate}
+   }
+
+   \subsection{Semantica}
+   \definition{semantica}{
+    La \textbf{semantica} attribuisce un significato ad ogni frase sintatticamente corretta.
+   }
+
+   A seconda di quali strumenti matematici si utilizzano per desxcrivere i significati si ottengono tipi di semantiche diverse:
+   \begin{itemize}[label=$\triangleright$]
+    \item \textbf{semantica denotazionale}: 
+   \end{itemize}
 \end{document}
