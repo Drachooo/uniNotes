@@ -2242,8 +2242,224 @@ comparire espressioni che usano i valori presenti nelle singole tuple perché il
 risultato è sempre e solo una tupla
 }
 
-SLIDE 22 DEL PDF 02.
 
+
+  \begin{enumerate}
+    \item \textbf{Count}
+    \begin{lstlisting}
+      COUNT({ *| expr | ALLexpr | DISTINCTexpr }])
+    \end{lstlisting}
+    Restituisce il numero di tuple significative nel risultato dell’interrogazione.
+    Tre casi comuni:\begin{itemize}
+      \item \textcolor{purple}{COUNT(*)} ritorna il numero di tuple nel risultato dell’interrogazione.
+      \item \textcolor{purple}{COUNT(expr)} ritorna il numero di tuple in ciascuna delle quali il valore expr è non nullo
+      \item \textcolor{purple}{COUNT(ALL expr)} include duplicati e valori nulli.
+      \item \textcolor{purple}{COUNT(DISTINCT expr)} come con \textcolor{purple}{COUNT(expr)} ma con l’ulteriore condizione che i valori di expr siano distinti
+    \end{itemize}
+    \item \textbf{SUM/MAX/MIN/AVG} 
+    \begin{lstlisting}
+      op ({ expr | DISTINCTexpr })
+    \end{lstlisting}
+    Determinano un valore numerico (SUM/AVG) o alfanumerico (MAX/MIN) considerando le tuple significative nel risultato dell’interrogazione.
+    \begin{itemize}
+      \item op = SUM | AVG | MAX | MIN;
+      \item expr è un’espressione che usa uno o più attributi e funzioni di attributi.
+      \item DISTINCT considero solo i valori distinti.  
+    \end{itemize}
+    \begin{lstlisting}
+      SELECT AVG(Eta) AS Media\_Eta
+      FROM Persone;
+    \end{lstlisting}
+  \end{enumerate}
+
+
+  \section{Esempi di interrogazioni}
+  \subsection{Interrogazione con raggruppamento: Group by}
+
+  Un raggruppamento è un insieme di tuple che hanno medesimi valori su uno o più attributi caratteristici del raggruppamento.\par
+La clausola GROUP BY attr [, ...] permette di determinare tutti i raggruppamenti delle tuple della relazione risultato (tuple selezionate con la clausola WHERE) in funzione degli attributi dati.\par
+In una interrogazione che usa GROUP BY, la clausola SELECT contiene solamente gli attributi (da 0 a tutti) utilizzati per il raggruppamento ed eventuali funzioni di aggregazione sugli altri attributi.
+
+
+\textbf{\large Visualizzare tutte le città raggruppate della tabella Studente}
+\begin{lstlisting}
+SELECT citta
+FROM studente
+GROUP BY citta
+\end{lstlisting}
+
+\noindent
+\begin{minipage}[t]{0.6\textwidth}
+   \centering
+   \includegraphics[width = 0.8\textwidth]{images/TableALL.png} 
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.38\textwidth}
+   \centering
+   \includegraphics[width = 0.4\textwidth]{images/Group_By.png} 
+\end{minipage}
+
+
+
+
+\textbf{\large Visualizzare tutte le città e i cognomi raggruppati}
+
+
+
+
+\noindent
+\begin{minipage}{0.5\textwidth}
+   \begin{lstlisting}
+SELECT cognome,LOWER(citta)
+FROM Studente
+GROUP BY cognome,LOWER(citta);
+   \end{lstlisting}
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.40\textwidth}
+   \centering
+   \includegraphics[width = 0.5\textwidth]{images/tabellaRisultante.png} 
+\end{minipage}
+
+
+
+
+\vario{Nota}{Nel GROUP BY non si possono usare espressioni con operatori di aggregazione.}
+
+\vario{Nota}{Nella SELECT con GROUP BY non si possono specificare attributi che non sono raggruppati.}
+
+
+
+\begin{itemize}
+  \item La clausola WHERE permette di selezionare le righe che devono far parte del risultato.
+  \item La clausola HAVING permette di selezionare i raggruppamenti che devono far parte del risultato.
+  \item La sintassi è HAVING bool\_expr, dove bool\_expr è un’espressione booleana che può usare gli attributi usati nel GROUP BY e/o gli altri attributi mediante operatori di aggregazione.
+\end{itemize}
+
+
+\textbf{\large Visualizzare tutte le città raggruppate che iniziano con ’V’ della tabella Studente.}
+
+
+
+\noindent
+\begin{minipage}{0.5\textwidth}
+   \begin{lstlisting}
+SELECT citta
+FROM Studente
+GROUP BY citta
+HAVING citta LIKE 'V%';
+   \end{lstlisting}
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.40\textwidth}
+   \centering
+   \includegraphics[width = 0.5\textwidth]{images/tabellaRisultante2.png} 
+\end{minipage}
+
+
+
+
+\textbf{\large Visualizzare tutte le città e i cognomi raggruppati con almeno due studenti con lo stesso cognome..}
+
+
+
+\noindent
+\begin{minipage}{0.5\textwidth}
+   \begin{lstlisting}
+SELECT cognome, LOWER(citta)
+FROM Studente
+GROUP BY cognome, LOWER(citta)
+HAVING COUNT ( cognome) >1;
+   \end{lstlisting}
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.40\textwidth}
+   \centering
+   \includegraphics[width = 0.5\textwidth]{images/tabellaRisultante3.png} 
+\end{minipage}
+
+
+
+
+
+\textbf{\large Si possono specificare espressioni con operatori di aggregazione su attributi non raggruppati anche nella clausola HAVING.}
+
+
+
+\noindent
+\begin{minipage}{0.5\textwidth}
+   \begin{lstlisting}
+SELECT LOWER(citta) AS "Citta", AVG (media)::DECIMAL(5 ,2) AS "mediaArr."
+FROM Studente
+GROUP BY LOWER(citta)
+HAVING AVG(media) >23.47 ;
+   \end{lstlisting}
+\end{minipage}
+\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
+\begin{minipage}[t]{0.40\textwidth}
+   \centering
+   \includegraphics[width = 0.5\textwidth]{images/tabellaRisultante4.png} 
+\end{minipage}
+
+
+
+\subsection{Interrogazione con JOIN}
+
+\begin{lstlisting}
+  TABLE1 join_typeTABLE2 ON join_condition[, ...].
+\end{lstlisting}
+
+
+\textcolor{cyan}{INNER JOIN}, \textcolor{cyan}{LEFT [OUTER] JOIN}, \textcolor{cyan}{RIGHT [OUTER] JOIN} e \textcolor{cyan}{FULL [OUTER] JOIN}.
+Dove \textcolor{cyan}{join\_condition} è un’espressione booleana che seleziona le tuple del join da aggiungere al risultato.
+Le tuple selezionate possono essere poi filtrate con la condizione della clausola \textcolor{purple}{WHERE}.
+Il prodotto cartesiano di due o più tabelle è un \textcolor{cyan}{CROSS JOIN}.
+
+
+\textbf{\large Interrogazioni con INNER JOIN
+Rappresenta}
+
+\begin{lstlisting}
+  table1 [ INNER] JOIN table2 ON join_condition[, ...]
+\end{lstlisting}
+
+
+Rappresenta il tradizionale $\theta$ join dell’algebra relazionale.
+Combina ciascuna riga r1 di table1 con ciascuna riga di table2 che soddisfa la condizione della clausola ON.
+table1 [ INNER] JOIN table2 ON join\_condition[, ...]
+
+
+
+\subsection{Interrogazioni con LEFT OUTER JOIN}
+\begin{lstlisting}
+  table1 LEFT[ OUTER] JOIN table2 ON join\_condition[, ...].
+\end{lstlisting}
+
+Si esegue un INNER JOIN. Poi, per ciascuna riga r1 di table1 che non soddisfa la condizione con qualsiasi riga di table2, si aggiunge una riga al risultato con i valori di r1 e assegnando NULL agli altri attributi..
+
+Il LEFT [OUTER] JOIN non è simmetrico!
+Con le medisime tabelle si possono ottenere risultati diversi invertendo l’ordine delle tabelle nel join!
+
+
+\subsection{Interrogazioni con RIGHT OUTER JOIN}
+
+\begin{lstlisting}
+  table1 RIGHT[ OUTER] JOIN table2 ON join_condition[, ...].
+\end{lstlisting}
+
+Si esegue un INNER JOIN. Poi, per ciascuna riga r2 di table2 che non soddisfa la condizione con qualsiasi riga di table1, si aggiunge una riga al risultato con i valori di r2 e assegnando NULL agli altri attributi..
+
+
+\subsection{Interrogazioni con FULL OUTER JOIN}
+
+\begin{lstlisting}
+  table1 FULL[ OUTER] JOIN table2 ON join\_condition[, ...].}
+\end{lstlisting}
+
+\begin{itemize}
+  \item È equivalentea:INNER JOIN + LEFT OUTER JOIN + RIGHT OUTER JOIN.
+  \item \textcolor{black!60!red}{Non è equivalentea CROSS JOIN!}
+\end{itemize}
 
 
   \end{document}
