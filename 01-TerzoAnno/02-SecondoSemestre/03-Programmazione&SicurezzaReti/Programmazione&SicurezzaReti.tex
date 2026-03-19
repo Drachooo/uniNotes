@@ -80,6 +80,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{textcomp}
+\usepackage{url}
 
 % --- Tabelle ---
 \usepackage{longtable}
@@ -155,7 +156,331 @@
     }
 
     \section{Wireshark}
+    Wireshark è un software che permette di:
+    \begin{itemize}[label=$\triangleright$]
+      \item acquisire 
+    \end{itemize}
 
+    \vario{Regole di utilizzo Wireshark}{
+      Per poter utilizzare le funzionalità di cattura diretta in ambiente Linux bisogna essere autenticati come utente root, oppure, aver installato il tool con $\texttt{setuid}$ a root.
+    }
+
+    \subsection{Cattura dei pacchetti}
+    per avviare la \textcolor{azzurrino}{\textbf{cattura dei pacchetti}} è necessario specificare da quale interfaccia si vuole effettuare la cattura.\\[0.2ex]
+    Per fare questo, basta avviare una delle avrie interfacce presentate nella schermata di apertura:
+
+    %foto - schermata di apertura
+
+    Se, invece, si vogliono applicare varie opzioni alla interfacce, allora si passa aatraverso le coci $\verb|Cattura/Opzioni|$ presenti nel menù:
+
+    %foto - menù
+
+    Da quest'ultima schermata mostrata, premendo sul pulsante $\verb|Avvia|$ si iinizia la cattura:
+
+    %foto - cattura
+
+    Invece, per terminare la cattura (se non si è impostato un limite di pacchetti, secondi o byte), si clicca sul pulsante $\verb|Ferma|$ dal menù $\verb|Cattura|$ (o camando $\verb|Ctrl + W|$)
+
+    %foto - fine cattura
+
+    \vario{}{
+      Sui sistemi Linux i nomi delle interfacce di rete potrebbero esser nel nuovo formato, $\texttt{eth}$ è sostituito da $\texttt{enp}$ e $\texttt{wlan}$ è sostituito da $\texttt{wlp}$ ecc.
+    }
+
+    \subsection{Applicazione dei filtri nella cattura}
+    E' possibile limitare la cattura ai soli pacchetti che rispettano specific requisisti impostando un filtro di cattura nella finestra $\verb|Opzioni di cattura|$ e premendo sul tasto che raffigura un segnalibro verde oppure scrivendolo nella textbox a fianco:
+
+    %foto - filtro
+
+    I \textcolor{azzurrino}{\textbf{filtri di cattura}} programmano la scheda di rete con l'intento di catturare solo determinati pacchetti.\\[0.2ex]
+    Questi sono solitamente utilizzati quando la quantità di pacchetti che passano sul tratto di rete osservato è tale per cui se tutti i pacchetti venissero passati alla CPU, allora le sue prestazioni sarebbero compromesse.
+
+    \vario{Applicazione filtro}{
+      È possibile scrivere l'espressione del filtro manualmente, oppure selezionandone uno pre-esistente cliccando sull'apposito bottone e al limite modificarlo.
+
+      \smallskip
+      Al termine della cattura la finestra principale di Wireshark mostra i dati catturati.
+    }
+
+    \subsection{Finestra principale}
+    La finestra principlae è suddivisa in tre parti:
+    \begin{enumerate}
+      \item tabella dei pacchetti
+      \smallskip
+      \item vista sull'incapsulazione dei protocolli del pacchetto selezionato nella tabella
+      \smallskip
+      \item vista in versione binari dei dati del pacchetto selezionato nella tabella
+    \end{enumerate}
+
+    %foto - schermata principale Wireshark
+
+    Inotre, è possibile visualizzare un sommario scegliendo il menù \nolinkurl{Statistiche/Proprietà file di cattura}. 
+
+    \subsection{Regole di colorazione}
+    È possibile miglioarre la visualizzazione dei vari pacchetti nella tabella principale colorando le righe in base al tipo di protocollo, oppure di indirizzi coinvolti.
+
+    I filtri di coloramento possono essere impostati nel menù $\verb|Visualizza/Regole di colorazione|$.
+
+    È possibile creare nuovi filtri attraverso il pulsante $\verb|+|$ presente in basso a sinistra della finestra $\verb|Regole di colorazione|$ precedentemente aperta.
+
+    Le regole sono espressioni booleane sui campi el pacchetto; si impostan con un linguaggio diverso da quello dei filtri di cattura.
+
+    per ciascun pacchetto da visuallizare, le regole di colorazione sono considerate dal programma "dall'alto verso il basso".
+
+    Quando una regola è soddisfatta, il pacchetto viene visulaizzato con i colori corrispondenti.
+
+    Se tutte le regole vengono passate in rassegna e nessuna è vera, il pacchetto viene visuallizzato in nero su bianco.
+
+    %foto - regole di colorazione
+
+    \subsection{Applicaizone dei filtri di visualizzazione}
+    È possibile creare un filtro per limitare il numero di pacchetti visuallizati in una cattura già avvenuta.
+    
+    Per fare questo si utilizza la barra dei filtri presente nella schermata principale:
+
+    %foto - app. filtri
+
+    Attarverso, il tasto raffigurato dal segnalibro azzurro è possibile specificare un filtro esistente, oppure creare di nuovi.
+
+    \subsection{Analisi del flusso TCP}
+    Per quanto riguarda TCP, selezionando un pacchetto TCP nella finestra. è possibile seguire l'intero flusso dati di quella "conversazione" mediante la voce $\verb|Analizza/segui/Flusso TCP|$:
+
+    %foto - flusso TCP
+
+    \subsection{Visualizzazione del livello Data-Link delle PDU non Ethernet}
+    Mentre il drivere della scheda Ethernet fornisce a Wireshark l'esatto header della PSU di livello Data-Link, alcune altre interfacce di rete non Ethernet (es. WiFi) potrebbero non farlo a mano dell'utilizzo di plugin specifici per Wireshark (o per la scheda di rete).
+    
+    Nel caso in cui tale header non venga fornito, Wireshark visualizzerà un header Ethernet "autocostruito", oppure un header con la dicitura $\verb|linux coocked capture|$.
+
+    \subsection{Cattura di traffico di rete all'interno di una macchina virtuale}
+    %foto - host con sistema guest
+
+    Il traffico di rete cattuarabile dall'istanza B di Wireshark nel sistema Guest diepnde dalla configuraazione del getore di rete del virtualizzatore che prevede le seguenti tre alternative principali:
+    \begin{itemize}[label=$\triangleright$]
+      \item \textbf{host-only}: ’unico traffico di rete possibile catturabile nel Guest è quello tra Guest e Host (per esempio l’istanza B del browser comunica con l’istanza A di HTTP server sull’Host)
+      \smallskip
+      \item \textbf{NAT}: l’unico traffico di rete nel Guest è quello verso l’esterno (per esempio tra l’istanza B dei browser e l’istanza B di HTTP server su Internet)
+      \smallskip
+      \item \textbf{bridged}: il gestore di rete del virtualizzatore simula il comportamento di uno switch Ethernet a cui sono collegati sia l’Host sia il Guest. 
+      
+      In questo scenario, l’istanza B di Wireshark può catturare sia il traffico legato al Guest sia quello legato all’Host di tipo broadcast
+    \end{itemize}
 
     \section{Comandi di rete}
+
+    \subsection{Comando \protect\texttt{ping}}
+    Il \textcolor{azzurrino}{\textbf{comando \texttt{ping}}} è un semplice strumento per verificare la reggiungibilità di un computer connesso alla rete e il relativo \textbf{R}ound \textbf{T}rip \textbf{T}ime (tempo che interre tra partenza del pacchetto inviato al ritorno della risposta).\\[0.2ex]
+    per questa operazione viene utilizzato il protollo $\verb|ICMP|$.
+
+    %foto - comando ping
+
+    Dopo aver avviato il comando $\verb|ping|$ da terminale è possibile visualizzare lo scambio dei messaggi tra il calcolatore e la destinazione.\\[0.2ex]
+    Per fare ciò è sufficiente una cattura da Wireshark applicando il filtro $\verb|icmp|$ per la visualizzazione.
+
+    \subsection{Comando \protect\texttt{traceroute}}
+    Il \textcolor{azzurrino}{\textbf{comando \texttt{traceroute}}} (\textcolor{azzurrino}{\texttt{tracert}} su Windows) è un semplice strumento per tracciare che un pacchetto segue dalla sorgente alla destinazione.
+
+    Il comando mostra un elenco di tutte le interfacce dei router che il pacchetto attarversa finchè non raggiunge la destinazione.
+
+    %foto - comando traceroute
+
+    La presenza di alcuni asterischi in corrispondenza di determinate tappe, sono dovuti al fatto che certe interfacce di specifici router, non forniscono alcuna informazione.\\[0.2ex]
+    Questa scelta viene presa dagli amministratori di rete per evitare di svelare la topologia di rete a possibili malware.\\[0.2ex]
+    In tal caso $\verb|traceroute|$ non può mostrare tali passi del percorso.
+
+    Dopo aver avviato il comando $\verb|traceroute|$ da terminale è possibile visualizzare in Wireshark lo scambio dei messaggi tra il calcolatore e la sorgente di destinazione.\\[0.2ex]
+    Per fare ciò è sufficiente avviare da Wireshark applicando il filtro $\verb|icmp|$ per la visualizzazione. 
+
+    \subsection{Comando \protect\texttt{nslookup}}
+    Il \textcolor{azzurrino}{\textbf{comando \texttt{nslookup}}} consnete di effettuare un'interrogazione ai server DNS per poter ottenre da un hostname il relativo indirizzo IP (o viceversa).\\[0.2ex]
+    Si può utilizzare in due modalità: interattivo oppure non interattivo.
+    
+    \subsubsection{Modalità interattiva}
+    Permette di effettuare più  interrogazioni e visualizza i singoli risultati.\\[0.2ex]
+    Viene abilitatta in maniera automatica quando il comando non è seguito da alcun argomento.
+
+    %foto - nslookup interattiva
+
+    \subsubsection{Modalità non interattiva}
+    Permette di effettuare una sola interrogazione visuallizandone il risulatato.\\[0.2ex]
+    iene abilitata ogni volta che si specifica l'hist-to-find.
+
+    %foto - nslookup non interattiva
+
+    \subsection{Comando \protect\texttt{ifconfig}}
+    Il \textcolor{azzurrino}{\textbf{comando \texttt{ifconfig}}} (\textcolor{azzurrino}{\textbf{\texttt{ipconfig}}} su Windows) è utilizzato per configurare e controllare un'interfaccia di rete TCP/IP da riga di comando.\\[0.2ex]
+    L'esecuzione del comando con l'opzione $\verb|-a|$ mostra a video le informazioni di tutte le interfacce di rete.
+
+    %foto - comando ifconfig
+
+    \subsection{Comando \protect\texttt{route}}
+    Il \textcolor{azzurrino}{\textbf{comando \texttt{route}}} (\textcolor{azzurrino}{\textbf{\texttt{PRINT}}} su Windows) è utilizzato per visualizzare e modificare le tabelle di routing.\\[0.2ex]
+    L'esecuzione permette di visualizzare la tabella di routing dell'host come nell'esempio seguente:
+
+    %foto - comando route
+
+    \subsection{Comando \protect\texttt{whois}}
+    Il \textcolor{azzurrino}{\textbf{comando \texttt{whois}}} consente, mediante interrogazione di appositi databse server (da parte del client), di stabilire il nome del privato, azienda o ente al quale è intestato un determinato IP o un specifico dominio DNS.
+
+    Nel $\verb|whois|$ vengono solitamente mostrate anche informazioni riguardanti l'intestatario, data di registrazione e la dta di scadenza.
+
+    $\verb|whois|$ si può consulatare tradizionalmente da riga di comando, anche se ora esistono numerosi siti web che permettono di consultare gli archivi dove sono contenute tali informazioni.
+
+    %foto - comando whois
+
+    \chapter{Switch ecc.}
+
+
+    \chapter{Programmazione di rete mediante interfaccia sokcet}
+
+    \section{Host,processo e applicazione}
+    \definizione{host}{
+      Un \textbf{host} è un calcolatore identificato da un indirizzo IP a ui si può associare (opzionalmente) un nome Internet.
+    }
+
+    \definizione{processo}{
+      Un \textbf{processo} è un programma in esecuzione sull'host che trasmette/riceve pacchetti verso/da altri processi su altri host attraverso la rete.
+    }
+
+    \definizione{applicazione}{
+      Un'\textbf{applicazione} è la collaborazione tra un insieme di processi spari sulla rete per fare qualcosa di utile per l'utente (es. web, chat, email, ecc.)
+    }
+
+    \esempio{}{
+      \begin{itemize}[label=$\Rightarrow$]
+        \item \textbf{Telegram}: applicazione
+        \smallskip
+        \item \textbf{APP Telegram}: processo che gira sullo smartphone (host)
+        \smallskip
+        \item \textbf{Telegram server}: processo in esecuzione sulla macchina remota (host)
+      \end{itemize}
+    }
+
+    \subsection{Scoprire l’indirizzo IP degli host}
+    L'indirizzo IP all'interno di un calcolatore si può ottenere tramite il comando (da terminale):
+    \begin{itemize}[label=$\triangleright$]
+      \item $\verb|ifconfig -a|$: sistemi Unix e MacOS
+      \smallskip
+      \item $\verb|ipconfig /all|$: sistemi Windows
+    \end{itemize}
+
+    Entrambi i comandi fornisco informazioni sulla configurazione dell'interfaccia di rete:
+    \begin{itemize}[label=$\diamond$]
+      \item \textbf{indirizzo IP} (IPv4 o IPv6): identificatore numerico assegnato a ciascin dispositivo collegato a una rete
+      \smallskip
+      \item \textbf{indirizzo MAC}: identificatore univoco assegnato a ciascuna scheda o dispositivo di rete
+      \smallskip
+      \item \textbf{subnet mask}: valore numerico che definisce la prorpozione di un indirizzo IP che rappresenta la rete e la porzione che rappresenta
+      \item  il dispositivo all'interno di quella rete
+      \smallskip
+      \item \textbf{default gateway}: indirizzo IP del router che viene utilizzato da un dispositivo per instradare il traffico verso destinazioni esterne alla sua rete locale
+    \end{itemize}
+
+    \subsection{Applicazioni orientate al datagram e alla connessione}
+    La trasmissione dei dati in Internet non avviene spadendo un bit (o byte) alla volta poichè non è efficiente.\\[0.2ex]
+    La migliore modalità di trasmissione è quella di inviare sequenze di byte aventi il nome di: pacchetto, Protocol Data Unit oppure datagram.
+
+    \subsubsection{Applicazioni orientate alla connessione}
+    Tra i pacchetti trasmessi esiste una relazione, ovvero tutti assieme formano un'informazione più grande (es. immagine).\\[0.2ex]
+    Il messaggio "più grande" deve essere incluso in un'enttià logica chiamata \textcolor{azzurrino}{\textbf{connessione}}.
+
+    È compito del sistema operativo enumerare in sequenza i pacchetti e rilevare eventuali perdite per richiedere in seguito la ritrasmissione.
+    \begin{itemize}[label=$\Rightarrow$]
+      \item \textcolor{green}{\textbf{Vantaggi}}: l'utente può scrivere e/o leggere su un qualunque archivio remoto con la stessa naturalezza di qunado scrive e/o legge su un archivio locale
+      \item \textcolor{red}{\textbf{Svantaggi}}: gli host trasmettitori e ricevitori devono "lavorare" maggiormente dentro il sistema opertaivo.
+      
+      Inoltre, può causarsi un maggiore ritardo di trasmissione nel caso di ritrasmissione di pacchetti persi
+    \end{itemize}
+
+    \subsubsection{Applicazioni orientate al datagram}
+    Ogni pacchetto scambiato tra gli host è indipendente dai pacchetti e dai sucessivi e le perdite non vengono considerate.
+
+    \esempio{app orientata al datagram}{
+      Si considera la trasmissione di temperatura in una stanza.
+
+      \smallskip
+      Il trasmettitore invia periodicamente al display del ricevitore le temperature ricavate mediante un sensore.
+
+      \smallskip
+      Questi valori sono tra loro tutti indipendenti e la pardita di uno di questi non comporta alcun interesse da parte del ricevitore: semplicemente di pacchetto viene perso e si attende il prossimo.
+    }
+
+    \section{Modello client-server}
+    Le applicazioni di rete sono insiemi di processi su host diversi che si scambiano messaggi attraverso la rete.
+
+    Esistono degli schemi base che regolano lo scambio di messaggi:
+    \begin{itemize}[label=$\circ$]
+      \item client-server
+      \smallskip
+      \item publicher-subscribers
+    \end{itemize}
+
+    Nel modello \textcolor{azzurrino}{\textbf{client-server}}, il client effettua sempre il primo passo con una richiesta verso il server.\\[0.2ex]
+    Quest'ultimo esegue il secondo passo rispondendo e successivamente rimane in attesa di altre richieste.\\[0.2ex]
+    Ciò che determina il ruolo del client e del server è l'ordine dei messaggi e non il loro contenuto.
+
+    \esempio{}{
+      Il sensore di temperatura corporea funge da client e manda al server una temperatura.
+
+      \smallskip
+      Il server risponde la client con il messaggio "OK".
+    }
+
+    E' importante fare attenzione su diversi punti di questo modello:
+    \begin{itemize}[label=$\triangleright$]
+      \item client o server sono \textbf{processi} e non host
+      \smallskip
+      \item insieme di almeno un client e un server costituisce l'applicazione di rete
+      \smallskip
+      \item (applicazione client-server) client è sempre quello che compie il primo passo indipendentemente che dchieda o trasmetta un dato
+    \end{itemize}
+
+    \subsection{Fase 1: creazione interfacia socket}
+    Il programma prima di usare la rete crea l'oggetto di tipo $\verb|socket|$, il quae viene identificato da 3 parametri:
+    \begin{itemize}[label=$\triangleright$]
+      \item indirizzo IP locale
+      \smallskip
+      \item porta locale
+      \smallskip
+      \item modalità di trasmissione (UDP o TCP)
+    \end{itemize}
+
+    La \textbf{porta} è un meccanismo che consente a un singolo host di gestire più flussi di dati in ingresso o in uscita contemporaneamente.\\[0.2ex]
+    Nella pratica le porte vanno da 0 fino 65535 (16 bit senza segno).\\[0.2ex]
+    Il programma servere deve decidere esplicitamente il numero di porta locale affinchè i client possano riconoscerlo:
+    \begin{itemize}[label=$\diamond$]
+      \item porte da 0 a 1023: riservate a protocolli applicativi noti (es. 80 HTTP, 443 HTTPS)  e per poter utilizzarli servono i privilegi di root
+      \smallskip
+      \item porte dal 1024 al 65535: sono usufriabili senza richiedere i privilegi di root
+    \end{itemize}
+
+    \subsection{Fase 2: trasmissione e ricezione}
+    In questa fase serve conoscere altri 2 parametri:
+    \begin{itemize}[label=$\triangleright$]
+      \item indirizzo IP di destinazione
+      \item porta di destinazione
+    \end{itemize}
+
+    Al client basta conoscere il nome Internet del server perchè il sistema operativo rcava in automatico il suo indirizzo IP mediante DNS.\\[0.2ex]
+    Sul lato server, invece, l'indirizzo IP è contenuto nelle informazioni di mittente della richiesta e di conseguenza non ha bisogno di richiederlo.
+
+    \begin{itemize}[label=$\Rightarrow$]
+      \item \textbf{caso UDP}
+      \begin{itemize}[label=$\diamond$]
+        \item chaimata a funzione per trasmettere
+        \smallskip
+        \item chaiamata a funzione per ricevere
+      \end{itemize}
+      \medskip
+      \item \textbf{caso TCP}
+      \begin{itemize}[label=$\circ$]
+        \item chiamata a funzione per aprire la connessione
+        \smallskip
+        \item chiamata a funzione per trasmttere
+        \smallskip
+        \item chiamata a funzione per ricevere
+        \smallskip
+        \item chiamata a funzione per chiudere la connessione
+      \end{itemize}
+    \end{itemize}
 \end{document}
