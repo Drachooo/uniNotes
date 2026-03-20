@@ -1526,10 +1526,208 @@ tabella di base.
  \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{images/Q28.png} 
-    \end{figure}  
-
+    \end{figure}
     
+  
+\chapter{Strutture fisiche e di accesso ai dati}
+Le basi di dati risiedono nella \textcolor{azzurrino}{\textbf{memoria secondaria}} perchè sono:
+\begin{itemize}[label=$\triangleright$]
+  \item \textbf{grandi}: non possono essere contenute completamente in memoria centrale
+  \smallskip
+  \item \textbf{persistenti}: hanno un tempo di vita che non è limitato all'esecuizone dei programmi che le usano
+\end{itemize}
 
+\vario{Caratteristiche della memoria secondaria}{
+  Le caratteristiche principali della memoria secondaria sono:
+  \begin{itemize}[label=$\circ$]
+    \item non utilizzabile direttamente dai programmi
+    \smallskip
+    \item dati organizzati in \textbf{blocchi} (grandezza dipende dal sistema operativo)
+    \smallskip
+    \item operazioni possibili:
+    \begin{itemize}[label=$\diamond$]
+      \item lettura intero blocco
+      \item scrittura intero blocco
+    \end{itemize}
+    \smallskip
+    \item costo delle operazioni di accesso alla memoria secondaria è maggiore al costo per accedere ai dati in memoria centrale
+  \end{itemize}
+}
+
+\section{Gestore del buffer}
+L'interazione tra memoria secondaria e memoria centrale avviene tramite il \textcolor{azzurrino}{\textbf{gestore del buffer}} tramite il trasferimento di uno o più \textbf{blocchi} della memoria secondaria in \textbf{pagine} dedicate della memoria centrale (buffer).
+
+\vario{Precisazione}{
+  La dimensione delle pagine in memoria centrale sono siltamente un multiplo della dimensione dei blocchi in memoria secondaria.
+
+  \smallskip
+  Per semplificare, si assume che siano uguali:
+  \begin{equation*}
+    \text{1 pagina} \approx \text{1 blocco}
+  \end{equation*}
+}
+
+\subsection{Buffer}
+Il \textcolor{azzurrino}{\textbf{buffer}} è una zona della memoria condivisa dalle applicazioni e una gestiona ottimale del buffer consente di ottenere buone prestazioni nell'accesso ai dati.\\[0.2ex]
+Quando uno stesso dato viene utilizzato più volte in tempi ravvicinati il buffer evita
+l’accesso alla memoria secondaria.
+
+\vario{Compito del gestore del buffer}{
+  Il gestore del buffer si occupa del caricare e salvare i dati dalla memoria secondaria alla memoria centrale.
+}
+
+\subsection{Politica di gestione della memoria}
+L'obiettivo del gestore del buffer è di \hl{ottimizzare gli accessi} attraverso le politiche di gestione della memoria:
+\begin{itemize}[label=$\diamond$]
+  \item \textbf{lettura di un blocco}:
+  \begin{itemize}[label=$\triangleright$]
+    \item blocco presente in una pagina del buffer
+    \begin{itemize}[label=$\Rightarrow$]
+      \item non viene eseguita la lettura in memoria secondaria
+      \smallskip
+      \item viene restituito un puntatore alla pagine del buffer
+    \end{itemize}
+    \medskip
+    \item blocco non presente in una pagina del buffer
+    \begin{itemize}[label=$\Rightarrow$]
+      \item viene cercata una pagina libera
+      \smallskip
+      \item viene caricato il blocco nella pagina
+      \smallskip
+      \item viene restituito il puntatore alla pagina del buffer
+    \end{itemize}
+  \end{itemize}
+  \bigskip
+  \item \textbf{scrittura di un blocco}: se viene effettuata una richiesta si dcrittura di un blocco giù caricato in una pagina del buffer, il gestore del buffer può decidere di \hl{differire la scrittura} su memoria secondaria in un secondo momento
+\end{itemize}
+
+\medskip
+Per poter aumentare la velocità di accesso ai dati, le politiche di lettura e scrittura si basano sul \textbf{principio di località}.
+
+\definizione{principio di località}{
+  Il \textbf{principio di località} si basa sul fatto che i dati refernziati di recente hanno maggiore probabilità di essere referenziati nuovamente in futuro.
+}
+
+\subsection{Gestione delle pagine}
+Il contenuto del buffer lo possiamo immaginare come una matrice.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/gestione-pagine.png}
+\end{figure}
+
+Per ogni pagina del buffer si memorizza:
+\begin{itemize}[label=$\triangleright$]
+  \item blocco B (L se libero) indicando il file e il numero di blocco (offset)
+  \smallskip
+  \item variabili di stato ($B_{i,j}$):
+  \begin{itemize}[label=$\circ$]
+    \item contatore i: indica il numero di transazioni
+    \item bit di stato j: indica se la pagina è stata modificata (1) o no (0)
+  \end{itemize}
+\end{itemize}
+
+\subsection{Primitive per la gestione del buffer}
+
+\subsubsection{Primitiva \protect\texttt{fix}}
+La \textcolor{azzurrino}{primitiva \texttt{fix}} viene utilizzata dalle transazioni per richiedere l'accesso ad un blocco e restituisce un puntatore alla pagina contente il blocco richiesto.
+
+Le azioni della primitiva sono:
+\begin{itemize}[label=$\triangleright$]
+  \item \textbf{ricerca del blocco}:
+  \begin{itemize}[label=$\diamond$]
+    \item blocco viene trovato
+    \begin{itemize}[label=$\Rightarrow$]
+      \item viene restituito un puntatore alla pagina contentente il blocco
+    \end{itemize}
+    \medskip
+    \item blocco non viene trovato:
+    \begin{itemize}[label=$\circ$]
+      \item viene scelta una pagina libera
+      \begin{itemize}[label=$\Rightarrow$]
+        \item viene salvata in memoria secondaria (primitiva $\verb|flush|$)
+        \item viene caricato il blocco in P aggiornando file e numero di blocco
+      \end{itemize}
+      \smallskip
+      \item non ci sono pagine libere
+      \begin{itemize}[label=$\Rightarrow$]
+        \item viene rubata una pagina a un'altra transazione (primitiva $\verb|flush|$)
+        \item viene sospesa la transazione inserendola in una cosa di attesa
+        \item se si libera una pagina il gestore si comporterà come al punto precedente
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\medskip
+\begin{itemize}[label=$\Rightarrow$]
+  \item \textbf{effetto della modifica}: quando una transizione accede a una pagina per la prima volta il contatore si incrementa
+\end{itemize}
+
+\subsubsection{Primitiva \protect\texttt{unfix}}
+La \textcolor{azzurrino}{primitiva \texttt{unfix}} viene usata dalle transazioni per indicare che la transazione ha terminato di usare il blocco.
+
+\begin{itemize}[label=$\Rightarrow$]
+  \item \textbf{effetto della modifica}: decremento del contatore i
+\end{itemize}
+
+\subsubsection{Primitiva \protect\texttt{setDirty}}
+La \textcolor{azzurrino}{primitiva \texttt{setDirty}} viene utilizzata dalle transazioni per indicare al gestore del buffer che il blocco della pagina è stato modificato.
+
+\begin{itemize}[label=$\Rightarrow$]
+  \item \textbf{effetto della modifica}: bit di stato J passa da 0 a 1
+\end{itemize}
+
+\subsubsection{Primitiva \protect\texttt{force}}
+La \textcolor{azzurrino}{primitiva \texttt{force}} viene utilizzata per salvare in memoria secondaria in \hl{modo sincrono} il blocco contenuto nella pagina.\\[0.2ex]
+Questa primitiva viene usata dal gestore dell'affidabilità.
+
+\begin{itemize}[label=$\Rightarrow$]
+  \item \textbf{effetto della modifica}: viene salvato in memoria secondaria il blocco e il bit di stato J posto a 0
+\end{itemize}
+
+\subsubsection{Primitiva \protect\texttt{flush}}
+La \textcolor{azzurrino}{primitiva \texttt{flush}} viene utilizzata per salvare i blocchi in memoria secondaria in \hl{modo asincrono}.\\[0.2ex]
+Questa primitiva viene usata dal gestore del buffer.
+
+\begin{itemize}[label=$\Rightarrow$]
+  \item \textbf{effetto della modifica}: viene liberta la pagina "dirty" e il bit di stato J viene posto a 0
+\end{itemize}
+
+\section{Gestore dell'affidabilità}
+Il gestore del buffer differisce le operazioni di scrittura e questo potrebbe raprresentare un pericolo.\\[0.2ex]
+Il \textcolor{azzurrino}{\textbf{gestore dell'affibilità}} si occupa di garantire:
+\begin{itemize}[label=$\triangleright$]
+  \item \textbf{atomicità}: transazioni non devono essere incomplete
+  \smallskip
+  \item \textbf{persistenza}: effetti di ciascuna transazione non conclusa con un commit devono essere mantenuti in modo permanente
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/gestore-affidabilità.png}
+\end{figure}
+
+\subsection{File di LOG}
+Il funzionamento del gestore dell'affidabilità si basa sull'utilizzo del \textbf{file di LOG}.
+
+\definizione{file di LOG}{
+  Il \textbf{file di LOG} è un archivio persistente su cui vengono registrate tutte le operazioni eseguite dal DBMS.
+}
+
+Per il corretto funzionamento, il gestore dell’affidabilità deve disporre di un dispositivo di una \textbf{memoria stabile} (resistente ai guasti).
+
+Il file di LOG viene memorizzato in memoria stabile e al suo interno vengono memorizzati:
+\begin{itemize}[label=$\triangleright$]
+  \item \textbf{record di transizione}: record che descrivono informazioni sulle transazioni
+  \begin{itemize}[label=$\diamond$]
+    \item $B(T)$: begin della transazione
+    \item $C(T)$: commit della transazione
+    \item $A(T)$: abort della transazione
+  \end{itemize}
+  \medskip
+  \item \textbf{record di sistema}:
+\end{itemize}
 
 
 
