@@ -1995,6 +1995,30 @@ WHERE Eta < 30
 \end{minipage}
 
 
+\subsubsection{Concatenazione stringhe}
+L'operatore di concatenazione || è un operatore scalare (o operatore di riga).
+
+Lavora su una singola riga alla volta. Se la tua tabella ha 100 righe, il costrutto titolo || ' - ' || citta calcolerà e restituirà 100 risultati testuali separati, uno per ogni riga.
+
+\vario{nota}{Non è un'esclusiva della SELECT}
+può infatti essere utilizzato anche 
+
+\textbf{\large Nella clausola WHERE (per filtrare i dati)}
+\begin{lstlisting}
+  -- Trova la riga in cui l'unione di nome e cognome da esattamente 'Mario Rossi'
+WHERE nome || ' ' || cognome = 'Mario Rossi'
+\end{lstlisting}
+
+\textbf{\large Nella clausola ORDER BY (per ordinare i risultati)}
+\begin{lstlisting}
+  -- Ordina i risultati basandosi sull'unione testuale dei due campi
+ORDER BY titolo || citta
+\end{lstlisting}
+\begin{lstlisting}
+  
+\end{lstlisting}
+
+
 \subsection{Clausola FROM}
 \begin{lstlisting}
   FROM from_item [, ...]
