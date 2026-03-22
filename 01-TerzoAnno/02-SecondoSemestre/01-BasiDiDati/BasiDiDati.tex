@@ -80,6 +80,7 @@
 \usepackage{soul} % evidenziazione
 \usepackage{parskip} % spaziatura tra paragrafi
 \usepackage{tikz}
+\usepackage{cancel}
 
 % --- Tcolorbox e Listings ---
 \usepackage[most]{tcolorbox}
@@ -1721,13 +1722,225 @@ Il file di LOG viene memorizzato in memoria stabile e al suo interno vengono mem
 \begin{itemize}[label=$\triangleright$]
   \item \textbf{record di transizione}: record che descrivono informazioni sulle transazioni
   \begin{itemize}[label=$\diamond$]
-    \item $B(T)$: begin della transazione
-    \item $C(T)$: commit della transazione
-    \item $A(T)$: abort della transazione
+    \item $\boldsymbol{\mathrm{B(T)}}$: \textcolor{azzurrino}{\textbf{begin}} della transazione
+    \smallskip
+    \item $\boldsymbol{\textbf{C(T)}}$: \textcolor{azzurrino}{\textbf{commit}} della transazione
+    \smallskip
+    \item $\boldsymbol{\textbf{A(T)}}$: \textcolor{azzurrino}{\textbf{abort}} della transazione
+    \smallskip
+    \item $\boldsymbol{\textbf{I(T,O,AS)}}$: \textcolor{azzurrino}{\textbf{insert}} di un oggetto da parte di una transazione $\mathrm{T}$ con il suo after state $\mathrm{AS}$ (stato dell'oggetto dopo l'operazione)
+    \smallskip
+    \item $\boldsymbol{\mathrm{D(T,O,BS)}}$: \textcolor{azzurrino}{\textbf{delete}} di un oggetto $\mathrm{O}$ da parte della transizione $\mathrm{T}$ con il suo before state $\mathrm{BS}$ (stato dell'oggetto prima dell'operazione)
+    \smallskip
+    \item $\boldsymbol{\mathrm{U(T,O,BS,AS)}}$: \textcolor{azzurrino}{\textbf{update}} di un oggetto $\mathrm{O}$ da parte della transizione $\mathrm{T}$ con il suo before state $\mathrm{BS}$ e il suo after state $\mathrm{AS}$
   \end{itemize}
   \medskip
-  \item \textbf{record di sistema}:
+  \item \textbf{record di sistema}: record che descrivono informazioni sulle operazioni esaguite dal DBMS
+  \begin{itemize}[label=$\circ$]
+    \item $\boldsymbol{\mathrm{DUMP}}$: copia completa e consistente della base di dati.
+    \smallskip
+    \item $\boldsymbol{\mathrm{CK}(T_1, \dots, T_n)}$: indica che all'esecuzione del checkpoint, le transazioni attive erano $T_1, \dots, T_n$
+    \begin{itemize}
+      \item elenco delle transazioni che non hanno ancora espresso la loro scelta relativamente all'esito finale
+      \smallskip
+      \item operazione svolta periodicamente affinché i dati delle transazioni che hanno eseguito il \texttt{commit} siano registrati in modo permanente
+      \smallskip
+      \item il protocollo di checkpoint prevede i seguenti passi:
+      \begin{enumerate}
+        \item sospensione delle operazioni di scrittura, \texttt{commit} e \texttt{abort} delle transazioni
+        \smallskip
+        \item esecuzione della primitiva \texttt{force} sulle pagine ``dirty'' di transazioni che hanno eseguito il \texttt{commit}
+        \smallskip
+        \item scrittura sincrona (primitiva \texttt{force}) sul file di LOG del record di checkpoint con gli identificatori delle transazioni attive
+        \smallskip
+        \item ripresa delle operazioni di scrittura, \texttt{commit} e \texttt{abort} delle transazioni
+      \end{enumerate}
+    \end{itemize}
+  \end{itemize}
 \end{itemize}
+
+I record di transazione salvati nel LOG consentono di eseguire in caso di ripristino le seguenti operazioni:
+\begin{itemize}[label=$\triangleright$]
+  \item $\boldsymbol{\mathrm{UNDO}}$: viene usato per disfare un'azione su un oggetto $\mathrm{O}$ è sufficiente ricopiare in $\mathrm{O}$ il valore d $\mathrm{BS}$.
+  
+  L'insert/delet viene disfatto cancellando/inserendo $\mathrm{O}$
+  \smallskip
+  \item $\boldsymbol{\mathrm{REDO}}$: serve per rifare un'azione su un oggetto $\mathrm{O}$ è sufficiente ricopiare in $\mathrm{O}$ il valore $\mathrm{AS}$.
+  
+  L'insert/delete viene rifatto inserendo/cancellando $\mathrm{O}$
+\end{itemize}
+
+\medskip
+Gli inserimenti controllano sempre l’esistenza di $\mathrm{O}$ prima di eseguire l'operazione.\\[0.2ex]
+Per queste operazioni vale la \textbf{proprietà di idempotenza}.
+
+\definizione{proprietà di idempotenza}{
+  \[
+    \begin{aligned}
+      \mathrm{UNDO(UNDO(A))} &= \mathrm{UNDO(A)}\\
+      \mathrm{REDO(REDO(A))} &= \mathrm{REDO(A)}
+    \end{aligned}
+  \]
+}
+
+\subsection{Regole di scrittura sul file di log}
+Il gestore dell'affibilità deve rispettare le seguenti regole di scrittura sul file di LOG:
+\begin{itemize}[label=$\Rightarrow$]
+  \item \textbf{regola Write Ahead Logging}:record di LOG devono essere scritti sul LOG precedente all'esecuzione delle corrispondenti operazioni sulla base di dati (garantisce la possibilità di fare sempre UNDO)
+  \smallskip
+  \item \textbf{regola di commit-precedenza}: record di LOG devono essere scritti sul LOG prima dell'esecuzione del $\texttt{commit}$ della transazione (garantisce la possibilità di fare sempre REDO)
+\end{itemize}
+
+ Queste regole consentono di salvare i blocchi delle pagine “dirty” in modo totalmente asincrono rispetto al commit delle transazioni.
+
+\subsection{Guasti}
+Una transazione T sceglie in modo atomico l’esito di $\verb|commit|$ nel momento in cui
+scrive nel file di log in modo sincrono (primitiva $\verb|force|$) il suo record di $\verb|commit| \ \mathrm{C(T)}$. 
+
+\begin{itemize}[label=$\Rightarrow$]
+  \item se avviene un guasto prima della scrittura del record di $\verb|commit|$ $\rightarrow$ $\boldsymbol{\mathrm{UNDO}}$
+  \smallskip
+  \item se avviene un guasto dopo la scrittura del record di $\verb|commit|$ $\rightarrow$ $\boldsymbol{\mathrm{REDO}}$
+\end{itemize}
+
+Esistono due tipologie di guasto:
+\begin{itemize}[label=$\triangleright$]
+  \item \textbf{guasto di sistema}: perdita del conte della memoria centrale.
+  
+  Viene risolto con la tecnica della \hl{ripresa a caldo}:
+  \begin{enumerate}
+    \item accede al file di LOG e si ripercorre all’indietro il LOG fino al più recente record di checkpoint
+    \smallskip
+    \item si inizializza:
+    \begin{itemize}[label=$\diamond$]
+      \item insieme $\mathrm{UNDO}$ con tutte le transazioni da disfare (presenti nel checkpoint)
+      \smallskip
+      \item insieme $\mathrm{REDO}$ con tutte le transazioni da rifare ($\emptyset$)
+    \end{itemize}
+    \smallskip
+    \item si ripercorre in avanti il LOG
+    \begin{itemize}[label=$\circ$]
+      \item per ogni record $\mathrm{B(T)}$ incontrato si aggiunge T all’insieme $\mathrm{UNDO}$
+      \smallskip
+      \item per ogni record $\mathrm{C(T)}$ incontrato si sposta T dall’insieme $\mathrm{UNDO}$ all’insieme $\mathrm{REDO}$
+    \end{itemize}
+    \smallskip
+    \item si ripercorre all’indietro il LOG disfacendo le operazioni eseguite dalle transazioni $\mathrm{UNDO}$ risalendo fino alla prima azione della transazione più vecchia
+    \item si ripercorre in avanti il LOG per rifare le operazioni eseguite dalle transazioni $\mathrm{REDO}$
+  \end{enumerate}
+  \medskip
+  \item \textbf{guasto di dispositivo}: perdita di parte o tutto il contenuto della base di dati in memoria secondaria.
+  
+  Viene risolto con la tecninca della \hl{ripresa a freddo}:
+  \begin{enumerate}
+    \item si accede al $\mathrm{DUMP}$ della base di dati e si ricopia selettivamente la parte deteriorata della base di dati
+    \smallskip
+    \item si accede al LOG risalendo al record di $\mathrm{DUMP}$
+    \smallskip
+    \item si ripercorre in avanti il LOG rieseguendo tutte le operazioni relative alla perte deteriorata comprese le azioni di $\verb|commit|$ e $\verb|abort|$
+    \smallskip
+    \item si applica una ripresa a caldo
+  \end{enumerate}
+\end{itemize}
+
+\esempio{file di LOG}{
+  Consideriamo il seguente file di LOG:
+  \[
+    \begin{aligned}
+      & \mathrm{B(T_1), B(T_2), U(T_2, O_1, B_1, A_1), I(T_1, O_2, A_2), B(T_3), C(T_1), B(T_4),} \\
+      & \mathrm{U(T_3, O_2, B_3, A_3), U(T_4, O_3, B_4, A_4), CK(T_2, T_3, T_4), C(T_4), B(T_5),} \\
+      & \mathrm{U(T_3, O_3, B_5, A_5), U(T_5, O_4, B_6, A_6), D(T_3, O_5, B_7), A(T_3), C(T_5),} \\
+      & \mathrm{I(T_2, O_6, A_8)} \text{ \textbf{guasto}}
+    \end{aligned}
+  \] 
+
+  \textcolor{red}{\textbf{Che passi svolge la ripresa a caldo?}}
+  \begin{enumerate}
+    \item risale il LOG fino all'ultimo record di checkpoint $\mathrm{CK(T_2,T_3,T_4)}$
+    \smallskip
+    \item inizializza $\mathrm{UNDO}$ e $\mathrm{REDO}$
+    \begin{itemize}[label=$\triangleright$]
+      \item $\mathrm{UNDO = \{T_2, T_3, T_4\}}$ (inizializzato con le transazioni del checkpoint)
+      \smallskip
+      \item $\mathrm{REDO = \emptyset}$ 
+    \end{itemize}
+    \smallskip
+    \item ripercorre in avanti il LOG dal CheckPoint fino al guasto e si aggiungono o si spostano le transazioni tra $\mathrm{UNDO}$ e $\mathrm{REDO}$
+    \begin{itemize}[label=$\triangleright$]
+      \item $\mathrm{UNDO = \{T_2, T_3, \cancel{T_4}, \cancel{T_5}\}}$ (inizializzato con le transazioni del checkpoint)
+      \smallskip
+      \item $\mathrm{REDO = \{T_4, T_5\}}$ 
+    \end{itemize}
+    \smallskip
+    \item ripercorre all’indietro il LOG disfacendo le operazioni eseguite dalle transazioni $\mathrm{UNDO}$ risalendo fino alla prima azione della transazione più vecchia
+    \[
+      \begin{aligned}
+        &\mathrm{DELETE(O_6) \quad (\text{disfare} \ \texttt{insert})}\\
+        &\mathrm{O_5 := B_7  \quad (\text{disfare} \ \texttt{delete})}\\
+        &\mathrm{O_3 := B_5 \quad (\text{disfare} \ \texttt{update})}\\
+        &O_2 := B_3 \ \quad (\text{disfare} \ \texttt{update})\\
+        &\mathrm{O_1 := B_1 \quad (\text{disfare} \ \texttt{update})}\\
+      \end{aligned}
+    \]
+    \smallskip
+    \item  ripercorre in avanti il LOG per rifare le operazioni eseguite dalle transazioni $\mathrm{REDO}$
+    \[
+      \begin{aligned}
+        &\mathrm{O_3 := A_4  \quad (\text{rifare} \ \texttt{update})}\\
+        &\mathrm{O_4 := A_6 \quad (\text{rifare} \ \texttt{update})}\\
+      \end{aligned}
+    \]
+  \end{enumerate}
+}
+
+\esempio{file di LOG}{
+  Consideriamo il seguente file di LOG:
+  \[
+    \begin{aligned}
+      &\mathrm{B(T_1), B(T_2), B(T_3), I(T_1, O_1, A_1), D(T_2, O_2, B_2), B(T_4),} \\
+      &\mathrm{U(T_4, O_3, B_3, A_3), U(T_1, O_4, B_4, A_4), C(T_2), CK(T_1, T_3, T_4), B(T_5), B(T_6),} \\
+      &\mathrm{U(T_5, O_5, B_5, A_5), A(T_3), CK(T_1, T_4, T_5, T_6), B(T_7), C(T_4),} \\
+      &\mathrm{U(T_7, O_6, B_6, A_6), U(T_6, O_3, B_7, A_7), B(T_8), A(T_7)} \text{ \textbf{guasto}}
+    \end{aligned}
+  \]
+
+  \textcolor{red}{\textbf{Che passi svolge la ripresa a caldo?}}
+  \begin{enumerate}
+    \item risale il LOG fino all'ultimo record di checkpoint $\mathrm{CK(T_1,T_4,T_5,T_6)}$
+    \smallskip
+    \item inizializza $\mathrm{UNDO}$ e $\mathrm{REDO}$
+    \begin{itemize}[label=$\triangleright$]
+      \item $\mathrm{UNDO = \{T_1, T_4, T_5, T_6\}}$ (inizializzato con le transazioni del checkpoint)
+      \smallskip
+      \item $\mathrm{REDO = \emptyset}$ 
+    \end{itemize}
+    \smallskip
+    \item ripercorre in avanti il LOG dal CheckPoint fino al guasto e si aggiungono o si spostano le transazioni tra $\mathrm{UNDO}$ e $\mathrm{REDO}$
+    \begin{itemize}[label=$\triangleright$]
+      \item $\mathrm{UNDO = \{T_1, \cancel{T_4}, T_5, t_6, t_7, t_8\}}$ (inizializzato con le transazioni del checkpoint)
+      \smallskip
+      \item $\mathrm{REDO = \{T_4\}}$ 
+    \end{itemize}
+    \smallskip
+    \item ripercorre all’indietro il LOG disfacendo le operazioni eseguite dalle transazioni $\mathrm{UNDO}$ risalendo fino alla prima azione della transazione più vecchia
+    \[
+      \begin{aligned}
+        &\mathrm{O_3 := B_7  \quad (\text{disfare} \ \texttt{update})}\\
+        &\mathrm{O_6 := B_6 \quad (\text{disfare} \ \texttt{update})}\\
+        &\mathrm{O_5 := B_5 \quad (\text{disfare} \ \texttt{update})}\\
+        &\mathrm{O_4 := B_4  \quad (\text{disfare} \ \texttt{update})}\\
+        &\mathrm{DELETE(O_1) \quad (\text{disfare} \ \texttt{insert})}\\
+      \end{aligned}
+    \]
+    \smallskip
+    \item  ripercorre in avanti il LOG per rifare le operazioni eseguite dalle transazioni $\mathrm{REDO}$
+    \[
+      \begin{aligned}
+        &\mathrm{O_3 := A_3  \quad (\text{rifare} \ \texttt{update})}\\
+      \end{aligned}
+    \]
+  \end{enumerate}
+}
 
 
 
