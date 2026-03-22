@@ -6,15 +6,45 @@
 \usepackage[italian]{babel}
 \renewcommand{\familydefault}{\sfdefault} % Sans-serif moderno
 
+\usepackage{graphicx}      % Per inserire le immagini
+\usepackage{subcaption}   % Per le sotto-figure (subfigures)
+\usepackage{caption}       % Per le didascalie in generale
+
 % --- MARGINI E GEOMETRIA ---
 \usepackage[a4paper, margin=2.5cm]{geometry}
 
 % --- COLORI E LINK ---
-\usepackage{xcolor}
-\definecolor{viola}{HTML}{8A2BE2}
+\usepackage[dvipsnames]{xcolor}\definecolor{viola}{HTML}{8A2BE2}
 \definecolor{grigiochiaro}{HTML}{F5F5F5}
 \definecolor{grigioscuro}{HTML}{424242}
 %altra opzione: 1A237E
+
+\usepackage{listings}
+\definecolor{keywordcolor}{rgb}{0.1, 0.1, 0.8} % Un blu scuro per le parole chiave
+\definecolor{backcolor}{rgb}{0.95, 0.95, 0.92} % Un grigio/crema chiarissimo per lo sfondo
+% Configurazione base per rendere R leggibile
+\lstset{
+  language=R,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  % SOLUZIONE ALTERNATIVA:
+  % Definiamo il commento usando l'istruzione 'morecomment' 
+  % ma passandola in modo che non venga interpretata come parametro
+  morecomment=[l]{\#}, 
+  commentstyle=\color{green!50!black},
+  % --------------------------------------------------------------
+  morekeywords={c, length, print, summary, mean, sd, var, min, max, sum, 
+                seq, rep, paste, paste0, rbind, cbind, matrix, data.frame, 
+                list, str, class, typeof, apply, lapply, sapply, tapply, 
+                plot, hist, boxplot, read.csv, write.csv, head, tail, 
+                subset, merge, table, ifelse, require, install.packages, library},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  breaklines=true,
+  frame=single,
+  showstringspaces=false
+}
 
 \usepackage[
     colorlinks=true,
@@ -978,4 +1008,409 @@
 
       \section{Probabilità classica}
       \section{Probabilità condizionata}
+
+
+
+
+      \chapter{Laboratorio}
+
+      \section{Introduzione ad R}
+
+         R è stato avviato dai professori Ross Ihakae Robert Gentleman come linguaggio di programmazione 
+per insegnare statistica introduttiva all’Universitàdi Auckland nel 1993.
+\begin{itemize}
+  \item Il linguaggio ha preso forte ispirazione dal linguaggio di programmazione S.
+  \item Il Comprehensive R Archive Network(CRAN) è stato fondato nel 1997 da KurtHornik e FritzLeischper ospitare il codice sorgente di R, i file eseguibili, la documentazione e i pacchetti creati dagli utenti.
+  \item In origine, CRAN aveva tre mirror e 12 pacchetti contribuiti. A dicembre 2022 conta 103 mirror e 18.976 pacchetti contribuiti
+\end{itemize}
+
+\subsection{Pacchetti importanti}
+\begin{description}
+  \item[\textbf{ggplot2:}] per la visualizzazione dei dati 
+  \item[\textbf{dplyr:}] per la manipolazionedei dati, inclusi filtraggio, raggruppamento e sintesi dei dati
+\item[\textbf{tidyr:}] per pulire e ristrutturare i dati
+\item[\textbf{caret:}] per il machine learning
+\item[\textbf{lubridate:}] per lavorarecon date e orari
+\item[\textbf{stringr:}] per lavorarecon le stringhe, incluse funzioni per il pattern matching, la manipolazionedelle stringhe e le espressioni regolari
+\item[\textbf{reshape2:}] per trasformarei dati tra formati “wide” e “long”
+\item[\textbf{data.table:}]per la manipolazione e aggregazione dei dati, particolarmente utile per lavorare
+condataset di grandi dimensioni
+
+\end{description}
+
+\textbf{\textcolor{black!50!red}{Per installare e utilizzare un pacchetto}}
+\begin{lstlisting}
+  install.packages("package_name") # install the package 
+  library("package_name") # load the package
+\end{lstlisting}
+
+
+\section{Primi comandi}
+Puoi eseguire comandi nella console di R, ad esempio per calcolare 
+un’espressione matematica:
+
+\begin{lstlisting}
+  > 1+1
+  [1] 2
+\end{lstlisting}
+Oppure scrivi la stessa espressione in un file script .R e poi premi <Ctrl> + Enter per inviare la riga selezionata alla console.\par
+
+Puoi anche dichiarare variabili usando gli operatori <- o =
+\begin{lstlisting}
+  A <- 1+1 
+  > A
+  [1] 2
+\end{lstlisting}
+
+\subsection{Cronologia dei comandi}
+
+In R, puoi vedere i comandi precedenti usando la freccia su nella console. Ogni 
+pressione mostra il comando precedente,che puoi modificare o eseguire.
+In alternativa, usa la funzione history() nella console o il   pannello History per accedere alla cronologia della sessione corrente.
+
+\subsection{Ottenere aiuto (help)}
+Per accedere alla documentazione di una funzione o di un pacchetto, digita nella console:
+?nome\_funzione o ?nome\_pacchetto e premi Enter
+
+\begin{lstlisting}
+> #Get help for the mean() funcion
+> ?mean
+\end{lstlisting}
+
+\vario{Nota}{Usando la sintassi ??"search term" ottieni una lista di tutte le pagine di aiuto che contengono il termine}
+
+In alternativa è possibile usare: help(function\_name) or help (package\_name)
+\begin{lstlisting}
+ # This time get help using help() function
+ > help(mean)
+\end{lstlisting}
+In uno script.R premendo <Ctrl> + F1 con il nome di una funzione selezionato si apre la relativa documentazione.
+
+Il pannello Help mostra tutte le informazioni disponibili. Se non basta, esistono molte risorse online
+
+\section{Variabili semplici}
+Quando
+vuoi memorizzare il risultato di un calcolo per riutilizzarlo o dargli un nome sensato per
+rendere il codice più leggibile, definisci una variabile
+
+\subsection{Assegnazione, Sovrascrittura, Rimozione}
+
+\textbf{\large Assegnazione}
+\begin{lstlisting}
+  > students <- 100
+\end{lstlisting}
+Creata variabile students di tipo numerico. Il valore 100 viene memorizzato
+
+\textbf{\large Sovrascrittura}
+\begin{lstlisting}
+  > students <- 102
+\end{lstlisting}
+Si può controllare il contenuto digitando il nome della variabile nella console o guardando il pannello environment
+
+\textbf{\large Rimozione variabili}
+\begin{lstlisting}
+  > remove(students)  #Removes a single variabile
+  > remove (list = ls())  # Removes all the variables listed by the ls() function
+\end{lstlisting}
+
+\section{Vettori}
+Un vettore in R è una lista di elementi
+
+\begin{lstlisting}
+  > v1 <- c(2, 5, 1)
+\end{lstlisting}
+Creazione di un vettore numerico contenente 3 elementi
+
+\textbf{\large Accedere agli elementi di un vettore}
+\begin{lstlisting}
+  > v1[1]   #La parentesi quadra indica l'indice di interesse
+  [1] 2
+\end{lstlisting}
+L'indicizzazione parte da 1
+
+\textbf{\large Creazione vettore come unione di più vettori}
+\begin{lstlisting}
+  > r <- c(2, 4, 10)
+  > w <- c(9, -6, 4)
+  > u <- c(r, w)
+  [1] 2 4 10 9 -6 4
+\end{lstlisting}
+
+\textbf{\large Operatore due punti}
+\begin{lstlisting}
+  > x1 <- 1:10
+  > x1
+  [1] 1 2 3 4 5 6 7 8 9 10
+\end{lstlisting}
+L'operatore due punti genera un vettore di elementi regolarmente distribuiti
+
+
+Per creare sequenze più specifiche si usa la funzione \textbf{seq()}
+
+\begin{lstlisting}
+  > x2 <- seq(from = 0, to 0.5, by = 0.1)
+  > x2
+  [1] 0.0 0.1 0.2 0.3 0.4 0.5
+\end{lstlisting}
+
+\textbf{Funzioni correlate}
+\begin{itemize}
+  \item seq\_along(): crea un vettore con tanti elementi quanti quelli del vettore passato tra parentesi
+  \item seq\_len(): crea un vettore con tanti elementi quanti indicati da un argomento intero
+\end{itemize}
+
+
+\subsection{Ripetizioni di vettori}
+\begin{lstlisting}
+  > r1 <- rep(c(1,2,3), times = 3)
+  > r1
+  [1] 1 2 3 1 2 3 1 2 3
+\end{lstlisting}
+Esempio: il vettore 1, 2, 3 ripetuto 3 volte
+
+Per ripetere \textbf{ogni elemento} un numero specifico di volte, usa gli argomenti di rep()
+
+\begin{lstlisting}
+  > r2 <- rep(c(1,2,3), each = 3)
+  > r3 <- rep(c(1,2,3), times = c(1,2,3))
+  > r2
+  [1] 1 1 1 2 2 2 3 3 3
+  > r3
+  [1] 1 2 2 3 3 3
+
+\end{lstlisting}
+
+\subsection{Funzioni utili per i vettori}
+\begin{description}
+  \item[length():] Restituisco la lunghezza del vettore
+  \item[max(), min():] Calcola il valore massimo e minimo
+  \item[sum():] Somma tutti gli elementi
+  \item[mean():] Calcola la media
+  \item[cumsum():] Calcola la somma cumulativa di ogni elemento 
+\end{description}
+
+\section{Matrici}
+Come creare una matrice:
+\begin{itemize}
+  \item concatenando vettori come colonne (funzione cbind)
+  \item concatenando vettori come righe (funzione rbind)
+  \item usando la funzione matrix(), specificando numero di righe e colonne
+\end{itemize}
+
+\begin{lstlisting}
+  > mat1 <- cbind(c(1,2,3), c(4,5,6))
+  > mat2 <- rbind(c(1,2,3), c(4,5,6))
+  > mat3 <- matrix(data = c(1,2,3,4,5,6), nrow = 3, ncol = 2)
+\end{lstlisting}
+
+
+\begin{figure}[H]
+    \centering % Centra l'intera figura principale sulla pagina
+    % --- PRIMA FOTO ---
+    \begin{subfigure}[b]{0.3\textwidth} 
+        \centering
+        \includegraphics[width=\textwidth]{images/mat1.png} 
+    \end{subfigure}
+    \hfill
+    % --- SECONDA FOTO ---
+    \begin{subfigure}[b]{0.3\textwidth} 
+        \centering
+        \includegraphics[width=\textwidth]{images/mat2.png}
+    \end{subfigure}
+    \hfill
+    % --- TERZA FOTO ---
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/mat3.png}
+    \end{subfigure}
+
+\end{figure}
+
+\textbf{\large Accedere agli elementi}\\
+Per accedere agli elementi della matrice servono due indici, uno per le righe e uno per le colonne.
+\begin{lstlisting}
+  > mat1 <- cbind(c(1,2,3), c(4,5,6))
+  >mat2[2,2] #element in second row, second column
+  [1] 5
+\end{lstlisting}
+
+Per ottenere tutti gli elementi di una riga o colonna bisogna lasciare vuoto l'indice opposto
+
+\begin{lstlisting}
+  > mat1[,2] #elementi della seconda colonna
+  [1] 4 5 6
+  > mat2[2,] #elemnti della seconda riga
+  [1] 2 5
+\end{lstlisting}
+
+\textbf{\large Selezionare sottoinsieme di righe e colonne}
+\begin{lstlisting}
+  > mat1 <- cbind(c(1,2,3), c(4,5,6))
+  > mat1[2:3, 1:2]    #seconda e terza riga, entrambe le colonne
+        [,1][,2]
+  [1,]  2     5
+  [2,]  3     6
+\end{lstlisting}
+Lo stesso approccio può essere utilizzato per i vettori. Gli indici degli elementi da rimuovere sono preceduti da un simbolo meno.
+
+\subsection{Matrici speciali}
+Esistono matrici particolari come matrici nulle, identità o diagonali
+
+
+\begin{lstlisting}
+  > mat_zero <- matrix(0, 3, 3)   #Matrice 3x3 di zeri
+  > mat_ones <- matrix(1,3, 3)  #Matrice 3x3 di uno
+  > mat_id <- diag(3)   #Matrice identita 3x3
+\end{lstlisting}
+
+
+\begin{figure}[H]
+    \centering 
+    % --- PRIMA FOTO ---
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/zeros.png} 
+    \end{subfigure}
+    \hfill 
+    % --- SECONDA FOTO ---
+    \begin{subfigure}[b]{0.35\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/ones.png}
+    \end{subfigure}
+    \hfill 
+    % --- TERZA FOTO ---
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/ids.png}
+        
+    \end{subfigure}
+
+\end{figure}
+
+\subsection{Operazioni con vettori e matrici}
+Le operazioni aritmetiche come somma, sottrazione, moltiplicazione e divisione vengono eseguite elemento per elemento
+
+\begin{lstlisting}
+  > A <- matrix(data = 1:9, nrow = 3)
+  > B <- A +1
+\end{lstlisting}
+
+
+
+
+\begin{figure}[h] % Ambiente figura principale. [htbp] suggerisce la posizione.
+    \centering % Centra l'intera figura principale sulla pagina
+    % --- PRIMA FOTO ---
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.85\textwidth]{images/A.png} 
+      
+    \end{subfigure}
+    \hfill 
+    % --- SECONDA FOTO ---
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.85\textwidth]{images/B.png}
+    \end{subfigure}
+
+\end{figure}
+
+
+Altre operazioni elemento per elemento sono l'elevamento a potenza e la radice quadrata
+
+\begin{lstlisting}
+  > C <- A^2
+  > D <- sqrt(A)
+\end{lstlisting}
+
+\begin{figure}[H] % Ambiente figura principale. [htbp] suggerisce la posizione.
+    \centering % Centra l'intera figura principale sulla pagina
+    % --- PRIMA FOTO ---
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.85\textwidth]{images/C.png} 
+      
+    \end{subfigure}
+    \hfill 
+    % --- SECONDA FOTO ---
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.85\textwidth]{images/D.png}
+    \end{subfigure}
+
+\end{figure}
+
+
+
+Per ottenere statistiche riepilogative è possibile utilizzare le funzioni \textbf{sum()}, \textbf{mean()}, \textbf{max()}
+\begin{lstlisting}
+  > sum(A)    #45       > min(A)   #1
+  > mean(A)   #5        > max(A)  #9    
+\end{lstlisting}
+
+Le operazioni elemento per elemento possono essere eseguite anche tra matrici (purchè siano conformi tra loro)
+
+\begin{lstlisting}
+  > A <- matrix(data = 1:9, nrow = 3)   #3x3
+  > E <- matrix(data = 1:4, nrow = 2)   #2x2
+  > A + E 
+  Error in A + E : non-conformable arrays
+\end{lstlisting}
+
+Le operazioni tra matrici seguono le regole dell'algebra lineare (cioè la dimnesione e la forma necessarie degli input in relazione tra loro dipendono dall'operazione). L'operatore \%*\% esegue la moltiplicazione tra matrici, mentre la funzione \textbf{t()} calcola la trasposta
+
+
+
+
+\begin{figure}[H]
+    \centering % Centra l'intera figura principale sulla pagina
+    % --- PRIMA FOTO ---
+    \begin{subfigure}[b]{0.3\textwidth} 
+        \centering
+        \begin{lstlisting}
+> v1 <- c(1,2,3)
+> v2 <- c(4,5,6)
+> v1 * v2
+[1] 4 10 18
+#Still element-wise
+        \end{lstlisting} 
+    \end{subfigure}
+    \hfill
+    % --- SECONDA FOTO ---
+    \begin{subfigure}[b]{0.3\textwidth} 
+        \centering
+        \begin{lstlisting}
+> t(v1) %*% v2
+[1] 32
+        \end{lstlisting}
+    \end{subfigure}
+    \hfill
+    % --- TERZA FOTO ---
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+\begin{lstlisting}
+> v1 %*% t(v2)
+      [,1][,2][,3]
+[1,]    4   5   6
+[2,]    8   10  12
+[3,]    12  15  18
+\end{lstlisting}
+    \end{subfigure}
+
+\end{figure}
+
+
+\subsection{Funzioni utili per le matrici}
+
+\begin{description}
+  \item[det():] Restituisce il determinante di una matrice
+  \item[qr():] Calcola la decomposizione QR 
+  \item[solve()] Inversa di una matrice
+  \item[nrow(), ncol():] Restituisce il numero di righe e di colonne
+  \item[rowSums(), colSums():] Restituisce la somma di tutti gli elementi per riga o per colonna
+  \item[rowMeans(), colMeans():] Restituisce la media di ogni riga o di ogni colonna
+  \item[dim():] Restituisce il numeri di righe e colonne
+\end{description}
+
+
 \end{document}
