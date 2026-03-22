@@ -1089,8 +1089,86 @@
 
       \section{Probabilità condizionata}
 
+          
 
+      \Definizione{eventi (in)dipendenti}{
+        Due eventi si dicono \textbf{indipendenti} se il fatto che si verifichi (o meno) il primo \textcolor{red}{\textbf{non}}, altera la probabilità che si verifichi il secondo.
 
+        \noindent\rule{\textwidth}{0.4pt}
+
+        \medskip
+        Due eventi si dicono \textbf{dipendenti} se il fatto che si verifichi (o meno) il primo, altera la probabilità che si verifichi il secondo.
+      }
+
+      \textbf{Qual'è la probabilità che lanciando contemporanemente un dado e una moneta si ottengono un 4 e una testa?}
+        \[
+          \begin{tikzpicture}[
+            level 1/.style={sibling distance=1cm},
+            level 2/.style={sibling distance=0.5cm},
+            grow=right, 
+            sloped
+          ]
+            \node {}
+              child {node {6}
+                child {node {T}}
+                child {node {C}}
+              }
+              child {node {5}
+                child {node {T}}
+                child {node {C}}
+              }
+              child {node {4}
+                child {node {T}}
+                child {node {C}}
+              }
+              child {node {3}
+                child {node {T}}
+                child {node {C}}
+              }
+              child {node {2}
+                child {node {T}}
+                child {node {C}}
+              }
+              child {node {1}
+                child {node {T}}
+                child {node {C}}
+              };
+          \end{tikzpicture}
+        \]
+        
+        I due eventi sono indipendenti:
+        \begin{equation*}
+          \mathrm{P} = \frac{1}{6} \cdot \frac{1}{2} = \frac{1}{12}
+        \end{equation*}
+
+      \vario{Eventi indipendenti}{
+        Se $\mathrm{A}$ e $\mathrm{B}$ sono due eventi indipendenti:
+        \begin{equation*}
+          \boldsymbol{\mathrm{P(A \cap B)} = \mathrm{P(A)} \cdot \mathrm{P(B)}}
+        \end{equation*}
+      }
+
+      \textbf{In una classe ci sono 20 alunni (12 femmine e 8 maschi): se la prof ne sceglie 2 random, qual'è la probabilità che scelga due ragazze?}
+
+      I due eventi sono dipendenti:
+      \begin{equation*}
+        \mathrm{P} = \frac{\binom{12}{2}}{\binom{20}{2}} = \frac{\frac{\cancel{12!}}{\cancel{2!} \cdot \cancel{10!}}}{\frac{\cancel{20!}}{\cancel{2!} \cdot \cancel{18!}}} = \frac{12 \cdot 11}{20 \cdot 19}
+      \end{equation*}
+
+      \begin{itemize}[label=$\Rightarrow$]
+        \item $\frac{12}{20}$: probabilità di scegliere una ragazza
+        \medskip
+        \item $\frac{11}{19}$: probabilità di scegliere una ragazza, sapendo che ne ho già scelta una prima
+      \end{itemize}
+
+      \vario{Eventi dipendenti}{
+        Se $\mathrm{A}$ e $\mathrm{B}$ sono due eventi dipendenti:
+        \begin{equation*}
+          \boldsymbol{\mathrm{P(A \cap B) = P(A) \cdot P(B \mid A)}}
+        \end{equation*}
+      }
+
+      \newpage
 
       \chapter{Laboratorio}
 
@@ -1493,81 +1571,4 @@ Le operazioni tra matrici seguono le regole dell'algebra lineare (cioè la dimne
 \end{description}
 
 
-
-      \Definizione{eventi (in)dipendenti}{
-        Due eventi si dicono \textbf{indipendenti} se il fatto che si verifichi (o meno) il primo \textcolor{red}{\textbf{non}}, altera la probabilità che si verifichi il secondo.
-
-        \noindent\rule{\textwidth}{0.4pt}
-
-        \medskip
-        Due eventi si dicono \textbf{dipendenti} se il fatto che si verifichi (o meno) il primo, altera la probabilità che si verifichi il secondo.
-      }
-
-      \textbf{Qual'è la probabilità che lanciando contemporanemente un dado e una moneta si ottengono un 4 e una testa?}
-        \[
-          \begin{tikzpicture}[
-            level 1/.style={sibling distance=1cm},
-            level 2/.style={sibling distance=0.5cm},
-            grow=right, 
-            sloped
-          ]
-            \node {}
-              child {node {6}
-                child {node {T}}
-                child {node {C}}
-              }
-              child {node {5}
-                child {node {T}}
-                child {node {C}}
-              }
-              child {node {4}
-                child {node {T}}
-                child {node {C}}
-              }
-              child {node {3}
-                child {node {T}}
-                child {node {C}}
-              }
-              child {node {2}
-                child {node {T}}
-                child {node {C}}
-              }
-              child {node {1}
-                child {node {T}}
-                child {node {C}}
-              };
-          \end{tikzpicture}
-        \]
-        
-        I due eventi sono indipendenti:
-        \begin{equation*}
-          \mathrm{P} = \frac{1}{6} \cdot \frac{1}{2} = \frac{1}{12}
-        \end{equation*}
-
-      \vario{Eventi indipendenti}{
-        Se $\mathrm{A}$ e $\mathrm{B}$ sono due eventi indipendenti:
-        \begin{equation*}
-          \boldsymbol{\mathrm{P(A \cap B)} = \mathrm{P(A)} \cdot \mathrm{P(B)}}
-        \end{equation*}
-      }
-
-      \textbf{In una classe ci sono 20 alunni (12 femmine e 8 maschi): se la prof ne sceglie 2 random, qual'è la probabilità che scelga due ragazze?}
-
-      I due eventi sono dipendenti:
-      \begin{equation*}
-        \mathrm{P} = \frac{\binom{12}{2}}{\binom{20}{2}} = \frac{\frac{\cancel{12!}}{\cancel{2!} \cdot \cancel{10!}}}{\frac{\cancel{20!}}{\cancel{2!} \cdot \cancel{18!}}} = \frac{12 \cdot 11}{20 \cdot 19}
-      \end{equation*}
-
-      \begin{itemize}[label=$\Rightarrow$]
-        \item $\frac{12}{20}$: probabilità di scegliere una ragazza
-        \medskip
-        \item $\frac{11}{19}$: probabilità di scegliere una ragazza, sapendo che ne ho già scelta una prima
-      \end{itemize}
-
-      \vario{Eventi dipendenti}{
-        Se $\mathrm{A}$ e $\mathrm{B}$ sono due eventi dipendenti:
-        \begin{equation*}
-          \boldsymbol{\mathrm{P(A \cap B) = P(A) \cdot P(B \mid A)}}
-        \end{equation*}
-      }
 \end{document}
