@@ -19,3 +19,7 @@ Ogni cartella corrisponde a una materia e contiene i relativi file di appunti (i
 - [Basi di Dati](./01-TerzoAnno/01-PrimoSemestre/03-BasiDiDati/BasiDiDati.pdf)
 - [Intelligenza Artificiale](./01-TerzoAnno/01-PrimoSemestre/04-IntelligenzaArtificiale/IntelligenzaArtificiale.pdf)
 - [Logica](./02-MaterieArretrate/Logica/Logica.pdf)
+- [ProbabilitàEStatistica](./02-MaterieArretrate/ProbabilitàEStatistica/ProbabilitàEStatistica.pdf)
+
+
+  
