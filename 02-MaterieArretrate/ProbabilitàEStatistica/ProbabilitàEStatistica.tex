@@ -1184,14 +1184,14 @@ per insegnare statistica introduttiva all’Universitàdi Auckland nel 1993.
 
 \subsection{Pacchetti importanti}
 \begin{description}
-  \item[\textbf{ggplot2:}] per la visualizzazione dei dati 
-  \item[\textbf{dplyr:}] per la manipolazionedei dati, inclusi filtraggio, raggruppamento e sintesi dei dati
-\item[\textbf{tidyr:}] per pulire e ristrutturare i dati
-\item[\textbf{caret:}] per il machine learning
-\item[\textbf{lubridate:}] per lavorarecon date e orari
-\item[\textbf{stringr:}] per lavorarecon le stringhe, incluse funzioni per il pattern matching, la manipolazionedelle stringhe e le espressioni regolari
-\item[\textbf{reshape2:}] per trasformarei dati tra formati “wide” e “long”
-\item[\textbf{data.table:}]per la manipolazione e aggregazione dei dati, particolarmente utile per lavorare
+  \item[\textbf{\underline{ggplot2:}}] per la visualizzazione dei dati 
+  \item[\textbf{\underline{dplyr:}}] per la manipolazionedei dati, inclusi filtraggio, raggruppamento e sintesi dei dati
+\item[\textbf{\underline{tidyr:}}] per pulire e ristrutturare i dati
+\item[\textbf{\underline{caret:}}] per il machine learning
+\item[\textbf{\underline{lubridate:}}] per lavorarecon date e orari
+\item[\textbf{\underline{stringr:}}] per lavorarecon le stringhe, incluse funzioni per il pattern matching, la manipolazionedelle stringhe e le espressioni regolari
+\item[\textbf{\underline{reshape2:}}] per trasformarei dati tra formati “wide” e “long”
+\item[\textbf{\underline{data.table:}}]per la manipolazione e aggregazione dei dati, particolarmente utile per lavorare
 condataset di grandi dimensioni
 
 \end{description}
@@ -1228,14 +1228,14 @@ In alternativa, usa la funzione history() nella console o il   pannello History 
 
 \subsection{Ottenere aiuto (help)}
 Per accedere alla documentazione di una funzione o di un pacchetto, digita nella console:
-?nome\_funzione o ?nome\_pacchetto e premi Enter
+\texttt{?nome\_funzione} o \texttt{?nome\_pacchetto} e premi Enter
 
 \begin{lstlisting}
 > #Get help for the mean() funcion
 > ?mean
 \end{lstlisting}
 
-\vario{Nota}{Usando la sintassi ??"search term" ottieni una lista di tutte le pagine di aiuto che contengono il termine}
+\vario{Nota}{Usando la sintassi \texttt{??"search term"} ottieni una lista di tutte le pagine di aiuto che contengono il termine}
 
 In alternativa è possibile usare: help(function\_name) or help (package\_name)
 \begin{lstlisting}
@@ -1262,18 +1262,21 @@ Creata variabile students di tipo numerico. Il valore 100 viene memorizzato
 \textbf{\large Sovrascrittura}
 \begin{lstlisting}
   > students <- 102
+  > students
+  [1] 102
 \end{lstlisting}
 Si può controllare il contenuto digitando il nome della variabile nella console o guardando il pannello environment
 
 \textbf{\large Rimozione variabili}
 \begin{lstlisting}
-  > remove(students)  #Removes a single variabile
+  > remove(students)      #Removes a single variabile
   > remove (list = ls())  # Removes all the variables listed by the ls() function
 \end{lstlisting}
 
 \section{Vettori}
 Un vettore in R è una lista di elementi
 
+\textbf{\large Creazione}
 \begin{lstlisting}
   > v1 <- c(2, 5, 1)
 \end{lstlisting}
@@ -1348,11 +1351,11 @@ Per ripetere \textbf{ogni elemento} un numero specifico di volte, usa gli argome
 \end{description}
 
 \section{Matrici}
-Come creare una matrice:
+\textbf{\large Come creare una matrice:}
 \begin{itemize}
-  \item concatenando vettori come colonne (funzione cbind)
-  \item concatenando vettori come righe (funzione rbind)
-  \item usando la funzione matrix(), specificando numero di righe e colonne
+  \item concatenando vettori come colonne (funzione \textbf{cbind})
+  \item concatenando vettori come righe (funzione \textbf{rbind})
+  \item usando la funzione \textbf{matrix()}, specificando numero di righe e colonne
 \end{itemize}
 
 \begin{lstlisting}
@@ -1440,7 +1443,6 @@ Esistono matrici particolari come matrici nulle, identità o diagonali
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/ids.png}
-        
     \end{subfigure}
 
 \end{figure}
@@ -1462,19 +1464,20 @@ Le operazioni aritmetiche come somma, sottrazione, moltiplicazione e divisione v
     \begin{subfigure}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=0.85\textwidth]{images/A.png} 
-      
+        \caption{matrice A}
     \end{subfigure}
     \hfill 
     % --- SECONDA FOTO ---
     \begin{subfigure}[b]{0.45\textwidth}
         \centering
         \includegraphics[width=0.85\textwidth]{images/B.png}
-    \end{subfigure}
+        \caption{matrice B (elementi A+1)}
+      \end{subfigure}
 
 \end{figure}
 
 
-Altre operazioni elemento per elemento sono l'elevamento a potenza e la radice quadrata
+Altre operazioni elemento per elemento sono \textbf{l'elevamento a potenza} e la \textbf{radice quadrata}
 
 \begin{lstlisting}
   > C <- A^2
@@ -1503,7 +1506,7 @@ Altre operazioni elemento per elemento sono l'elevamento a potenza e la radice q
 Per ottenere statistiche riepilogative è possibile utilizzare le funzioni \textbf{sum()}, \textbf{mean()}, \textbf{max()}
 \begin{lstlisting}
   > sum(A)    #45       > min(A)   #1
-  > mean(A)   #5        > max(A)  #9    
+  > mean(A)   #5        > max(A)   #9    
 \end{lstlisting}
 
 Le operazioni elemento per elemento possono essere eseguite anche tra matrici (purchè siano conformi tra loro)
@@ -1515,7 +1518,8 @@ Le operazioni elemento per elemento possono essere eseguite anche tra matrici (p
   Error in A + E : non-conformable arrays
 \end{lstlisting}
 
-Le operazioni tra matrici seguono le regole dell'algebra lineare (cioè la dimnesione e la forma necessarie degli input in relazione tra loro dipendono dall'operazione). L'operatore \%*\% esegue la moltiplicazione tra matrici, mentre la funzione \textbf{t()} calcola la trasposta
+Le operazioni tra matrici seguono le regole dell'algebra lineare (cioè la dimnesione e la forma necessarie degli input in relazione tra loro dipendono dall'operazione). \par
+L'operatore \%*\% esegue la moltiplicazione tra matrici, mentre la funzione \textbf{t()} calcola la trasposta
 
 
 
