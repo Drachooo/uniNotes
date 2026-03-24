@@ -1190,7 +1190,7 @@ Oppure scrivi la stessa espressione in un file script .R e poi premi <Ctrl> + En
 Puoi anche dichiarare variabili usando gli operatori <- o =
 \begin{codiceR}
   > A <- 1+1 
-  > A
+> A
   [1] 2
 \end{codiceR}
 
@@ -1236,7 +1236,7 @@ Creata variabile students di tipo numerico. Il valore 100 viene memorizzato
 \textbf{\large Sovrascrittura}
 \begin{codiceR}
   > students <- 102
-  > students
+> students
   [1] 102
 \end{codiceR}
 Si può controllare il contenuto digitando il nome della variabile nella console o guardando il pannello environment
@@ -1266,15 +1266,15 @@ L'indicizzazione parte da 1
 \textbf{\large Creazione vettore come unione di più vettori}
 \begin{codiceR}
   > r <- c(2, 4, 10)
-  > w <- c(9, -6, 4)
-  > u <- c(r, w)
+> w <- c(9, -6, 4)
+> u <- c(r, w)
   [1] 2 4 10 9 -6 4
 \end{codiceR}
 
 \textbf{\large Operatore due punti}
 \begin{codiceR}
   > x1 <- 1:10
-  > x1
+> x1
   [1] 1 2 3 4 5 6 7 8 9 10
 \end{codiceR}
 L'operatore due punti genera un vettore di elementi regolarmente distribuiti
@@ -1284,7 +1284,7 @@ Per creare sequenze più specifiche si usa la funzione \textbf{seq()}
 
 \begin{codiceR}
   > x2 <- seq(from = 0, to 0.5, by = 0.1)
-  > x2
+> x2
   [1] 0.0 0.1 0.2 0.3 0.4 0.5
 \end{codiceR}
 
@@ -1298,7 +1298,7 @@ Per creare sequenze più specifiche si usa la funzione \textbf{seq()}
 \subsection{Ripetizioni di vettori}
 \begin{codiceR}
   > r1 <- rep(c(1,2,3), times = 3)
-  > r1
+> r1
   [1] 1 2 3 1 2 3 1 2 3
 \end{codiceR}
 Esempio: il vettore 1, 2, 3 ripetuto 3 volte
@@ -1307,10 +1307,10 @@ Per ripetere \textbf{ogni elemento} un numero specifico di volte, usa gli argome
 
 \begin{codiceR}
   > r2 <- rep(c(1,2,3), each = 3)
-  > r3 <- rep(c(1,2,3), times = c(1,2,3))
-  > r2
+> r3 <- rep(c(1,2,3), times = c(1,2,3))
+> r2
   [1] 1 1 1 2 2 2 3 3 3
-  > r3
+> r3
   [1] 1 2 2 3 3 3
 
 \end{codiceR}
@@ -1334,8 +1334,8 @@ Per ripetere \textbf{ogni elemento} un numero specifico di volte, usa gli argome
 
 \begin{codiceR}
   > mat1 <- cbind(c(1,2,3), c(4,5,6))
-  > mat2 <- rbind(c(1,2,3), c(4,5,6))
-  > mat3 <- matrix(data = c(1,2,3,4,5,6), nrow = 3, ncol = 2)
+> mat2 <- rbind(c(1,2,3), c(4,5,6))
+> mat3 <- matrix(data = c(1,2,3,4,5,6), nrow = 3, ncol = 2)
 \end{codiceR}
 
 
@@ -1365,7 +1365,7 @@ Per ripetere \textbf{ogni elemento} un numero specifico di volte, usa gli argome
 Per accedere agli elementi della matrice servono due indici, uno per le righe e uno per le colonne.
 \begin{codiceR}
   > mat1 <- cbind(c(1,2,3), c(4,5,6))
-  >mat2[2,2] #element in second row, second column
+>mat2[2,2] #element in second row, second column
   [1] 5
 \end{codiceR}
 
@@ -1374,14 +1374,14 @@ Per ottenere tutti gli elementi di una riga o colonna bisogna lasciare vuoto l'i
 \begin{codiceR}
   > mat1[,2] #elementi della seconda colonna
   [1] 4 5 6
-  > mat2[2,] #elemnti della seconda riga
+> mat2[2,] #elemnti della seconda riga
   [1] 2 5
 \end{codiceR}
 
 \textbf{\large Selezionare sottoinsieme di righe e colonne}
 \begin{codiceR}
   > mat1 <- cbind(c(1,2,3), c(4,5,6))
-  > mat1[2:3, 1:2]    #seconda e terza riga, entrambe le colonne
+> mat1[2:3, 1:2]    #seconda e terza riga, entrambe le colonne
         [,1][,2]
   [1,]  2     5
   [2,]  3     6
@@ -1394,8 +1394,8 @@ Esistono matrici particolari come matrici nulle, identità o diagonali
 
 \begin{codiceR}
   > mat_zero <- matrix(0, 3, 3)   #Matrice 3x3 di zeri
-  > mat_ones <- matrix(1,3, 3)  #Matrice 3x3 di uno
-  > mat_id <- diag(3)   #Matrice identita 3x3
+> mat_ones <- matrix(1,3, 3)  #Matrice 3x3 di uno
+> mat_id <- diag(3)   #Matrice identita 3x3
 \end{codiceR}
 
 
@@ -1426,7 +1426,7 @@ Le operazioni aritmetiche come somma, sottrazione, moltiplicazione e divisione v
 
 \begin{codiceR}
   > A <- matrix(data = 1:9, nrow = 3)
-  > B <- A +1
+> B <- A +1
 \end{codiceR}
 
 
@@ -1455,7 +1455,7 @@ Altre operazioni elemento per elemento sono \textbf{l'elevamento a potenza} e la
 
 \begin{codiceR}
   > C <- A^2
-  > D <- sqrt(A)
+> D <- sqrt(A)
 \end{codiceR}
 
 \begin{figure}[H] % Ambiente figura principale. [htbp] suggerisce la posizione.
@@ -1480,16 +1480,16 @@ Altre operazioni elemento per elemento sono \textbf{l'elevamento a potenza} e la
 Per ottenere statistiche riepilogative è possibile utilizzare le funzioni \textbf{sum()}, \textbf{mean()}, \textbf{max()}
 \begin{codiceR}
   > sum(A)    #45       > min(A)   #1
-  > mean(A)   #5        > max(A)   #9    
+> mean(A)   #5        > max(A)   #9    
 \end{codiceR}
 
 Le operazioni elemento per elemento possono essere eseguite anche tra matrici (purchè siano conformi tra loro)
 
 \begin{codiceR}
   > A <- matrix(data = 1:9, nrow = 3)   #3x3
-  > E <- matrix(data = 1:4, nrow = 2)   #2x2
-  > A + E 
-  Error in A + E : non-conformable arrays
+> E <- matrix(data = 1:4, nrow = 2)   #2x2
+> A + E 
+Error in A + E : non-conformable arrays
 \end{codiceR}
 
 Le operazioni tra matrici seguono le regole dell'algebra lineare (cioè la dimnesione e la forma necessarie degli input in relazione tra loro dipendono dall'operazione). \par
@@ -1617,9 +1617,9 @@ Accedere agli elementi di una lista è molto simile ai vettori
 Un array è una struttura di dati che può memorizzare dati dello stesso tipo in più di due dimnesioni.
 
 \begin{itemize}
-  \item Vettori $\rightarrow$ una dimensione
-  \item Matrici $\rightarrow$ due dimensioni
-  \item Array $\rightarrow$ più dimensioni
+  \item \textbf{Vettori} $\rightarrow$ una dimensione
+  \item \textbf{Matrici} $\rightarrow$ due dimensioni
+  \item \textbf{Array} $\rightarrow$ più dimensioni
 \end{itemize}
 
 
@@ -1641,8 +1641,8 @@ Un array è una struttura di dati che può memorizzare dati dello stesso tipo in
 \vario{Accesso agli elementi di un array}{In un array R, a1[i, j, k] indica l'elemento alla i-esima posizione della prima dimensione (righe), j-esima della seconda dimensione (colonne) e k-esima della terza dimensione (livello / profondità)}
 
 \subsection{Data-Frame}
-Un data frame è una struttura di dati bidimensionale che permette di memorizzare dati in forma tabellare.
-I data frame hanno righe e colonne, e ogni colonna può essere un vettore diverso. I vettori possono anche avere tipi di dati differenti.
+Un data frame è una \textbf{struttura di dati} \textbf{bidimensionale} che permette di memorizzare dati in forma tabellare.
+I data frame hanno righe e colonne, e ogni colonna può essere un vettore diverso. \underline{I vettori possono anche avere tipi di dati differenti}.
 
 \begin{codiceR}
 > df1 <- data.frame(
@@ -1667,8 +1667,8 @@ Si usano le funzioni \texttt{cbind()} e \texttt{rbind()} per unire due data fram
 \texttt{df1\$mount, df1[, "mount"]} e \texttt{df1[, 1]} sono modi equivalenti per accedere alla prima colonna del data frame
 
 \section{Fattori}
-Un factor è una struttura di dati utilizzata per lavorare con dati categorizzabili.
-La funzione factor()può essere usata per creare un factor.
+Un \textbf{factor} è una struttura di dati utilizzata per lavorare con \textbf{dati categorizzabili}.
+La funzione factor() può essere usata per creare un factor.
 Una volta creato, un factor può contenere solo un insieme di valori predefiniti chiamati livelli(levels)-l
 e categorie uniche
 
@@ -1706,9 +1706,9 @@ Controlla una condizione per ogni elemento di un vettore e resistuisce valori di
 \begin{codiceR}
   ifelse(condizione, yes = ..., no = ...)
 
-   #Esempio
-  > voti <- c(6,9,10)
-  iflese(voti > 8, yes = "Ottimo", no = "Sufficiente")
+> #Esempio
+> voti <- c(6,9,10)
+> ifelse(voti > 8, yes = "Ottimo", no = "Sufficiente")
 [1] "Sufficiente" "Ottimo "Ottimo"
 \end{codiceR}
 
@@ -1840,9 +1840,9 @@ Usando il comando \texttt{hist():}
 > #Genera 100 valori casuali tra 40 e 80
 
 weights <- runif(100, min = 40, max = 80)
-#In R, per vedere i primi elementi di un vettore, puoi usare la funzione head()
+> #In R, per vedere i primi elementi di un vettore, puoi usare la funzione head()
 
-head(wheights)
+head(weights)
 
 hist(weights, breaks = c(40,50,60,70,80))
 
@@ -1865,13 +1865,13 @@ Usando il comando \texttt{boxplot():}
       \centering  
       \begin{codiceR}
 > #Genera 50 valori causali tra 40 e 80
-#Genera 50 valori casuali tra 45 e 70
+> #Genera 50 valori casuali tra 45 e 70
 
-height <- c(runif(50, min = 40, max = 80),
+> height <- c(runif(50, min = 40, max = 80),
     runif(50, min = 45, max = 70))
-group <- rep(c("A", "B"), each = 50)
+> group <- rep(c("A", "B"), each = 50)
 
-boxplot(height ~ group, main = "Heights by group boxplots")
+> boxplot(height ~ group, main = "Heights by group boxplots")
 \end{codiceR}
     \end{subfigure}
     \hfill
@@ -1885,7 +1885,7 @@ boxplot(height ~ group, main = "Heights by group boxplots")
 
 
 \subsection{Mostrare più grafici contemporaneamente}
-usando il comando \texttt{par(mfrow = C(nrighe, ncolonne))} è possibile impostare il layout per più grafici
+Usando il comando \texttt{par(mfrow = C(nrighe, ncolonne))} è possibile impostare il layout per più grafici
 
 
 
@@ -1895,18 +1895,18 @@ usando il comando \texttt{par(mfrow = C(nrighe, ncolonne))} è possibile imposta
       \centering  
       \begin{codiceR}
 > #Definire dei dati
-x = 1:6
-y = c(33,11,5,9,22,30)
-# Impostare il layout, 2 righe e 2 colonne
-par(mfrow = c(2,2))
-#Posizione [1,1]
-barplot(y, main = "Barplot", names.arg = x)
-#Posizione [1,2]
-barplot(y, main ="Horizontal Barplot", names.arg = x, horiz = TRUE)
-#Posizione [2,1]
-plot(x, y, type = "l", main ="Line plot")# Posizione [2, 2]
+> x = 1:6
+> y = c(33,11,5,9,22,30)
+> #Impostare il layout, 2 righe e 2 colonne
+> par(mfrow = c(2,2))
+> #Posizione [1,1]
+> barplot(y, main = "Barplot", names.arg = x)
+> #Posizione [1,2]
+> barplot(y, main ="Horizontal Barplot", names.arg = x, horiz = TRUE)
+> #Posizione [2,1]
+> plot(x, y, type = "l", main ="Line plot")# Posizione [2, 2]
 
-plot(x, y, main = "Scatter plot", col = "red")
+> plot(x, y, main = "Scatter plot", col = "red")
 
 \end{codiceR}
     \end{subfigure}
@@ -1924,13 +1924,13 @@ Una volta creato il grafico, puoi usare la funzione \texttt{dev.off()} per chiud
 
 \begin{codiceR}
 > #Crea un nuovo dispositivo grafico pdf
-  pdf("./plots/myplot.pdf")
-  #Qui bisogna indicare la directory dove salvare il file
-  #Crea un grafico
+> pdf("./plots/myplot.pdf")
+> #Qui bisogna indicare la directory dove salvare il file
+> #Crea un grafico
   x <- 1:10
   y <- y^2
   plot(x,y)
-  #Chiudi il dispositivo grafico e salva il grafico nel file
+> #Chiudi il dispositivo grafico e salva il grafico nel file
   dev.off()
 \end{codiceR}
 
@@ -1940,11 +1940,11 @@ Una volta creato il grafico, puoi usare la funzione \texttt{dev.off()} per chiud
 
 Le variabili in R possono essere salvate utilizzando due formati principali: 
 \begin{itemize}
-  \item .RDATA è usato per salvare uno o più oggetti in un unico file. \begin{itemize}
+  \item \textbf{.RData} è usato per salvare uno o più oggetti in un unico file. \begin{itemize}
     \item Salvare: \texttt{save()}
     \item Caricare: \texttt{load()}
   \end{itemize}
-  \item .RDS è un formato usato per salvare un singolo oggetto R in un file
+  \item \textbf{.RDS} è un formato usato per salvare un singolo oggetto R in un file
   \begin{itemize}
     \item Salvare: \texttt{saveRDS()}
     \item Caricare: \texttt{readRDS}
@@ -1968,8 +1968,8 @@ Ci sono diverse opzioni:
 
 Gli script e le funzioni sono due componenti che permettono di scrivere e riutilizzare codice:
 \begin{itemize}
-  \item Scropt: è un file di testo contenente una sequenza di comandi R che si desidera seguire. Oer eseguirli si utiziza la funzione \texttt{source()}
-  \item Funzione: è un blocco di codice che svolge un compito specifico e può essere irchiamato da altre parti del codice. Le funzioni in R si definiscono usando \texttt{function()}
+  \item \textbf{Script}: è un file di testo contenente una sequenza di comandi R che si desidera seguire. Oer eseguirli si utiziza la funzione \texttt{source()}
+  \item \textbf{Funzione}: è un blocco di codice che svolge un compito specifico e può essere irchiamato da altre parti del codice. Le funzioni in R si definiscono usando \texttt{function()}
   
   \begin{codiceR}
     my_sum <- function(x,y){
