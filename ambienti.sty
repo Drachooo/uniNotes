@@ -6,59 +6,57 @@
   \begin{tcolorbox}[
     colback=azzurrino!5!white,
     colframe=azzurrino!50!black,
-    title=\textbf{Definizione: #1}, % titolo della definizione
+    title=\textbf{Definizione: #1},
     coltitle=white,
     fonttitle=\bfseries,
-    arc=2mm, %arrotondamento degli angoli
-    boxrule=1pt, %spessore del bordo
+    arc=2mm,
+    boxrule=1pt,
     enhanced,
     breakable
   ]
-  #2 % testo della definizione
+  #2
   \end{tcolorbox}
   \vspace{5pt}%
 }
-% --- DEFINIZIONE DI AMBIENTI DI LAVORO ---
-%===========================================
-% --- AMBIENTE DEFINIZIONE ---
+
+% --- AMBIENTE DEFINIZIONE (Viola) ---
 \newcommand{\Definizione}[2]{%
   \vspace{5pt}%
   \begin{tcolorbox}[
     colback=viola!5!white,
     colframe=viola!50!black,
-    title=\textbf{Definizione: #1}, % titolo della definizione
+    title=\textbf{Definizione: #1},
     coltitle=white,
     fonttitle=\bfseries,
-    arc=2mm, %arrotondamento degli angoli
-    boxrule=1pt, %spessore del bordo
+    arc=2mm,
+    boxrule=1pt,
     enhanced,
     breakable
   ]
-  #2 % testo della definizione
+  #2
   \end{tcolorbox}
   \vspace{5pt}%
 }
-% --- DEFINIZIONE DI AMBIENTI DI LAVORO ---
-%===========================================
-% --- AMBIENTE DEFINIZIONE ---
+
+% --- AMBIENTE DEFINIZIONE (Verde) ---
 \newcommand{\definition}[2]{%
   \vspace{5pt}%
   \begin{tcolorbox}[
     colback=verde!5!white,
     colframe=verde!50!black,
-    title=\textbf{Definizione: #1}, % titolo della definizione
+    title=\textbf{Definizione: #1},
     coltitle=white,
     fonttitle=\bfseries,
-    arc=2mm, %arrotondamento degli angoli
-    boxrule=1pt, %spessore del bordo
+    arc=2mm,
+    boxrule=1pt,
     enhanced,
     breakable
   ]
-  #2 % testo della definizione
+  #2
   \end{tcolorbox}
   \vspace{5pt}%
 }
-%===========================================
+
 %===========================================
 % --- AMBIENTE ESEMPIO ---
 \newcommand{\esempio}[2]{%
@@ -66,62 +64,128 @@
   \begin{tcolorbox}[
     colback=brown!5!white,
     colframe=brown!50!black,
-    title=\textbf{Esempio: #1}, % titolo dell'esempio
+    title=\textbf{Esempio: #1},
     coltitle=white,
     fonttitle=\bfseries,
-    arc=2mm, %arrotondamento degli angoli
-    boxrule=1pt, %spessore del bordo
+    arc=2mm,
+    boxrule=1pt,
     enhanced,
     breakable
   ]
-  #2 % testo della definizione
+  #2
   \end{tcolorbox}
   \vspace{5pt}%
 }
+
 %===========================================
 % --- AMBIENTE VARIO ---
-%============================================
 \newcommand{\vario}[2]{%
   \vspace{5pt}%
   \begin{tcolorbox}[
     colback=orange!10!white,
     colframe=orange!70!black,
-    title=\textbf{#1}, % titolo della definizione
+    title=\textbf{#1},
     coltitle=white,
     fonttitle=\bfseries,
-    arc=2mm, %arrotondamento degli angoli
-    boxrule=1pt, %spessore del bordo
+    arc=2mm,
+    boxrule=1pt,
     enhanced,
     breakable
   ]
-  #2 % testo della definizione
+  #2
   \end{tcolorbox}
   \vspace{5pt}%
 }
+
 %===========================================
-% --- AMBIENTE CODICE ---
-\newtcblisting{codice}[2][]{%
-  colback=green!10!white,
-  colframe=green!60!black,
-  title=\textbf{Codice: #2},
-  fonttitle=\bfseries,
-  arc=2mm,
-  boxrule=1pt,
+% --- STILI PER I LINGUAGGI DI PROGRAMMAZIONE ---
+%===========================================
+\lstdefinestyle{Rstyle}{
+  language=R,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  keepspaces=true,       % <-- Rispetta gli spazi
+  columns=fixed,  % <-- Impedisce a LaTeX di allargare il testo
+  commentstyle=\color{green!50!black}, % NESSUN CANCELLETTO QUI, ERRORE RISOLTO!
+  morekeywords={c, length, print, summary, mean, sd, var, min, max, sum, 
+                seq, rep, paste, paste0, rbind, cbind, matrix, data.frame, 
+                list, str, class, typeof, apply, lapply, sapply, tapply, 
+                plot, hist, boxplot, read.csv, write.csv, head, tail, 
+                subset, merge, table, ifelse, require, install.packages, library},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  breaklines=true,
+  showstringspaces=false
+}
+
+\lstdefinestyle{SQLstyle}{
+  language=SQL,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{keywordcolor}\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  breaklines=true,
+  showstringspaces=false,
+  morekeywords={DISTINCT, AS, FROM, WHERE, GROUP, BY, HAVING, UNION, INTERSECT, EXCEPT, ORDER, ASC, DESC, USING}
+}
+
+\lstdefinestyle{Javastyle}{
+  language=Java,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{viola}\bfseries,
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black}\itshape,
+  breaklines=true,
+  showstringspaces=false
+}
+
+%===========================================
+% --- AMBIENTI CODICE (SENZA TITOLO) ---
+%===========================================
+\newtcblisting{codiceR}[1][]{%
+  width=\linewidth, % <--- AGGIUNGI QUESTA RIGA!
+  colback=yellow!10!white,
+  colframe=yellow!50!black,
+  sharp corners, % <-- Angoli vivi, zero arrotondamenti
+  boxrule=0.8pt,
+  top=0pt,       % <-- Rimuove la riga vuota interna superiore
+  bottom=0pt,    % <-- Rimuove la riga vuota interna inferiore
+  left=2pt,      % Un minimo indispensabile per non appiccicare le lettere al bordo
+  right=2pt,
   enhanced,
   breakable,
   listing only,
-  listing options={
-    language=#1,
-    basicstyle=\ttfamily\footnotesize,
-    numbers=left,
-    numberstyle=\tiny,
-    stepnumber=1,
-    numbersep=5pt,
-    showstringspaces=false,
-    tabsize=2,
-    breaklines=true
-  }
+  listing options={style=Rstyle}, 
+  #1 
 }
+
+\newtcblisting{codiceSQL}[1][]{%
+  colback=blue!3!white,     % Azzurrino chiarissimo
+  colframe=blue!40!black,   % Bordo blu neutro
+  arc=2mm,
+  boxrule=0.8pt,
+  enhanced,
+  breakable,
+  listing only,
+  listing options={style=SQLstyle},
+  #1
+}
+
+\newtcblisting{codiceJava}[1][]{%
+  colback=orange!5!white,   % Arancione molto tenue
+  colframe=orange!60!black, % Bordo arancione bruciato
+  arc=2mm,
+  boxrule=0.8pt,
+  enhanced,
+  breakable,
+  listing only,
+  listing options={style=Javastyle},
+  #1
+}
+
+%==========================================
+% --- AMBIENTI ER E MATEMATICI ---
 %==========================================
 \newtcolorbox{er}[2][]{%
   enhanced, breakable,
@@ -132,81 +196,65 @@
   before upper={\refstepcounter{erex}},
   sharp corners=south,
   boxrule=0.8pt,
-  arc = 2mm
+  arc = 2mm,
   #1
 }
-%===========================================
-% --- AMBIENTE DEFINIZIONE ---
+
 \newcommand{\teorema}[2]{%
   \vspace{5pt}%
   \begin{tcolorbox}[
     colback=red!5!white,
     colframe=red!50!black,
-    title=\textbf{Teorema: #1}, % titolo della definizione
+    title=\textbf{Teorema: #1},
     coltitle=white,
     fonttitle=\bfseries,
-    arc=2mm, %arrotondamento degli angoli
-    boxrule=1pt, %spessore del bordo
+    arc=2mm,
+    boxrule=1pt,
     enhanced,
     breakable
   ]
-  #2 % testo della definizione
+  #2
   \end{tcolorbox}
   \vspace{5pt}%
 }
-%===========================================
-% --- AMBIENTE LEMMA ---
+
 \newcommand{\lemma}[3]{%
   \vspace{5pt}%
   \begin{tcolorbox}[
     colback=red!5!white,
     colframe=red!50!black,
-    title=\textbf{Lemma: #1}, % titolo del lemma
+    title=\textbf{Lemma: #1},
     coltitle=white,
     fonttitle=\bfseries,
-    arc=2mm, %arrotondamento degli angoli
-    boxrule=1pt, %spessore del bordo
+    arc=2mm,
+    boxrule=1pt,
     enhanced,
     breakable
   ]
-  #2 % testo del teorema
+  #2
   \ifstrempty{#3}{}{%
     \par\vspace{8pt}%
-    \textbf{Dimostrazione}
+    \textbf{Dimostrazione}\\
     #3
   }
   \end{tcolorbox}
   \vspace{5pt}%
 }
 
-\lstset{
-  language=SQL,
-  basicstyle=\ttfamily\small,
-  keywordstyle=\color{keywordcolor}\bfseries,
-  breaklines=true,
-  backgroundcolor=\color{backcolor},
-  frame=single,
-  rulecolor=\color{blue!30}, % Bordo blu sottile come nell'immagine
-  showstringspaces=false,
-  morekeywords={DISTINCT, AS, FROM, WHERE, GROUP, BY, HAVING, UNION, INTERSECT, EXCEPT, ORDER, ASC, DESC, USING}
-}
-% --- DEFINIZIONE DI AMBIENTI DI LAVORO ---
-%===========================================
-% --- AMBIENTE OSSERVAZIONE ---
 \newcommand{\osservazione}[1]{%
   \vspace{5pt}%
   \begin{tcolorbox}[
     colback=white!5!white,
     colframe=white!50!black,
-    title=\textbf{Osservazione}, % titolo della definizione
+    title=\textbf{Osservazione},
     coltitle=white,
     fonttitle=\bfseries,
-    arc=2mm, %arrotondamento degli angoli
-    boxrule=1pt, %spessore del bordo
+    arc=2mm,
+    boxrule=1pt,
     enhanced,
     breakable
   ]
-  #1 % testo dell'osservazione
+  #1
   \end{tcolorbox}
   \vspace{5pt}%
 }
