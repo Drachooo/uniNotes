@@ -1943,6 +1943,103 @@ Esistono due tipologie di guasto:
   \end{enumerate}
 }
 
+\section{Gestore dei metodi di accesso}
+Il gestore dei metodi di accesso esegue il piano di esecuzione prodotto dall'ottimizzatore e produce sequenze richieste di accessi ai blocchi della base di dati presenti in memoria secondaria.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/gestore-metodi-accesso.png}
+  \caption{gestore dei meotodi di accesso}
+\end{figure}
+
+Le richieste vengono inviate al gestore del buffer che si occupa di caricare i blocchi necessari in pagine di memoria centrale.
+
+\subsection{Organizzazione di una pagina}
+All'interno di una pagina sono presenti:
+\begin{itemize}[label=$\triangleright$]
+  \item \textbf{informazioni utili}: dati veri e propri (tuple della tabella)
+  \smallskip
+  \item \textbf{informazioni di controllo}: consentono di accedere alle informazioni utili (dizionario, bt di parità, altre informazioni del file system o della specifica struttura fisica)
+\end{itemize}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/organizzazione-pagina.png}
+  \caption{organizzazione di una pagina}
+\end{figure}
+
+\begin{itemize}[label=$\Rightarrow$]
+  \item \textcolor{red}{\textbf{blocco header/trailer}}: contengono informazioni di controllo utilizzate daò file system
+  \smallskip
+  \item \textcolor{violet}{\textbf{pagina header/trailer}}: contengono le informazioni di controllo relative alla specifica struttura fisica
+  \smallskip
+  \item \textcolor{orange}{\textbf{dizionario di pagina}}: contiene i puntatori a ciascun dato utile elementare contenuto nella pagina
+  \smallskip
+  \item \textcolor{green}{\textbf{bit di parità}}: verifica che l'informazione contenuta nella pagina sia valida
+  \smallskip
+  \item \textcolor{blue}{\textbf{parte utile}}: contiene i dati
+\end{itemize}
+
+\vario{}{
+  Dizionari di pagina e parte utile crescono come stack contrapposti, lasciando libera la parte centrale in uno spazio contiguo.
+}
+
+In caso di \textbf{tuple di lunghezza fissa}, il dizionario non è necessario: si memorizza la dimensione delle tutple e l'offset del punto iniziale.\\[0.2ex]
+In caso di di \textbf{tuple di lunghezza variabile}, il dizionario memorizza l'offset di ogni tupla presente nel blocco e di ogni attributo di ogni tupla.
+
+Molti gestori delle pagine non consentono la separazione di una tupla su più pagine:
+\begin{equation*}
+  \text{dimensione massima tupla} = \text{dimensione massima area disponibile su un blocco}
+\end{equation*}
+
+Alcuni gestori delle pagine consentono di distribuire una tupla su più pagine, altrimenti va gestito il caso di tuple memorizzato su più pagine.
+
+\subsection{Operazioni sulle pagine}
+Le princpali operazioni che si possono eseguire sulle pagine sono:
+\begin{itemize}[label=$\triangleright$]
+  \item \textbf{inserimento/aggiornamento di una tupla}:
+  \begin{itemize}[label=$\diamond$]
+    \item esiste spazio contiguo sufficiente: Inserimento
+    \smallskip
+    \item non esiste spazio contiguo sufficiente, ma spazio sufficiente: riorganizzazione dello spazio + inserimento
+    \smallskip
+    \item non esiste spazio sufficiente: interazione con il file system per allocare nuovi blocchi per il file
+  \end{itemize}
+  \smallskip
+  \item \textbf{cancellazione contenuto della pagina}
+  \smallskip
+  \item \textbf{accesso a una tupla}: avviene tramite il valore della chiave o l'offset nel dizionario
+  \smallskip
+  \item \textbf{accesso a un attributo di una tupla}: identificato in base all’offset e alla lunghezza del campo dopo aver identificato la tuplatramite la chiave o il suo offset 
+\end{itemize}
+
+
+\subsection{Strutture primarie per l'organizzazione dei file}
+La struttura prmaria di un file stabilisce il criterio di disposizione delle tuple all'interno del file presente in memoria di massa:
+\begin{itemize}[label=$\triangleright$]
+  \item \textbf{sequenziale}: colloca le tuple in maniera consecutiva sulla base di un criterio specifico (es. ordine di inserimento)
+  \smallskip
+  \item \textbf{ad accesso clacolato}: colloca le tuple in posizioni determinate sulla base dell'esecuzione di un algoritmo di hash
+  \smallskip
+  \item \textbf{ad albero}: utilizzate come strutture secondarie (indici)
+\end{itemize}
+
+%foto
+
+\subsubsection{Struttura sequenziale}
+Un file è costituito da blocchi "logicamente" consecutivi.
+
+\subsubsection{Struttura sequenziale ad array}
+
+\subsubsection{Indice}
+
+
+
+
+
+
+
+
 
 
 
