@@ -124,7 +124,7 @@
     %===========================
     \mainmatter
 
-
+    %-----------CAPITOLO 1: RIPASSO GENERALE DEGLI ARGOMENTI------
     \chapter{Tecnologie per le basi di dati}
 
     \definizione{DBMS}{
@@ -309,7 +309,7 @@
     \end{itemize}
 
 
-    %---------CAPITOLO 3: LINGUAGGIO SQL--------------------------------------------------
+    %---------CAPITOLO 2: LINGUAGGIO SQL--------------------------------------------------
     \chapter{Linguaggio SQL}
     Il termine SQL in origine era l'acronimo di \textbf{S}tructured \textbf{Q}uery \textbf{L}enguagge, ma ad oggi è diventato un nome proprio.
 
@@ -474,24 +474,11 @@
       FROM from_item [, ...]
     \end{lstlisting}
 
-    dove:
-    \textcolor{purple}{from\_item} può essere UNA delle seguenti clausole (versione semplificata):
-    \begin{enumerate}
-      \item table\_name [[\textcolor{purple}{AS}] alias [(column\_alias [, ...])]
-      \begin{itemize}
-        \item Se sono presenti due o più tabelle, si esegue il prodotto cartesiano tra tutte le tabelle. Se ci sono attributi con lo stesso nome su tabelle diverse, nella SELECT questi attributi sono identificati anteponendo il nome della tabella e un ’.’: nomeTabella.nomeAttributo
-      \end{itemize}
-      \item (other\_select) [\textcolor{purple}{AS}] nomeRisultato [(column\_alias [,...])]
-      \begin{itemize}
-        \item è una \textcolor{purple}{SELECT} innestata. Il risultato della \textcolor{purple}{SELECT} interna è lo schema con nome nomeRisultato su cui fare la \textcolor{purple}{SELECT} corrente.
-      \end{itemize}
-      \item from\_item [\textcolor{purple}{NATURAL}] join\_type from\_item [\textcolor{purple}{ON} condition]
-      \begin{itemize}
-        \item è la clausola JOIN.
-        \item Metodo più sofisticato di 1) che permette di selezionare un sottoinsieme del prodotto cartesiano di due o più tabelle. join\_type specifica il tipo di join. I tipi principali sono riassunti nelle slide seguenti.
-
-      \end{itemize}
-    \end{enumerate}
+    dove \textbf{from\_item} può essere una delle seguenti clausole:
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+      \item \textbf{table\_name [[\textcolor{purple}{AS}] alias [(column\_alias [, ...])]}: 
+      \item \textbf{table_nae}
+    \end{itemize}
 
     
     \begin{figure}[H]
