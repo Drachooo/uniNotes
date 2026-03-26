@@ -52,6 +52,12 @@
 \titleformat{\subsubsection}
   {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsubsection}{1em}{}
 
+\titleformat{\paragraph}
+  {\normalfont\normalsize\bfseries\color{grigioscuro}}{\theparagraph}{1em}{}
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
 % --- CAPTION COLORATE ---
 \usepackage[font=small, labelfont={bf, color=azzurrino}]{caption}
 
@@ -120,29 +126,36 @@
 
 
     \chapter{Tecnologie per le basi di dati}
-    Argomenti visti nel Modulo di Teoria:
-    \begin{itemize}
-      \item Progettazione concettuale
-      \item Progettazione logica
-      \item Linguaggi di interrogazione (algebra relazionale e calcolo relazionale)
-    \end{itemize}
 
-    \section{Tecnologia dei DBMS}
-    Un DBMS \textbf{(Database Management System)} o sistema di gestione di basi di dati è un sistema software in grado di gestire collezioni di dati che siano e \textbf{persistenti} assicurando la loro \textbf{affidabilità} e \textbf{privatezza}.
+    \definizione{DBMS}{
+      Un \textbf{D}atabase \textbf{M}anagement \textbf{S}ystem è un software in grado di gestire collezioni di dati che siano \textcolor{azzurrino}{grandi}, \textcolor{azzurrino}{condivise} e \textcolor{azzurrino}{persistenti}, assicurando la loro \textcolor{azzurrino}{affidabilità} e \textcolor{azzurrino}{privatezza}.
 
-    Un DBMS in quanto sistema software deve essere efficiente ed efficace e deve inoltre estendere le funzionalità del file system.
-    Esempio: Gestione in memoria secondaria collezioni di dati.
+      \noindent\rule{\textwidth}{0.4pt}
+
+      \medskip
+      \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+        \item \textbf{grandi}: dati devono essere organizzati in modo efficiente per poter essere gestiti in grandi quantità
+        \item \textbf{condivise}: dati devono essere accessibili da più utenti contemporaneamente
+        \item \textbf{persistenti}: dati devono essere memorizzati in modo permanente, anche dopo la chiusra del programma
+        \item \textbf{affidabili}: dati devono essere protetti da errori e guasti del sistema
+        \item \textbf{privati}: dati devono essere protetti da accessi non autorizzati 
+      \end{itemize}
+    }
+
+    Un DBMS in quanto sistema software deve essere \textbf{efficiente} ed \textbf{efficace} e deve, inoltre, estendere le funzionalità del file system.
 
 
-    \definizione{Basi di dati}{Una base di dati è una collezione di dati gestita da un DBMS.}
+    \definizione{base di dati}{Una \textbf{base di dati} è una collezione di dati gestita da un DBMS.}
+
+    \section{Architettura transazionale di un DBMS}
+    Un DBMS è costituto tra 3 livelli:
 
     \begin{figure}[H]
       \centering
-      \includegraphics[width=0.9\textwidth]{images/schema.png} 
-      \caption{Architettura su 3 livelli del DBMS.}
+      \includegraphics[width=0.7\textwidth]{images/schema.png}
     \end{figure}
 
-    Un DBMS basato sul modello relazionale è nella maggior parte dei casi anche un sistema transazionale: fornisce un meccanismo per la definizione ed esecuzione di transazioni.
+    Un DBMS basato sul \textbf{modello relazionale} è nella maggior parte dei casi anche un sistema transazionale: fornisce un meccanismo per la definizione ed esecuzione di transazioni.
 
     \begin{figure}[H]
       \centering
@@ -150,185 +163,165 @@
       \caption{Ssistema transizionale}
     \end{figure}
 
-    In sintesi, durante il corso si affronteranno i seguenti argomenti:
-    \begin{itemize}
-      \item Transazioni: definizione e proprietà
-      \item Architettura di un DBMS:
-      \begin{itemize}
-        \item Gestore delle interrogazioni: scrittura query in SQL
-        \item Gestore delle interrogazioni: ottimizzazione delle interrogazioni
-        \item Gestore dei metodi di accesso: indici primari e secondari, indici B+-tree e indici Hash
-        \item Gestore del buffer: interazione tra memoria secondaria e memoria centrale
-        \item Gestore della memoria secondaria: strutture fisiche per la memorizzazione dei dati in memoria secondari
-        \item Gestore della concorrenza: gestione dell’esecuzione concorrente (VSR, CSR, locking a due fasi)
-        \item Gestore dell’affidabilità: gestione dei guasti
-        \end{itemize}
-      \item Architettura di un sistema document-based
-      
-    \end{itemize}
+    \section{Transazione}
 
-
-    \subsection{Transazione}
-
-    \definizione{Transazione}{È \textcolor{red}{un’unità di lavoro} svolta da un programma applicativo (che interagisce con una base di dati) per la quale si vogliono garantire proprietà di correttezza, robustezza e isolamento.}
+    \definizione{Transazione}{Una \textbf{transazione} è un’unità di lavoro svolta da un programma applicativo (che interagisce con una base di dati) per la quale si vogliono garantire proprietà di correttezza, robustezza e isolamento.}
 
     Le caratteristiche principali sono:
-    \begin{itemize}
-      \item Una transazione o va a buon fine e ha effetto sulla base di dati o abortisce e non ha nessun effetto sulla base di dati.
-      \item \textcolor{red}{O tutto o niente!} Non sono ammesse esecuzioni parziali
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+      \item \textbf{atomicità}: una transazione  deve essere eseguita completamente o non essere eseguita affatto
+      \item \textbf{non sono ammesse esecuzioni parziali}
     \end{itemize}
 
+    \subsection{Sintassi}
+    La sintassi per definire una transazione in SQL:
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=10pt,
+        gobble=6
+    ]
+      <transazione> -> begin transaction
+                        <programma>
+                      end transaction
+      
+      <programma> -> < <istruzione> | commit work | rollback work >
+                     { < <istruzione> | commit work | rollback work > }
+    \end{lstlisting}
 
-    Sintassi per definire una transazione in SQL:
-     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
-    \textcolor{purple}{<transazione> $\rightarrow$ begin transaction}\par
-    \textcolor{purple}{\hspace{8em}<programma>}\par
-    \textcolor{purple}{\hspace{8em}end transaction}\\
-     \end{mdframed}
+    La transazione va a buon fine all’esecuzione di un $\verb|commit work|$, ma non ha alcun effetto se viene eseguito un $\verb|rollback work|$.
 
-      \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
-   \textcolor{purple} {<programma> $\rightarrow$ $\langle$ <istruzione> | commit work | rollback work $\rangle$\\}
-    \hspace{8em}\textcolor{purple}{\{ $\langle$ <istruzione> | commit work | rollback work $\rangle$\}}
-      \end{mdframed}
-
-    La transazione va a buon fine all’esecuzione di un commit work ma non ha alcun effetto se viene eseguito un rollback work.
-    
-    Una transazione è ben formata se:
-    \begin{itemize}
-      \item Inizia con un begin transaction.
-      \item Termina con un end transaction.
-      \item La sua esecuzione comporta il raggiungimento di un commit o di un rollback work e dopo il commit/rollback non si eseguono altri accessi alla base di dati.
+    \medskip
+    Per essere ben formata, una transazione deve:
+    \begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
+      \item \textbf{iniziare} con un $\verb|begin transaction|$
+      \item \textbf{terminare} con un $\verb|end transaction|$
+      \item \textbf{esecuzione} comportare il raggiungimento di un$ \verb|commit|$ o di un $\verb|rollback work|$, a seguito del quale non si eseguono altri accessi alla base di dati
     \end{itemize}
 
-    Esempio di transazione ben formata:
-     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
-    \textcolor{cyan}{begin transaction}\\
-    \textcolor{cyan}{\hspace{2em}update CONTO set saldo = saldo - 1200}\\
-    \textcolor{cyan}{\hspace{4em}where filiale = '005' and numero = 15;}\\
-    \textcolor{cyan}{\hspace{2em}update CONTO set saldo = saldo + 1200}\\
-    \textcolor{cyan}{\hspace{4em}where filiale = '005' and numero = 205}\\
-    \textcolor{cyan}{\hspace{2em}commit work;\\
-    end transaction}
-     \end{mdframed}
+    \begin{lstlisting}[
+        caption={esempio di transazione},
+        captionpos=b,
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=10pt,
+        gobble=6,
+        upquote=true
+    ]
+      begin transaction;
+        update CONTO set saldo = saldo - 1200
+          where filiale = '005' and numero = 15;
+        update CONTO set saldo = saldo + 1200
+          where filiale = '005' and numero = 205;
+        commit work;
+      end transaction;
+    \end{lstlisting}
 
-
-    \vario{Proprietà delle transazioni}{Una transazione ha quattro proprietà:
-    \begin{itemize}
-    \item Atomicità
-    \item Consistenza
-    \item Isolamento
-    \item Persistenza
-    \end{itemize}
-    }
-
-    \subsection{Atomicità}
-    Una transazione è una unità di esecuzione \textbf{indivisibile}. O viene eseguita completamente o non viene eseguita affatto.\par
-    Implicazioni:
-    \begin{itemize}
-      \item Se una transazione viene \textbf{interrotta prima} del commit, il lavoro fin qui eseguito dalla transazione deve essere disfatto ripristinando la situazione in cui si trovava la base di dati prima dell’inizio della transazione. 
-      \item Se una transazione viene \textbf{interrotta dopo} l’esecuzione del commit (commit eseguito con successo), il sistema deve assicurare che la transazione abbia effetto sulla base di dati.
-
-    \end{itemize}
-    
-    \subsubsection{Consistenza}
-  L’esecuzione di una transazione non deve violare i \textbf{vincoli di integrità}.\par
-  Implicazioni:
-    \begin{description}
-      \item[Verifica immediata:]
-      \begin{itemize}
-        \item Fatta nel corso della transazione
-        \item Viene abortita solo l’ultima operazione e il sistema restituisce all’applicazione una segnalazione d’errore
-        \item L’applicazione può quindi reagire alla violazione.
+    \subsection{Proprietà delle transazioni}
+    Una transazione ha 4 proprietà fondamentali:
+    \begin{enumerate}[itemsep=\smallskipamount]
+      \item \textbf{atomicità}: una transazione è una unità di esecuzione indivisibile (viene eseguita completamente o non viene eseguita affatto).
+      
+      Questo implica:
+      \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+        \item se una transazione viene interrotta prima del $\verb|commit|$, il lavoro fin qui eseguito dalla transazione deve essere disfatto ripristinando la situazione in cui si trovava la base di dati prima dell’inizio della transazione
+        \item se una transazione viene interrotta dopo l’esecuzione del $\verb|commit|$ ($\verb|commit|$ eseguito con successo), il sistema deve assicurare che la transazione abbia effetto sulla base di dati
       \end{itemize}
-      \item[Verifica differita:] 
-      \begin{itemize}
-        \item Al commit se un vincolo di integrità viene violato la transazione viene abortita senza possibilità da parte dell’applicazione di reagire alla violazione
+      \item \textbf{consistenza}: esecuzione di una transazione non deve violare i vincoli di integrità.
+      
+      Questo implica:
+      \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+        \item verifica immediata:
+        \begin{itemize}[itemsep=\smallskipamount]
+          \item fatta nel corso della transazione
+          \item viene abortita solo l’ultima operazione e il sistema restituisce all’applicazione una segnalazione d’errore
+          \item applicazione può reagire alla violazione
+        \end{itemize}
+        \item verifica differita:
+        \begin{itemize}[itemsep=\smallskipamount]
+          \item  al $\verb|commit|$ se un vincolo di integrità viene violato la transazione viene abortita senza possibilità da parte dell’applicazione di reagire alla violazione
+        \end{itemize}
       \end{itemize}
-    \end{description}
-    
+      \item \textbf{isolamento}: esecuzione di una transazione deve essere indipendente dalla contemporanea esecuzione di altre transazioni
+      \begin{itemize}[itemsep=\smallskipamount]
+        \item $\verb|rollback|$ di una transazione non deve creare $\verb|rollback|$ a catena di altre transazioni che si trovano in esecuzione contemporaneamente
+        \item  sistema deve regolare l’esecuzione concorrente con meccanismi di controllo dell’accesso alle risorse
+      \end{itemize}
+      \item \textbf{persistenza}: effetto di una transazione che ha eseguito il $\verb|commit|$ non deve andare perso
+      \begin{itemize}[itemsep=\smallskipamount]
+        \item sistema deve essere in grado, in caso di guasto, di garantire gli effetti delle transazioni che al momento del guasto avevano già eseguito un $\verb|commit|$
+      \end{itemize}
+    \end{enumerate}
 
-    
-
-    \subsubsection{Isolamento}
-    L’esecuzione di una transazione deve essere \textbf{indipendente} dalla contemporanea esecuzione di altre transazioni.
-
-    Implicazioni:
-    \begin{itemize}
-      \item Il rollback di una transazione non deve creare rollback a catena di altre transazioni che si trovano in esecuzione contemporaneamente.
-      \item Il sistema deve regolare l’esecuzione concorrente con meccanismi di controllo dell’accesso alle risorse
-    \end{itemize}
-
-
-    \subsubsection{Persistenza}
-    L’effetto di una transazione che ha eseguito il commit non deve andare perso.
-    Implicazioni:
-    \begin{itemize}
-      \item Il sistema deve essere in grado, in caso di guasto, di garantire gli effetti delle transazioni che al momento del guasto avevano già eseguito un commit.
-    \end{itemize}
-
-    \newpage
+    Un DBMS che gestisce transazioni dovrebbe garantire per ogni transazione che esegue tutte queste proprietà.
 
     \section{Architettura di un DBMS}
-    
-    L’architettura mostra i moduli principali che possiamo individuare nei DBMS attuali, considerando le diverse funzionalità che il DBMS svolge durante l’esecuzione delle transazioni. Per ogni modulo dell’architettura presentiamo le funzionalità che esso svolge e alcune delle tecniche che applicativo
+    L’architettura di un DBMS è composta da \textbf{moduli} che si occupano di gestire le diverse funzionalità del sistema.
 
     \begin{figure}[H]
       \centering
-      \includegraphics[width=0.9\textwidth]{images/ArchitetturaDBMS.png} 
-      \caption{Architettura di riferimento di un DBMS.}
+      \includegraphics[width=0.6\textwidth]{images/ArchitetturaDBMS.png} 
+      \caption{architettura di riferimento di un DBMS}
     \end{figure}
+
+    Il modulo di gestione delle transazionisi occupa di trasformare una transazione in un insieme di operazioni sulla base di dati, garantendo le proprietà ACID.
 
     \begin{figure}[H]
       \centering
-      \includegraphics[width=0.9\textwidth]{images/Architettura2.png} 
-      \caption{Architettura di riferimento di un DBMS.}
+      \includegraphics[width=0.6\textwidth]{images/Architettura2.png} 
+      \caption{modulo di gestione delle transazion di un DBMS}
     \end{figure}
 
-    
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.9\textwidth]{images/passaggio1.png} 
-
-    \end{figure}
-
-    
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.9\textwidth]{images/passaggio2.png} 
-    \end{figure}
-
-    
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.9\textwidth]{images/passaggio3.png} 
-    \end{figure}
-
-    
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.9\textwidth]{images/passaggio4.png} 
-    \end{figure}
-
-    Quali modulo contribuiscono a garantire le proprietà delle transizioni?
-    \begin{description}
-      \item[Gestore dei metodi d'accesso:] Consistenza
-      \item[Gestore dell'esecuzione concorrente:]Atomicità e Isolamento
-      \item[Gestore dell'affidabilità:] Atomicità e Persistenza  
-    \end{description}
-
-
-
-    \chapter{SQL}
-    Il \textcolor{azzurrino}{\textbf{termine SQL}} in origine era l'acronimo di \textbf{S}tructured \textbf{Q}uery \textbf{L}enguagge, ma ad oggi è diventato un nome proprio.
-
-    SQL è un linguaggio che permette di:
-    \begin{itemize}[label=$\triangleright$]
-      \item \textbf{definire delle strutture dati e i vincoli di integrità}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{D}}efinition \textcolor{azzurrino}{\textbf{L}}enguagge
-      \medskip
-      \item \textbf{manipolare i dati} (inserimento, aggiornamento e cancellazione): \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{M}}anipilation \textcolor{azzurrino}{\textbf{L}}enguagge
-      \smallskip
-      \item \textbf{interrogare}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{Q}}uery \textcolor{azzurrino}{\textbf{L}}enguagge
+    I singoli moduli che compongono questo modulo sono:
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+      \item \textcolor{azzurrino}{\textbf{gestore delle interrogazioni}}: riceve in ingresso una query SQL
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{images/passaggio1.png} 
+      \end{figure}
+      \item\textcolor{azzurrino}{ \textbf{gestore dei metodi di accesso}}: determina quali sono le pagine della memoria secondaria di cui si ha bisogno, ma capisce anche se è possibile accederci
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{images/passaggio2.png} 
+      \end{figure}
+      \item \textcolor{azzurrino}{\textbf{gestore dell’affidabilità}}: carica in memoria principale le pagine della memoria secondaria di cui si ha bisogno, e le mantiene in memoria finché non sono più necessarie
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{images/passaggio4.png} 
+      \end{figure}
+      \item \textcolor{azzurrino}{\textbf{gestore del buffer}}
+      \item \textcolor{azzurrino}{\textbf{ gestore dell’esecuzione concorrente}}
+      \item \textcolor{azzurrino}{\textbf{gestore dell’affidabilità}}
     \end{itemize}
+
+    \bigskip
+    I moduli che contribuiscono a garantire le proprietà ACID sono:
+    \begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
+      \item \textbf{gestore dei metodi d'accesso}: consistenza
+      \item \textbf{gestore dell'esecuzione concorrente}: atomicità e isolamento
+      \item \textbf{gestore dell'affidabilità}: atomicità e persistenza  
+    \end{itemize}
+
+
+    %---------CAPITOLO 3: LINGUAGGIO SQL--------------------------------------------------
+    \chapter{Linguaggio SQL}
+    Il termine SQL in origine era l'acronimo di \textbf{S}tructured \textbf{Q}uery \textbf{L}enguagge, ma ad oggi è diventato un nome proprio.
+
+    \definizione{linguaggio SQL}{
+      \raggedright
+      Il \textbf{linguaggio di interrrogazione SQL} permette di:
+      \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+        \item \textbf{definire delle strutture dati e i vincoli di integrità}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{D}}efinition \textcolor{azzurrino}{\textbf{L}}enguagge
+        \item \textbf{manipolare i dati} (inserimento, aggiornamento e cancellazione): \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{M}}anipilation \textcolor{azzurrino}{\textbf{L}}enguagge
+        \item \textbf{interrogare}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{Q}}uery \textcolor{azzurrino}{\textbf{L}}enguagge
+      \end{itemize}
+    }
 
     Esistono diverse versioni:
 
@@ -355,106 +348,134 @@
 
     La parte di SQL dedicata alle dichiarazioni fa parte dei DML.\\[0.2ex]
     Le dichiarazioni vengono espresse in modo dichiarativo: specifica l'obiettivo e non la procedura per ottenerlo (algebra relazionale).
-
-    \section{Istruzione SELECT}
-
-    \begin{lstlisting}
-    SELECT [ DISTINCT ]
-    [ * | expression [[ AS ] output_name ] [, ...] ]
-    [ FROM from_item [, ...] ]
-    [ WHERE condition ]
-    [ GROUP BY grouping_element [, ...] ]
-    [ HAVING condition [, ...] ]
-    [ { UNION | INTERSECT | EXCEPT } [ DISTINCT ] other_select ]
-    [ ORDER BY expression [ ASC | DESC | USING operator ]]
-    \end{lstlisting}
-
-    \subsection{Struttura}
-
-    \begin{description}
-      \item[expression:] è un’espressione che determina un attributo.
-      \item[from\_item:] è un’espressione che determina una sorgente per gli attributi.
-      \item[condition:]è un’espressione booleana per selezionare i valori degli attributi.
-      \item[grouping\_element:] è un’espressione per poter eseguire operazioni su più valori di un attributo e considerare il risultato.
-    \end{description}
-
-    \begin{flushleft}
-        \textcolor{cyan}{SELECT} attributo\\
-        \textcolor{cyan}{FROM} tabella\\
-        {[} \textcolor{cyan}{WHERE} Condizione {]}\\
-    \end{flushleft}
-
-    \begin{itemize}
-      \item SELECT, FROM e WHERE sono chiamate clausole
-      \item Estrae dal prodotto cartesiano delle tabelle elencate nella clausola \textcolor{cyan}{FROM}, le righe che soddisfano la condizione specificata nella clausola WHERE.
-      \begin{itemize}
-        \item Il risultato dell‘interrogazione è una tabella con una riga per ogni riga prodotta dalla clausola \textcolor{cyan}{FROM} ed eventualmente filtrata dalla clausola \textcolor{cyan}{WHERE} (se esiste), le cui colonne dipendono dalla lista degli attributi nella clausola SELECT.
-      \end{itemize}
-    \end{itemize}
-
-    \vspace{2em}
-
-    \begin{lstlisting}
-    SELECT [ DISTINCT ]
-    [ * | expression [[ AS ] output_name ] [, ...] ]
-    \end{lstlisting}
-
-    \begin{itemize}
-      \item \textcolor{purple}{*} è un’abbreviazione per indicare tutti gli attributi delle tabelle.
-      \item \textcolor{purple}{expression} è un’espressione che coinvolge gli attributi della tabella (può anche essere semplicemente il nome di un attributo).
-      \item \textcolor{purple}{output\_name} è il nome assegnato all’attributo che conterrà il risultato della valutazione dell’espressione expression nella relazione risultato.
-      \item \textcolor{purple}{DISTINCT}: se presente richiede l’eliminazione delle tuple duplicate.
-
-    \end{itemize}
-
-    \subsection{Interrogazione: Clausola SELECT}
-
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/Q1.png} 
-  
-    \end{figure}
-
-
-    Un'alternativa a Q1 è questa:
-     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
-    \begin{flushleft}
-        SELECT Stipendio \textcolor{cyan}{as} Salario $\leftarrow$ \textcolor{purple}{alias}\\ 
-        FROM Impiegato\\
-        WHERE Cognome = 'Rossi'\\
-    \end{flushleft}
-  \end{mdframed}
-
-    Restituisce lo stesso risultato della query precedente, ma \textbf{ridenomina} (\underline{temporaneamente}) la colonna output Stipendio
-
-    \subsection{Interrogazione: Clausola SELECT ALL}
     
-     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
-    \begin{flushleft}
-        SELECT Stipendio \textcolor{purple}{*} \hspace{4em} $\leftarrow$ \textcolor{purple}{Seleziona tutti gli attributi della tabella}\\
-        FROM Impiegato\\
-        WHERE Cognome = 'Rossi'\\
-    \end{flushleft}
-  \end{mdframed}
+    Una parte del DBMS, detta $\verb|query optimizer|$, traduce di fatto l’interrogazione SQL nel linguaggio procedurale interno del sistema, che è nascosto all’utente.\\[0.2ex]
+    SQL permette, quindi, di descrivere le interrogazioni in modo astratto ed ad alto livello.
 
+    \section{Istruzione \protect\texttt{SELECT}}
+    La sintassi dell’istruzione $\verb|SELECT|$ è:
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=10pt,
+        gobble=6
+    ]
+      SELECT [ DISTINCT ]
+      [ * | expression [[ AS ] output_name ] [, ...] ]
+      [ FROM from_item [, ...] ]
+        [ WHERE condition ]
+          [ GROUP BY grouping_element [, ...] ]
+          [ HAVING condition [, ...] ]
+          [ { UNION | INTERSECT | EXCEPT } [ DISTINCT ] other_select ]
+            [ ORDER BY expression [ ASC | DESC | USING operator ]]
+    \end{lstlisting}
 
-    L'\textbf{asterisco} permette di non elencare il nome di tutte le colonne di una tabella (simile alla proiezione)
+    dove:
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+      \item \textbf{expression}: è un’espressione che determina un attributo
+      \item \textbf{from\_item}: è un’espressione che determina una sorgente per gli attributi
+      \item \textbf{condition}: è un’espressione booleana per selezionare i valori degli attributi
+      \item \textbf{grouping\_element}: è un’espressione per poter eseguire operazioni su più valori di un attributo e considerare il risultato.
+    \end{itemize}
 
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.9\textwidth]{images/SelectAll.png}
-    \end{figure}
+    La struttura dell’istruzione è la seguente:
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=10pt,
+        gobble=6
+    ]
+      SELECT attributo
+      FROM tabella
+        [WHERE condizione]
+    \end{lstlisting}
 
+    $\verb|SELECT|$, $\verb|FROM|$ e $\verb|WHERE|$ sono chiamate \textbf{clausole}.\\[0.2ex]
+    La clausula $\verb|SELCET|$ estrae dal prodotto cartesiano delle tabelle elencate nella clausola $\verb|FROM|$, le righe che soddisfano la condizione specificata nella clausola $\verb|WHERE|$.\\[0.2ex]
+    Il risultato dell‘interrogazione è una tabella con una riga per ogni riga prodotta dalla clausola $\verb|FROM|$ ed, eventualmente, filtrata dalla clausola $\verb|WHERE|$ (se esiste), le cui colonne dipendono dalla lista degli attributi nella clausola $\verb|SELCET|$.
 
-    \subsection{Interrogazione: Clasuola FROM}
+    \begin{esempiobox}{Interrogazione con SELECT}
+      Consideriamo la seguente base di dati:
 
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/tabella-impiegato.png}
+      \end{center}
+      
+      \textbf{Estrarre lo stipendio degli impiegati di cognome ’Rossi’}.
 
-    \begin{lstlisting}
-    FROM from_item [, ...]
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=10pt,
+        gobble=6
+      ]
+        SELECT Stipendio
+        FROM Impiegato
+          WHERE Cognome = 'Rossi';
+      \end{lstlisting}
+
+      Il risultato dell'interrogazione è la seguente tabella:
+
+      %foto
+    \end{esempiobox}
+
+    \medskip
+    Il simbolo $\verb|*|$ permette di  indicare tutti gli attributi delle tabelle.
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=10pt,
+        gobble=6
+      ]
+      SELECT *
+      FROM Impiegato;
+    \end{lstlisting}
+
+    L'attributo $\verb|AS|$ permette di rinominare un attributo (alias)
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=10pt,
+        gobble=6
+      ]
+      SELECT Stipendio AS Salario
+      FROM Impiegato;
     \end{lstlisting}
 
 
-    dove \textcolor{purple}{from\_item} può essere UNA delle seguenti clausole (versione semplificata):
+    \section{Clasuola \protect\texttt{FROM}}
+    La clausola $\verb|FROM|$ specifica le tabelle da cui estrarre i dati.
+
+    La sintassi dell'istruzione $\verb|FROM|$ è:
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=10pt,
+        gobble=6
+      ]
+      FROM from_item [, ...]
+    \end{lstlisting}
+
+    dove:
+    \textcolor{purple}{from\_item} può essere UNA delle seguenti clausole (versione semplificata):
     \begin{enumerate}
       \item table\_name [[\textcolor{purple}{AS}] alias [(column\_alias [, ...])]
       \begin{itemize}
@@ -1944,15 +1965,24 @@ Esistono due tipologie di guasto:
 }
 
 \section{Gestore dei metodi di accesso}
-Il gestore dei metodi di accesso esegue il piano di esecuzione prodotto dall'ottimizzatore e produce sequenze richieste di accessi ai blocchi della base di dati presenti in memoria secondaria.
+Il gestore dei metodi di accesso esegue il piano di esecuzione prodotto dall'ottimizzatore e produce sequenze richieste di accessi ai blocchi della base di dati presenti in memoria secondaria.\\[0.2ex]
+Le richieste vengono inviate al gestore del buffer che si occupa di caricare i blocchi necessari in pagine di memoria centrale.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\textwidth]{images/gestore-metodi-accesso.png}
+  \includegraphics[width=0.6\textwidth]{images/gestore-accesso.png}
   \caption{gestore dei meotodi di accesso}
 \end{figure}
 
-Le richieste vengono inviate al gestore del buffer che si occupa di caricare i blocchi necessari in pagine di memoria centrale.
+\subsection{Metodi di accesso}
+I metodi di accesso sono moduli software (es. scansione sequenziale, accesso via indice, ordinamento, varie implementazioni del join) che implementano gli algoritmi di accesso e manipolazione dei dati organizzati in specifiche strutture fisiche.
+
+Ogni metodo di accesso conosce:
+\begin{itemize}[label=$\diamond$]
+  \item \textbf{organizzazione in tuple} (o dei record di indice) nei blocchi dati (indice) salavati in memoria secondaria
+  \smallskip
+  \item \textbf{organizzazione fisica interna delle pagine} sia quando contengono dati, sia quando contengono strutture fisiche di accesso (indici)
+\end{itemize}
 
 \subsection{Organizzazione di una pagina}
 All'interno di una pagina sono presenti:
@@ -1980,7 +2010,7 @@ All'interno di una pagina sono presenti:
   \item \textcolor{blue}{\textbf{parte utile}}: contiene i dati
 \end{itemize}
 
-\vario{}{
+\vario{N.B.}{
   Dizionari di pagina e parte utile crescono come stack contrapposti, lasciando libera la parte centrale in uno spazio contiguo.
 }
 
@@ -2024,14 +2054,187 @@ La struttura prmaria di un file stabilisce il criterio di disposizione delle tup
   \item \textbf{ad albero}: utilizzate come strutture secondarie (indici)
 \end{itemize}
 
-%foto
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/strutture-primarie.png}
+  \caption{strutture primarie per l'organizzazione dei file}
+\end{figure}
 
 \subsubsection{Struttura sequenziale}
-Un file è costituito da blocchi "logicamente" consecutivi.
+Un file è costituito da blocchi "logicamente" consecutivi e le tuple vengono inserite nei blocchi rispettando una sequenza.
 
-\subsubsection{Struttura sequenziale ad array}
+\paragraph{Struttura sequenziale disordinata}
+Le tuple sono disposte in
+base al loro ordine di inserimento, senza alcun criterio specifico.\\[0.2ex]
+Questa è la
+struttura più semplice e più diffusa.
 
-\subsubsection{Indice}
+\begin{itemize}[label=$\Rightarrow$, itemsep=\smallskipamount]
+  \item \textbf{inserimento}:
+  \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+    \item operazione molto efficiente
+    \item sufficiente mantenere uun riferimento all'ultimo blocco
+    \item richiede solo un accesso in memoria secondaria
+    \item maggiore costo in caso di verifica dei vincoli di integrità
+  \end{itemize}
+  \item \textbf{ricerca}
+  \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+    \item operazione non efficiente
+    \item richiede ogni volta una scansione sequenziale che consideri tutti i record, con un costo lineare nel numero di blocchi
+    \item ricerca può essere fatta usando strutture secondarie (indici)
+  \end{itemize}
+  \item \textbf{eliminazione}
+  \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+    \item  facile una volta individuate le tuple coinvolte
+    \item si marcano le tuple come "cancellate" senza riorganizzazione locale
+  \end{itemize}
+  \item \textbf{modifica}
+  \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+    \item  facile una volta individuate le tuple coinvolte
+    \item si procede in loco se possibile, cioè quando non c’è stata nessuna modifica alla dimensione della tupla
+    \item si procede con una cancellazione e un inserimento in fondo al file
+  \end{itemize}
+\end{itemize}
+
+Eliminazioni e modifiche possono portare ad un uso non ottimale dello spazio
+siccome si devono effettuare riorganizzazioni periodiche.
+
+\paragraph{Struttura sequenziale ad array}
+Le tuple sono disposte come in un array, e la loro posizione dipende dal valore assunto in ciascuna tupla da un campo detto \textbf{indice}.\\[0.2ex]
+Questa struttura è utilizzabile soltanto quando le tuple di una tabella
+hanno una dimensione fissa, infatti non è quasi masi usata nei DBMS reali perchè difficilmente sono soddisfatte le condizioni per la sua applicazione.
+
+Ad ogni file viene assegnato un numero n di blocchi contigui e ciascun blocco
+è dotato di un numero m di posizioni disponibili per le tuple (quindi è un
+array bidimensionale n × m).\\[0.2ex]
+Ogni tupla è dotata di un valore numerico i
+che rappresenta l’indice della tupla in i-esima posizione nell’array.
+
+\begin{itemize}[label=$\Rightarrow$, itemsep=\smallskipamount]
+  \item \textbf{inserimento}
+  \begin{itemize}[itemsep=\smallskipamount]
+    \item Iniziale: l’indice i viene ottenuto incrementando un contatore
+    \item Successivo: in una posizione libera oppure alla fine del file
+  \end{itemize}
+  \item \textbf{cancellazione}: creano delle posizioni libere
+\end{itemize}
+
+\paragraph{Struttura sequenziale ordinata}
+È un file sequenziale dove le tuple sono ordinate secondo una chiave di ordinamento (diversa dalla chiave primaria).\\[0.2ex]
+Questa struttura rende efficienti le operazioni che hanno bisogno
+dell’ordinamento utilizzato, ad esempio:
+\begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
+  \item elenco ordinato
+  \item range query
+  \item operazioni aggregate
+\end{itemize}
+
+In caso di aggiornamento è necessario mantenere l’ordinamento, quindi servono periodiche riorganizzazioni.
+
+\begin{itemize}[label=$\Rightarrow$, itemsep=\smallskipamount]
+  \item \textbf{inserimento}
+  \begin{enumerate}[itemsep=\smallskipamount]
+    \item individuare il blocco B che contiene la tupla che precede, nell’ordine della chiave, la tupla da inserire
+    \item se B contiene spazio sufficiente per la nuova tupla allora si inserisce la tupla in B
+    \item altrimenti si aggiunge un nuovo blocco, detto overflow page, alla struttura e si inserisce la tupla nel nuovo blocco e si aggiusta la catena di puntatori
+  \end{enumerate}
+  \item \textbf{scansione sequenziale ordinata secondo la chiave}:  è sufficiente seguire i puntatori
+  \item \textbf{cancellazione di una tupla}
+  \begin{enumerate}[itemsep=\smallskipamount]
+    \item individuare il blocco B che contiene la tupla da cancellare
+    \item Cancellare la tupla da B
+    \item aggiustare la catena di puntatori
+  \end{enumerate}
+  \item \textbf{riorganizzazione}: si assegnano le tuple ai blocchi in base ad opportuni coefficienti di riempimento, riaggiustando i puntatori
+\end{itemize}
+
+\esempio{struttura sequenziale}{
+  Il seguente esempio mostra una struttura sequenziale ordinata secondo la chiave $\texttt{Filiale}$.
+  
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/esempio-struttura-sequenziale.png}
+  \end{figure}
+}
+
+\paragraph{Indice}
+Per aumentare le prestazioni degli accessi alle tuple memorizzate nelle strutture fisiche (file sequenziale), si introducono strutture ausiliarie dette strutture di accesso
+ai dati, o indici.\\[0.2ex]
+Queste strutture velocizzano l’accesso casuale via chiave di ricerca, cioè un insieme di attributi utilizzati nell’indice della ricerca.
+
+Ci sono due tipi di indici su file sequenziali:
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+  \item \textbf{indice primario}: la chiave di ordinamento del file sequenziale coincide con la chiave di ricerca dell’indice.
+  
+  Ogni record dell’indice primario contiene una coppia $\langle v_i, p_i\rangle$, dove:
+  \begin{itemize}
+    \item $v_i$ è il valore della chiave di ricerca
+    \item $p_i$ è il puntatore al primo record nel file sequenziale con chiave $v_i$
+  \end{itemize}
+
+  Esistono due varianti dell’indice primario:
+  \begin{itemize}[itemsep=\smallskipamount]
+    \item \textbf{indice denso}: per ogni occorrenza della chiave presente nel file esiste un corrispondente record nell’indice
+    \item \textbf{indice sparso}: solo per alcune occorrenze della chiave presenti nel file esiste un corrispondente record nell’indice, tipicamente una per blocco
+  \end{itemize}
+
+  Le operazioni che si possono eseguire su un indice primario sono:
+  \begin{itemize}
+    \item \textbf{ricerca} di una tupla con chiave di ricerca K
+    \begin{itemize}
+      \item Se l’indice è denso K è presente nell’indice
+      \begin{enumerate}
+        \item Scansione sequenziale dell’indice per trovare il record (K, pk)
+        \item Accesso al file attraverso il puntatore pk
+      \end{enumerate}
+
+      Il costo è 1 accesso indice + 1 accesso blocco dati
+      \item Se l’indice è sparso K potrebbe non essere presente nell’indice
+      \begin{enumerate}
+        \item Scansione sequenziale dell’indice fino al record $(K", pk)$, dove $K"$ è il valore più grande che sia minore o uguale a K
+        \item Accesso al file attraverso il puntatore pk e scansione del file (blocco corrente) per trovare le tuple con chiave K
+      \end{enumerate}
+
+      Il costo è 1 accesso indice + 1 accesso blocco dati
+    \end{itemize}
+
+    \item \textbf{Inserimento} di un record nell’indice. Si effettuano gli stessi passi dell’inserimento in un file sequenziale (3.3.5), solo che nel blocco di memoria secondaria al posto di tuple ci sono record di indice.
+    \begin{itemize}
+      \item Se l’indice è denso l’inserimento nell’indice avviene solo se la tupla inserita nel file ha un valore di chiave K che non è già presente
+      \item Se l’indice è sparso l’inserimento avviene solo quando, per effetto dell’inserimento di una nuova tupla, si aggiunge un blocco dati alla struttura; in tutti gli altri casi l’indice rimane invariato
+    \end{itemize}
+
+    Gli indici sono costosi, quindi bisogna fare un compromesso sul numero di indici da mantenere e il numero di attributi ad accesso sequenziale.
+
+    \item  \textbf{Cancellazione} di un record nell’indice. Si effettuano gli stessi passi della cancellazione in un file sequenziale (3.3.5)
+    \begin{itemize}
+      \item  Se l’indice è denso la cancellazione nell’indice avviene solo se la tupla cancellata nel file è l’ultima tupla con valore di chiave K
+      \item Se l’indice è sparso la cancellazione nell’indice avviene solo quando K è presente nell’indice e il corrispondente blocco viene eliminato; altrimenti, se il blocco sopravvive, va sostituito K nel record dell’indice con il primo valore $K"$ presente nel blocco.
+    \end{itemize}
+  \end{itemize}
+  \item \textbf{indice secondario}: La chiave di ordinamento e la chiave di ricerca sono diverse.
+  
+  Ogni record dell’indice secondario contiene una coppia ⟨vi, pi⟩, dove:
+  \begin{itemize}
+    \item vi è il valore della chiave di ricerca
+    \item pi è il puntatore al bucket di puntatori che individuano nel file sequenziale tutte le tuple con chiave vi
+  \end{itemize}
+
+  Gli indici secondari sono sempre densi perchè non si può sfruttare l’ordinamento delle tuple.
+
+  Le operazioni che si possono eseguire su un indice secondario sono:
+  \begin{itemize}
+    \item Ricerca di una tupla con chiave di ricerca K
+    \begin{itemize}
+      \item Scansione sequenziale dell’indice per trovare il record (K, pk)
+      \item Accesso al bucket B di puntatori attraverso il puntatore pk
+      \item Accesso al file attraverso i puntatori del bucket B
+    \end{itemize}
+    
+    Il costo è 1 accesso indice + 1 accesso al bucket + n accessi alle pagine dati dove n è il numero di puntatori nel bucket B
+    \item  Inserimento e cancellazione: si effettuano gli stessi passi dell’inserimento e della cancellazione in un indice primario denso, con in più l’aggiornamento dei bucket.
+  \end{itemize}
+\end{itemize}
 
 
 
@@ -2643,7 +2846,7 @@ caratteri speciali \_ e \%:
 
 \begin{minipage}[t]{0.39\textwidth}
   \vspace{2em}
-  \begin{lstlisting}[aboveskip=0pt] % <-- Azzera lo spazio vuoto sopra il codice
+  \begin{lstlisting}[aboveskip=0pt]
 SELECT Nome,Reddito
 FROM Persona
 WHERE Nome LIKE 'A\%a'
