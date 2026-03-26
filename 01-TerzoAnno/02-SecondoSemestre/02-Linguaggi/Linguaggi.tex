@@ -509,4 +509,133 @@
    \begin{itemize}[label=$\triangleright$]
     \item \textbf{semantica denotazionale}: 
    \end{itemize}
+
+   \chapter{Espressioni}
+   Le espressioni sono oggetti sintattici usati per ragionare sui loro significati (valori).\\[0.2ex]
+   Per associare significati/valori alle espressioni, le espressioni devono essere \textbf{valutate}.\\[0.2ex]
+   Il valore ottenuto mediante la valutazione è chiamato \textcolor{verde}{\textbf{valore esprimibile}}.
+
+   \definition{valore esprimibile}{
+    Il \textbf{valore esprimibile} è un vlore che può essere espresso attarverso la sintassi del linguaggio di programmazione e, in particolare, attraverso la sintassi delle espressioni.
+
+    \begin{equation*}
+      \text{Eval} = \text{bool} \cup \text{init}
+    \end{equation*}
+   }
+
+   \section{Caratteristiche delle espressioni}
+   Le caratteristiche più importanti delle espressioni sono:
+   \begin{itemize}[label=$\triangleright$]
+    \item \textbf{notazione}: specifica in che modo gli operandi e gli operatori vengono rappresentati e per indicare su quali operandi un operatore opera
+    \smallskip
+    \item \textbf{regole di precedenza} (tra operatori)
+    \smallskip
+    \item \textbf{regole di associtività} (dagli operatori)
+    \smallskip
+    \item \textbf{presenza di side-effects}: qualunque effetto che non consiste puramente nella reppresentazione di valori
+    \smallskip
+    \item \textbf{overloading degli operatori}: operatori che hanno significato diverso a seconda del tipo degli operatori a cui sono applicati
+    \smallskip
+    \item \textbf{espressioni con tipi misti}: espressioni formate da tipi di valori diversi
+   \end{itemize}
+
+   \subsection{Notazione}
+
+   \chapter{Dichiarazioni}
+
+   \section{Identificatori}
+   \definition{identificare}{
+    Un \textbf{identificatore} è  una sequenza di caratteri usata per rappresentare e denotare un altro oggetto.
+   }
+
+   Gli identificatori sono, quindi, dei nomi usati per rifare atri elementi del linguaggio (es. procedure) o della macchina sottostante (celle di memoria) durante la computazione.\\[0.2ex]
+   Quando identificano celle di memoria sono anche dette \textbf{variabili}.
+
+   \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/identificatore.png}
+    \caption{identificatore}
+   \end{figure}
+
+   \vario{N.B.}{
+    Identificatore e oggetto denotato \textbf{non} sono la stessa cosa:
+    \begin{itemize}[label=$\triangleright$]
+      \item un identificatore può denotare più elementi
+      \smallskip
+      \item un elemento può essere denotato da più identificatori diversi (aliasing)
+    \end{itemize}
+   }
+
+   \subsection{Aspetti progettuali}
+   Gli identificatori non possono essere stringhe di caratteri qualunque, ma devono seguire delle regole in modo che il parser del linguaggio li possa riconoscere come tali.
+
+   Ogni linguaggio ha le sue regole che rispondono a una seriee di quesiti:
+   \begin{itemize}[label=$\diamond$]
+    \item \textbf{identificari sono o non sono case-sensitive?}
+    
+    In $\verb|C|$, gli identificatori lo sono: $\text{Pippo} \neq \text{pippo}$
+    \smallskip
+    \item \textbf{esistono parole riservate al lingauggio?}
+    
+    Le parole riservate sono stringhe di caratteri che il linguaggio non permett di usare come identificatori perchè hià asociati a specifici significati
+    \smallskip
+    \item \textbf{ci sono vincoli di lunghezza?}
+    
+    Anche se gli identificatori lunghi sono poco pratici, essitono linguaggi che impongono dei limiti: $\verb|FORTRAN|$ ha un massimo di 31 caratteri, mentre in $\verb|C|$ non ci sono limiti
+    \smallskip
+    \item \textbf{ci sono caratteri speciali per specifiare gli identificatori?}
+    
+    In $\verb|PHP|$ gli identificatori devono iniziare con il simbolo $\$$
+   \end{itemize}
+
+   \subsection{Bindings - legami}
+   Il concetto \textcolor{verde}{\textbf{binding}} deriva dalla matematica, in cui i nomi vengono usati per denotare oggetti complessi.\\[0.2ex]
+   Prima, però, di poterli usare, dobiamo creare il legame, ovvero "dichiarare" il nome e definire il suo singnificato.
+
+   \definition{binding occurences (creazione binding)}{
+    Viene definito il \textbf{nome} (indentificatore) e il suo \textbf{significato} (denotazione).
+
+    \begin{equation*}
+      \boldsymbol{(\sum_{i=1}^{n}(\sum_{j=1}^{m}a_{ij} \dots b_{jk}))}
+    \end{equation*}
+   }
+
+   In matematica, ogni volta che si pone un problema dicendo "sia x ...", si sta creando un \hl{\textbf{binding} tra il significato dichiarato e il nome} che verrà utilizzato nella specifica del problema.
+
+   In logica, i binding sono creati dai \textbf{quantificatori}, mentre in programmazione dalle \textbf{dichiarazioni}.
+
+   \medskip
+   Sucessivamente, il nome può essere usato per riferirsi/rappresentare il suo significato e sono definiti \textcolor{verde}{\textbf{occorrenze di applicazione}}.
+
+   \definition{applied occurences (applicazione binding)}{
+    Vine usato il \textbf{nome} (identificatore) per accedere al suo \textbf{significato} (denotazione).
+   }
+
+   In matematica, i binding vengono creati prima dell'uso, anche se è possibile crearli dopo.\\.2ex]
+   Anche in programmazione non è sempre necessario creare i binding prima, ma per motivi di compilazione molti PL impongono che gli identificatori sono definiti prima di essere usati.
+
+   \medskip
+   Un nome non dichiarato (non è stato descritto il significato) è un nome che può rappresentare qualunque cosa in quel punto.
+
+   \definition{free occurences}{
+    Viene usato un \textbf{nome} (identificatore) il cui \textbf{significato} non è stato definito.
+   }
+
+   Da un punto di vista del costrutto, le occorrenze libere e quelle applicate sono identiche, la differenza consiste nell'essere nel raggio di azione (scope) di una occorrenza di definizione.
+
+   \definition{scope di un binding}{
+    Lo \textbf{scope} definisce lo spazio in cui può usare un nome per rappresentare il significato associato da un binding.
+   }
+
+   \subsubsection{Bindings nei PL}
+
+   \subsubsection{Tipi di bindings}
+
+   \subsubsection{Tempi di bindings}
+
+   \section{Semantica delle dichiarazioni}
+
+
+
+   
 \end{document}
