@@ -1,5 +1,3 @@
-
-
 # Prima lezione di Probabilità e Statistica Laboratorio
 
 #Operazione semplice
