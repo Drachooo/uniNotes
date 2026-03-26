@@ -474,24 +474,55 @@
       FROM from_item [, ...]
     \end{lstlisting}
 
-    dove \textbf{from\_item} può essere una delle seguenti clausole:
-    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
-      \item \textbf{table\_name [[\textcolor{purple}{AS}] alias [(column\_alias [, ...])]}: 
-      \item \textbf{table_nae}
+    dove $\verb|from\_item|$ può essere una delle seguenti clausole:
+    \begin{itemize}[label=$\triangleright$, itemsep=\medskipamount]
+      \item \textbf{table\_name [[AS] alias [(column\_alias [, ...])]}: se sono presenti due o più tabelle, si esegue il prodotto cartesiano tra tutte le tabelle. 
+      
+      Se ci sono attributi con lo stesso nome su tabelle diverse, nella $\verb|SELECT|$ questi attributi sono identificati anteponendo il nome della tabella e un ’.’ (es. $\verb|nomeTabella.nomeAttributo|$)
+      \item \textbf{(other\_select) [AS] nomeRisultato [(column\_alias [,...])]}: è una $\verb|SELECT|$ innestata. 
+      
+      Il risultato della $\verb|SELECT|$ interna è lo schema con nome $\verb|nomeRisultato|$ su cui fare la $\verb|SELECT|$ corrente.
+      \item \textbf{from\_item [NATURAL] join\_type from\_item [ON condition]}: è la clausola JOIN. 
+      
+      Metodo più sofisticato di 1, che permette di selezionare un sottoinsieme del prodotto cartesiano di due o più tabelle. 
+      
+      $\verb|join_type|$ specifica il tipo di join
     \end{itemize}
 
-    
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/Q2.png}
-    \end{figure}
+    \begin{esempiobox}{Interrogazione con FROM}
+      Consideriamo le seguenti tabelle:
 
-    In alternatica nella voce FROM Impiegato, Dipartimento potevo utilizzare un alias.
+      %foto tabelle
 
-    
-    \subsection{Interrogazione: Clausola WHERE}
+      \textbf{Estrarre i nomi e il cognome degli impiegati e le città in cui lavorano}
 
-    \begin{lstlisting}
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=1pt,
+        xleftmargin=5pt,
+        gobble=6,
+        literate={à}{{\`a}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {è}{{\`e}}1
+      ]
+        SELECT Impiegato.Nome, Impiegato.Cognome, Dipartimento.Città
+        FROM Impiegato, Dipartimento
+          WHERE Impiegato.Dipart = Dipartimento.Nome
+      \end{lstlisting}
+    \end{esempiobox}
+
+    \section{Clausola WHERE}
+
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6,
+      ]
     WHERE condition
     \end{lstlisting}
 
@@ -525,7 +556,6 @@
 
     \newpage
 
-    \section{Clausola WHERE}
     \subsection{Operatore LIKE}
     \begin{itemize}
       \item Per il confronto tra stringhe, SQL mette a disposizione anche l’operatore \textcolor{purple}{LIKE} che consente verificare se una stringa rispetta un certo “pattern” (oppure \textcolor{purple}{ILIKE} per \textbf{case insentive}).
