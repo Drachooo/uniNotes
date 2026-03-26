@@ -181,7 +181,7 @@
         backgroundcolor=\color{gray!10},
         rulecolor=\color{gray},
         framesep=5pt,
-        xleftmargin=10pt,
+        xleftmargin=5pt,
         gobble=6
     ]
       <transazione> -> begin transaction
@@ -210,7 +210,7 @@
         backgroundcolor=\color{gray!10},
         rulecolor=\color{gray},
         framesep=5pt,
-        xleftmargin=10pt,
+        xleftmargin=5pt,
         gobble=6,
         upquote=true
     ]
@@ -360,7 +360,7 @@
         backgroundcolor=\color{gray!10},
         rulecolor=\color{gray},
         framesep=5pt,
-        xleftmargin=10pt,
+        xleftmargin=5pt,
         gobble=6
     ]
       SELECT [ DISTINCT ]
@@ -388,7 +388,7 @@
         backgroundcolor=\color{gray!10},
         rulecolor=\color{gray},
         framesep=5pt,
-        xleftmargin=10pt,
+        xleftmargin=5pt,
         gobble=6
     ]
       SELECT attributo
@@ -400,7 +400,7 @@
     La clausula $\verb|SELCET|$ estrae dal prodotto cartesiano delle tabelle elencate nella clausola $\verb|FROM|$, le righe che soddisfano la condizione specificata nella clausola $\verb|WHERE|$.\\[0.2ex]
     Il risultato dell‘interrogazione è una tabella con una riga per ogni riga prodotta dalla clausola $\verb|FROM|$ ed, eventualmente, filtrata dalla clausola $\verb|WHERE|$ (se esiste), le cui colonne dipendono dalla lista degli attributi nella clausola $\verb|SELCET|$.
 
-    \begin{esempiobox}{Interrogazione con SELECT}
+    \begin{esempiobox}{Interrogazione con \texttt{SELECT}}
       Consideriamo la seguente base di dati:
 
       \begin{center}
@@ -415,7 +415,7 @@
         backgroundcolor=\color{gray!10},
         rulecolor=\color{gray},
         framesep=5pt,
-        xleftmargin=10pt,
+        xleftmargin=5pt,
         gobble=6
       ]
         SELECT Stipendio
@@ -424,11 +424,12 @@
       \end{lstlisting}
 
       Il risultato dell'interrogazione è la seguente tabella:
-
-      %foto
+      \begin{center}
+        \includegraphics[width=0.2\textwidth]{images/select-impiegato.png}
+      \end{center}
     \end{esempiobox}
 
-    \medskip
+    \bigskip
     Il simbolo $\verb|*|$ permette di  indicare tutti gli attributi delle tabelle.
     \begin{lstlisting}[
         basicstyle=\small\ttfamily,
@@ -436,13 +437,42 @@
         backgroundcolor=\color{gray!10},
         rulecolor=\color{gray},
         framesep=5pt,
-        xleftmargin=10pt,
+        xleftmargin=5pt,
         gobble=6
       ]
       SELECT *
-      FROM Impiegato;
+      FROM tabella;
     \end{lstlisting}
 
+    \begin{esempiobox}{Interrogazione con \texttt{SELECT *}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/tabella-impiegato.png}
+      \end{center}
+
+      \textbf{Estrarre lo stipendio degli impiegati di cognome ’Rossi’}
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6
+      ]
+        SELECT *
+        FROM Impiegato
+          WHERE Cognome = 'Rossi';
+      \end{lstlisting}
+
+      Il risultato dell'interrogazione è la seguente tabella:
+
+      \begin{center}
+        \includegraphics[width=0.6\textwidth]{images/select-all-impiegato.png}
+      \end{center}
+    \end{esempiobox}
+
+    \bigskip
     L'attributo $\verb|AS|$ permette di rinominare un attributo (alias)
     \begin{lstlisting}[
         basicstyle=\small\ttfamily,
@@ -450,12 +480,39 @@
         backgroundcolor=\color{gray!10},
         rulecolor=\color{gray},
         framesep=5pt,
-        xleftmargin=10pt,
+        xleftmargin=5pt,
         gobble=6
       ]
-      SELECT Stipendio AS Salario
-      FROM Impiegato;
+      SELECT nomeColonna AS nuovoNomeColonna
+      FROM tabella;
     \end{lstlisting}
+
+    \begin{esempiobox}{Interrogazione con \texttt{SELECT} usando \texttt{AS}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/tabella-impiegato.png}
+      \end{center}
+
+      \textbf{Estrarre lo stipendio degli impiegati di cognome ’Rossi’}
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6
+      ]
+        SELECT Stipendio AS Salario
+        FROM Impiegato
+          WHERE Cognome = 'Rossi';
+      \end{lstlisting}
+
+      Il risultato dell'interrogazione è la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.2\textwidth]{images/select-alias-impiegato.png}
+      \end{center}
+    \end{esempiobox}
 
 
     \section{Clasuola \protect\texttt{FROM}}
@@ -468,13 +525,13 @@
         backgroundcolor=\color{gray!10},
         rulecolor=\color{gray},
         framesep=5pt,
-        xleftmargin=10pt,
+        xleftmargin=5pt,
         gobble=6
       ]
       FROM from_item [, ...]
     \end{lstlisting}
 
-    dove $\verb|from\_item|$ può essere una delle seguenti clausole:
+    dove $\verb|from_item|$ può essere una delle seguenti clausole:
     \begin{itemize}[label=$\triangleright$, itemsep=\medskipamount]
       \item \textbf{table\_name [[AS] alias [(column\_alias [, ...])]}: se sono presenti due o più tabelle, si esegue il prodotto cartesiano tra tutte le tabelle. 
       
@@ -492,7 +549,17 @@
     \begin{esempiobox}{Interrogazione con FROM}
       Consideriamo le seguenti tabelle:
 
-      %foto tabelle
+      \begin{center}
+        \begin{minipage}{0.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{images/tabella-impiegato.png}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{images/tabella-dipartimento.png}
+        \end{minipage}
+      \end{center}
 
       \textbf{Estrarre i nomi e il cognome degli impiegati e le città in cui lavorano}
 
@@ -501,15 +568,21 @@
         frame=single,
         backgroundcolor=\color{gray!10},
         rulecolor=\color{gray},
-        framesep=1pt,
+        framesep=5pt,
         xleftmargin=5pt,
         gobble=6,
         literate={à}{{\`a}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {è}{{\`e}}1
       ]
-        SELECT Impiegato.Nome, Impiegato.Cognome, Dipartimento.Città
+        SELECT Impiegato.Nome, Impiegato.Cognome, 
+               Dipartimento.Città
         FROM Impiegato, Dipartimento
           WHERE Impiegato.Dipart = Dipartimento.Nome
       \end{lstlisting}
+
+      Il risultato dell'interrogazione è la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.4\textwidth]{images/from-impiegato-dipartimento.png}
+      \end{center}
     \end{esempiobox}
 
     \section{Clausola WHERE}
@@ -523,215 +596,293 @@
         xleftmargin=5pt,
         gobble=6,
       ]
-    WHERE condition
+      WHERE condition
     \end{lstlisting}
 
-
-    \begin{itemize}
-      \item La clausola \textcolor{purple}{WHERE} ammette come argomento un’espressione booleana costruita combinando predicati semplici con gli operatori \textcolor{purple}{AND}, \textcolor{purple}{OR} e \textcolor{purple}{NOT}
-      \begin{itemize}
-        \item AND: seleziona le righe in cui tutti i predicati sono veri
-        \item OR: seleziona le righe in cui almeno un predicato è vero
-        \item NOT: seleziona le righe in cui il predicato è falso
-      \end{itemize}
-      \item Ciascun predicato semplice usa gli operatori \textcolor{purple}{=} , \textcolor{purple}{<>}, \textcolor{purple}{<}, \textcolor{purple}{>}, \textcolor{purple}{<=} e \textcolor{purple}{>=} per confrontare un’espressione costruita a partire dal valore di un attributo con un valore costante, oppure un’altra espressione.
-      \item Per esprimere la precedenza degli operatori AND e OR si fa uso della parentesi.
+    La clausola $\verb|WHERE|$ ammette come argomento un’espressione booleana costruita combinando predicati semplici con gli operatori $\verb|AND|$, $\verb|OR|$ e $\verb|NOT|$:
+    \begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
+      \item \textbf{AND}: seleziona le righe in cui tutti i predicati sono veri
+      \item \textbf{OR}: seleziona le righe in cui almeno un predicato è vero
+      \item \textbf{NOT}: seleziona le righe in cui il predicato è falso
     \end{itemize}
-
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/Q3.png}
-    \end{figure}
-
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/Q4.png}
-    \end{figure}
-
-
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/Q5.png}
-    \end{figure}
-
-    \newpage
-
-    \subsection{Operatore LIKE}
-    \begin{itemize}
-      \item Per il confronto tra stringhe, SQL mette a disposizione anche l’operatore \textcolor{purple}{LIKE} che consente verificare se una stringa rispetta un certo “pattern” (oppure \textcolor{purple}{ILIKE} per \textbf{case insentive}).
-      \item Due caratteri speciali per il confronto “\_” e “\%”:
-      \begin{itemize}
-        \item “\_”: confronto con un carattere arbitrario
-        \item “\%”: confronto con una stringa di lunghezza arbitraria (anche 0) di caratteri arbitrari
-      \end{itemize}
-      \item ‘\_o\%i’ = stringa che ha una o in seconda posizione, seguita da una sequenza qualsiasi di caratteri (anche vuota) e che termina con una i.
-    \end{itemize}
-
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/Q6.png}
-    \end{figure}
-
-
-    \subsection{Operatore SIMILAR TO}
-
-    \begin{itemize}
-      \item  L’operatore \textcolor{purple}{SIMILAR TO} è un \textcolor{purple}{LIKE} più espressivo che accetta, come pattern, un sottoinsieme delle espressioni regolari POSIX (versione SQL).
-      \item Esempi di componenti di espressioni regolari:
-      \begin{itemize}
-        \item \_ = 1 carattere qualsiasi.
-        \item \% = 0 o più caratteri qualsiasi.
-        \item * = ripetizione del precedente match 0 o più volte.
-        \item + = ripetizione del precedente match UNA o più volte.
-        \item {n,m} = ripetizione del precedente match almeno n e non più di m volte.
-        \item [...] = ... è un elenco di caratteri ammissibili
-      \end{itemize}
-    \end{itemize}
-
-      \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/EsempioSimilarTo.png}
-    \end{figure}
-
-
-    \subsection{Operatore BETWEEN}
-
-     \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/EsempioBetween.png}
-    \end{figure}
-
-
-    \subsection{Operatore IN}
-    Nella clausola \textcolor{purple}{WHERE} può apparire l’operatore {[}\textcolor{purple}{NOT}{]} \textcolor{purple}{IN} per testare l’appartenenza di un valore ad un insieme.
-
-    \begin{lstlisting}
-    WHERE attributo [NOT] IN (valore, [, ...]);
-    \end{lstlisting}
-
     
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/EsempioIn.png}
-    \end{figure}
+    Ciascun predicato semplice usa gli operatori $\verb|=|$, $\verb|<>| (\verb|<>| \Leftrightarrow \neq)$, $\verb|<|$, $\verb|>|$, $\verb|<=|$, $\verb|>=|$ per confrontare un’espressione costruita a partire dal valore di un attributo con un valore costante, oppure un’altra espressione.
 
+    \begin{esempiobox}{Interrogazione con \texttt{WHERE}}
+      Consideriamo le seguenti tabelle:
+      \begin{center}
+        \begin{minipage}{0.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{images/tabella-impiegato.png}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{images/tabella-dipartimento.png}
+        \end{minipage}
+      \end{center}
 
-    \subsection{Operatore IS NULL}
-    \begin{itemize}
-      \item Per verificare se un attributo ha un valore nullo o meno si utilizza il predicato \textcolor{purple}{IS NULL}.
-      \item \textcolor{purple}{Attributo IS NULL}: ritorna true se l’attributo ha valore nullo.
-      \item \textcolor{purple}{IS NOT NULL}: è la negazione, ritorna true se l’attributo ha valore diverso da nullo.
+      \textbf{Estrarre i nomi e il cognome degli impiegati che lavorano nell'ufficio 20 del dipartimento Ammistrazione}
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6,
+      ]
+        SELECT Nome, Cognome
+        FROM Impiegato
+          WHERE Ufficio = 20 AND Dipart = 'Amministrazione';
+      \end{lstlisting}
+
+      Il risultato dell'interrrogazione è la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.3\textwidth]{images/where-impiegato-dipartimento.png}
+      \end{center}
+    \end{esempiobox}
+
+    \subsection{Operatore \texttt{LIKE}}
+    Per il confronto tra stringhe, SQL mette a disposizione anche l’operatore $\verb|LIKE|$ che consente di verificare se una stringa rispetta un certo “pattern” (oppure $\verb|ILIKE|$ per \textbf{case insentive}).
+
+    I caratteri speciali per il confronto sono:
+    \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+      \item \textbf{\_}: confronto con un carattere arbitrario
+      \item \textbf{\%}: confronto con una stringa di lunghezza arbitraria (anche 0) di caratteri arbitrari
     \end{itemize}
 
-     \begin{lstlisting}
-    WHERE attributo IS [NOT] IN NULL;
+    \begin{esempiobox}{Interrogazione con LIKE}
+      Consideriamo le seguenti tabelle:
+      \begin{center}
+        \begin{minipage}{0.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{images/tabella-impiegato.png}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{images/tabella-dipartimento.png}
+        \end{minipage}
+      \end{center}
+
+      \textbf{Estrarre gli impiegati che hanno un cognome che ha una "o" in seconda posizione e finisce con una "i"}
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6,
+      ]
+       SELECT *
+       FROM Impiegato
+        WHERE Cogmome LIKE '_O%i'; 
+      \end{lstlisting}
+
+      Il risultato dell'interrogazione è la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.4\textwidth]{images/like-impiegato-dipartimento.png}
+      \end{center}
+    \end{esempiobox}
+
+    \subsection{Operatore \texttt{SIMILAR TO}}
+    L’operatore $\verb|SIMILAR TO|$ è un $\verb|LIKE|$ più espressivo che accetta, come pattern, un sottoinsieme delle espressioni regolari POSIX (versione SQL).
+
+    La sintassi delle espressioni regolari è:
+    \begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
+      \item \textbf{\_}: un carattere qualsiasi
+      \item \textbf{\%}: 0 o più caratteri qualsiasi
+      \item \textbf{*}: ripetizione del precedente match 0 o più volte.
+      \item \textbf{+}: ripetizione del precedente match UNA o più volte
+      \item \textbf{{n,m}}: ripetizione del precedente match almeno n e non più di m volte
+      \item \textbf{[...]}: ... è un elenco di caratteri ammissibili
+    \end{itemize}
+
+    \begin{esempiobox}{Interrogazione con \texttt{SIMILAR TO}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/studenti-tabella.png}
+      \end{center}
+
+      \textbf{Estrarre gli studenti con cognome che inizia con 'A' o 'B', o 'D', o 'N' e finisce con 'a}
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6,
+        literate={à}{{\`a}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {è}{{\`e}}1
+      ]
+        SELECT cognome, nome, città
+        FROM Studente
+          WHERE cognome SIMILAR TO '[ABDN]{1}%a';
+      \end{lstlisting}
+
+      Il risultato dell'interrogazione è la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.4\textwidth]{images/similarTo-studenti.png}
+      \end{center}
+    \end{esempiobox}
+
+    \subsection{Operatore \texttt{BETWEEN}}
+    L’operatore BETWEEN consente di verificare se un valore è compreso tra due valori estremi (inclusi). 
+
+    La sintassi è la seguente:
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6
+    ]
+      condition BETWEEN value1 AND value2  
     \end{lstlisting}
 
-     SQL-2 implementa la logica a 3 valori:
-    \begin{itemize}
-      \item Un predicato semplice restituisce il valore NULL quando uno qualsiasi dei termini del predicato ha valore nullo.
-      \item Il predicato IS NULL è una eccezione, restituendo sempre il valore vero oppure false, mai il valore NULL.
+    \begin{esempiobox}{Interrogazione con \texttt{BETWEEN}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/studente-tabella.png}
+      \end{center}
+
+      \textbf{Estrarre tutti gli studenti che hanno matricola tra 'IN0002' e 'IN0004'}
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6,
+        literate={à}{{\`a}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {è}{{\`e}}1
+      ]
+        SELECT cognome, nome, città
+        FROM Studente
+          WHERE matricola BETWEEN 'IN0002' AND 'IN0004';  
+      \end{lstlisting}
+
+      Il risultato dell'interrogazione è:
+      \begin{center}
+        \includegraphics[width=0.4\textwidth]{images/between-studente.png}
+      \end{center}
+    \end{esempiobox}
+
+
+    \subsection{Operatore \texttt{IN}}
+    Nella clausola $\verb|WHERE|$ può apparire l’operatore $\verb|[NOT] IN|$ per testare l’appartenenza di un valore ad un insieme. 
+    
+    La sintassi è la seguente:
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6
+      ]
+      WHERE attributo [NOT] IN (valore, [, ...]);
+    \end{lstlisting}
+
+    \begin{esempiobox}{Interrogazione con \texttt{IN}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/studente-in-tabella.png}
+      \end{center}
+
+      \textbf{Estrarre tutti gli studenti che hanno matricola nell'elenco 'IN0001', 'IN0003' e 'IN0005'}
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6
+      ]
+        SELECT cognome, nome, matricola
+        FROM Studente
+          WHERE matricola IN ('IN0001', 'IN0003', 'IN0005');  
+      \end{lstlisting}
+
+      Il risultato dell'interrogazione sono le righe gialle.
+    \end{esempiobox}
+
+
+    \subsection{Operatore \texttt{IS NULL}}
+    Per verificare se un attributo ha un valore nullo o meno si utilizza il predicato $\verb|IS NULL|$ che ritorna true se l’attributo ha valore nullo (oppure $\verb|IS NOT NULL|$):
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+      \item \textbf{IS NULL}: ritorna true se l’attributo ha valore nullo
+      \item \textbf{IS NULL}: è la negazione, ritorna true se l’attributo ha valore diverso da nullo
     \end{itemize}
 
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=1\textwidth]{images/EsempioIsNull.png}
-    \end{figure}
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6
+      ]
+      WHERE attributo IS [NOT] IN NULL;
+    \end{lstlisting}
+
+    SQL-2 implementa la logica a 3 valori:
+    \begin{itemize}[itemsep=\smallskipamount]
+      \item predicato semplice restituisce il valore $\verb|NULL|$ quando uno qualsiasi dei termini del predicato ha valore nullo
+      \item predicato $\verb|IS NULL|$ è una eccezione, restituendo sempre il valore vero oppure false, mai il valore $\verb|NULL|$
+    \end{itemize}
+
+    \begin{esempiobox}{Interrogazione con \texttt{IS NULL}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/studente-isNull-tabella.png}
+      \end{center}
+
+      \textbf{Estrarre tutti gli studenti che hanno matricola nell'elenco 'IN0001', 'IN0003' e 'IN0005'}
+      \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6,
+        literate={à}{{\`a}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {è}{{\`e}}1
+      ]
+        SELECT cognome, nome, città
+        FROM Studente
+          WHERE città IS NULL;  
+      \end{lstlisting}
+
+      Il risultato dell'interrogazione sono le righe gialle.
+    \end{esempiobox}
 
 
 
-    \section{SQL e ALGEBRA RELAZIONALE}
-
-
-    Cerchiamo ora di capire la relazione con le corrispondenti interrogazioni procedurali in algebra relazionale.
-
-    Scrivere questa espressione in SQL: 
-     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \begin{flushleft}
-        SELECT $T_1$.attributo$_{1l}$,$\dots$, T$_h$.attributo$_{hm}$\\
-        FROM Tabella$_{1}$ as T$_{1}$,$\dots$, Tabella$_{h}$ as T$_{h}$\\
-        WHERE Condizione
-    \end{flushleft}
-  \end{mdframed}
-
-    Corrisponde a fare questa operazione in algebra relazionale:
-
-    \begin{figure}[H]
-      \includegraphics[width=0.7\textwidth]{images/SqlRelazionale1.png}
-    \end{figure}
-
-    {\textbf{\large Esempi più concreti}}
-
-    Prendiamo queste tabelle come riferimento iniziale:
-    \begin{figure}[H]
-      \includegraphics[width=1\textwidth]{images/TabelleEsempio.png}
-      \caption{Tabelle di riferimento}
-    \end{figure}
-
-    \subsection{Selezione e proiezione}
-    \underline{Nome e reddito delle persone con meno di trenta anni}
-
-    \textbf{Algebra relazionale}: $\pi_{\text{Nome, Reddito}}(\sigma_{\text{Età<30}}(\text{Persone}))$ 
-
-     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \noindent \textbf{SQL:} \quad
-    \begin{tabular}[t]{@{}l@{}}
-    SELECT Nome, Reddito\\
-    FROM Persone\\
-    WHERE età < 30
-    \end{tabular}
-  \end{mdframed}
-
-    \vspace{2em}
-
-    {\large \textbf{SELECT: alias di tabella o di attributo}}
-
-    \noindent
-\begin{minipage}[t]{0.39\textwidth}
-   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \textbf{Con ALIAS di Tabella}
-    \begin{flushleft}
-        SELECT \textcolor{cyan}{p}.nome, \textcolor{cyan}{p}.reddito\\
-        FROM persone \textcolor{cyan}{as p}\\
-        WHERE \textcolor{cyan}{p}.Età < 30
-    \end{flushleft}
-  \end{mdframed}
-\end{minipage}
-\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
-\begin{minipage}[t]{0.60\textwidth}
-   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \textbf{Con ALIAS di attributo}
-    \begin{flushleft}
-      SELECT \textcolor{cyan}{p}.nome as \textcolor{black!40!green}{nomePersona},
-      \textcolor{cyan}{p}.reddito as \textcolor{black!40!green}{redditoPersona}\\
-      FROM persone \textcolor{cyan}{as p}\\
-      WHERE \textcolor{cyan}{p}.Età < ’30‘
-    \end{flushleft}
-  \end{mdframed}
-\end{minipage}
-
-
-    \subsection{SELECT: Senza proiezione}
-    \underline{Nome, reddito ed età delle persone con meno di trenta anni}
-
-    \textbf{Algebra relazionale}: $\sigma_{\text{Età<30}}(\text{Persone})$
-
-     \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \noindent \textbf{SQL:} \quad
-    \begin{tabular}[t]{@{}l@{}}
-    SELECT *\\
-    FROM Persone\\
-    WHERE età < 30
-    \end{tabular}
-  \end{mdframed}
-
-
-    \subsection{Proiezione: gestione dei duplicati in SQL}
-
-    Una significativa differenza tra SQL e algebra relazionale è la gestione dei duplicati.
-    L’operazione di eliminazione delle righe doppie (ad esempio al seguito di una selezione con where) è molto costosa, quindi di default SQL mantiene le righe duplicate.
+    \section{Gestione dei duplicati in SQL}
+    Siccome la rimozione delle righe duplicate è un’operazione costosa, SQL le mantiene di default. 
     
-    Il costrutto \textcolor{purple}{DISTINCT} dopo la parola chiave SELECT permette di eliminare i duplicati. Il costrutto \textcolor{purple}{ALL} permette invece di mantenerli, ma questa è già la scelta di default.
+    Per togliere i duplicati si può utilizzare la parola chiave $\verb|DISTINCT|$ dopo $\verb|SELECT|$:
+    \begin{lstlisting}[
+        basicstyle=\small\ttfamily,
+        frame=single,
+        backgroundcolor=\color{gray!10},
+        rulecolor=\color{gray},
+        framesep=5pt,
+        xleftmargin=5pt,
+        gobble=6
+      ]
+      SELECT DISTINCT colonna
+      FROM tabella
+        WHERE condizione;
+    \end{lstlisting}
 
 
     {\textbf{\large Vediamone un esempio}}
