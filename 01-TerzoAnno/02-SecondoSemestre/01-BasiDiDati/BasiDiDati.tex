@@ -975,9 +975,9 @@ A partire da SQL-2, esistono altri tipi di JOIN (join\_type): \textcolor{cyan}{I
   \qquad
 
 \textbf{Sintassi generale}
-\begin{lstlisting}
+\begin{codiceSQL}
     table_name [NATURAL] join_type table_name [ ON join_condition [, ...]].
-    \end{lstlisting}
+    \end{codiceSQL}
 
 dove \textcolor{cyan}{join\_condition} è un’espressione booleana che seleziona le tuple del join da aggiungere al risultato. Le tuple selezionate possono essere poi filtrate con la condizione della clausola \textcolor{purple}{WHERE} 
 
@@ -1097,9 +1097,9 @@ dove \textcolor{cyan}{join\_condition} è un’espressione booleana che selezion
 
 
 \textbf{Sintassi generale}
- \begin{lstlisting}
+ \begin{codiceSQL}
     table1 RIGHT [ OUTER ] JOIN table2 ON join_condition [, ...].
-    \end{lstlisting}
+    \end{codiceSQL}
 
 
 
@@ -2431,13 +2431,13 @@ PostgrSQL è un Relational Data Base Management System (RDBMS o DBMS) con alcune
 
     \section{Creazione di una tabella}
 Struttura base
-\begin{lstlisting}
+\begin{codiceSQL}
 CREATE TABLE tabella (
   attributo dominio [ valoreDefault ] { vincolo }
   {, attributo dominio [ valoreDefault ] { vincolo } }
   {, vincoloTabella }
 ]);
-\end{lstlisting}
+\end{codiceSQL}
 
 Costrutti inseriti: 
 \begin{itemize}
@@ -2449,7 +2449,7 @@ Costrutti inseriti:
 
 
 \textbf{\large Ecco un esempio}
-\begin{lstlisting}
+\begin{codiceSQL}
 CREATE TABLE Impiegato (
   Matricola CHARACTER(6) PRIMARY KEY, 
   Nome VARCHAR(20) NOT NULL, 
@@ -2460,7 +2460,7 @@ CREATE TABLE Impiegato (
     REFERENCES Dipartimento(NomeDip),     /*vincolo di tabella*/
   UNIQUE (Cognome,Nome)                   /*vincolo di tabella*/
 )
-\end{lstlisting}
+\end{codiceSQL}
 
 
 \subsection{Identificatori}
@@ -2559,24 +2559,24 @@ L’insieme delle unità di misura è diviso in due insiemi distinti:
 
 \subsubsection{Domini definiti dall'utente}
 
-\begin{lstlisting}
+\begin{codiceSQL}
   CREATE DOMAIN nome AS tipoBase [valoreDefault][vincolo]
-\end{lstlisting}
+\end{codiceSQL}
 
 
 \textcolor{purple}{\textbf{CREATE DOMAIN}}: definisce un dominio, utilizzabile in definizioni di relazioni, anche con 
 vincoli e valori di default
 Il dominio può essere definito a partire da un dominio elementare oppure da un altro 
 dominio definito dall‘utente
-\begin{lstlisting}
+\begin{codiceSQL}
 CREATE DOMAIN giorniSettimana AS CHARACTER (3)
 CHECK (VALUE IN ('LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB', 'DOM'));
-\end{lstlisting}
+\end{codiceSQL}
 
-\begin{lstlisting}
+\begin{codiceSQL}
 CREATE DOMAIN Voto AS SMALLINT DEFAULT NULL
 CHECK ( value >=18 AND value <= 30 )
-\end{lstlisting}
+\end{codiceSQL}
 
 
 
@@ -2586,47 +2586,47 @@ CHECK ( value >=18 AND value <= 30 )
 \begin{itemize}
   \item \textbf{NOT NULL}: il valore nullo non è ammesso per l'attributo, quindi il valore deve sempre essere specificato, o si assegna un valore di default
   \item \textbf{UNIQUE}: definisce (super)chiavi
-  \begin{lstlisting}
+  \begin{codiceSQL}
 Nome VARCHAR(20),
 Cognome VARCHAR(20),
 UNIQUE(Nome,Cognome)
 
 /* impone che non ci siano due righe che abbiano uguale sia il nome che il cognome*/
-  \end{lstlisting}
+  \end{codiceSQL}
 
-  \begin{lstlisting}
+  \begin{codiceSQL}
 Nome VARCHAR(20) UNIQUE,
 Cognome VARCHAR(20) UNIQUE
 
 /* impone che non ci siano due righe che abbiano lo stesso nome o lo stesso cognome*/ 
-  \end{lstlisting}
+  \end{codiceSQL}
   \item \textbf{PRIMARY KEY}: chiave primaria (una sola, implica NOT NULL) 
-  \begin{lstlisting}
+  \begin{codiceSQL}
 matricola CHAR (6) PRIMARY KEY;
 /* se unico componente della chiave primaria*/
-  \end{lstlisting}
+  \end{codiceSQL}
 
-  \begin{lstlisting}
+  \begin{codiceSQL}
 nome VARCHAR(20),
 cognome VARCHAR(20),
 PRIMARY KEY(nome, cognome)
 
 /* Se la chiave primaria ha piu attributi */
-  \end{lstlisting}
+  \end{codiceSQL}
   \item \textbf{CHECK}: specifica un vincolo generico che deve soddisfare le tuple della tabella. Viene soddisfatto se la sua espressione è vera o nulla.
   
-\begin{lstlisting}
+\begin{codiceSQL}
 CREATE TABLE Impiegato (
-matricola CHAR(6) PRIMARY KEY,
-nome VARCHAR(20) NOT NULL,
-cognome VARCHAR(20) NOT NULL,
-qualifica VARCHAR(20),
-stipendio NUMERIC(8,2) DEFAULT 500.00 NOT NULL
-CHECK( stipendio >= 0.0 ),    /* check di attributo */
-UNIQUE( cognome, nome ),
-CHECK( nome <> cognome )      /* check di tabella */
+  matricola CHAR(6) PRIMARY KEY,
+  nome VARCHAR(20) NOT NULL,
+  cognome VARCHAR(20) NOT NULL,
+  qualifica VARCHAR(20),
+  stipendio NUMERIC(8,2) DEFAULT 500.00 NOT NULL
+  CHECK( stipendio >= 0.0 ),    /* check di attributo */
+  UNIQUE( cognome, nome ),
+  CHECK( nome <> cognome )      /* check di tabella */
 )
-  \end{lstlisting}
+  \end{codiceSQL}
 
 \end{itemize}
 
@@ -2645,7 +2645,7 @@ esterna}
 \textbf{REFERENCES e FOREIGN KEY permettono di definire vincoli di integrità referenziale}
 
 Per singoli attributi, basta utilizzare il costrutto \textcolor{purple}{\textbf{REFERENCES}}
-\begin{lstlisting}
+\begin{codiceSQL}
 CREATE TABLE Impiegato (
   Matricola CHARACTER(6) primary key,
   Nome CHARACTER VARYING(20)  not null,
@@ -2657,10 +2657,10 @@ CREATE TABLE Impiegato (
   Stipendio  NUMERIC(9) default 0,
   UNIQUE (Cognome, Nome)
 )
-\end{lstlisting}
+\end{codiceSQL}
 
 Per attributi multipli, si usa il costrutto \textcolor{purple}{\textbf{FOREIGN KEY}} alla fine della definizione degli attributi, seguito da \textcolor{purple}{\textbf{REFERENCES}}
-\begin{lstlisting}
+\begin{codiceSQL}
 CREATE TABLE Impiegato (
   Matricola CHARACTER(6) primary key,
   Nome CHARACTER VARYING(20)  not null,
@@ -2673,7 +2673,7 @@ CREATE TABLE Impiegato (
     REFERENCES Anagrafica (Nome, Cognome) 
     /* Tabella esterna con attributi chiave*/
 )
-\end{lstlisting}
+\end{codiceSQL}
 
 Vediamo un esempio più concreto:
 
@@ -2682,7 +2682,7 @@ Vediamo un esempio più concreto:
   \includegraphics[width= \textwidth]{images/esempioReferences.png}
 \end{figure}
 
-\begin{lstlisting}
+\begin{codiceSQL}
 CREATE TABLE Infrazione(
   Codice CHAR(6) PRIMARY KEY, 
   Data DATE NOT NULL,  
@@ -2694,7 +2694,7 @@ CREATE TABLE Infrazione(
     REFERENCES Auto(Provincia, Numero)
 )
 
-\end{lstlisting}
+\end{codiceSQL}
 
 \section{Modifica degli schemi}
 \begin{itemize}
@@ -2707,41 +2707,41 @@ CREATE TABLE Infrazione(
 Il costrutto \textbf{Alter} permette di:
 
 Aggiungere un nuovo attributo (ADD COLUMN):
-\begin{lstlisting}
+\begin{codiceSQL}
 ALTER TABLE tabella ADD COLUMN attributo tipo;
 ALTER TABLE impiegato ADD COLUMN stipendio NUMERIC(8,2);
-\end{lstlisting}
+\end{codiceSQL}
 
 Rimuovere un attributo (DROP COLUMN):
-\begin{lstlisting}
+\begin{codiceSQL}
 ALTER TABLE tabella DROP COLUMN attributo;
 ALTER TABLE impiegato DROP COLUMN stipendio;
-\end{lstlisting}
+\end{codiceSQL}
 Modificare valore di default di un attributo (ALTER COLUMN):
-\begin{lstlisting}
+\begin{codiceSQL}
 ALTER TABLE tabella ALTER COLUMN attributo { SET DEFAULT valore | 
 DROP DEFAULT };
 ALTER TABLE impiegato ALTER COLUMN stipendio SET DEFAULT 1000.00;
-\end{lstlisting}
+\end{codiceSQL}
 
 \section{Cancellazione dati in una tabella}
 Le tuple di una tabella vengono cancellate con il comando \textcolor{purple}{\textbf{DELETE}}.
 condizione è una espressione booleana che seleziona quali tuple cancellare. 
-\begin{lstlisting}
+\begin{codiceSQL}
   DELETE FROM tabella [ WHERE condizione ];
-\end{lstlisting}
+\end{codiceSQL}
 
 \vario{}{
   \textbf{Se WHERE non è presente, tutte le tuple saranno cancellate.}
 }
-\begin{lstlisting}
+\begin{codiceSQL}
   DELETE FROM impiegato WHERE matricola = 'A001 ';
-\end{lstlisting}
+\end{codiceSQL}
 
 Una tabella viene cancellata con il comando \textcolor{purple}{\textbf{DROP TABLE}}:
-\begin{lstlisting}
+\begin{codiceSQL}
   DROP TABLE tabella;
-\end{lstlisting}
+\end{codiceSQL}
 
 
 
@@ -2750,27 +2750,27 @@ Una tabella viene cancellata con il comando \textcolor{purple}{\textbf{DROP TABL
 
 \textbf{\large Inserimento di valori all'interno di una tupla}
 
-\begin{lstlisting}
+\begin{codiceSQL}
 INSERT INTO Tabella [ ( Attributi ) ] 
 VALUES( Valori ) 
-\end{lstlisting}
+\end{codiceSQL}
 oppure
-\begin{lstlisting}
+\begin{codiceSQL}
   INSERT INTO Tabella [ ( Attributi )]
 (SELECT ...)
-\end{lstlisting}
+\end{codiceSQL}
 
 \textbf{ Esempio inserimento}
-\begin{lstlisting}
+\begin{codiceSQL}
 INSERT INTO Museo (nome, citta, indirizzo, numeroTelefono, giornoChiusura, prezzo)
 VALUES('Arena', 'Verona', 'piazza Bra', '045 8003204', 'MARTEDI', 20) 
 
-\end{lstlisting}
+\end{codiceSQL}
 
 
 \textbf{\large Aggiornamento di valori all'interno di una tupla}
 
-\begin{lstlisting}
+\begin{codiceSQL}
 UPDATE NomeTabella
   SET Attributo = < 
   Espressione |
@@ -2778,19 +2778,19 @@ UPDATE NomeTabella
   NULL | 
   DEFAULT >
   [ WHERE Condizione ]
-\end{lstlisting}
+\end{codiceSQL}
 
 \textbf{Esempio}
-\begin{lstlisting}
+\begin{codiceSQL}
 UPDATE Museo SET sitoInternet = 'www.ciao.it' WHERE citta ='Verona'  
-\end{lstlisting}
+\end{codiceSQL}
 
 
 \section{Selezione}
 
 \textbf{\large Struttura base}
 
-\begin{lstlisting}
+\begin{codiceSQL}
 SELECT [ DISTINCT ]
 [ * | expression [[ AS] output_name ] [, 
 ...] ]
@@ -2803,14 +2803,14 @@ FROM from_item [, ...]
 [ ORDER BY expression [ ASC | DESC | USING 
 operator ]]
 
-\end{lstlisting}
+\end{codiceSQL}
 
 
 \subsection{Clausola SELECT}
-\begin{lstlisting}
+\begin{codiceSQL}
 SELECT [ DISTINCT ]
 [{* | expression [[ AS] output_name ]} [, ...]]
-\end{lstlisting}
+\end{codiceSQL}
 \begin{description}
   \item [\textbf{*}] è un’abbreviazione per indicare tutti gli attributi delle tabelle.
   \item [\textbf{expression}] è un’espressione che coinvolge gli attributi della tabella (può anche essere semplicemente il nome di un attributo).
@@ -2833,10 +2833,10 @@ specificate nelle clausole \textbf{WHERE}, \textbf{GROUP BY} e \textbf{HAVING}
 \subsubsection{Target List}
 
 \begin{minipage}[t]{0.39\textwidth}
-   \begin{lstlisting}
+   \begin{codiceSQL}
 SELECT *
 FROM Tabella
-   \end{lstlisting}
+   \end{codiceSQL}
 \end{minipage}
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
 \begin{minipage}[t]{0.50\textwidth}
@@ -2847,10 +2847,10 @@ clausola FROM
 \end{minipage}
 
 \begin{minipage}[t]{0.39\textwidth}
-   \begin{lstlisting}
+   \begin{codiceSQL}
 SELECT Attributo1, Attributo2
 FROM Tabella
-   \end{lstlisting}
+   \end{codiceSQL}
 \end{minipage}
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
 \begin{minipage}[t]{0.50\textwidth}
@@ -2866,11 +2866,11 @@ clausola FROM
 
 
 \begin{minipage}[t]{0.39\textwidth}
- \begin{lstlisting}
+ \begin{codiceSQL}
 SELECT Nome, Reddito
 FROM Persone
 WHERE Eta < 30
-\end{lstlisting}
+\end{codiceSQL}
 \end{minipage}
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
 \begin{minipage}[t]{0.50\textwidth}
@@ -2891,25 +2891,23 @@ Lavora su una singola riga alla volta. Se la tua tabella ha 100 righe, il costru
 può infatti essere utilizzato anche 
 
 \textbf{\large Nella clausola WHERE (per filtrare i dati)}
-\begin{lstlisting}
+\begin{codiceSQL}
   -- Trova la riga in cui l'unione di nome e cognome da esattamente 'Mario Rossi'
 WHERE nome || ' ' || cognome = 'Mario Rossi'
-\end{lstlisting}
+\end{codiceSQL}
 
 \textbf{\large Nella clausola ORDER BY (per ordinare i risultati)}
-\begin{lstlisting}
+\begin{codiceSQL}
   -- Ordina i risultati basandosi sull'unione testuale dei due campi
 ORDER BY titolo || citta
-\end{lstlisting}
-\begin{lstlisting}
-  
-\end{lstlisting}
+\end{codiceSQL}
+
 
 
 \subsection{Clausola FROM}
-\begin{lstlisting}
+\begin{codiceSQL}
   FROM from_item [, ...]
-\end{lstlisting}
+\end{codiceSQL}
 
 \begin{enumerate}
   \item  table\_name [[AS] alias [(column\_alias [, ...])]]
@@ -2937,29 +2935,29 @@ principali sono riassunti nelle slide seguenti
 
 \subsubsection{Uso di alias}
 
-\begin{lstlisting}
+\begin{codiceSQL}
 SELECT P.Reddito, R.Telefono
 FROM Reparti as R, Persona ad P
 WHERE ... ;
-\end{lstlisting}
+\end{codiceSQL}
 
 Utile quando è necessario specificare la provenienza dell’attributo, 
 perchè nella base di dati sono presenti più attributi con lo stesso nome
 
 \subsubsection{Target List}
-\begin{lstlisting}
+\begin{codiceSQL}
 SELECT P.Nome as NPersona, P.Reddito as RPersona
 FROM Persone as P
 WHERE P.Eta < 30
-\end{lstlisting}
+\end{codiceSQL}
 
 
 
 
 \subsection{Clausola WHERE}
-\begin{lstlisting}
+\begin{codiceSQL}
   WHERE condition
-\end{lstlisting}
+\end{codiceSQL}
 
 \textbf{\textcolor{black!50!red}{condition}} è un’espressione booleana combinando condizioni semplici $C_{i}$ con gli 
 operatori AND, OR, NOT.
@@ -2982,11 +2980,11 @@ della riga.
 
 
 \begin{minipage}[t]{0.39\textwidth}
- \begin{lstlisting}
+ \begin{codiceSQL}
 SELECT Nome, Reddito
 FROM Persone
 WHERE Eta < 30;
-\end{lstlisting}
+\end{codiceSQL}
 \end{minipage}
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
 \begin{minipage}[t]{0.50\textwidth}
@@ -2999,9 +2997,9 @@ WHERE Età < 30 OR Reddito > 50;
 
 
 \subsubsection{Operatore LIKE}
-\begin{lstlisting}
+\begin{codiceSQL}
 WHERE attributo [NOT] LIKE 'pattern';
-\end{lstlisting}
+\end{codiceSQL}
 
 Nella clausola WHERE può apparire l’operatore LIKE per il confronto di stringhe. 
 LIKE è un operatore di pattern matching. I pattern si costruiscono con i 
@@ -3014,11 +3012,11 @@ caratteri speciali \_ e \%:
 
 \begin{minipage}[t]{0.39\textwidth}
   \vspace{2em}
-  \begin{lstlisting}[aboveskip=0pt]
+  \begin{codiceSQL}
 SELECT Nome,Reddito
 FROM Persona
 WHERE Nome LIKE 'A\%a'
-  \end{lstlisting}
+  \end{codiceSQL}
 \end{minipage}
 \hfill 
 \begin{minipage}[t]{0.50\textwidth}
@@ -3045,27 +3043,26 @@ Esempi di componenti di espressioni regolari:
 
 
 \begin{minipage}[t]{0.50\textwidth}
-  \vspace{2em}
-  \begin{lstlisting} 
+  \vspace*{0pt}
+  \begin{codiceSQL}[unbreakable]
 SELECT *
 FROM Persone
-Per trovare nomi che
-iniziano con A, F o O
 WHERE Nome SIMILAR TO '[AFO]'
-  \end{lstlisting}
+  \end{codiceSQL}
 \end{minipage}
 \hfill 
 \begin{minipage}[t]{0.45\textwidth}
-  \vspace{3em}
+  \vspace*{0pt}
+  \vspace{1.5em} % Spazio per allineare il testo al centro del codice
 Per trovare nomi che inziano per A,F o O
 \end{minipage}  
 
 
 \subsubsection{Operatore BETWEEN}
 
-\begin{lstlisting}
+\begin{codiceSQL}
 WHERE attributo [NOT] BETWEEN valore_iniziale AND valore_finale;
-\end{lstlisting}
+\end{codiceSQL}
 
 Nella clausola \textcolor{purple}{\textbf{WHERE}} può apparire l’operatore \textcolor{purple}{\textbf{BETWEEN}} per testare l’appartenenza 
 di un valore ad un intervallo (non limitato ai valori numerici, usato anche con date e 
@@ -3073,11 +3070,11 @@ stringhe)
 
 
 \begin{minipage}[t]{0.40\textwidth}
-  \begin{lstlisting} 
+  \begin{codiceSQL} 
 SELECT *
 FROM Persone
 WHERE Eta BETWEEN 20 AND 40
-  \end{lstlisting}
+  \end{codiceSQL}
 \end{minipage}
 \hfill 
 \begin{minipage}[t]{0.45\textwidth}
@@ -3086,22 +3083,22 @@ WHERE Eta BETWEEN 20 AND 40
 
 
 \subsubsection{Operatore IN}
-\begin{lstlisting}
+\begin{codiceSQL}
   WHERE attributo [NOT] IN ( valore [, ...] );
 
-\end{lstlisting}
+\end{codiceSQL}
 Nella clausola WHERE può apparire l’operatore [\textbf{\textcolor{purple}{NOT}}] \textbf{\textcolor{purple}{IN}} per testare 
 l’appartenenza di un valore ad un insieme.
-\begin{lstlisting}
+\begin{codiceSQL}
 SELECT *
 FROM Persone
 WHERE Nome NOT IN ('Andrea', 'Franco')
-\end{lstlisting}
+\end{codiceSQL}
 
 \subsubsection{Operatore IS NULL}
-\begin{lstlisting}
+\begin{codiceSQL}
 WHERE attributo IS [ NOT ] NULL;
-\end{lstlisting}
+\end{codiceSQL}
 Nella clausola WHERE può apparire l’operatore \textbf{\textcolor{purple}{IS}} [\textbf{\textcolor{purple}{NOT}}] \textbf{\textcolor{purple}{NULL}} per testare se un 
 valore è \textbf{\textcolor{purple}{NOT KNOWN (NULL)}} o no.
 Il valore NULL non rappresenta lo zero o una stringa vuota, ma l'assenza di dati 
@@ -3112,25 +3109,25 @@ false, unknown) e i valori nulli non sono considerati né veri, né falsi.\par
 NON SI PUÒ usare ’=’ o ’<>’ con il valore NULL!  
 \end{center}
 
-\begin{lstlisting}
+\begin{codiceSQL}
 SELECT *
 FROM Persone
 WHERE Reddito IS NOT NULL
-\end{lstlisting}
+\end{codiceSQL}
 
 \subsubsection{Operatore ORDER BY}
-\begin{lstlisting}
+\begin{codiceSQL}
   ORDER BY attributo [{ ASC | DESC }] [, ... ];
-\end{lstlisting}
+\end{codiceSQL}
 La clausola ORDER BY ordina le tuple del risultato in ordine rispetto agli attributi 
 specificati,
 ASCendente è lo standard.
-\begin{lstlisting}
+\begin{codiceSQL}
 SELECT Nome
 FROM Persone
 ORDER BY Nome DESC
 
-\end{lstlisting}
+\end{codiceSQL}
 
 \subsubsection{Operatori di aggregazione}
 
@@ -3143,10 +3140,10 @@ Due tipi principali:
   \item MAX, MIN, AVG, SUM.
 \end{itemize}
 
-\begin{lstlisting}
+\begin{codiceSQL}
 SELECT MAX(Reddito) 
 FROM Persone;
-\end{lstlisting}
+\end{codiceSQL}
 
 \vario{Nota}{Quando si usano gli operatori aggregati, dopo la SELECT non possono 
 comparire espressioni che usano i valori presenti nelle singole tuple perché il 
@@ -3157,9 +3154,9 @@ risultato è sempre e solo una tupla
 
   \begin{enumerate}
     \item \textbf{Count}
-    \begin{lstlisting}
+    \begin{codiceSQL}
       COUNT({ *| expr | ALLexpr | DISTINCTexpr }])
-    \end{lstlisting}
+    \end{codiceSQL}
     Restituisce il numero di tuple significative nel risultato dell’interrogazione.
     Tre casi comuni:\begin{itemize}
       \item \textcolor{purple}{COUNT(*)} ritorna il numero di tuple nel risultato dell’interrogazione.
@@ -3168,19 +3165,19 @@ risultato è sempre e solo una tupla
       \item \textcolor{purple}{COUNT(DISTINCT expr)} come con \textcolor{purple}{COUNT(expr)} ma con l’ulteriore condizione che i valori di expr siano distinti
     \end{itemize}
     \item \textbf{SUM/MAX/MIN/AVG} 
-    \begin{lstlisting}
+    \begin{codiceSQL}
       op ({ expr | DISTINCTexpr })
-    \end{lstlisting}
+    \end{codiceSQL}
     Determinano un valore numerico (SUM/AVG) o alfanumerico (MAX/MIN) considerando le tuple significative nel risultato dell’interrogazione.
     \begin{itemize}
       \item op = SUM | AVG | MAX | MIN;
       \item expr è un’espressione che usa uno o più attributi e funzioni di attributi.
       \item DISTINCT considero solo i valori distinti.  
     \end{itemize}
-    \begin{lstlisting}
+    \begin{codiceSQL}
       SELECT AVG(Eta) AS Media\_Eta
       FROM Persone;
-    \end{lstlisting}
+    \end{codiceSQL}
   \end{enumerate}
 
 
@@ -3193,11 +3190,11 @@ In una interrogazione che usa GROUP BY, la clausola SELECT contiene solamente gl
 
 
 \textbf{\large Visualizzare tutte le città raggruppate della tabella Studente}
-\begin{lstlisting}
+\begin{codiceSQL}
 SELECT citta
 FROM studente
 GROUP BY citta
-\end{lstlisting}
+\end{codiceSQL}
 
 \noindent
 \begin{minipage}[t]{0.6\textwidth}
@@ -3220,11 +3217,11 @@ GROUP BY citta
 
 \noindent
 \begin{minipage}{0.5\textwidth}
-   \begin{lstlisting}
+   \begin{codiceSQL}
 SELECT cognome,LOWER(citta)
 FROM Studente
 GROUP BY cognome,LOWER(citta);
-   \end{lstlisting}
+   \end{codiceSQL}
 \end{minipage}
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
 \begin{minipage}[t]{0.40\textwidth}
@@ -3254,12 +3251,12 @@ GROUP BY cognome,LOWER(citta);
 
 \noindent
 \begin{minipage}{0.5\textwidth}
-   \begin{lstlisting}
+   \begin{codiceSQL}
 SELECT citta
 FROM Studente
 GROUP BY citta
 HAVING citta LIKE 'V%';
-   \end{lstlisting}
+   \end{codiceSQL}
 \end{minipage}
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
 \begin{minipage}[t]{0.40\textwidth}
@@ -3276,12 +3273,12 @@ HAVING citta LIKE 'V%';
 
 \noindent
 \begin{minipage}{0.5\textwidth}
-   \begin{lstlisting}
+   \begin{codiceSQL}
 SELECT cognome, LOWER(citta)
 FROM Studente
 GROUP BY cognome, LOWER(citta)
 HAVING COUNT ( cognome) >1;
-   \end{lstlisting}
+   \end{codiceSQL}
 \end{minipage}
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
 \begin{minipage}[t]{0.40\textwidth}
@@ -3299,12 +3296,12 @@ HAVING COUNT ( cognome) >1;
 
 \noindent
 \begin{minipage}{0.5\textwidth}
-   \begin{lstlisting}
+   \begin{codiceSQL}
 SELECT LOWER(citta) AS "Citta", AVG (media)::DECIMAL(5 ,2) AS "mediaArr."
 FROM Studente
 GROUP BY LOWER(citta)
 HAVING AVG(media) >23.47 ;
-   \end{lstlisting}
+   \end{codiceSQL}
 \end{minipage}
 \hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
 \begin{minipage}[t]{0.40\textwidth}
@@ -3316,9 +3313,9 @@ HAVING AVG(media) >23.47 ;
 
 \subsection{Interrogazione con JOIN}
 
-\begin{lstlisting}
+\begin{codiceSQL}
   TABLE1 join_typeTABLE2 ON join_condition[, ...].
-\end{lstlisting}
+\end{codiceSQL}
 
 
 \textcolor{cyan}{INNER JOIN}, \textcolor{cyan}{LEFT [OUTER] JOIN}, \textcolor{cyan}{RIGHT [OUTER] JOIN} e \textcolor{cyan}{FULL [OUTER] JOIN}.
@@ -3330,9 +3327,9 @@ Il prodotto cartesiano di due o più tabelle è un \textcolor{cyan}{CROSS JOIN}.
 \textbf{\large Interrogazioni con INNER JOIN
 Rappresenta}
 
-\begin{lstlisting}
+\begin{codiceSQL}
   table1 [ INNER] JOIN table2 ON join_condition[, ...]
-\end{lstlisting}
+\end{codiceSQL}
 
 
 Rappresenta il tradizionale $\theta$ join dell’algebra relazionale.
@@ -3342,9 +3339,9 @@ table1 [ INNER] JOIN table2 ON join\_condition[, ...]
 
 
 \subsection{Interrogazioni con LEFT OUTER JOIN}
-\begin{lstlisting}
-  table1 LEFT[ OUTER] JOIN table2 ON join\_condition[, ...].
-\end{lstlisting}
+\begin{codiceSQL}
+  table1 LEFT[ OUTER] JOIN table2 ON join_condition[, ...].
+\end{codiceSQL}
 
 Si esegue un INNER JOIN. Poi, per ciascuna riga r1 di table1 che non soddisfa la condizione con qualsiasi riga di table2, si aggiunge una riga al risultato con i valori di r1 e assegnando NULL agli altri attributi..
 
@@ -3354,18 +3351,18 @@ Con le medisime tabelle si possono ottenere risultati diversi invertendo l’ord
 
 \subsection{Interrogazioni con RIGHT OUTER JOIN}
 
-\begin{lstlisting}
+\begin{codiceSQL}
   table1 RIGHT[ OUTER] JOIN table2 ON join_condition[, ...].
-\end{lstlisting}
+\end{codiceSQL}
 
 Si esegue un INNER JOIN. Poi, per ciascuna riga r2 di table2 che non soddisfa la condizione con qualsiasi riga di table1, si aggiunge una riga al risultato con i valori di r2 e assegnando NULL agli altri attributi..
 
 
 \subsection{Interrogazioni con FULL OUTER JOIN}
 
-\begin{lstlisting}
+\begin{codiceSQL}
   table1 FULL[ OUTER] JOIN table2 ON join\_condition[, ...].}
-\end{lstlisting}
+\end{codiceSQL}
 
 \begin{itemize}
   \item È equivalentea:INNER JOIN + LEFT OUTER JOIN + RIGHT OUTER JOIN.

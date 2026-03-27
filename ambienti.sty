@@ -127,6 +127,8 @@
   stringstyle=\color{red},
   breaklines=true,
   showstringspaces=false,
+  keepspaces=true,      % <-- AGGIUNTO: obbliga LaTeX a non ignorare gli spazi
+  columns=fixed,        % <-- AGGIUNTO: mantiene rigida la griglia dei caratteri
   morekeywords={DISTINCT, AS, FROM, WHERE, GROUP, BY, HAVING, UNION, INTERSECT, EXCEPT, ORDER, ASC, DESC, USING}
 }
 
@@ -161,16 +163,25 @@
 }
 
 \newtcblisting{codiceSQL}[1][]{%
-  colback=blue!3!white,     % Azzurrino chiarissimo
-  colframe=blue!40!black,   % Bordo blu neutro
-  arc=2mm,
-  boxrule=0.8pt,
-  enhanced,
-  breakable,
-  listing only,
-  listing options={style=SQLstyle},
-  #1
+width=\linewidth,
+colback=blue!3!white, % Azzurrino chiarissimo per lo sfondo
+colframe=blue!50!black,   % Bordo blu più scuro e marcato
+sharp corners,    % Rimuove i bordi arrotondati (angoli vivi)
+boxrule=0.8pt, % Spessore standard dei bor
+leftrule=4pt,       % Bordo sinistro più spesso (stile tipico dei blocchi di codice)
+top=0pt,       % Rimuove la riga vuota interna superiore
+bottom=0pt,   % Rimuove la riga vuota interna inferiore
+left=4pt, % Leggero margine per non attaccare il testo al bordo spesso
+right=4pt,
+enhanced,
+breakable,
+listing only,
+listing options={style=SQLstyle},
+#1
 }
+
+
+
 
 \newtcblisting{codiceJava}[1][]{%
   colback=orange!5!white,   % Arancione molto tenue
