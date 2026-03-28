@@ -2406,22 +2406,7 @@ Ci sono due tipi di indici su file sequenziali:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    \chapter{Laboratorio}
+\chapter{Laboratorio}
 PostgrSQL è un Relational Data Base Management System (RDBMS o DBMS) con alcune funzionalità orientate agli oggetti. L’interazione tra un utente (programmatore/utente finale) e le basi di dati gestite da PostgreSQL avviene secondo il modello client-server.
 
     \begin{figure}[H]
@@ -3288,8 +3273,6 @@ HAVING COUNT ( cognome) >1;
 
 
 
-
-
 \textbf{\large Si possono specificare espressioni con operatori di aggregazione su attributi non raggruppati anche nella clausola HAVING.}
 
 
@@ -3361,7 +3344,7 @@ Si esegue un INNER JOIN. Poi, per ciascuna riga r2 di table2 che non soddisfa la
 \subsection{Interrogazioni con FULL OUTER JOIN}
 
 \begin{codiceSQL}
-  table1 FULL[ OUTER] JOIN table2 ON join\_condition[, ...].}
+  table1 FULL[ OUTER] JOIN table2 ON join\_condition[, ...].
 \end{codiceSQL}
 
 \begin{itemize}
@@ -3370,4 +3353,334 @@ Si esegue un INNER JOIN. Poi, per ciascuna riga r2 di table2 che non soddisfa la
 \end{itemize}
 
 
-  \end{document}
+  \section{Interrogazioni nidificate e insiemistiche}
+
+  \subsection*{Interrogazioni nidificate}
+  SQL permette la costruzione di interrogazioni che presentano al loro interno altre interrogazioni. 
+La nidificazione può avvenire nelle clausole \textcolor{purple}{SELECT}, \textcolor{purple}{FROM}, \textcolor{purple}{WHERE}.
+L'uso più comune è la nidificazione nella clausola WHERE
+
+\subsection{Clausola FROM}
+Con l'utilizzo di questa opzione, è possibile comporre catene di interrogazioni, 
+in cui ciascuna interrogazione utilizza il risultato della precedente come se 
+fosse una tabella di base
+
+\begin{codiceSQL}
+  SELECT titolo, prezzoIntero
+FROM Mostra, ( SELECT MAX ( prezzoIntero ) 
+FROM Mostra ) AS T( prezzoMax )
+WHERE prezzoIntero = prezzoMax;
+\end{codiceSQL}
+
+\subsection{Clausola WHERE}
+Il predicato (predicato complesso) nella clausola WHERE confronta un valore (ottenuto come espressione valutata sulla singola riga), con il risultato dell'esecuzione di un'interrogazione SQL (in generale un insieme di valori). 
+Occorre estendere gli operatori di confronto per poter realizzare la comparazione tra un valore e un insieme di valori
+
+
+
+Soluzione offerta da SQL: estensione degli operatori di confronto (>,<, =, <=, 
+>=, <>) con ANY/SOME e ALL (IN, NOT IN). 
+\begin{itemize}
+  \item \textcolor{purple}{ANY/SOME}: specifica che la riga soddisfa la condizione se risulta vero il 
+confronto (con l'operatore specificato) tra il valore dell'attributo per la riga e 
+\textbf{almeno uno} degli elementi restituiti dall'interrogazione. 
+  \item \textcolor{purple}{ALL}: specifica che la riga soddisfa la condizione solo se \textbf{tutti gli elementi} 
+restituiti dall'interrogazione nidificata rendono vero il confronto. 
+\item \textcolor{purple}{IN} e \textcolor{purple}{NOT IN}: usati per rappresentare l'appartenenza o l'esclusione rispetto ad 
+un insieme (identici a = ANY o <>ALL)
+\end{itemize}
+
+
+\subsubsection{Operatore ANY/SOME}
+\begin{codiceSQL}
+  expression operator ANY( subquery )
+expression operator SOME( subquery )
+\end{codiceSQL}
+
+\begin{itemize}
+  \item \textcolor{orange}{expression} è un’espressione che coinvolge attributi della SELECT principale.
+  \item (\textcolor{orange}{subquery}) è una \textcolor{purple}{SELECT} che deve restituire UNA sola colonna;
+  \item \textcolor{orange}{operator} è un operatore di confronto, come ’=’, ’>=’, ...
+  \item \textcolor{purple}{ANY} :è vero se la condizione è vera per almeno un valore della subquery.
+  \item \textcolor{purple}{SOME} è uno sinonimo di \textcolor{purple}{ANY}
+\end{itemize}
+
+
+\textbf{\large Visualizzare il nome degli insegnamenti che hanno un numero di crediti 
+inferiore alla media dell’ateneo di un qualsiasi anno accademico.}
+
+\begin{codiceSQL}
+  SELECT DISTINCT I.nomeins , IE.crediti
+FROM Insegn I JOIN InsErogato IE ON I.id=IE.id_insegn
+WHERE IE.crediti < ANY (
+SELECT AVG ( crediti ) FROM InsErogato
+WHERE modulo =0
+GROUP BY annoaccademico
+);
+\end{codiceSQL}
+
+
+\subsubsection{Operatore ALL}
+\begin{codiceSQL}
+  expression operator ALL( subquery )
+\end{codiceSQL}
+
+\begin{itemize}
+  \item  \textcolor{orange}{expression} è un’espressione che coinvolge attributi della SELECT principale.
+  \item (\textcolor{orange}{subquery}) è una \textcolor{purple}{SELECT} che deve restituire UNA sola colonna;
+  \item \textcolor{orange}{operator} è un operatore di confronto, come ’=’, ’>=’, ...
+  \item \textcolor{purple}{ALL}: La condizione è vera solo se è vera per TUTTI i valori della subquery.
+
+\end{itemize}
+
+\textbf{\large Trovare il nome degli insegnamenti con almeno un docente e crediti maggiori rispetto ai 
+crediti di ciascun insegnamento del corso di laurea con id=6. (si considerano solo 
+occorrenze insegnamento genitore)}
+
+\begin{codiceSQL}
+  SELECT DISTINCT I. nomeins , IE. crediti
+FROM Insegn I JOIN InsErogato IE ON I.id = IE. id_insegn
+JOIN Docenza D ON IE.id = D. id_inserogato
+WHERE IE. modulo = 0 AND IE. crediti > ALL (
+SELECT crediti FROM InsErogato
+WHERE id_corsostudi = 6 AND modulo =0
+);
+\end{codiceSQL}
+
+\subsubsection{Operatore IN}
+E’ un operatore utilizzabile nei predicati complessi.
+\begin{codiceSQL}
+\[ROW\]( expr \[ ,...\]) IN ( subquery )  
+\end{codiceSQL}
+\begin{itemize}
+  \item \textcolor{orange}{expr} è un’espressione costruita con un attributo della query principale. Ci 
+possono essere una o più espressioni.
+\item La (\textcolor{orange}{subquery}) deve restituire un numero di colonne pari al numero di 
+espressioni in (\textcolor{orange}{expr} [,...]).
+\item I valori dell’espressioni vengono confrontati con i valori di ciascuna riga del 
+risultato di (subquery).
+\item Il confronto ritorna vero se i valori sono uguali ai valori di almeno una riga della 
+subquery.
+\end{itemize}
+
+
+
+\textbf{\large Trovare gli impiegati che hanno stesso nome e cognome di qualcuno in 
+un’altra azienda.}
+\begin{codiceSQL}
+SELECT I.nome , I.cognome
+FROMImpiegato I
+WHERE ROW( I.nome , I.cognome ) IN (
+SELECT I1.nome, I1. cognome FROM ImpiegatoAltraAzienda I1
+)
+\end{codiceSQL}
+
+
+
+\subsubsection{Operatore EXIST}
+E’ una clausola utilizzabile nei predicati complessi
+\begin{codiceSQL}
+  EXISTS(subquery)
+\end{codiceSQL}
+
+
+\begin{itemize}
+  \item (subquery) è una \textcolor{purple}{SELECT}.
+  \item \textcolor{purple}{EXISTS} ritorna falso se (subquery) non contiene righe; altrimenti vero.
+  \item \textcolor{purple}{EXISTS} è significativo quando nella (subquery) si selezionano righe usando i 
+valori della riga corrente nella \textcolor{purple}{SELECT} principale: \textcolor{red}{data binding. Vale a dire 
+se subquery è un'interrogazione dipendente dalla query esterna}
+\end{itemize}
+
+
+\textbf{\large Determinare i nomi degli impiegati che sono diversi tra loro ma di pari 
+lunghezza}
+
+\begin{codiceSQL}
+  SELECT I. nome
+FROM Impiegato I
+WHERE EXISTS (
+SELECT 1 FROM Impiegato I1 WHERE I.nome <> I1. nome
+AND CHAR_LENGTH( I.nome ) = CHAR_LENGTH( I1. nome )
+)
+\end{codiceSQL}
+I.nome nella subquery è il valore di nome nella riga corrente della SELECT 
+principale
+
+
+\vario{Nota }{Se si usano attributi esterni nella subquery (data binding), la subquery
+deve essere valutata per ogni riga della SELECT principale}
+
+
+\textbf{\large Visualizzare il nome e il cognome dei docenti, escludendo i coordinatori, che hanno 
+tenuto almeno due insegnamenti (o moduli) con più di 24 crediti nel 2010/2011}
+
+\begin{codiceSQL}
+  SELECT P.nome , P.cognome
+FROM Persona P
+WHERE EXISTS (
+SELECT 1 FROM Docenza D JOIN InsErogato IE ON D. id_inserogato = IE.id
+WHERE IE. crediti > 24 AND D. coordinatore = '0'
+AND IE. annoaccademico = '2010/2011' AND D. id_persona = P.id
+GROUP BY D. id_persona
+HAVING COUNT (*) >=2
+);
+
+\end{codiceSQL}
+
+\textbf{\large Visualizzare il nome dei corsi di studio che nel 2006/2007 non
+hanno 
+erogato insegnamenti il cui nome contiene la sottostringa ’Info’.}
+
+
+\begin{codiceSQL}
+  SELECT CS. nome FROM CorsoStudi CS
+WHERE NOT EXISTS (
+SELECT 1 FROM InsErogato IE JOIN Insegn I ON IE. id_insegn = 
+I.id
+WHERE I.nomeins LIKE '%Info%'
+AND IE.annoaccademico = '2006/2007'
+AND IE.id_corsostudi = CS.id)
+\end{codiceSQL}
+
+
+
+\subsection*{Interrogazioni di tipo insiemistico}
+
+\begin{codiceSQL}
+  query_1 { UNION | INTERSECT | EXCEPT } [ALL] query_2
+\end{codiceSQL}
+
+SQL mette a disposizione anche degli operatori insiemistici UNION, INTERSECT e 
+EXCEPT per manipolare i risultati di più query.
+Gli operatori insiemistici si possono utilizzare solo al livello più esterno di una 
+query, operando sul risultato di due o più clausole SELECT.
+Si possono avere sequenze di UNION/INTERSECT/EXCEPT
+
+
+Gli operatori si possono applicare solo quando \textcolor{cyan}{query1} e \textcolor{cyan}{query2} producono 
+risultati con lo stesso numero di colonne e di tipo compatibile fra loro.
+Tutti gli operatori eliminano i duplicati dal risultato a meno che ALL non sia 
+stato specificato.
+\begin{itemize}
+  \item \textcolor{red}{UNION} aggiunge il risultato di \textcolor{cyan}{query2} a quello di \textcolor{cyan}{query1}.
+  \item \textcolor{red}{INTERSECT} restituisce le righe che sono presenti sia nel risultato di \textcolor{cyan}{query1} sia in quello di \textcolor{cyan}{query2}
+  \item \textcolor{red}{EXCEPT} restituisce le righe di \textcolor{cyan}{query1} che non sono presenti nel risultato di \textcolor{cyan}{query2}. In pratica esegue la differenza insiemistica
+
+
+\end{itemize}
+
+
+\textbf{\large Visualizzare i nomi degli insegnamenti e i nomi dei corsi di laurea 
+che non iniziano per 'A' mantenendo i duplicati}
+
+\begin{codiceSQL}
+  SELECT nomeins
+FROM Insegn
+WHERE NOT nomeins LIKE 'A%'
+UNION ALL
+SELECT nome
+FROM CorsoStudi
+WHERE NOT nome LIKE 'A%'
+\end{codiceSQL}
+
+    
+\textbf{\large
+  Visualizzare i nomi degli insegnamenti che sono anche nomi 
+di corsi di laurea.
+}
+
+\begin{codiceSQL}
+  SELECT nomeins
+FROM Insegn
+INTERSECT ALL
+SELECT nome
+FROM CorsoStudi;
+\end{codiceSQL}
+
+\textbf{\large Visualizzare i nomi degli insegnamenti che NON sono anche 
+nomi di corsi di laurea.}
+
+\begin{codiceSQL}
+  SELECT nomeins
+FROM Insegn
+EXCEPT
+SELECT nome
+FROM CorsoStudi;
+\end{codiceSQL}
+
+\subsection{Le viste}
+
+Le viste sono tabelle virtuali il cui contenuto dipende dal contenuto delle altre 
+tabelle della base di dati.
+In SQL le viste vengono definite associando un nome ed una lista di attributi al 
+risultato dell’esecuzione di un’interrogazione.
+\textcolor{purple}{Ogni volta che si usa una vista, si esegue la query che la definisce.}
+Nell’interrogazione che definisce la vista possono comparire anche altre viste.
+SQL \textcolor{red}{non ammette} però
+\begin{itemize}
+  \item  dipendenze immediate (definire una vista in termini di se stessa) o ricorsive 
+(definire una interrogazione di base e una interrogazione ricorsiva);
+\item dipendenze transitive circolari (V1 definita usando V2, V2 usando V3,. . . , Vn
+usando V1).
+\end{itemize}
+
+\begin{codiceSQL}
+  CREATE [ TEMP ] VIEW nome [( col_name [, ...]) ] AS query
+
+\end{codiceSQL}
+
+\textcolor{purple}{TEMP}: la vista è temporanea. Quando ci si sconnette, la vista viene distrutta. È 
+un’estensione di PostgreSQL. Nella base di dati did2014 si possono fare solo 
+viste temporanee
+
+\begin{itemize}
+  \item  \textcolor{cyan}{column\_name}: nomi delle colonne che compongono la vista; se non 
+vengono specificati, sono ricavati dai nomi delle colonne restituiti dalla 
+query, eventualmente tramite alias.
+\item \textcolor{cyan}{query} deve restituire un insieme di attributi pari e nel medesimo ordine a 
+quello specificato con ( \textcolor{cyan}{column\_name} [, ...] ) se presente.
+\item SQL permette che una vista sia aggiornabile solo quando ciascuna tupla
+della vista corrisponde a una sola tupla di ciascuna tabella di base.
+
+\end{itemize}
+
+
+\textbf{\large efinire la vista che contiene gli insegnamenti erogati completi di nomeins e codiceins
+presi dalla tabella Insegn.}
+
+\begin{codiceSQL}
+  CREATE TEMP VIEW InsErogatiCompleti AS
+SELECT I. nomeins , I. codiceins , IE .*
+FROM InsErogato IE
+JOIN Insegn I ON IE. id_insegn = I.id;
+\end{codiceSQL}
+
+
+\textbf{\large Si vuole determinare quali sono i corsi di studi con il massimo numero di nome di insegnamenti 
+diversi}
+
+Prima si crea una vista:
+
+\begin{codiceSQL}
+  CREATE TEMP VIEW InsCorsoStudi (Nome , NumIns) AS
+SELECT CS.nome , COUNT ( DISTINCT I. nomeins )
+FROM CorsoStudi CS
+JOIN InsErogato IE ON CS.id=IE. id_corsostudi
+JOIN Insegn I ON IE. id_insegn = I.id 
+GROUP BY CS.nome;
+
+\end{codiceSQL}
+
+Poi la si usa:
+
+\begin{codiceSQL}
+  SELECT Nome, NumIns
+FROM InsCorsoStudi
+WHERE NumIns = ANY (
+SELECT MAX ( NumIns ) FROM InsCorsoStudi);
+\end{codiceSQL}
+
+Laurea specialistica in Medicina e Chirurgia: 320
+
+  \end{document} 

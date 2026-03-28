@@ -1,1 +1,4 @@
-table1 FULL[ OUTER] JOIN table2 ON join\_condition[, ...].}
+SELECT Nome, NumIns
+FROM InsCorsoStudi
+WHERE NumIns = ANY (
+SELECT MAX ( NumIns ) FROM InsCorsoStudi);
