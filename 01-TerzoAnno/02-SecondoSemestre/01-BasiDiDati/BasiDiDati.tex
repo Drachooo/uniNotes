@@ -160,7 +160,7 @@
     \begin{figure}[H]
       \centering
       \includegraphics[width=0.9\textwidth]{images/DBMS.png}
-      \caption{Ssistema transizionale}
+      \caption{sistema transizionale}
     \end{figure}
 
     \section{Transazione}
@@ -400,19 +400,11 @@
       \end{center}
 
       \textbf{Estrarre lo stipendio degli impiegati di cognome ’Rossi’}
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+      \begin{sqlcode}
         SELECT *
         FROM Impiegato
           WHERE Cognome = 'Rossi';
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrogazione è la seguente tabella:
 
@@ -423,18 +415,10 @@
 
     \bigskip
     L'attributo $\verb|AS|$ permette di rinominare un attributo (alias)
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+    \begin{sqlcode}
       SELECT nomeColonna AS nuovoNomeColonna
       FROM tabella;
-    \end{lstlisting}
+    \end{sqlcode}
 
     \begin{esempiobox}{Interrogazione con \texttt{SELECT} usando \texttt{AS}}
       Consideriamo la seguente tabella:
@@ -443,19 +427,11 @@
       \end{center}
 
       \textbf{Estrarre lo stipendio degli impiegati di cognome ’Rossi’}
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+      \begin{sqlcode}
         SELECT Stipendio AS Salario
         FROM Impiegato
           WHERE Cognome = 'Rossi';
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrogazione è la seguente tabella:
       \begin{center}
@@ -468,17 +444,9 @@
     La clausola $\verb|FROM|$ specifica le tabelle da cui estrarre i dati.
 
     La sintassi dell'istruzione $\verb|FROM|$ è:
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+    \begin{sqlcode}
       FROM from_item [, ...]
-    \end{lstlisting}
+    \end{sqlcode}
 
     dove $\verb|from_item|$ può essere una delle seguenti clausole:
     \begin{itemize}[label=$\triangleright$, itemsep=\medskipamount]
@@ -512,21 +480,12 @@
 
       \textbf{Estrarre i nomi e il cognome degli impiegati e le città in cui lavorano}
 
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6,
-        literate={à}{{\`a}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {è}{{\`e}}1
-      ]
+      \begin{sqlcode}
         SELECT Impiegato.Nome, Impiegato.Cognome, 
                Dipartimento.Città
         FROM Impiegato, Dipartimento
           WHERE Impiegato.Dipart = Dipartimento.Nome
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrogazione è la seguente tabella:
       \begin{center}
@@ -536,17 +495,9 @@
 
     \section{Clausola WHERE}
 
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6,
-      ]
+    \begin{sqlcode}
       WHERE condition
-    \end{lstlisting}
+    \end{sqlcode}
 
     La clausola $\verb|WHERE|$ ammette come argomento un’espressione booleana costruita combinando predicati semplici con gli operatori $\verb|AND|$, $\verb|OR|$ e $\verb|NOT|$:
     \begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
@@ -572,19 +523,11 @@
       \end{center}
 
       \textbf{Estrarre i nomi e il cognome degli impiegati che lavorano nell'ufficio 20 del dipartimento Ammistrazione}
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6,
-      ]
+      \begin{sqlcode}
         SELECT Nome, Cognome
         FROM Impiegato
           WHERE Ufficio = 20 AND Dipart = 'Amministrazione';
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrrogazione è la seguente tabella:
       \begin{center}
@@ -616,19 +559,11 @@
       \end{center}
 
       \textbf{Estrarre gli impiegati che hanno un cognome che ha una "o" in seconda posizione e finisce con una "i"}
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6,
-      ]
+      \begin{sqlcode}
        SELECT *
        FROM Impiegato
         WHERE Cogmome LIKE '_O%i'; 
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrogazione è la seguente tabella:
       \begin{center}
@@ -656,20 +591,11 @@
       \end{center}
 
       \textbf{Estrarre gli studenti con cognome che inizia con 'A' o 'B', o 'D', o 'N' e finisce con 'a}
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6,
-        literate={à}{{\`a}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {è}{{\`e}}1
-      ]
+      \begin{sqlcode}
         SELECT cognome, nome, città
         FROM Studente
           WHERE cognome SIMILAR TO '[ABDN]{1}%a';
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrogazione è la seguente tabella:
       \begin{center}
@@ -681,17 +607,9 @@
     L’operatore BETWEEN consente di verificare se un valore è compreso tra due valori estremi (inclusi). 
 
     La sintassi è la seguente:
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-    ]
+    \begin{sqlcode}
       condition BETWEEN value1 AND value2  
-    \end{lstlisting}
+    \end{sqlcode}
 
     \begin{esempiobox}{Interrogazione con \texttt{BETWEEN}}
       Consideriamo la seguente tabella:
@@ -700,20 +618,11 @@
       \end{center}
 
       \textbf{Estrarre tutti gli studenti che hanno matricola tra 'IN0002' e 'IN0004'}
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6,
-        literate={à}{{\`a}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {è}{{\`e}}1
-      ]
+      \begin{sqlcode}
         SELECT cognome, nome, città
         FROM Studente
           WHERE matricola BETWEEN 'IN0002' AND 'IN0004';  
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrogazione è:
       \begin{center}
@@ -726,17 +635,9 @@
     Nella clausola $\verb|WHERE|$ può apparire l’operatore $\verb|[NOT] IN|$ per testare l’appartenenza di un valore ad un insieme. 
     
     La sintassi è la seguente:
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+    \begin{sqlcode}
       WHERE attributo [NOT] IN (valore, [, ...]);
-    \end{lstlisting}
+    \end{sqlcode}
 
     \begin{esempiobox}{Interrogazione con \texttt{IN}}
       Consideriamo la seguente tabella:
@@ -745,19 +646,11 @@
       \end{center}
 
       \textbf{Estrarre tutti gli studenti che hanno matricola nell'elenco 'IN0001', 'IN0003' e 'IN0005'}
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+      \begin{sqlcode}
         SELECT cognome, nome, matricola
         FROM Studente
           WHERE matricola IN ('IN0001', 'IN0003', 'IN0005');  
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrogazione sono le righe gialle.
     \end{esempiobox}
@@ -770,17 +663,9 @@
       \item \textbf{IS NULL}: è la negazione, ritorna true se l’attributo ha valore diverso da nullo
     \end{itemize}
 
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+    \begin{sqlcode}
       WHERE attributo IS [NOT] IN NULL;
-    \end{lstlisting}
+    \end{sqlcode}
 
     SQL-2 implementa la logica a 3 valori:
     \begin{itemize}[itemsep=\smallskipamount]
@@ -795,20 +680,11 @@
       \end{center}
 
       \textbf{Estrarre tutti gli studenti che hanno matricola nell'elenco 'IN0001', 'IN0003' e 'IN0005'}
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6,
-        literate={à}{{\`a}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {è}{{\`e}}1
-      ]
+      \begin{sqlcode}
         SELECT cognome, nome, città
         FROM Studente
           WHERE città IS NULL;  
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrogazione sono le righe gialle.
     \end{esempiobox}
@@ -819,1084 +695,889 @@
     Siccome la rimozione delle righe duplicate è un’operazione costosa, SQL le mantiene di default. 
     
     Per togliere i duplicati si può utilizzare la parola chiave $\verb|DISTINCT|$ dopo $\verb|SELECT|$:
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+    \begin{sqlcode}
       SELECT DISTINCT colonna
       FROM tabella
         WHERE condizione;
-    \end{lstlisting}
+    \end{sqlcode}
 
+    \begin{esempiobox}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/persona-tabella.png}
+      \end{center}
 
-    {\textbf{\large Vediamone un esempio}}
-    \begin{figure}[H]
-      \includegraphics[width=0.8 \textwidth]{images/Impiegati.png}
-    \end{figure}
-    \underline{Trovare cognome e filiale di tutti gli impiegati}
+      \textbf{Estrarre le città delle persone in cui il cognome è Rossi}.
 
-    \textbf{Algebra relazionale}: $\pi_{\text{Cognome,Filiale}}\text{(Impiegati)}$\\
-    Output:\{(Neri, Napoli), (Rossi, Roma)\}
+      \begin{sqlcode}
+        SELECT Città
+        FROM Persona
+          WHERE Cognome = 'Rossi';
+      \end{sqlcode}
 
+      L'output di questa interrogazione è la tabella:
+      \begin{center}
+        \includegraphics[width=0.3\textwidth]{images/persona-output.png}
+      \end{center}
 
+      Per togliere i duplicati si può utilizzare la parola chiave $\verb|DISTINCT|$ dopo $\verb|SELECT|$:
+      \begin{sqlcode}
+        SELECT DISTINCT Città
+        FROM Persona
+          WHERE Cognome = 'Città';
+      \end{sqlcode}
+      %foto
+    \end{esempiobox}
 
-    \noindent
-\begin{minipage}[c]{0.45\textwidth}
-  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \textbf{SQL}
-    \begin{flushleft}
-    SELECT Cognome, Filiale\\
-    FROM Impiegati\\
-    \end{flushleft}
-        \end{mdframed}
-    \hfill
-\end{minipage}
-\begin{minipage}[c]{0.45\textwidth}
-    \centering
-    % Inserisci qui il nome del tuo file immagine (es. schema.png)
-    \includegraphics[width=\textwidth]{images/Impiegati2.png}
-\end{minipage}
-
-
-  \noindent
-\begin{minipage}[c]{0.55\textwidth}
-  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \textbf{SQL}
-    \begin{flushleft}
-    SELECT DISTINCT Cognome, Filiale\\
-    FROM Impiegati\\
-    \end{flushleft}
-  \end{mdframed}
-  
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.44\textwidth}
-    \centering
-    % Inserisci qui il nome del tuo file immagine (es. schema.png)
-    \includegraphics[width=\textwidth]{images/Impiegati3.png}
-\end{minipage}
-
-
-\vspace{2em}
-
-  \begin{figure}[H]
-    \centering
-    % Inserisci qui il nome del tuo file immagine (es. schema.png)
-    \includegraphics[width=\textwidth]{images/Q7.png}
-  \end{figure}
-
-
-\subsection{SELECT: Selezione, Proiezione, Join}
-L’istruzione SELECT, con una sola relazione nella clausola FROM permette di realizzare: \textcolor{black!40!green}{selezioni}, \textcolor{black!40!green}{proiezioni}, \textcolor{black!40!green}{ridenominazioni}.\\
-Invece con più relazioni nella clausola FROM si realizzano join (e prodotti
-cartesiani)
-
-
-    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
-  \begin{flushleft}
-SELECT \hspace{3em} $\pi$Proiezione + $\rho$Ridenominazione (con AS)\\
-FROM \hspace{4em} $\bowtie$Join(prodotto cartesiano)\\
-WHERE \hspace{3em} $\sigma$Selezione + $\bowtie$ Join(condizion)\\       
-    \end{flushleft}
-  \end{mdframed}
-
-    \subsection{Interrogazioni con JOIN}
-In SQL il join si può definire in due modi diversi
-\begin{itemize}
-  \item Il primo non richiede l’uso di nuova sintassi, e specifica il legame tra le tabelle coinvolte a livello della clausola WHERE.
-  \item Il secondo usa una sintassi riservata a livello di clausola FROM (useremo questo). 
-\end{itemize}
-
- La clausola \textcolor{purple}{FROM} ammette come argomento:
-  \begin{center}
-    table\_name [[\textcolor{purple}{AS}] name]] [, ...] \\
-  \end{center}
- Si è visto che se sono presenti due o più nomi di tabelle, si esegue il prodotto cartesiano tra tutte le tabelle e lo schema del risultato
-può contenere tutti gli attributi del prodotto cartesiano. \\
-Il prodotto cartesiano di due o più tabelle è un \textcolor{cyan}{CROSS JOIN}. \\
-A partire da SQL-2, esistono altri tipi di JOIN (join\_type): \textcolor{cyan}{INNER JOIN}, \textcolor{cyan}{LEFT [OUTER] JOIN}, \textcolor{cyan}{RIGHT [OUTER] JOIN} e \textcolor{cyan}{FULL [OUTER] JOIN}.
-
-  \qquad
-
-\textbf{Sintassi generale}
-\begin{codiceSQL}
-    table_name [NATURAL] join_type table_name [ ON join_condition [, ...]].
-    \end{codiceSQL}
-
-dove \textcolor{cyan}{join\_condition} è un’espressione booleana che seleziona le tuple del join da aggiungere al risultato. Le tuple selezionate possono essere poi filtrate con la condizione della clausola \textcolor{purple}{WHERE} 
-
-
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{images/Join.png}
-\end{figure}
-
-  \subsubsection{Interrogazioni con INNER JOIN}
-
-    \textbf{Sintassi generale}
-  \begin{lstlisting}
-    table1 [ INNER ] JOIN table2 ON join_condition [, ...]
-    \end{lstlisting}
-
-
-
-  Rappresenta il tradizionale $\theta$ join dell’algebra relazionale. Combina ciascuna riga r1 di table1 con ciascuna riga di table2 che soddisfa la condizione della clausola \textcolor{purple}{ON}
-
-
-
-
-
-   \noindent
-\begin{minipage}[c]{0.45\textwidth}
-  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
-    \small
-    \textbf{SQL}
-    \begin{flushleft}
-    \textcolor{purple}{SELECT} I.cognome , R.nomeRep, R.sede\\
-    \textcolor{purple}{FROM} Impiegato \textcolor{purple}{AS} I\\
-     \quad \textcolor{purple}{INNER JOIN} Reparto  \textcolor{purple}{AS} R\\
-    \quad \textcolor{purple}{ON} I.nomerep = R.nomerep;
-
-    \end{flushleft}
-    \end{mdframed}
-
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.45\textwidth}
-    \centering
-    % Inserisci qui il nome del tuo file immagine (es. schema.png)
-    \includegraphics[width=\textwidth]{images/tabellina.png}
-\end{minipage}
-
-
-\subsubsection{Interrogazioni con LEFT OUTER JOIN}
-
-
-
-  \textbf{Sintassi generale}
-  \begin{lstlisting}
-    table1 LEFT [ OUTER ] JOIN table2 ON join_condition [, ...].
-    \end{lstlisting}
-
-
-    Si esegue un \textcolor{purple}{INNER JOIN}. Poi, per ciascuna riga r1 di table1 che non soddisfa la condizione con qualsiasi riga di table2, si aggiunge una riga al risultato con i valori di r1 e assegnando \textcolor{purple}{NULL} agli altri attributi..
-
-
-
-    \vspace{3em}
-  
-\noindent
-\begin{minipage}[c]{0.55\textwidth}
-    % --- INIZIO RIQUADRO ---
-    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
-        \textbf{SQL}
-        \begin{flushleft}
-          \small 
-          \textcolor{purple}{INSERT INTO} Reparto (nomerep, sede, telefono) \textcolor{purple}{VALUES} ('Finanza', 'Padova', '02 8028888');\\
-          \textcolor{purple}{SELECT} R.nomeRep, I.cognome\\
-          \textcolor{purple}{FROM} Reparto \textcolor{purple}{AS} R\\
-          \quad \textcolor{purple}{LEFT OUTER JOIN} Impiegato \textcolor{purple}{AS} I\\ 
-          \quad \textcolor{purple}{ON} I.nomerep = R.nomerep;
-        \end{flushleft}
-    \end{mdframed}
-    % --- FINE RIQUADRO ---
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.40\textwidth} 
-    \centering
-    \includegraphics[width=\textwidth]{images/tabellina2.png}
-\end{minipage}
-
-
-
-
-  \vario{Nota}{\underline{Il \textcolor{purple}{LEFT} [\textcolor{purple}{OUTER}] \textcolor{purple}{JOIN} non è simmetrico!}\\
-  Con le medisime tabelle si possono ottenere risultati diversi invertendo l’ordine delle tabelle nel join!
-
-  \noindent
-\begin{minipage}[c]{0.55\textwidth}
-    % --- INIZIO RIQUADRO ---
-    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
-        \textbf{SQL}
-        \begin{flushleft}
-          \small 
-          \textcolor{purple}{SELECT} I.cognome, R.nomeRep\\
-\textcolor{purple}{FROM} Impiegato I \textcolor{purple}{LEFT OUTER JOIN} RepartoR\\
-\textcolor{purple}{ON} I.nomerep = R.nomerep 
-        \end{flushleft}
-    \end{mdframed}
-    % --- FINE RIQUADRO ---
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.40\textwidth} 
-    \centering
-    \includegraphics[width=\textwidth]{images/tabellina3.png}
-\end{minipage}
-
-}
-
-
-\subsubsection{Interrogazioni con RIGHT OUTER JOIN}
-
-
-\textbf{Sintassi generale}
- \begin{codiceSQL}
-    table1 RIGHT [ OUTER ] JOIN table2 ON join_condition [, ...].
-    \end{codiceSQL}
-
-
-
-
-    \noindent
-\begin{minipage}[c]{0.55\textwidth}
-    % --- INIZIO RIQUADRO ---
-    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
-        \textbf{SQL}
-        \begin{flushleft}
-          \small 
-          \textcolor{purple}{SELECT} I.cognome , R.nomeRep\\
-\textcolor{purple}{FROM} Impiegato I \textcolor{purple}{RIGHT OUTER JOIN} RepartoR\\
-\textcolor{purple}{ON} I. nomerep = R. nomerep
-        \end{flushleft}
-    \end{mdframed}
-    % --- FINE RIQUADRO ---
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.40\textwidth} 
-    \centering
-    \includegraphics[width=\textwidth]{images/tabellina2.png}
-\end{minipage}
-
-\subsubsection{Interrogazioni con FULL OUTER JOIN
-}
-\textbf{Sintassi generale}
- \begin{lstlisting}
-   table1 FULL [ OUTER ] JOIN table2 ON join_condition [, ...].
-
-    \end{lstlisting}
-
- È equivalente a:
-    \begin{itemize}
-      \item INNER JOIN + LEFT OUTER JOIN + RIGHT OUTER JOIN.
-      \item \textcolor{black!40!red}{Non è equivalente a CROSS JOIN!}
+    \section{Clausola \texttt{JOIN}}
+    In SQL, le interrogazioni con la clausola \verb|JOIN| si possono definire in due modi:
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+      \item \textbf{senza l’uso di nuova sintassi}: specifica il legame tra le tabelle coinvolte a livello della clausola $\verb|WHERE|$
+      \item \textbf{con l'uso di sintassi riservata} a livello di clausola $\verb|FROM|$
     \end{itemize}
 
-    \vspace{2em}
+    \smallskip
+    La clausola \verb|FROM| ammette come argomento:
+    \begin{sqlcode}
+      tabella [[AS] name] [, ...]
+    \end{sqlcode}
 
-    \textbf{\large Esempio}\\
-    \underline{ Nome, Cognome di tutti gli impiegati e città del Dipartimento in cui lavora}
+    Si è visto che se sono presenti due o più nomi di tabelle, si esegue il prodotto cartesiano tra tutte le tabelle e lo schema del risultato
+    può contenere tutti gli attributi del prodotto cartesiano.\\[0.2ex]
+    Il prodotto cartesiano di due o più tabelle è un $\verb|CROSS JOIN|$.
 
-
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/esempioJoin.png}
-    \end{figure}
-
-Il join si può spostare nella clausola from, a livello delle tabelle (nello svolgere gli esercizi, useremo questa sintassi dedicata).
-
-\newpage
-
-  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \noindent \textbf{SQL:} \quad
-    \begin{tabular}[t]{@{}l@{}}
-    SELECT ListaAttributi\\
-    FROM  Tabella1 \textcolor{purple}{JOIN} Tabella2 \textcolor{purple}{ON} ( CondizioneDiJoin )\\
-    {[}WHERE AltraCondizione {]} 
-    \end{tabular}
-
-  \end{mdframed}
-
-  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \noindent \textbf{SQL:} \quad
-    \begin{tabular}[t]{@{}l@{}}
-   SELECT i.Nome, d.Città\\
-FROM Impiegato AS i JOIN Dipartimento as d ON ( i.Dipart = \\d.Nome ) 
-    \end{tabular}
-  \end{mdframed}
-
-
-  \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Q8.png}
-  \end{figure}
-
-
-  \subsection{Uso di variabili(alias)}
-  SQL permette di associare un nome alternativo (alias) alle tabelle che compaiono nella clausola FROM. Il nome viene usato per far riferimento alla tabella nel contesto dell’interrogazione Motivi:
-  \begin{itemize}
-    \item Far riferimento alla tabella in modo compatto.
-    \item Fare accesso più volte alla stessa tabella
-  \end{itemize}
-
-  \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Q9.png}
-    \caption{Questa interrogazione confronta ciascuna riga di Impiegato con tutte le righe di Impiegato associate al dipartimento Produzione.}
-  \end{figure}
-
-
-
-  \textbf{\large Funzionamento}
-   Si può immaginare che al momento della definizione dell’alias vengano create due copie della tabella Impiegato, ciascuna associata ad una delle due variabili i1 e i2.
-   
-   \noindent
-\begin{minipage}[c]{0.50\textwidth}
-    \begin{itemize}
-        \item Le due copie contengono tutte le righe di Impiegato.
-        \item Sulla copia i2 vengono selezionate solo le righe del dipartimento `Produzione'.
+    \medskip
+    A partire da SQL-2, esistono altri tipi di \texttt{JOIN}:
+    \begin{itemize}[label=$\circ$, itemsep=\medskipamount]
+      \item $\verb|INNER JOIN|$: restituisce solo le righe che soddisfano la condizione di join
+      \item $\verb|LEFT [OUTER] JOIN|$: restituisce
+      \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+        \item tutte le righe della tabella di destra e sinistra che soddisfano la condizione di $\verb|join|$
+        \item $\verb|null|$ per le righe della tabella di destra che non soddifisfano la condizione di di $\verb|join|$
+      \end{itemize}
+      \item $\verb|RIGH [OUTER] JOIN|$: restituisce
+      \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+        \item tutte le righe della tabella di destra e sinistra che soddisfano la condizione di $\verb|join|$
+        \item $\verb|null|$ per le righe della tabella di sinistra che non soddifisfano la condizione di di $\verb|join|$
+      \end{itemize}
+      \item $\verb|FULL [OUTER] JOIN|$: restituisce
+      \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+        \item tutte le righe di entrambe le tabelle
+        \item $\verb|null|$ per le righe che non soddifisfano la condizione di di $\verb|join|$
+      \end{itemize}
     \end{itemize}
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.45\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/Alias.png}
-\end{minipage}
 
+    In generale, la sintassi è:
+    \begin{sqlcode}
+      tabella [NATURAL] join_type table_name [ ON condition [, ...]]
+    \end{sqlcode}
 
+    \begin{itemize}[label=$\triangleright$]
+      \item $\verb|condition|$: espressione booleana che seleziona le tuple del $\verb|join|$ da aggiungere al risultato
+    \end{itemize}
 
-  \subsection{Ordinamento del risultato}
-
-   Come abbiamo visto, una relazione è un insieme di tuple non ordinato. Nella realtà, però, sorge spesso il bisogno di costruire un ordine sulle righe.
-    SQL permette di specificare un ordinamento (ascendente o discendente)
-sulle righe dell‘output grazie alla clausola ORDER BY che chiude
-l‘interrogazione.
-
-\textbf{Sintassi generale}
-
-\begin{lstlisting}
-    ORDER BY attributo [{ ASC | DESC }] [, ... ];
-    \end{lstlisting}
- Le righe vengono ordinate per il primo attributo nell’elenco, a parità di valore
-del primo attributo si usa il secondo, e così via in sequenza.
-
+    Le tuple selezionate possono essere poi filtrate con la condizione della clausola $\verb|WHERE|$.
 
     \begin{figure}[H]
       \centering
-      \includegraphics[width=\textwidth]{images/Q10.png}
+      \includegraphics[width=\textwidth]{images/Join.png}
     \end{figure}
 
-
- \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q11.png}
-    \end{figure}
-
-    \subsection{Operazioni Insiemistiche}
-    SQL mette a disposizione degli operatori insiemistci
-
-  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
-     \begin{flushleft}
-        SELECT
-{ \textcolor{purple}{UNION} | \textcolor{purple}{INTERSECT}| \textcolor{purple}{EXCEPT}\\
-{[}\textcolor{purple}{ALL}] SELECT }
-    \end{flushleft}
-  \end{mdframed}
+    \subsection{Clausola \texttt{INNER JOIN}}
+    La sintassi è:
+    \begin{sqlcode}
+      tabella [ INNER ] JOIN tabella ON join_condition [, ...]
+    \end{sqlcode}
     
-    Gli operatori insiemistici, al contrario del resto del linguaggio, assumono come default di eseguire un’eliminazione dei duplicati, a
-meno che si usi \textcolor{purple}{ALL}.\par
-Sono sufficienti domini compatibili ed ugual numero di attributi.
-    \begin{itemize}
-      \item \textcolor{cyan}{Ordine posizionale}: la corrispondenza degli attributi si basa sulla posizione
-      \item Se i nomi degli attributi sono diversi di solito il sistema usa il nome del primo operando
+    Rappresenta il tradizionale $\theta$ $\verb|join|$ dell’algebra relazionale.\\[0.2ex]
+    Combina ciascuna riga $\mathrm{r_1}$ di $\mathrm{table_1}$ con ciascuna riga di $\mathrm{table_2}$ che soddisfa la condizione della clausola $\verb|ON|$.
+
+    \begin{esempiobox}{Interrogazione con \texttt{INNER JOIN}}
+      \begin{sqlcode}
+        SELECT I.cognome, R.nomeRep, R.sede
+        FROM Impiegato AS I
+        INNER JOIN Reparto AS R ON I.nomeRep = R.nomeRep;
+      \end{sqlcode}
+
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/tabellina.png}
+      \end{center}
+    \end{esempiobox}
+    
+    \subsection{Clausola \texttt{LEFT OUTER JOIN}}
+    La sintassi è:
+    \begin{sqlcode}
+      tabella LEFT [ OUTER ] JOIN tabella ON join_condition [, ...]
+    \end{sqlcode}
+
+    Si esegue un $\verb|INNER JOIN|$.\\[0.2ex]
+    Poi, per ciascuna riga r1 di table1 che non soddisfa la condizione con qualsiasi riga di $\mathrm{table_2}$, si aggiunge una riga al risultato con i valori di $\mathrm{r_1}$ e assegnando $\verb|NULL|$ agli altri attributi.
+
+    \begin{esempiobox}{Interrogazione con \texttt{LEFT [OUTER] JOIN}}
+      \begin{sqlcode}
+        INSERT INTO Reparto (nomerep, sede, telefono)
+        VALUES ('Finanza', 'Padova', '02 8028888');
+
+        SELECT R.nomeRep, I.cognome
+        FROM Reparto AS R
+        LEFT OUTER JOIN Impiegato AS I ON I.nomerep = R.nomerep;
+      \end{sqlcode}
+
+      \begin{center}
+        \includegraphics[width=0.4\textwidth]{images/tabellina2.png}
+      \end{center}
+    \end{esempiobox}
+
+    \vario{Nota}{
+      Il $\texttt{LEFT OUTER JOIN}$ non è simmetrico!
+
+      \smallskip
+      Con le medisime tabelle si possono ottenere risultati diversi invertendo l’ordine delle tabelle nel join!
+    }
+    
+    \subsection{Clausola \texttt{RIGHT OUTER JOIN}}
+    La sintassi è:
+    \begin{sqlcode}
+      tabella RIGHT [ OUTER ] JOIN tabella ON join_condition [, ...]
+    \end{sqlcode}
+
+    \begin{esempiobox}{Interrogazione con \texttt{RIGHT [OUTER] JOIN}}
+      \begin{sqlcode}
+        SELECT I.cognome , R.nomeRep
+        FROM Impiegato I 
+        RIGHT OUTER JOIN Reparto AS R ON I. nomerep = R. nomerep;
+      \end{sqlcode}
+
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/tabellina2.png}
+      \end{center}
+    \end{esempiobox}
+    
+    \subsection{Clausola \texttt{FULL OUTER JOIN}}
+    Ls sintassi è:
+    \begin{sqlcode}
+      tabella FULL [ OUTER ] JOIN tabella ON join_condition [, ...]
+    \end{sqlcode}
+    
+    È equivalente a:
+    \begin{sqlcode}
+      INNER JOIN + LEFT OUTER JOIN + RIGHT OUTER JOIN
+    \end{sqlcode}
+
+    Non è equivalente a $\verb|CROSS JOIN|$.
+
+    \section{Uso di variabili (alias)}
+    SQL permette di associare un nome alternativo (alias) alle tabelle che compaiono nella clausola $\verb|FROM|$.\\[0.2ex]
+    Il nome viene usato per far riferimento alla tabella nel contesto dell’interrogazione per diversi motivi:
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+      \item far riferimento alla tabella in modo compatto
+      \item fare accesso più volte alla stessa tabella
     \end{itemize}
 
+    \begin{esempiobox}{Interrogazione con utilizzo di \texttt{AS}}
+      Consideriamo la seguente tabella:
 
+      \begin{center}
+        \includegraphics[width=0.6\textwidth]{images/Q9.png}
+      \end{center}
 
-\subsubsection{Unione}
+      \textbf{Estrarre tutti gli impiegati che hanno lo stesso cognome, ma nome diverso del dipartimento Produzione}
+      \begin{sqlcode}
+        SELECT I1.Cognome, I2.Cognome
+        FROM Impiegato I1, Impiegato I2
+        WHERE I1.Cogmome = I2.Cognome AND
+          I1.Nome <> I2.Cognome AND
+          I2.Dipart = 'Produzione;
+      \end{sqlcode}
 
-\begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q12.png}
-    \end{figure}
+      Questa interrogazione confronta ciascuna riga di Impiegato con tutte le righe di Impiegato associate al dipartimento Produzione.
 
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q13.png}
-    \end{figure}
+      \smallskip
+      Si può immaginare che al momento della definizione dell’alias vengano create due copie della tabella Impiegato, ciascuna associata ad una delle due variabili i1 e i2.
 
-\subsubsection{Intersezione}
-\begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q14.png}
-    \end{figure}
+      \smallskip
+      Le due copie contengono tutte le righe di Impiegato.
 
-\subsubsection{Differenza}
+      \smallskip
+      Sulla copia i2 vengono selezionate solo le righe del dipartimento `Produzione'.
+      \begin{center}
+         \includegraphics[width=0.5\textwidth]{images/Alias.png}
+      \end{center}
+    \end{esempiobox}
+    
+    \section{Clausola \texttt{ORDER BY}}
+    Una relazione è un insieme di tuple non ordinato, però, sorge spesso il bisogno di costruire un ordine sulle righe.\\[0.2ex]
+    SQL permette di specificare un ordinamento (ascendente o discendente) sulle righe dell‘output grazie alla clausola $\verb|ORDER BY|$ che chiude l‘interrogazione.
 
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q15.png}
-    \end{figure}
+    La sintassi è:
+    \begin{sqlcode}
+      ORDER BY attributo [{ ASC | DESC }] [, ... ];
+    \end{sqlcode}
+    
+    Le righe vengono ordinate per il primo attributo nell’elenco, a parità di valore del primo attributo si usa il secondo e così via in sequenza.
 
+    Di default l'ordinamento è $\verb|ASC|$.
 
-    \subsection{Operatori aggregati
+    \begin{esempiobox}{Interrogazione con \texttt{ORDER BY}}
+      Consideriamo la seguente tabella:
+
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q10.png}
+      \end{center}
+
+      \textbf{Estrarre il nome, l'età e il reddito delle persone con meno di 30 anni in ordine alfabetico}.
+
+      \begin{sqlcode}
+        SELECT Nome, Età, Reddito
+        FROM Persone
+          WHERE Età < 30
+            ORDER BY Età;
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \begin{esempiobox}{Interrogazione con \texttt{ORDER BY}}
+      Consideriamo la seguente tabella:
+
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q11.png}
+      \end{center}
+
+      \textbf{Estrarre il contenuto della tabella Automobile ordinato in base alla marca (discendente) e al modello}.
+
+      \begin{sqlcode}
+        SELECT *
+        FROM Automobile
+          ORDER BY Marca DESC, Modello;
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \section{Operazioni insiemistiche}
+    SQL mette a disposizione degli operatori insiemistci:
+    \begin{sqlcode}
+      SELECT
+        { UNION | INTERSECT | EXCEPT 
+        [ALL] SELECT }
+    \end{sqlcode}
+    
+    Gli operatori insiemistici, al contrario del resto del linguaggio, assumono come default di eseguire un’eliminazione dei duplicati, a meno che si usi $\verb|ALL|$.\\[0.2ex]
+    Sono sufficienti domini compatibili ed ugual numero di attributi.\\[0.2ex]
+    La corrispondenza si basa sulla posizione e se i nomi degli attributi sono diversi di solito il sistema usa il nome del primo operando.
+
+    \subsection{Unione}
+    \begin{esempiobox}{Interrogazione con unione}
+      Consideriamo la seguente tabella:
+
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q12.png}
+      \end{center}
+
+      \textbf{Estrarre i nomi e i cognomi degli impiegati}.
+
+      \begin{sqlcode}
+        SELECT Nome
+        FROM Impiegato
+        UNION
+        SELECT Cognome
+        FROM Impiegato
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \begin{esempiobox}{Interrogazione con unione}
+      Consideriamo la seguente tabella:
+
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q13.png}
+      \end{center}
+
+      \textbf{Estrarre i nomi e i cognomi degli impiegati eccetto quelli del dipartimento Amministrazione mantenendo i duplicati}.
+
+      \begin{sqlcode}
+        SELECT Nome
+        FROM Impiegato
+          WHERE Diaprt <> 'Amministrazione'
+        UNION ALL
+        SELECT Cognome
+        FROM Impiegato
+          WHERE Diaprt <> 'Amministrazione';
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \subsection{Intersezione}
+    \begin{esempiobox}{Interrogazione con intersezione}
+      Consideriamo la seguente tabella:
+
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q14.png}
+      \end{center}
+
+      \textbf{Estrarre i cognomi degli impiegati che sono anche nomi}.
+
+      \begin{sqlcode}
+        SELECT Nome
+        FROM Impiegato
+        INTERSECT
+        SELECT Cognome
+        FROM Impiegato;
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \subsection{Differenza}
+    \begin{esempiobox}{Interrogazione con differenza}
+      Consideriamo la seguente tabella:
+
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q15.png}
+      \end{center}
+
+      \textbf{Estrarre i nomi degli impiegati che non sono cognomi di qualche impiegato}.
+
+      \begin{sqlcode}
+        SELECT Nome
+        FROM Impiegato
+        EXCEPT
+        SELECT Cognome
+        FROM Impiegato;
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \section{Operatori aggregati}
+    Gli operatori di aggregazione permettono di valutare proprietà che dipendono da insiemi di tuple.
+
+    \subsection{Operatore \texttt{COUNT}}
+    L'operatore $\verb|COUNT|$ conta il numero di righe di una tabella o il numero di valori di uno o più attributi.
+
+    La sintassi è:
+    \begin{sqlcode}
+      COUNT ( < * | [DISTINCT | ALL] ListaAttributi > )
+    \end{sqlcode}
+
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+        \item $\verb|*|$: conta il numero di righe della tabella
+        \item $\verb|DISTINCT ListaAttributi|$: conta il numero di valori diversi degli attributi ListaAttributi
+        \item $\verb|ALL ListaAttributi|$: conta il numero di righe che hanno valori diversi da NULL negli attributi in ListaAttributi (default)
+    \end{itemize}
+
+    \begin{esempiobox}{Interrogazione con \texttt{COUNT}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q16.png}
+      \end{center}
+
+      \textbf{Estrarre il numero di impiegati del dipartimento di Produzione}
+      \begin{sqlcode}
+        SELECT COUNT(*)
+        FROM Impiegato
+          WHERE Diaprt = 'Produzione';
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \begin{esempiobox}{Interrogazione con \texttt{COUNT}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q17.png}
+      \end{center}
+
+      \textbf{Estrarre il numero di valori diversi dell'attributo Stipendio fra tutte le righe di Impiegato}
+      \begin{sqlcode}
+        SELECT COUNT(DISTINCT Stipendio)
+        FROM Impiegato;
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \subsection{Operatore \texttt{SUM}}
+    L'operatore $\verb|SUM|$ estituisce la somma dei valori posseduti dall’espressione.
+
+    La sintassi è:
+    \begin{sqlcode}
+      SUM ( < * | [DISTINCT | ALL] ListaAttributi > )
+    \end{sqlcode}
+
+    \begin{esempiobox}{Interrogazione con \texttt{COUNT}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q19.png}
+      \end{center}
+
+      \textbf{Estrarre la somma degli stipendi del dipartimento Amministrazione}
+      \begin{sqlcode}
+        SELECT SUM(Stipendio)
+        FROM Impiegato
+          WHERE Dipart = 'Amministrazione';
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \subsection{Operatore \texttt{MAX/MIN}}
+    Gli operatori $\verb|MIN|$ e $\verb|MAX|$ restituiscono rispettivamente il massimo e il minimo dei valori posseduti dall’espressione.
+
+    La sintassi è:
+    \begin{sqlcode}
+      <MAX | MIN> ( [DISTINCT | ALL] ListaAttributi )
+    \end{sqlcode}
+    
+    \subsection{Operatore \texttt{AVG}}
+    L'operatore $\verb|AVG|$ restiusce la media dei valori.
+
+    La sintassi:
+    \begin{sqlcode}
+      AVG ( [DISTINCT | ALL] ListaAttributi )
+    \end{sqlcode}
+
+    \begin{esempiobox}{Interrogazione con \texttt{MIN, MAX, AVG}}
+      Consideriamo la seguente tabella:
+      \begin{center}
+        \includegraphics[width=0.5\textwidth]{images/Q20.png}
+      \end{center}
+
+      \textbf{Estrarre gli Stipendi minimi, massimi e medi fra quelli di tutti gli impiegati}
+      \begin{sqlcode}
+        SELECT MIN(Stipendio), MAX(Stipendio), AVG(Stipendio)
+        FROM Impiegato;
+      \end{sqlcode}
+    \end{esempiobox}
+
+    \vario{Nota}{
+      \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+      \item $\texttt{SUM}$ e $\texttt{AVG}$ ammettono come argomento solo espressioni che rappresentano valori numerici o intervalli di tempo
+      \item $\texttt{MAX}$ e $\texttt{MIN}$ ammettono come argomento solo espressioni su cui è definito un ordinamento (quindi anche stringhe)
+      \item $\texttt{DISTINCT}$ elimina i duplicati
+      \item $\texttt{ALL}$ trascura solo i valori nulli
+    \end{itemize}
     }
 
-    Una delle più importanti estensioni di SQL rispetto all’algebra relazionale sono gli operatori: \textcolor{purple}{COUNT, SUM, MAX, MIN e AVG} \\
-    In algebra relazionale tutte le condizioni specificate vengono valutate su una tupla alla volta.\par
-    Gli operatori di aggregazione permettono di valutare proprietà che
-dipendono da insiemi di tuple.
-\begin{itemize}
-  \item Prima viene eseguita l’interrogazione considerando solo le clausole
-\textcolor{purple}{FROM} e \textcolor{purple}{WHERE}, quindi l’operatore di aggregazione viene applicato alla tabella contenente il risultato
+    \begin{esempiobox}{ATTENZIONE}
+      \begin{sqlcode}
+        SELECT Cognone, Nome, MAX(I.Stipendio)
+        FROM Impiegato AS I
+        JOIN Diparmento AS D ON I.Dipart = D.Nome
+          WHERE D.Città = 'Milano';
+      \end{sqlcode}
 
-\end{itemize}
-
-\subsubsection{COUNT}
-
-L'operatore COUNT conta il numero di righe di una tabella o il numero di valori di uno o più attributi: 
-  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
-\begin{flushleft}
-    \textcolor{purple}{COUNT} ( $\langle$\textcolor{cyan}{*} | [\textcolor{cyan}{DISTINCT} | \textcolor{cyan}{ALL}] ListaAttributi$\rangle$ )
-\end{flushleft}
-\end{mdframed}
-
-\begin{itemize}
-    \item \textcolor{cyan}{*}: conta il numero di righe della tabella
-    \item \textcolor{cyan}{DISTINCT ListaAttributi}: conta il numero di valori diversi degli attributi ListaAttributi
-    \item \textcolor{cyan}{ALL ListaAttributi}: conta il numero di righe che hanno valori diversi da NULL negli attributi in ListaAttributi
-    \begin{itemize}
-        \item Comportamento di default
-    \end{itemize}
-\end{itemize}
+      \textcolor{black!60!red}{\textbf{La seguente interrogazione non è corretta!}}
+      
+      \smallskip
+      Gli operatori aggregati non sono un meccanismo di selezione, ma solo funzioni che restituiscono un valore quando sono applicate ad un insieme.
   
+      \smallskip
+      Cognome e Nome restituiscono un valore per ogni tupla selezionata, mentre $\texttt{MAX}$ restituisce un valore unico per tutto l’insieme.
+
+      \smallskip
+      Per risolvere questa situazione serve il meccanismo di \textbf{raggruppamento}.
+    \end{esempiobox}
 
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{images/Q16.png}
-\end{figure}
+  \section{Clausola \texttt{GROUP BY}}
+  Gli operatori aggregate possono essere applicati separatamente a sottoinsiemi di righe.\\[0.2ex]
+  La clausola $\verb|GROUP BY|$ permette di specificare come dividere le tabelle in sottoinsiemi.\\[0.2ex]
+  La clausola permette di specificare un insieme di attributi e l’interrogazione raggrupperà le righe che possiedono gli stessi valori per questo insieme di attributi.
 
+  \begin{esempiobox}{Interrogazione con \texttt{GROUP BY}}
+    Consideriamo la seguente tabella:
+    \begin{center}
+      \includegraphics[width=0.5\textwidth]{images/Q22.png}
+    \end{center}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{images/Q17.png}
-\end{figure}
+    {\raggedright \textbf{Estrarre la somma degli stipendi di tutti gli impiegati dallo stesso dipartimento}\par}
 
+    \begin{sqlcode}
+      SELECT Dipart, SUM(Stipendio)
+      FROM Impiegato
+        GROUP BY Diaprt;
+    \end{sqlcode}
+  \end{esempiobox}
 
+  In una interrogazione che fa uso della clausola $\verb|GROUP BY|$ può comparire come argomento della $\verb|SELECT|$ solo un sottoinsieme degli attributi usati nella clausola $\verb|GROUP BY|$, oppure, operatori di aggregazione.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{images/Q18.png}
-\end{figure}
+  \subsection{Clausola \texttt{HAVING}}
+  È possibile applicare delle selezioni ai gruppi generati tramite la clausola $\verb|GROUP BY|$.\\[0.2ex]
+  La clausola $\verb|HAVING|$ permette di specificare delle condizioni che devono essere soddisfatte dai gruppi generati dopo l’esecuzione del raggruppamento tramite $\verb|GROUP BY|$.
 
-\subsubsection{ SUM, MAX, MIN, AVG}
+  La sintassi è:
+  \begin{sqlcode}
+    SELECT Dipart, SUM(Stipendio) AS SommaStipendi
+    FROM Impiegato
+      GROUP BY Dipart
+        HAVING SUM(Stipendio) > 100;
+  \end{sqlcode}
 
-
-  \begin{flushleft}
-<\textcolor{cyan}{SUM} | \textcolor{cyan}{MAX} | \textcolor{cyan}{MIN} | \textcolor{cyan}{AVG} > ( [\textcolor{cyan}{DISTINC} | \textcolor{cyan}{ALL}] AttrExpr )    \end{flushleft}
-
-
-  \begin{itemize}
-    \item SUM: restituisce la somma dei valori posseduti dall’espressione
-    \item MAX/MIN: restituisce il massimo/minimo dei valori posseduti dall’espressione
-    \item AVG: restiusce la media dei valori
-  \end{itemize}
-
-Altre caratteristiche sono:
-  \begin{itemize}
-    \item SUM e AVG ammettono come argomento solo espressioni che rappresentano valori numerici o intervalli di tempo
-    \item MAX e MIN ammettono come argomento solo espressioni su cui è definito un ordinamento (quindi anche stringhe)
-    \item DISTINCT elimina i duplicati
-    \item ALL trascura solo i valori nulli
-  \end{itemize}
-
-  \vspace{2em}
-  \textbf{\large SUM}
-
-  \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Q19.png}
-  \end{figure}
-
-    \textbf{\large MAX, MIN, AVG}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Q20.png}
-  \end{figure}
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Q21.png}
-  \end{figure}
-
-  \vario{ATTENZIONE}{
-
-  \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]   
-    \begin{flushleft}
-        SELECT Cognone, Nome, MAX( I.Stipendio )\\
-FROM Impiegato as I JOIN Diparmento as D\\
-\hspace{2em}ON I.Dipart = D.Nome\\
-WHERE D.Città = ‘Milano’\\
-    \end{flushleft}
-  \end{mdframed}
-    \textcolor{black!60!red}{\textbf{La seguente interrogazione non è corretta!}}\par
-Gli operatori aggregati non sono un meccanismo di selezione, ma solo
-funzioni che restituiscono un valore quando sono applicate ad un insieme.\\
-Cognome e Nome restituiscono un valore per ogni tupla selezionata, mentre
-MAX() restituisce un valore unico per tutto l’insieme.\\
-Per risolvere questa situazione serve il meccanismo di \textbf{raggruppamento} che
-non vediamo}
-
-
-  \subsection{Interrogazione con Raggruppamento}
-
-  Gli operatori aggregate possono essere applicati separatamente a sottoinsiemi di righe.
-  La clausola \textcolor{purple}{GROUP BY} permette di specificare come dividere le
-tabelle in sottoinsiemi.
-La clausola permette di specificare un insieme di attributi e l’interrogazione raggrupperà le righe che possiedono gli stessi valori per questo insieme di attributi
-
+  Dopo aver eseguito i raggruppamenti, vengono mantenuti solo i gruppi che soddisfano la condizione specificata nella clausola $\verb|HAVING|$.
 
   \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/Q22.png}
+    \includegraphics[width=\textwidth]{images/esempio.png}
   \end{figure}
 
+  \begin{esempiobox}{OSSERVAZIONE}
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+      \item clausola $\texttt{WHERE}$ applica delle selezioni su singole righe, \textcolor{purple}{\textbf{prima}} dell’eventuale raggruppamento tramite $\texttt{GROUP BY}$
+      \item clausola $\texttt{HAVING}$ applica delle selezioni su gruppi, generati a \textcolor{purple}{\textbf{seguito}} dell’esecuzione del raggruppamento tramite $\texttt{GROUP BY}$
+    \end{itemize}
 
-  \textbf{\large Esecuzione}
-
-
-
-
-  \noindent
-\begin{minipage}[c]{0.45\textwidth}
-  \begin{enumerate}[series=passaggiSQL]
-    \item Viene eseguita l’interrogazione come se la clausola GROUP BY non esistesse: 
-    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]      
-    \begin{flushleft}
-      \small
-        SELECT Dipart, SUM(Stipendio)\\
+    \begin{sqlcode}
+        SELECT Dipart
         FROM Impiegato
-    \end{flushleft}
-  \end{mdframed}
-  \end{enumerate}
+          WHERE Ufficio = 20 -- seleziona righe raggruppate
+            GROUP BY Dipart  -- forma gruppi con righe selezionate
+              HAVING AVG(Stipendio) > 25; -- seleziona gruppi del risultato
+      \end{sqlcode}
+  \end{esempiobox}
+
+  \section{Interrogazioni nidificate}
+  Un' interrogazione nidificata è un'interrogazione che contiene al suo interno altre interrogazioni.\\[0.2ex]
+  La nidificazione può avvenire sia nella clausola $\verb|SELECT|$, che nella clausola $\verb|FROM|$, che nella clausola $\verb|WHERE|$.\\[0.2ex]
+  Il caso tipico è la nidificazione nella clausola $\verb|WHERE|$, dove un predicato contiene un confronto tra un valore (espressione su una singola riga) ed il risultato di un’interrogazione SQL.
+
+  \subsection{Clausola \texttt{WHERE}}
+  Se in un predicato si confronta un attributo o una espressione che produce un valore singolo con il risultato di un’interrogazione, sorge il problema di disomogeneità dei termini del confronto.\\[0.2ex]
+  I normali operatori di confronto ($\verb|=|, \verb|<>|, \verb|<|, \verb|>|, \verb|<=|, \verb|=>|$) possono essere estesi con le parole chiave $\verb|ANY|$ e $\verb|ALL|$:
+  \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item $\verb|ANY|$: riga soddisfa la condizione se risulta vero il confronto (con l’operatore specificato) tra il valore dell’attributo (o espressione) e \textbf{almeno} uno degli elementi restituiti dall’interrogazione 
+    \item $\verb|ALL|$: riga soddisfa la condizione se risulta vero il confronto (con l’operatore specificato) tra il valore dell’attributo (o espression) e \textbf{tutti} gli elementi restituiti dall’interrogazione
+  \end{itemize}
+
+  \begin{esempiobox}{Interrogazione con \texttt{WHERE}}
+    Consideriamo la seguente tabella:
+    \begin{center}
+      \includegraphics[width=0.5\textwidth]{images/Q24.png}
+    \end{center}
+
+    \textbf{Estrarre i dipartimenti in cui non lavorano persone di cognome Rossi}
+    \begin{sqlcode}
+      SELCET Nome
+      FROM Diparmento
+        WHERE Nome <> ALL (
+          SELECT Dipart
+          FROM Impiegato
+            WHERE Cognome = 'Rossi'
+        );
+    \end{sqlcode}
+
+    Questo equivale a:
+    \begin{sqlcode}
+      SELECT Nome
+      FROM Dipartimento
+      EXCEPT
+      SELECT Dipart
+      FROM Impiegato
+      WHERE Cognome = 'Rossi';
+    \end{sqlcode}
+  \end{esempiobox}
+
+  \vario{ATTENZIONE!}{
+    Per le interrogazioni nidificate viste fino ad ora, l’interrogazione può essere eseguita una volta sola ed il risultato ottenuto può essere salvato in una tabella temporanea usata per eseguire ciascun confronto con le righe dalla tabella esterna.
+
+    \smallskip
+    Talvolta però l’interrogazione nidificata fa riferimento al contesto dell’interrogazione che la racchiude attraverso l’uso di una variabile (\textbf{passaggio di binding}).
     
-\end{minipage}
- \hfill
-\begin{minipage}[c]{0.45\textwidth}
-    \centering
-    % Inserisci qui il nome del tuo file immagine (es. schema.png)
-    \includegraphics[width=\textwidth]{images/tabellina4.png}
-\end{minipage}
-
-  \noindent
-\begin{minipage}[c]{0.45\textwidth}
-  \begin{enumerate}[resume=passaggiSQL]
-    \item La tabella ottenuta viene analizzata, dividendo le righe in insiemi caratterizzati dallo stesso valore degli attributi che compaiono nella clausola GROUP BY.
-  \end{enumerate}
-    
-\end{minipage}
- \hfill
-\begin{minipage}[c]{0.45\textwidth}
-    \centering
-    % Inserisci qui il nome del tuo file immagine (es. schema.png)
-    \includegraphics[width=\textwidth]{images/tabellina5.png}
-\end{minipage}
-
-
-
-
-  \noindent
-\begin{minipage}[c]{0.45\textwidth}
-  \begin{enumerate}[resume=passaggiSQL]
-    \item Dopo che le righe sono state raggruppate in sottoinsiemi, l’operatore aggregato viene applicato separatamente su ogni
-sottoinsieme.
-  \end{enumerate}
-    
-\end{minipage}
- \hfill
-\begin{minipage}[c]{0.45\textwidth}
-    \centering
-    % Inserisci qui il nome del tuo file immagine (es. schema.png)
-    \includegraphics[width=\textwidth]{images/tabellina6.png}
-\end{minipage}
-
-
-\vspace{2em}
-
-
-In una interrogazione che fa uso della clausola GROUP BY può comparire come argomento della SELECT solo un sottoinsieme degli attributi usati nella
-clausola GROUP BY oppure operatori di aggregazione.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{images/esempioGroupBu.png}
-\end{figure}
-
-
- È possibile applicare delle selezioni ai gruppi generati tramite la clausola GROUP BY. La clausola \textcolor{purple}{HAVING} permette di specificare delle condizioni che devono essere soddisfatte dai gruppi generati dopo l’esecuzione del raggruppamento tramite GROUP BY.
-
-
- \vspace{2em}
-
- \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt] 
- \begin{flushleft}
-         SELECT Dipart, SUM(Stipendio) as SommaStipendi\\
-FROM Impiegato \\
-GROUP BY Dipart\\
-HAVING SUM(Stipendio) > 100\\
-
-    \end{flushleft}
-  \end{mdframed}
-
-
-
-Dopo aver eseguito i raggruppamenti, vengono mantenuti solo i gruppi che soddisfano la condizione specificata nella clausola HAVING.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{images/esempio.png}
-\end{figure}
-
-
-\vario{OSSERVAZIONE}{ 
-\begin{itemize}
-  \item La clausola \textcolor{purple}{WHERE} applica delle selezioni su SINGOLE RIGHE, \textcolor{purple}{\textbf{prima}} dell’eventuale raggruppamento tramite GROUP BY.
-\item La clausola \textcolor{purple}{HAVING} applica delle selezioni su GRUPPI, generati a \textcolor{purple}{\textbf{seguito}} dell’esecuzione del raggruppamento tramite GROUP BY
-\end{itemize} .
-
-
-\noindent
-\begin{minipage}[c]{0.39\textwidth}
-    % --- INIZIO RIQUADRO ---
-    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
-        \textbf{SQL}
-        \begin{flushleft}
-          \small 
-          SELECT Dipart\\   
-FROM Impiegato\\
-WHERE Ufficio = 20\\
-GROUP BY Dipart\\
-HAVING AVG(Stipendio) > 25\\
-        \end{flushleft}
-    \end{mdframed}
-    % --- FINE RIQUADRO ---
-\end{minipage}
-\hfill
-\begin{minipage}[c]{0.60\textwidth} 
-    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]
-        \begin{flushleft}
-          \small 
-          \begin{enumerate}
-            \item WHERE→ seleziona le righe che
-            verranno raggruppate 
-            \item GROUP BY → forma i gruppi con le righe selezionate 
-            \item HAVING → seleziona i gruppi che faranno parte del risultato
-          \end{enumerate}
-        \end{flushleft}
-    \end{mdframed}
-\end{minipage}
-
-}
-
-
-
-
-
-\subsection{Interrogazioni nidificate}
-
-
-Una interrogazione nidificata è una interrogazione che contiene al suo interno altre interrogazioni.\par
-La nidificazione può avvenire sia nella clausola \textcolor{cyan}{SELECT}, che nella
-clausola \textcolor{cyan}{FROM}, che nella clausola \textcolor{cyan}{WHERE}.
-Il caso tipico è la nidificazione nella clausola WHERE, dove un
-predicato contiene un confronto tra un valore (espressione su una
-singola riga) ed il risultato di un’interrogazione SQL.
-
-\subsubsection{Interrogazioni nidificate: WHERE}
-
-Se in un predicato si confronta un attributo o una espressione che
-produce un valore singolo con il risultato di un’interrogazione, sorge il problema di disomogeneità dei termini del confronto. \par
-I normali operatori di confronto (=, <>, <, >, <=, =>) possono essere estesi con le parole chiave \textcolor{cyan}{ANY} e \textcolor{cyan}{ALL}.
-
-\begin{itemize}
-  \item \textcolor{cyan}{ANY}: la riga soddisfa la condizione se risulta vero il confronto (con l’operatore specificato) tra il valore dell’attributo (o espressione) e \textcolor{cyan}{ALMENO} uno degli elementi restituiti dall’interrogazione. 
-  \item \textcolor{cyan}{ALL}: la riga soddisfa la condizione se risulta vero il confronto (con l’operatore specificato) tra il valore dell’attributo (o espression) e \textcolor{cyan}{TUTTI} gli elementi restituiti dall’interrogazione.
-\end{itemize}
-
-
-
-  \noindent
-\begin{minipage}[t]{0.49\textwidth}
-   \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Q23.png}
-  \end{figure}
-
-\end{minipage}
-\hfill % Questo comando inserisce uno spazio flessibile che spinge le due minipage ai lati opposti
-\begin{minipage}[t]{0.49\textwidth}
-      \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Q23_1.png}
-  \end{figure}
-  
-\end{minipage}
-
-
-   \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Q23_2.png}
-   \end{figure}
-
-
-   
-   \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Q24.png}
-   \end{figure}
-
-
-   In particolare, scrivere: 
-    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]    
-     \begin{flushleft}
-        SELECT Nome\\
-FROM Dipartimento\\
-WHERE Nome <> ALL (SELECT Dipart\\
-\hspace{4em}FROM Impiegato\\
-\hspace{4em}WHERE Cognome = ‘Rossi’);
-
-    \end{flushleft}
-  \end{mdframed}
-
-
-è equivalente a scrivere
-
-    \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]    
-     \begin{flushleft}
-      SELECT Nome\\
-FROM Dipartimento\\
-\textcolor{cyan}{EXCEPT}\\
-SELECT Dipart\\
-FROM Impiegato\\
-WHERE Cognome = ‘Rossi’
-    \end{flushleft}
-  \end{mdframed}
-
-
-
-
-  
-  Per il controllo di appartenenza o esclusione rispetto ad un insieme si possono uare anche gli operatori IN (= ANY) e NOT IN (<> ALL).
-
-   \begin{mdframed}[backgroundcolor=gray!10, roundcorner=5pt]    
-     \begin{flushleft}
-    SELECT Nome\\
-FROM Dipartimento\\
-WHERE Nome NOT IN (SELECT Dipart\\
-\hspace{4em}FROM Impiegato  \\
-\hspace{4em}WHERE Cognome = ‘Rossi’);
-    \end{flushleft}
-  \end{mdframed}
-
-
-
-
-  \vario{Attenzione!}{Per le interrogazioni nidificate viste fino ad ora, l’interrogazione
-può essere eseguita una volta sola ed il risultato ottenuto può essere salvato in una tabella temporanea usata per eseguire
-ciascun confronto con le righe dalla tabella esterna.\par 
-Talvolta però l’interrogazione nidificata fa riferimento al contesto
-dell’interrogazione che la racchiude attraverso l’uso di una
-variabile (\textcolor{cyan}{passaggio di binding}).L’interrogazione nidificata dovrà essere \textcolor{cyan}{valutata separatamente per ciascuna riga} prodotta dalla valutazione della query esterna.}
+    \smallskip
+    L’interrogazione nidificata dovrà essere \textbf{valutata separatamente per ciascuna riga} prodotta dalla valutazione della query esterna.
+  }
  
-  \subsubsection{Interrogazioni nidificate: Binding e EXISTS}
+  \subsection{Clausola \texttt{EXISTS}}
+   L’operatore logico $\verb|EXISTS|$ riceve come parametro un’interrogazione nidificata e restituisce il valore vero solo se l’interrogazione fornisce un risultato non vuoto.\\[0.2ex]
+   Questo operatore può essere usato in modo significativo soloquando si ha un passaggio di binding tra la query esterna e quella interna.
 
-   L’operatore logico \textcolor{cyan}{EXISTS} riceve come parametro
-un’interrogazione nidificata e restituisce il valore vero solo se
-l’interrogazione fornisce un risultato non vuoto.\par 
-Questo operatore può essere usato in modo significativo solo
-quando si ha un passaggio di binding tra la query esterna e quella
-interna
+   \begin{esempiobox}{Interrogazione con \texttt{EXISTS}}
+    Consideriamo la seguente tabella:
+    \begin{center}
+      \includegraphics[width=0.5\textwidth]{images/Q25.png}
+    \end{center}
 
+    \textbf{Estrarre le persone che hanno degli omonimi (stesso nome e cognome, ma codice fiscale diverso)}
+    \begin{sqlcode}
+      SELECT *
+      FROM Persona AS P
+        WHERE EXISTS (
+          SELECT *
+          FROM Persona P1
+          WHERE P1.Nome = P.Nome AND
+            P1.Cognome = P.Cognome AND
+            P1.CodFiscale <> P.CodFiscale
+        );
+    \end{sqlcode}
+   \end{esempiobox}
 
+  \subsection{Clausola \texttt{SELECT}}
+  Le interrogazioni nidificate possono essere specificate anche come elemento della clausola $\verb|SELECT|$.
 
+  \vario{Nota}{
+     Spesso l’uso di query nidificate nella \texttt{SELECT} sostituiscono l’uso del \texttt{JOIN}.
+  }
 
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q25.png} 
-    \end{figure}
+  \begin{esempiobox}{Interrogazione con \texttt{SELECT}}
+    Consideriamo la seguente tabella:
+    \begin{center}
+       \includegraphics[width=0.5\textwidth]{images/Q27.png}
+    \end{center}
 
-
-
-    
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q26.png} 
-    \end{figure}
-
-
-     \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q26alt.png} 
-    \end{figure}
-
-
-\subsubsection{Interrogazioni nidificate: SELECT}
-
-Le interrogazioni nidificate possono essere specificate anche come elemento della clausola SELECT.
-\begin{itemize}
-  \item Spesso l’uso di query nidificate nella SELECT sostituiscono l’uso del JOIN.
-\end{itemize}
-
-
- \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q27.png} 
-    \end{figure}
-
-
-    \subsubsection{Interrogazioni nidificate: FROM}
-
-    Le interrogazioni nidificate possono essere utilizzate nella
-clausola FROM come sorgente dati su cui eseguire
-l’interrogazione.\par
-È possibile creare una catena di interrogazioni, dove ciascuna
-interrogazione utilizza il risultato della precedente come una
-tabella di base.
+    \textbf{Estrarre per ogni cantante il numero di canzoni di cui è autore}
+    \begin{sqlcode}
+      SELECT DISTINCT Nome, NumCanzoni = (
+        SELECT COUNT(*)
+        FROM Autore AS A
+          WHERE A.Nome = C.Nome
+      )
+      FROM Cantante AS C;
+    \end{sqlcode}
+  \end{esempiobox}
 
 
- \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{images/Q28.png} 
-    \end{figure}
+    \subsection{Clausola \texttt{FROM}}
+    Le interrogazioni nidificate possono essere utilizzate nella clausola $\verb|FROM|$ come sorgente dati su cui eseguire l’interrogazione.\\[0.2ex]
+    È possibile creare una catena di interrogazioni, dove ciascuna interrogazione utilizza il risultato della precedente come una tabella di base.
+
+    \begin{esempiobox}{Interrogazione con \texttt{FROM}}
+    Consideriamo la seguente tabella:
+    \begin{center}
+       \includegraphics[width=0.5\textwidth]{images/Q28.png}
+    \end{center}
+
+    \textbf{Estrarre per ogni cantante che è anche autore di canzoni il numero di canzoni di cui è rispettivamente interprete e autore}
+    \begin{sqlcode}
+      SELECT DISTINCT C.NOme, C.NumCantate, A.NumScritte
+      FROM (
+        SELECT Nome, COUNT(*) AS NumCantate
+        FROM Cantante
+      ) AS C
+      JOIN (
+        SELECT Nome, COUNT(*) AS NumScritte
+        FROM Autore
+      ) AS A ON C.Nome = A.Nome;
+    \end{sqlcode}
+  \end{esempiobox}
+
+
+
     
   
-\chapter{Strutture fisiche e di accesso ai dati}
-Le basi di dati risiedono nella \textcolor{azzurrino}{\textbf{memoria secondaria}} perchè sono:
-\begin{itemize}[label=$\triangleright$]
-  \item \textbf{grandi}: non possono essere contenute completamente in memoria centrale
-  \smallskip
-  \item \textbf{persistenti}: hanno un tempo di vita che non è limitato all'esecuizone dei programmi che le usano
-\end{itemize}
-
-\vario{Caratteristiche della memoria secondaria}{
-  Le caratteristiche principali della memoria secondaria sono:
-  \begin{itemize}[label=$\circ$]
-    \item non utilizzabile direttamente dai programmi
-    \smallskip
-    \item dati organizzati in \textbf{blocchi} (grandezza dipende dal sistema operativo)
-    \smallskip
-    \item operazioni possibili:
-    \begin{itemize}[label=$\diamond$]
-      \item lettura intero blocco
-      \item scrittura intero blocco
-    \end{itemize}
-    \smallskip
-    \item costo delle operazioni di accesso alla memoria secondaria è maggiore al costo per accedere ai dati in memoria centrale
-  \end{itemize}
-}
-
-\section{Gestore del buffer}
-L'interazione tra memoria secondaria e memoria centrale avviene tramite il \textcolor{azzurrino}{\textbf{gestore del buffer}} tramite il trasferimento di uno o più \textbf{blocchi} della memoria secondaria in \textbf{pagine} dedicate della memoria centrale (buffer).
-
-\vario{Precisazione}{
-  La dimensione delle pagine in memoria centrale sono siltamente un multiplo della dimensione dei blocchi in memoria secondaria.
-
-  \smallskip
-  Per semplificare, si assume che siano uguali:
-  \begin{equation*}
-    \text{1 pagina} \approx \text{1 blocco}
-  \end{equation*}
-}
-
-\subsection{Buffer}
-Il \textcolor{azzurrino}{\textbf{buffer}} è una zona della memoria condivisa dalle applicazioni e una gestiona ottimale del buffer consente di ottenere buone prestazioni nell'accesso ai dati.\\[0.2ex]
-Quando uno stesso dato viene utilizzato più volte in tempi ravvicinati il buffer evita
-l’accesso alla memoria secondaria.
-
-\vario{Compito del gestore del buffer}{
-  Il gestore del buffer si occupa del caricare e salvare i dati dalla memoria secondaria alla memoria centrale.
-}
-
-\subsection{Politica di gestione della memoria}
-L'obiettivo del gestore del buffer è di \hl{ottimizzare gli accessi} attraverso le politiche di gestione della memoria:
-\begin{itemize}[label=$\diamond$]
-  \item \textbf{lettura di un blocco}:
+  \chapter{Strutture fisiche e di accesso ai dati}
+  Le basi di dati risiedono nella \textcolor{azzurrino}{\textbf{memoria secondaria}} perchè sono:
   \begin{itemize}[label=$\triangleright$]
-    \item blocco presente in una pagina del buffer
-    \begin{itemize}[label=$\Rightarrow$]
-      \item non viene eseguita la lettura in memoria secondaria
-      \smallskip
-      \item viene restituito un puntatore alla pagine del buffer
-    \end{itemize}
-    \medskip
-    \item blocco non presente in una pagina del buffer
-    \begin{itemize}[label=$\Rightarrow$]
-      \item viene cercata una pagina libera
-      \smallskip
-      \item viene caricato il blocco nella pagina
-      \smallskip
-      \item viene restituito il puntatore alla pagina del buffer
-    \end{itemize}
+    \item \textbf{grandi}: non possono essere contenute completamente in memoria centrale
+    \smallskip
+    \item \textbf{persistenti}: hanno un tempo di vita che non è limitato all'esecuizone dei programmi che le usano
   \end{itemize}
-  \bigskip
-  \item \textbf{scrittura di un blocco}: se viene effettuata una richiesta si dcrittura di un blocco giù caricato in una pagina del buffer, il gestore del buffer può decidere di \hl{differire la scrittura} su memoria secondaria in un secondo momento
-\end{itemize}
 
-\medskip
-Per poter aumentare la velocità di accesso ai dati, le politiche di lettura e scrittura si basano sul \textbf{principio di località}.
-
-\definizione{principio di località}{
-  Il \textbf{principio di località} si basa sul fatto che i dati refernziati di recente hanno maggiore probabilità di essere referenziati nuovamente in futuro.
-}
-
-\subsection{Gestione delle pagine}
-Il contenuto del buffer lo possiamo immaginare come una matrice.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.5\textwidth]{images/gestione-pagine.png}
-\end{figure}
-
-Per ogni pagina del buffer si memorizza:
-\begin{itemize}[label=$\triangleright$]
-  \item blocco B (L se libero) indicando il file e il numero di blocco (offset)
-  \smallskip
-  \item variabili di stato ($B_{i,j}$):
-  \begin{itemize}[label=$\circ$]
-    \item contatore i: indica il numero di transazioni
-    \item bit di stato j: indica se la pagina è stata modificata (1) o no (0)
-  \end{itemize}
-\end{itemize}
-
-\subsection{Primitive per la gestione del buffer}
-
-\subsubsection{Primitiva \protect\texttt{fix}}
-La \textcolor{azzurrino}{primitiva \texttt{fix}} viene utilizzata dalle transazioni per richiedere l'accesso ad un blocco e restituisce un puntatore alla pagina contente il blocco richiesto.
-
-Le azioni della primitiva sono:
-\begin{itemize}[label=$\triangleright$]
-  \item \textbf{ricerca del blocco}:
-  \begin{itemize}[label=$\diamond$]
-    \item blocco viene trovato
-    \begin{itemize}[label=$\Rightarrow$]
-      \item viene restituito un puntatore alla pagina contentente il blocco
-    \end{itemize}
-    \medskip
-    \item blocco non viene trovato:
+  \vario{Caratteristiche della memoria secondaria}{
+    Le caratteristiche principali della memoria secondaria sono:
     \begin{itemize}[label=$\circ$]
-      \item viene scelta una pagina libera
-      \begin{itemize}[label=$\Rightarrow$]
-        \item viene salvata in memoria secondaria (primitiva $\verb|flush|$)
-        \item viene caricato il blocco in P aggiornando file e numero di blocco
+      \item non utilizzabile direttamente dai programmi
+      \smallskip
+      \item dati organizzati in \textbf{blocchi} (grandezza dipende dal sistema operativo)
+      \smallskip
+      \item operazioni possibili:
+      \begin{itemize}[label=$\diamond$]
+        \item lettura intero blocco
+        \item scrittura intero blocco
       \end{itemize}
       \smallskip
-      \item non ci sono pagine libere
-      \begin{itemize}[label=$\Rightarrow$]
-        \item viene rubata una pagina a un'altra transazione (primitiva $\verb|flush|$)
-        \item viene sospesa la transazione inserendola in una cosa di attesa
-        \item se si libera una pagina il gestore si comporterà come al punto precedente
-      \end{itemize}
+      \item costo delle operazioni di accesso alla memoria secondaria è maggiore al costo per accedere ai dati in memoria centrale
     \end{itemize}
-  \end{itemize}
-\end{itemize}
+  }
 
-\medskip
-\begin{itemize}[label=$\Rightarrow$]
-  \item \textbf{effetto della modifica}: quando una transizione accede a una pagina per la prima volta il contatore si incrementa
-\end{itemize}
+  \section{Gestore del buffer}
+  L'interazione tra memoria secondaria e memoria centrale avviene tramite il \textcolor{azzurrino}{\textbf{gestore del buffer}} tramite il trasferimento di uno o più \textbf{blocchi} della memoria secondaria in \textbf{pagine} dedicate della memoria centrale (buffer).
 
-\subsubsection{Primitiva \protect\texttt{unfix}}
-La \textcolor{azzurrino}{primitiva \texttt{unfix}} viene usata dalle transazioni per indicare che la transazione ha terminato di usare il blocco.
+  \vario{Precisazione}{
+    La dimensione delle pagine in memoria centrale sono siltamente un multiplo della dimensione dei blocchi in memoria secondaria.
 
-\begin{itemize}[label=$\Rightarrow$]
-  \item \textbf{effetto della modifica}: decremento del contatore i
-\end{itemize}
+    \smallskip
+    Per semplificare, si assume che siano uguali:
+    \begin{equation*}
+      \text{1 pagina} \approx \text{1 blocco}
+    \end{equation*}
+  }
 
-\subsubsection{Primitiva \protect\texttt{setDirty}}
-La \textcolor{azzurrino}{primitiva \texttt{setDirty}} viene utilizzata dalle transazioni per indicare al gestore del buffer che il blocco della pagina è stato modificato.
+  \subsection{Buffer}
+  Il \textcolor{azzurrino}{\textbf{buffer}} è una zona della memoria condivisa dalle applicazioni e una gestiona ottimale del buffer consente di ottenere buone prestazioni nell'accesso ai dati.\\[0.2ex]
+  Quando uno stesso dato viene utilizzato più volte in tempi ravvicinati il buffer evita
+  l’accesso alla memoria secondaria.
 
-\begin{itemize}[label=$\Rightarrow$]
-  \item \textbf{effetto della modifica}: bit di stato J passa da 0 a 1
-\end{itemize}
+  \vario{Compito del gestore del buffer}{
+    Il gestore del buffer si occupa del caricare e salvare i dati dalla memoria secondaria alla memoria centrale.
+  }
 
-\subsubsection{Primitiva \protect\texttt{force}}
-La \textcolor{azzurrino}{primitiva \texttt{force}} viene utilizzata per salvare in memoria secondaria in \hl{modo sincrono} il blocco contenuto nella pagina.\\[0.2ex]
-Questa primitiva viene usata dal gestore dell'affidabilità.
-
-\begin{itemize}[label=$\Rightarrow$]
-  \item \textbf{effetto della modifica}: viene salvato in memoria secondaria il blocco e il bit di stato J posto a 0
-\end{itemize}
-
-\subsubsection{Primitiva \protect\texttt{flush}}
-La \textcolor{azzurrino}{primitiva \texttt{flush}} viene utilizzata per salvare i blocchi in memoria secondaria in \hl{modo asincrono}.\\[0.2ex]
-Questa primitiva viene usata dal gestore del buffer.
-
-\begin{itemize}[label=$\Rightarrow$]
-  \item \textbf{effetto della modifica}: viene liberta la pagina "dirty" e il bit di stato J viene posto a 0
-\end{itemize}
-
-\section{Gestore dell'affidabilità}
-Il gestore del buffer differisce le operazioni di scrittura e questo potrebbe raprresentare un pericolo.\\[0.2ex]
-Il \textcolor{azzurrino}{\textbf{gestore dell'affibilità}} si occupa di garantire:
-\begin{itemize}[label=$\triangleright$]
-  \item \textbf{atomicità}: transazioni non devono essere incomplete
-  \smallskip
-  \item \textbf{persistenza}: effetti di ciascuna transazione non conclusa con un commit devono essere mantenuti in modo permanente
-\end{itemize}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.6\textwidth]{images/gestore-affidabilità.png}
-\end{figure}
-
-
-\subsection{File di LOG}
-Il funzionamento del gestore dell'affidabilità si basa sull'utilizzo del \textbf{file di LOG}.
-
-\definizione{file di LOG}{
-  Il \textbf{file di LOG} è un archivio persistente su cui vengono registrate tutte le operazioni eseguite dal DBMS.
-}
-
-Per il corretto funzionamento, il gestore dell’affidabilità deve disporre di un dispositivo di una \textbf{memoria stabile} (resistente ai guasti).
-
-Il file di LOG viene memorizzato in memoria stabile e al suo interno vengono memorizzati:
-\begin{itemize}[label=$\triangleright$]
-  \item \textbf{record di transizione}: record che descrivono informazioni sulle transazioni
+  \subsection{Politica di gestione della memoria}
+  L'obiettivo del gestore del buffer è di \hl{ottimizzare gli accessi} attraverso le politiche di gestione della memoria:
   \begin{itemize}[label=$\diamond$]
-    \item $\boldsymbol{\mathrm{B(T)}}$: \textcolor{azzurrino}{\textbf{begin}} della transazione
-    \smallskip
-    \item $\boldsymbol{\textbf{C(T)}}$: \textcolor{azzurrino}{\textbf{commit}} della transazione
-    \smallskip
-    \item $\boldsymbol{\textbf{A(T)}}$: \textcolor{azzurrino}{\textbf{abort}} della transazione
-    \smallskip
-    \item $\boldsymbol{\textbf{I(T,O,AS)}}$: \textcolor{azzurrino}{\textbf{insert}} di un oggetto da parte di una transazione $\mathrm{T}$ con il suo after state $\mathrm{AS}$ (stato dell'oggetto dopo l'operazione)
-    \smallskip
-    \item $\boldsymbol{\mathrm{D(T,O,BS)}}$: \textcolor{azzurrino}{\textbf{delete}} di un oggetto $\mathrm{O}$ da parte della transizione $\mathrm{T}$ con il suo before state $\mathrm{BS}$ (stato dell'oggetto prima dell'operazione)
-    \smallskip
-    \item $\boldsymbol{\mathrm{U(T,O,BS,AS)}}$: \textcolor{azzurrino}{\textbf{update}} di un oggetto $\mathrm{O}$ da parte della transizione $\mathrm{T}$ con il suo before state $\mathrm{BS}$ e il suo after state $\mathrm{AS}$
+    \item \textbf{lettura di un blocco}:
+    \begin{itemize}[label=$\triangleright$]
+      \item blocco presente in una pagina del buffer
+      \begin{itemize}[label=$\Rightarrow$]
+        \item non viene eseguita la lettura in memoria secondaria
+        \smallskip
+        \item viene restituito un puntatore alla pagine del buffer
+      \end{itemize}
+      \medskip
+      \item blocco non presente in una pagina del buffer
+      \begin{itemize}[label=$\Rightarrow$]
+        \item viene cercata una pagina libera
+        \smallskip
+        \item viene caricato il blocco nella pagina
+        \smallskip
+        \item viene restituito il puntatore alla pagina del buffer
+      \end{itemize}
+    \end{itemize}
+    \bigskip
+    \item \textbf{scrittura di un blocco}: se viene effettuata una richiesta si dcrittura di un blocco giù caricato in una pagina del buffer, il gestore del buffer può decidere di \hl{differire la scrittura} su memoria secondaria in un secondo momento
   \end{itemize}
+
   \medskip
-  \item \textbf{record di sistema}: record che descrivono informazioni sulle operazioni esaguite dal DBMS
-  \begin{itemize}[label=$\circ$]
-    \item $\boldsymbol{\mathrm{DUMP}}$: copia completa e consistente della base di dati.
+  Per poter aumentare la velocità di accesso ai dati, le politiche di lettura e scrittura si basano sul \textbf{principio di località}.
+
+  \definizione{principio di località}{
+    Il \textbf{principio di località} si basa sul fatto che i dati refernziati di recente hanno maggiore probabilità di essere referenziati nuovamente in futuro.
+  }
+
+  \subsection{Gestione delle pagine}
+  Il contenuto del buffer lo possiamo immaginare come una matrice.
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/gestione-pagine.png}
+  \end{figure}
+
+  Per ogni pagina del buffer si memorizza:
+  \begin{itemize}[label=$\triangleright$]
+    \item blocco B (L se libero) indicando il file e il numero di blocco (offset)
     \smallskip
-    \item $\boldsymbol{\mathrm{CK}(T_1, \dots, T_n)}$: indica che all'esecuzione del checkpoint, le transazioni attive erano $T_1, \dots, T_n$
-    \begin{itemize}
-      \item elenco delle transazioni che non hanno ancora espresso la loro scelta relativamente all'esito finale
-      \smallskip
-      \item operazione svolta periodicamente affinché i dati delle transazioni che hanno eseguito il \texttt{commit} siano registrati in modo permanente
-      \smallskip
-      \item il protocollo di checkpoint prevede i seguenti passi:
-      \begin{enumerate}
-        \item sospensione delle operazioni di scrittura, \texttt{commit} e \texttt{abort} delle transazioni
-        \smallskip
-        \item esecuzione della primitiva \texttt{force} sulle pagine ``dirty'' di transazioni che hanno eseguito il \texttt{commit}
-        \smallskip
-        \item scrittura sincrona (primitiva \texttt{force}) sul file di LOG del record di checkpoint con gli identificatori delle transazioni attive
-        \smallskip
-        \item ripresa delle operazioni di scrittura, \texttt{commit} e \texttt{abort} delle transazioni
-      \end{enumerate}
+    \item variabili di stato ($B_{i,j}$):
+    \begin{itemize}[label=$\circ$]
+      \item contatore i: indica il numero di transazioni
+      \item bit di stato j: indica se la pagina è stata modificata (1) o no (0)
     \end{itemize}
   \end{itemize}
-\end{itemize}
+
+  \subsection{Primitive per la gestione del buffer}
+
+  \subsubsection{Primitiva \protect\texttt{fix}}
+  La \textcolor{azzurrino}{primitiva \texttt{fix}} viene utilizzata dalle transazioni per richiedere l'accesso ad un blocco e restituisce un puntatore alla pagina contente il blocco richiesto.
+
+  Le azioni della primitiva sono:
+  \begin{itemize}[label=$\triangleright$]
+    \item \textbf{ricerca del blocco}:
+    \begin{itemize}[label=$\diamond$]
+      \item blocco viene trovato
+      \begin{itemize}[label=$\Rightarrow$]
+        \item viene restituito un puntatore alla pagina contentente il blocco
+      \end{itemize}
+      \medskip
+      \item blocco non viene trovato:
+      \begin{itemize}[label=$\circ$]
+        \item viene scelta una pagina libera
+        \begin{itemize}[label=$\Rightarrow$]
+          \item viene salvata in memoria secondaria (primitiva $\verb|flush|$)
+          \item viene caricato il blocco in P aggiornando file e numero di blocco
+        \end{itemize}
+        \smallskip
+        \item non ci sono pagine libere
+        \begin{itemize}[label=$\Rightarrow$]
+          \item viene rubata una pagina a un'altra transazione (primitiva $\verb|flush|$)
+          \item viene sospesa la transazione inserendola in una cosa di attesa
+          \item se si libera una pagina il gestore si comporterà come al punto precedente
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+
+  \medskip
+  \begin{itemize}[label=$\Rightarrow$]
+    \item \textbf{effetto della modifica}: quando una transizione accede a una pagina per la prima volta il contatore si incrementa
+  \end{itemize}
+
+  \subsubsection{Primitiva \protect\texttt{unfix}}
+  La \textcolor{azzurrino}{primitiva \texttt{unfix}} viene usata dalle transazioni per indicare che la transazione ha terminato di usare il blocco.
+
+  \begin{itemize}[label=$\Rightarrow$]
+    \item \textbf{effetto della modifica}: decremento del contatore i
+  \end{itemize}
+
+  \subsubsection{Primitiva \protect\texttt{setDirty}}
+  La \textcolor{azzurrino}{primitiva \texttt{setDirty}} viene utilizzata dalle transazioni per indicare al gestore del buffer che il blocco della pagina è stato modificato.
+
+  \begin{itemize}[label=$\Rightarrow$]
+    \item \textbf{effetto della modifica}: bit di stato J passa da 0 a 1
+  \end{itemize}
+
+  \subsubsection{Primitiva \protect\texttt{force}}
+  La \textcolor{azzurrino}{primitiva \texttt{force}} viene utilizzata per salvare in memoria secondaria in \hl{modo sincrono} il blocco contenuto nella pagina.\\[0.2ex]
+  Questa primitiva viene usata dal gestore dell'affidabilità.
+
+  \begin{itemize}[label=$\Rightarrow$]
+    \item \textbf{effetto della modifica}: viene salvato in memoria secondaria il blocco e il bit di stato J posto a 0
+  \end{itemize}
+
+  \subsubsection{Primitiva \protect\texttt{flush}}
+  La \textcolor{azzurrino}{primitiva \texttt{flush}} viene utilizzata per salvare i blocchi in memoria secondaria in \hl{modo asincrono}.\\[0.2ex]
+  Questa primitiva viene usata dal gestore del buffer.
+
+  \begin{itemize}[label=$\Rightarrow$]
+    \item \textbf{effetto della modifica}: viene liberta la pagina "dirty" e il bit di stato J viene posto a 0
+  \end{itemize}
+
+  \section{Gestore dell'affidabilità}
+  Il gestore del buffer differisce le operazioni di scrittura e questo potrebbe raprresentare un pericolo.\\[0.2ex]
+  Il \textcolor{azzurrino}{\textbf{gestore dell'affibilità}} si occupa di garantire:
+  \begin{itemize}[label=$\triangleright$]
+    \item \textbf{atomicità}: transazioni non devono essere incomplete
+    \smallskip
+    \item \textbf{persistenza}: effetti di ciascuna transazione non conclusa con un commit devono essere mantenuti in modo permanente
+  \end{itemize}
+
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/gestore-affidabilità.png}
+  \end{figure}
+
+
+  \subsection{File di LOG}
+  Il funzionamento del gestore dell'affidabilità si basa sull'utilizzo del \textbf{file di LOG}.
+
+  \definizione{file di LOG}{
+    Il \textbf{file di LOG} è un archivio persistente su cui vengono registrate tutte le operazioni eseguite dal DBMS.
+  }
+
+  Per il corretto funzionamento, il gestore dell’affidabilità deve disporre di un dispositivo di una \textbf{memoria stabile} (resistente ai guasti).
+
+  Il file di LOG viene memorizzato in memoria stabile e al suo interno vengono memorizzati:
+  \begin{itemize}[label=$\triangleright$]
+    \item \textbf{record di transizione}: record che descrivono informazioni sulle transazioni
+    \begin{itemize}[label=$\diamond$]
+      \item $\boldsymbol{\mathrm{B(T)}}$: \textcolor{azzurrino}{\textbf{begin}} della transazione
+      \smallskip
+      \item $\boldsymbol{\textbf{C(T)}}$: \textcolor{azzurrino}{\textbf{commit}} della transazione
+      \smallskip
+      \item $\boldsymbol{\textbf{A(T)}}$: \textcolor{azzurrino}{\textbf{abort}} della transazione
+      \smallskip
+      \item $\boldsymbol{\textbf{I(T,O,AS)}}$: \textcolor{azzurrino}{\textbf{insert}} di un oggetto da parte di una transazione $\mathrm{T}$ con il suo after state $\mathrm{AS}$ (stato dell'oggetto dopo l'operazione)
+      \smallskip
+      \item $\boldsymbol{\mathrm{D(T,O,BS)}}$: \textcolor{azzurrino}{\textbf{delete}} di un oggetto $\mathrm{O}$ da parte della transizione $\mathrm{T}$ con il suo before state $\mathrm{BS}$ (stato dell'oggetto prima dell'operazione)
+      \smallskip
+      \item $\boldsymbol{\mathrm{U(T,O,BS,AS)}}$: \textcolor{azzurrino}{\textbf{update}} di un oggetto $\mathrm{O}$ da parte della transizione $\mathrm{T}$ con il suo before state $\mathrm{BS}$ e il suo after state $\mathrm{AS}$
+    \end{itemize}
+    \medskip
+    \item \textbf{record di sistema}: record che descrivono informazioni sulle operazioni esaguite dal DBMS
+    \begin{itemize}[label=$\circ$]
+      \item $\boldsymbol{\mathrm{DUMP}}$: copia completa e consistente della base di dati.
+      \smallskip
+      \item $\boldsymbol{\mathrm{CK}(T_1, \dots, T_n)}$: indica che all'esecuzione del checkpoint, le transazioni attive erano $T_1, \dots, T_n$
+      \begin{itemize}
+        \item elenco delle transazioni che non hanno ancora espresso la loro scelta relativamente all'esito finale
+        \smallskip
+        \item operazione svolta periodicamente affinché i dati delle transazioni che hanno eseguito il \texttt{commit} siano registrati in modo permanente
+        \smallskip
+        \item il protocollo di checkpoint prevede i seguenti passi:
+        \begin{enumerate}
+          \item sospensione delle operazioni di scrittura, \texttt{commit} e \texttt{abort} delle transazioni
+          \smallskip
+          \item esecuzione della primitiva \texttt{force} sulle pagine ``dirty'' di transazioni che hanno eseguito il \texttt{commit}
+          \smallskip
+          \item scrittura sincrona (primitiva \texttt{force}) sul file di LOG del record di checkpoint con gli identificatori delle transazioni attive
+          \smallskip
+          \item ripresa delle operazioni di scrittura, \texttt{commit} e \texttt{abort} delle transazioni
+        \end{enumerate}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
 
 I record di transazione salvati nel LOG consentono di eseguire in caso di ripristino le seguenti operazioni:
 \begin{itemize}[label=$\triangleright$]
