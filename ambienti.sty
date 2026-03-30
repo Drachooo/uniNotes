@@ -180,6 +180,47 @@ listing options={style=SQLstyle},
 #1
 }
 
+\definecolor{pgBg}{RGB}{28, 28, 28}        % Sfondo scuro
+\definecolor{pgKeyword}{RGB}{214, 126, 114} % Rosa (begin, update, where, set, and)
+\definecolor{pgIdent}{RGB}{145, 188, 218}   % Azzurro (CONTO, saldo, filiale, numero)
+\definecolor{pgValue}{RGB}{160, 190, 100}   % Verde (1200, '005', 15, 205)
+\definecolor{pgSymbols}{RGB}{200, 200, 200} % Grigio chiaro per simboli (; = - +)
+
+\lstnewenvironment{sqlcode}[1][]
+{
+    \lstset{
+        language=SQL,
+        backgroundcolor=\color{pgBg},
+        basicstyle=\small\ttfamily\color{pgSymbols}, % Simboli e testo base
+        identifierstyle=\color{pgIdent},            % Nomi tabelle e colonne in azzurro
+        keywordstyle=\color{pgKeyword},             % Keyword in rosa
+        stringstyle=\color{pgValue},                % Stringhe in verde
+        % Rimozione frame e righe
+        frame=none,
+        framerule=0pt,
+        framesep=8pt,
+        xleftmargin=5pt,
+        gobble=6,
+        % Gestione numeri in verde
+        literate={0}{{\color{pgValue}0}}{1}
+                 {1}{{\color{pgValue}1}}{1}
+                 {2}{{\color{pgValue}2}}{1}
+                 {3}{{\color{pgValue}3}}{1}
+                 {4}{{\color{pgValue}4}}{1}
+                 {5}{{\color{pgValue}5}}{1}
+                 {6}{{\color{pgValue}6}}{1}
+                 {7}{{\color{pgValue}7}}{1}
+                 {8}{{\color{pgValue}8}}{1}
+                 {9}{{\color{pgValue}9}}{1}
+                 {=}{{\color{pgSymbols}=}}{1}
+                 {;}{{\color{pgSymbols};}}{1},
+        morekeywords={begin, transaction, update, set, where, and, commit, work, end},
+        showstringspaces=false,
+        breaklines=true,
+        #1
+    }
+}
+{}
 
 
 
