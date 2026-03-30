@@ -175,22 +175,14 @@
 
     \subsection{Sintassi}
     La sintassi per definire una transazione in SQL:
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-    ]
+    \begin{sqlcode}
       <transazione> -> begin transaction
                         <programma>
-                      end transaction
+                       end transaction
       
       <programma> -> < <istruzione> | commit work | rollback work >
                      { < <istruzione> | commit work | rollback work > }
-    \end{lstlisting}
+    \end{sqlcode}
 
     La transazione va a buon fine all’esecuzione di un $\verb|commit work|$, ma non ha alcun effetto se viene eseguito un $\verb|rollback work|$.
 
@@ -202,18 +194,7 @@
       \item \textbf{esecuzione} comportare il raggiungimento di un$ \verb|commit|$ o di un $\verb|rollback work|$, a seguito del quale non si eseguono altri accessi alla base di dati
     \end{itemize}
 
-    \begin{lstlisting}[
-        caption={esempio di transazione},
-        captionpos=b,
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6,
-        upquote=true
-    ]
+    \begin{sqlcode}
       begin transaction;
         update CONTO set saldo = saldo - 1200
           where filiale = '005' and numero = 15;
@@ -221,19 +202,19 @@
           where filiale = '005' and numero = 205;
         commit work;
       end transaction;
-    \end{lstlisting}
+    \end{sqlcode}
 
     \subsection{Proprietà delle transazioni}
     Una transazione ha 4 proprietà fondamentali:
     \begin{enumerate}[itemsep=\smallskipamount]
-      \item \textbf{atomicità}: una transazione è una unità di esecuzione indivisibile (viene eseguita completamente o non viene eseguita affatto).
+      \item \textcolor{azzurrino}{\textbf{atomicità}}: una transazione è una unità di esecuzione indivisibile (viene eseguita completamente o non viene eseguita affatto).
       
       Questo implica:
       \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
         \item se una transazione viene interrotta prima del $\verb|commit|$, il lavoro fin qui eseguito dalla transazione deve essere disfatto ripristinando la situazione in cui si trovava la base di dati prima dell’inizio della transazione
         \item se una transazione viene interrotta dopo l’esecuzione del $\verb|commit|$ ($\verb|commit|$ eseguito con successo), il sistema deve assicurare che la transazione abbia effetto sulla base di dati
       \end{itemize}
-      \item \textbf{consistenza}: esecuzione di una transazione non deve violare i vincoli di integrità.
+      \item \textcolor{azzurrino}{\textbf{consistenza}}: esecuzione di una transazione non deve violare i vincoli di integrità.
       
       Questo implica:
       \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
@@ -248,12 +229,12 @@
           \item  al $\verb|commit|$ se un vincolo di integrità viene violato la transazione viene abortita senza possibilità da parte dell’applicazione di reagire alla violazione
         \end{itemize}
       \end{itemize}
-      \item \textbf{isolamento}: esecuzione di una transazione deve essere indipendente dalla contemporanea esecuzione di altre transazioni
+      \item \textcolor{azzurrino}{\textbf{isolamento}}: esecuzione di una transazione deve essere indipendente dalla contemporanea esecuzione di altre transazioni
       \begin{itemize}[itemsep=\smallskipamount]
         \item $\verb|rollback|$ di una transazione non deve creare $\verb|rollback|$ a catena di altre transazioni che si trovano in esecuzione contemporaneamente
         \item  sistema deve regolare l’esecuzione concorrente con meccanismi di controllo dell’accesso alle risorse
       \end{itemize}
-      \item \textbf{persistenza}: effetto di una transazione che ha eseguito il $\verb|commit|$ non deve andare perso
+      \item \textcolor{azzurrino}{\textbf{persistenza}}: effetto di una transazione che ha eseguito il $\verb|commit|$ non deve andare perso
       \begin{itemize}[itemsep=\smallskipamount]
         \item sistema deve essere in grado, in caso di guasto, di garantire gli effetti delle transazioni che al momento del guasto avevano già eseguito un $\verb|commit|$
       \end{itemize}
@@ -296,7 +277,7 @@
         \includegraphics[width=0.6\textwidth]{images/passaggio4.png} 
       \end{figure}
       \item \textcolor{azzurrino}{\textbf{gestore del buffer}}
-      \item \textcolor{azzurrino}{\textbf{ gestore dell’esecuzione concorrente}}
+      \item \textcolor{azzurrino}{\textbf{gestore dell’esecuzione concorrente}}
       \item \textcolor{azzurrino}{\textbf{gestore dell’affidabilità}}
     \end{itemize}
 
@@ -354,15 +335,7 @@
 
     \section{Istruzione \protect\texttt{SELECT}}
     La sintassi dell’istruzione $\verb|SELECT|$ è:
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-    ]
+    \begin{sqlcode}
       SELECT [ DISTINCT ]
       [ * | expression [[ AS ] output_name ] [, ...] ]
       [ FROM from_item [, ...] ]
@@ -371,7 +344,7 @@
           [ HAVING condition [, ...] ]
           [ { UNION | INTERSECT | EXCEPT } [ DISTINCT ] other_select ]
             [ ORDER BY expression [ ASC | DESC | USING operator ]]
-    \end{lstlisting}
+    \end{sqlcode}
 
     dove:
     \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
@@ -382,19 +355,11 @@
     \end{itemize}
 
     La struttura dell’istruzione è la seguente:
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-    ]
+    \begin{sqlcode}
       SELECT attributo
       FROM tabella
         [WHERE condizione]
-    \end{lstlisting}
+    \end{sqlcode}
 
     $\verb|SELECT|$, $\verb|FROM|$ e $\verb|WHERE|$ sono chiamate \textbf{clausole}.\\[0.2ex]
     La clausula $\verb|SELCET|$ estrae dal prodotto cartesiano delle tabelle elencate nella clausola $\verb|FROM|$, le righe che soddisfano la condizione specificata nella clausola $\verb|WHERE|$.\\[0.2ex]
@@ -409,19 +374,11 @@
       
       \textbf{Estrarre lo stipendio degli impiegati di cognome ’Rossi’}.
 
-      \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+      \begin{sqlcode}
         SELECT Stipendio
         FROM Impiegato
           WHERE Cognome = 'Rossi';
-      \end{lstlisting}
+      \end{sqlcode}
 
       Il risultato dell'interrogazione è la seguente tabella:
       \begin{center}
@@ -431,18 +388,10 @@
 
     \bigskip
     Il simbolo $\verb|*|$ permette di  indicare tutti gli attributi delle tabelle.
-    \begin{lstlisting}[
-        basicstyle=\small\ttfamily,
-        frame=single,
-        backgroundcolor=\color{gray!10},
-        rulecolor=\color{gray},
-        framesep=5pt,
-        xleftmargin=5pt,
-        gobble=6
-      ]
+    \begin{sqlcode}
       SELECT *
       FROM tabella;
-    \end{lstlisting}
+    \end{sqlcode}
 
     \begin{esempiobox}{Interrogazione con \texttt{SELECT *}}
       Consideriamo la seguente tabella:
