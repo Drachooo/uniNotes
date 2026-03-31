@@ -3661,7 +3661,6 @@ JOIN Insegn I ON IE. id_insegn = I.id;
 diversi}
 
 Prima si crea una vista:
-
 \begin{codiceSQL}
   CREATE TEMP VIEW InsCorsoStudi (Nome , NumIns) AS
 SELECT CS.nome , COUNT ( DISTINCT I. nomeins )
