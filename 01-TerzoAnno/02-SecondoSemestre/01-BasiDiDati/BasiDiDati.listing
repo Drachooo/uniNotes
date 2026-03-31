@@ -1,3 +1,4 @@
-SELECT P.Reddito, R.Telefono
-FROM Reparti as R, Persona ad P
-WHERE ... ;
+SELECT Nome, NumIns
+FROM InsCorsoStudi
+WHERE NumIns = ANY (
+SELECT MAX ( NumIns ) FROM InsCorsoStudi);
