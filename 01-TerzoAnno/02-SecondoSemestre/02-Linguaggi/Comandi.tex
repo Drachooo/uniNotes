@@ -1,0 +1,58 @@
+%!Tex root = L.tex
+
+\chapter{Comandi}
+I \textcolor{colore}{\textbf{comandi}} sono la categoria sintattica che permettono di rappresentare trasformazioni irreversibili dello stato.\\[0.2ex]
+L'astrazione dello stato della macchina è rappresentata dalla memoria.
+
+\begin{mydef}{memoria}
+    La \textbf{memoria}  è l'insieme delle associazioni tra locazioni e valori (es. array illimintato: indice = locazione, valore = contenuto della locazione).
+\end{mydef}
+
+La trasformazione dello stato, avviene tramite un meccanismo definito \textbf{assegnamento}.
+
+\begin{mydef}{assegnamento}
+    L'\textbf{assegnamento} è un comando che permette di modificare il contenuto della memoria.
+\end{mydef}
+
+Ne deriva che non è pensabile che si possa utilizzare direttamente la locazione di memoria.\\[0.2ex]
+Le locazioni vengono riferite attraverso identificatori chiamate variabili.
+
+\begin{mydef}{variabili}
+    Le \textbf{variabili} sono identificatori associati a locazioni, che a loro volta, nella memoria, sono associate a valori che possono cambiare durante l'esecuzione.
+\end{mydef}
+
+Per il momento, quindi, supponiamo che le variabili siano nomi astratti per le celle di e supponiamo di associare direttamente il valore (modificabile) a una variabile.
+
+Vediamo alcuni aspetti dell'uso delle variabili che rendono questo modello poco adatto:
+\begin{itemize}[label=$\triangleright$, itemsep=\medskipamount]
+    \item quando ci riferiamo a un valore modificabile mediante una variabile, lo possiamo fare sia per accedere al suo valore in lettura, sia per modificare il suo valore
+    \item per riferirsi a oggetti da modificare potremmo utilizzare funzioni della variabile e non il semplice nome (es. array $\verb|a[x+1]|$)
+    \item gli identificatori possono essere ridefiniti causando modifiche reversibili all'ambiente.
+    
+    Ciò significa che per un certo intervallo di tempo, una variabile potrebbe avere in altro significato, mentre il valore che aveva prima della ridefinizione non deve andare perso perchè potrebbe ritornanre valido (es. uscita da una procedura)
+\end{itemize}
+
+Introduciamo, quindi, la locazione come astrazione della memoria fisica e la variabile come astrazione della locazione.\\[0.2ex]
+Significa che introduciamo qualcosa di intermedio tra il nome della variabile e il nome riferito, che modelli la memoria nella sua visione ideale (illimitata).\\[0.2ex]
+In questo modo è possibile che una variabile possa avere indirizzi differenti in momenti diversi dall'esecuzione, oppure che una variabile possa avere differenti indentificatori in punti diversi del programma.
+
+Si distinguono l'associazione tra nome e locazione che non cambia in modo reversibile durante l'esecuzione e l'associazione tra locazione e valore che cambia in modo irreversibile durante l'esecuzione.
+
+\begin{mydef}{locazione}
+    La \textbf{locazione} è il contenitore di valori che possono essere initulizzati, indefiniti o definiti.
+\end{mydef}
+
+\begin{mydef}{memoria}
+    La \textbf{memoria} è la collocazione delle associazioni tra locazioni e valori contenuti, che possono esser costantaneamente cambiati.
+\end{mydef}
+
+Questo significa che la locazione viene creata da una dichiarazione.\\[0.2ex]
+Inoltre, la locazione ha un tempo di vita determinato dallo scope della dichiarazione.
+
+\begin{mydef}{identificatore costante}
+    un \textbf{identificatore costante} è un identificatore che può assumere un valore predefinito e non è ulteriormente modificabile.
+\end{mydef}
+
+\begin{mydef}{identificatore variabile}
+    Un \textbf{identificatore variabile} è un identificatore il cui valore può essere aggiornato.
+\end{mydef}
