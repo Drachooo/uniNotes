@@ -1007,10 +1007,10 @@ inferiore alla media dell’ateneo di un qualsiasi anno accademico.}
   SELECT DISTINCT I.nomeins , IE.crediti
 FROM Insegn I JOIN InsErogato IE ON I.id=IE.id_insegn
 WHERE IE.crediti < ANY (
-SELECT AVG ( crediti ) FROM InsErogato
-WHERE modulo =0
-GROUP BY annoaccademico
-);
+  SELECT AVG ( crediti ) FROM InsErogato
+  WHERE modulo =0
+  GROUP BY annoaccademico
+  );
 \end{codiceSQL}
 
 
@@ -1036,9 +1036,9 @@ occorrenze insegnamento genitore)}
 FROM Insegn I JOIN InsErogato IE ON I.id = IE. id_insegn
 JOIN Docenza D ON IE.id = D. id_inserogato
 WHERE IE. modulo = 0 AND IE. crediti > ALL (
-SELECT crediti FROM InsErogato
-WHERE id_corsostudi = 6 AND modulo =0
-);
+  SELECT crediti FROM InsErogato
+  WHERE id_corsostudi = 6 AND modulo =0
+  );
 \end{codiceSQL}
 
 \subsubsection{Operatore IN}
@@ -1065,8 +1065,7 @@ un’altra azienda.}
 SELECT I.nome , I.cognome
 FROMImpiegato I
 WHERE ROW( I.nome , I.cognome ) IN (
-SELECT I1.nome, I1. cognome FROM ImpiegatoAltraAzienda I1
-)
+SELECT I1.nome, I1. cognome FROM ImpiegatoAltraAzienda I1)
 \end{codiceSQL}
 
 
