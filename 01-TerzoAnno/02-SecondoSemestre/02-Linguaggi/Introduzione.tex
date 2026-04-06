@@ -45,3 +45,91 @@ Il libguaggio di programmazione deve essere uno strumento che perette di descriv
 
 Il linguaggio binario è un linguaggio di programmazione in quanto permette di rappresentare algoritmi e dati , ma non è umanamente utilizzabile o interpretabile, in quanto potrebbe essere usata come dato o un dato interpretato come istruzione.\\[0.2ex]
 Ciò significa, che un linguaggio di programmazione deve permettere di superare queste difficoltà, fornendo una chiara distinzione tra dato e istruzione.
+
+\begin{mydef}{algoritmo}
+    Un \textbf{algoritmo} è una sequenza infinta di passi di computazione, ovvero scompone un calcolo complesso in passi elementari.
+\end{mydef}
+
+Un algoritmo è un concetto astratto che trova forma concreta in un programma (sequenza finita di istruzioni).
+
+\begin{mydef}{dati}
+    I \textbf{dati} sono informazioni memorizzate concretamente in celle di memoria e astratte in elementi che il linguaggio può manipolare (variabili).
+\end{mydef}
+
+\begin{mydef}{programma}
+    Un \textbf{programma} è la concretizzazione di un algoritmo che manipola dati.
+\end{mydef}
+
+\begin{mydef}{linguaggio di programmazione}
+    Un \textbf{linguaggio di programmazione} è una notazione per scrivere un programma, ovvero serve a dare forma concreta agli algoritmi.
+\end{mydef}
+
+Il programma, quindi, costituisce la \textcolor{colore}{\textbf{sintassi}}.
+
+Un programma è necessariamente un oggetto finito (sempre concreto), mentre il calcolo di una funzione richiede l'esecuzione di un insieme di passi primitivi, che, però possono essere infiniti.\\[0.2ex]
+Ciò significa che un programma è una rappresentazione finita di un insieme, potenzialmente infinito, di passi primitivi di computazione.
+
+\vario{Nota}{
+    I linguaggi di programmazione devono dare specifica finita di oggetti potenzialmente infiniti.
+}
+
+\section{Contesti di sviluppo}
+Il contesto in cui il linguaggio deve operare determina le funzionalità che deve gestire efficacemente:
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item \textbf{applicazioni scentifiche} (es. $\verb|Fortran|$)
+    \item \textbf{applicazioni economiche} (es. $\verb|COBOL|$)
+    \item \textbf{applicazioni artificiali} (es. $\verb|LISP|$)
+    \item \textbf{programmazione di sistemmi} (es. $\verb|C|$)
+    \item \textbf{web software} (es. $\verb|HTML|$ (markup), $\verb|PHP|$ (scripting), ecc.)
+\end{itemize}
+
+\section{Classificazione dei PL}
+I linguaggi di programmazione si possono classificare in:
+\begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+    \item \textcolor{colore}{\textbf{basso livello}}: linguaggi con caratteristiche specifiche dipendenti dall'architettura che si sta programmando (es. $\verb|linguaggio binario|$, $\verb|Assembly|$)
+    \item \textcolor{colore}{\textbf{alto livello}}: linguaggi che permettono una programmazione strutturata in cui dati e istruzioni hanno rappresentazioni diverse
+\end{itemize}
+
+I linguaggi ad alto livello si possono classificare in base a:
+\begin{itemize}[label=$\circ$, itemsep=\medskipamount]
+    \item \textbf{paradigma di programmazione}
+    \begin{itemize}[itemsep=\smallskipamount]
+        \item linguaggi procedurali: codice diviso in subrutine che eseguono compiti semplici basati su salti condizionali (goto) [es. $\verb|COBOL|$]
+        \item linguaggi strutturati (imperativi): procedurale senza goto (es. $\verb|C|$, $\verb|Pascal|$, $\verb|ADA|$, ec..)
+        \item libguaggi orientati agli oggetti: classe elemento centrale della programmazione.
+        Un linguaggio deve avere tre proprietà:
+        \begin{itemize}[itemsep=\smallskipamount]
+            \item incapsulamento
+            \item eriditarietà
+            \item polimorfismo
+        \end{itemize}
+        \item linguaggi dichiatirativi: basati su componenti della matematica
+        \begin{itemize}[itemsep=\smallskipamount]
+            \item logici: basati sulla logica proposizionale del primo ordine, in cui si effettuano calcoli tramite dimostrazione di datti (es. $\verb|PROLOG|$)
+            \item matematici: basati sul concetto di applicazione di funzione (es. $\verb|LSIP|$, $\verb|ML|$)
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{termini gerazionali}
+    \begin{itemize}[itemsep=\smallskipamount]
+        \item I° generazione:
+        \begin{center}
+            $\downarrow$
+        \end{center}
+        \item II° generazione:
+    \end{itemize}
+\end{itemize}
+
+\section{Implementazione di un PL}
+Implementare un linguaggio significa eseguire un programma nel lingugaggio di programmazione in una macchina.\\[0.2ex]
+Sicuramente, il modo in cui deve essere implementato è direttamente collegato all'architettura che deve programmare, ma anche al paradigma (metodologie) che il linguaggio di programmazione utilizza per costruire programmi.
+
+\smallskip
+Implementare un linguaggio significa realizzare la macchina (astratta) che interpresta il linguaggio.
+
+\vario{Nota}{
+    La macchina è astratta perchè, per rappresentare la macchina fisica (concreta), utilizza un linguaggio che è più astratto del linguaggio binario.
+}
+
+\begin{mydef}{macchina astratta}
+    Dato un linguaggio $\mathrm{L}$ di programmazione, la \textbf{macchina astratta} $\mathrm{M_L}$ per $\mathrm{L}$, è un insieme di strutture dati e algoritmi (è un programma) che permettono di memorizzare ed eseguire i programmi scritti in $\mathrm{L}$.
+\end{mydef}
