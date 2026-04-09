@@ -1,0 +1,7 @@
+<bExpr> B -> true | false | v | (not B) | (B and B) | (B or B)
+
+<atomic com>  A -> v := B
+
+<com> C -> A | C ; C | if B then C else C | while B do C
+
+<program> S -> C
