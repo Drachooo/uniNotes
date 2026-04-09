@@ -1271,7 +1271,7 @@ L'indicizzazione parte da 1
   [1] 2 4 10 9 -6 4
 \end{codiceR}
 
-\textbf{\large Operatore due punti}
+\textbf{Operatore due punti}
 \begin{codiceR}
   > x1 <- 1:10
 > x1
@@ -1279,7 +1279,7 @@ L'indicizzazione parte da 1
 \end{codiceR}
 L'operatore due punti genera un vettore di elementi regolarmente distribuiti
 
-
+\textbf{Funzione seq()}
 Per creare sequenze più specifiche si usa la funzione \textbf{seq()}
 
 \begin{codiceR}
@@ -2002,4 +2002,88 @@ Una variabile globale è una variabile definita al di fuori di qualsiasi funzion
 \vario{Nota}{Se si definisce una variabile con lo stesso nome all'interno di una funzione come una variabile glovale, la variabile globale avrà la precedenza e quella globale sarà mascherata all'interno della funzione}
 
 
+
+
+\section{Statistica Descrittiva}
+
+La statistica descrittiva è un settore della statistica che riguarda la raccolta, l’organizzazione, la sintesi e la presentazione dei dati. Fornisce un modo per descrivere e riassumere le caratteristiche di un insieme di dati, come la tendenza centrale, la dispersione, la forma e la distribuzione.
+
+Le statistiche descrittive possono essere utilizzate per ottenere informazioni sui dati. Ad esempio, possiamo usarle per determinare l’età media di un gruppo di persone, la variabilità delle loro età e come queste sono distribuite all’interno del gruppo.
+
+Quando un dataset contiene più di una variabile, a seconda del loro tipo (ad esempio discreta, continua, categorica…), le statistiche descrittive possono essere utilizzate per studiare le associazioni tra queste variabili (ad esempio covarianza e correlazione).
+
+La visualizzazione aiuta a rendere più evidenti i pattern e le tendenze nei dati e può fornire una comprensione più intuitiva rispetto a una semplice tabella di numeri. Alcuni tipi comuni di visualizzazione includono grafici a dispersione, grafici a barre, grafici a linee e istogrammi.
+
+\subsection{Funzioni comuni}
+\begin{itemize}
+  \item \textbf{mean()}: Media calcola il valore medio di un dataset
+  \item \textbf{median()}: Mediana calcola il valore centrale di un dataset
+  \item \textbf{range()}: Calcola l’intervallo tra il valore minimo e il massimo
+  \item \textbf{IQR()}: Intervallo interquartile: misura la dispersione calcolando la differenza tra il terzo e il primo quartile
+  \item \textbf{var()}: Varianza: misura la dispersione calcolando la deviazione quadratica media dalla media
+  \item \textbf{sd()}: Deviazione standard: misura la dispersione come radice quadrata della varianza
+  \item \textbf{skewness()}: Misura il grado di asimmetria di un dataset (richiede il pacchetto"e1071")
+  \item \textbf{kurtosis()}: Misura il grado di curtosi (appiattimento/picco) di un dataset (richiede il pacchetto "e1071")
+  \item \textbf{cov()}: Misura il grado di associazione lineare tra due variabili in un dataset
+  \item \textbf{cor()}: Coefficiente di correlazione: misura il grado di associazione lineare tra due variabili, con valori da -1 a 1 (è una covarianza standardizzata)
+\end{itemize}
+
+\subsection*{Altre funzioni utili}
+\begin{itemize}
+  \item \textbf{summary():} Fornisce un sommario del dataset, includendo valori minimo e massimo, quartili, media e mediana per ciascuna variabile
+  \begin{codiceR}
+summary(penguins)
+summary(penguins$bill_length_mm) 
+  \end{codiceR}$
+
+\item \textbf{table():} Crea una tabella di contingenza per variabili categoriche, mostrando la frequenza di ogni combinazione
+\begin{codiceR}
+tab=table(penguins$species, penguins$island)  
+\end{codiceR}
+
+\item \textbf{prop.table():} Crea una tabella di contingenza mostrando la proporzione di ogni combinazione di categorie \begin{codiceR}
+prop.table(tab)
+\end{codiceR}
+\item \textbf{quantile()}: Calcola il valore di uno specifico quantile (es. 90° percentile)
+\begin{codiceR}
+quantile(penguins$bill_length_mm, 0.25,na.rm=TRUE)
+\end{codiceR}$
+
+\end{itemize}
+
+\subsection{Dataset PalmerPenguins}
+
+Il dataset palmerpenguins contiene misure dimensionali di 3 specie di pinguini osservati su tre isole nell’arcipelago di Palmer, in Antartide
+
+I dati sono contenuti nel pacchetto \textbf{palmerpenguins}
+Come ottenerlo:
+
+\begin{codiceR}
+install.packages("palmerpenguins") 
+library("palmerpenguins")
+data(package="palmerpenguins") 
+data("penguins")
+\end{codiceR}
+
+Il pacchetto contiene due dataset: \textbf{penguins} e \textbf{penguins\_raw}. Useremo \textbf{penguins}. 
+Per ispezionare i dati, basta digitare il nome del dataset, usare la funzione \texttt{head()} (per vedere
+le prime righe del dataset), la funzione \texttt{str()} (per ottenere informazioni di base su ogni colonna del dataset), oppure cliccare sul nome del dataset nell’ambiente di lavoro.
+
+\begin{codiceR}
+> penguins            > str(penguins)
+
+> head(penguins)     > View(penguins)
+\end{codiceR}
+
+
+\textbf{Output funzione str()}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width =\textwidth]{images/datasetPenguins.png}
+\end{figure}
+
+
+
 \end{document}
+
