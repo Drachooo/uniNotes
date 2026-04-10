@@ -330,3 +330,27 @@ listing options={style=SQLstyle},
   arc=2mm,
   sharp corners=downhill
 }
+
+% Definizione dello stile BNF
+\lstdefinelanguage{BNF}{
+    morekeywords={::=},
+    moredelim=[s]{<}{>},
+    breaklines=true,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{colore}\bfseries,
+    literate={| train}{{\textbf{\color{colore}|}}}1,
+    % AGGIUNGI QUESTE RIGHE:
+    escapeinside={(*}{*)}, % Permette di usare (*$\alpha$*)
+    inputencoding=utf8,     % Supporto per caratteri speciali
+    extendedchars=true,
+}
+
+% Crea un environment dedicato con tcolorbox per un look moderno
+\newtcblisting{bnfcode}[1]{
+    colback=grigiochiaro,
+    colframe=colore,
+    fonttitle=\bfseries,
+    title=#1,
+    listing only,
+    listing options={language=BNF}
+}
