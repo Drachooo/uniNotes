@@ -158,5 +158,182 @@ Il problema è che non esistono algoritmi per il riconoscimento di stringhe gene
 Per questo la scelta ricade su una specifica del linguaggio mediante grammatica CF (sintassi) e poi, come parte della semantica (semantica statica) vengono specificati i vincoli contestuali.
 
 \section{Semantica}
+La semantica è più complessa della sintassi perchè ricerca:
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item \textbf{esattezza}: descrizione precisa e non ambigua di cosa ci dobbiamo aspettare quando eseguiamo un programma
+    \item \textbf{flessibilità}: non deve anticipare scelte legate all'implementazione
+\end{itemize}
+
+\begin{mydef}{semantica}
+    La \textbf{semantica} descrive il \underline{significato} dei programmi.
+
+    \smallskip
+    \begin{itemize}[label=$\Rightarrow$]
+        \item \textbf{significato} = entità autonoma che esiste indipendentemente dai segni a cui viene associato
+    \end{itemize}
+\end{mydef}
+
+Non esiste un formalismo univoco per rappresentare la semantica, ma esistono diverse metologie che si adattano alle necessità.
+
+\medskip
+Non è possibile, però, dare un significato a tutti i programmi perchè sono infiniti e, quindi, anche la semantica deve fornire una rappresentazione finita del significato dei programmi sfruttando la loro procedura di costruzione (sintassi) che genera in modo induttivo, sulle regole della grammatica, tutti i possibili programmi.
+
+\subsection{Induzione matematica}
+\begin{mydef}{induzione matematica}
+    Dato un insieme $\mathrm{A}$ e una relazione binaria $\mathrm{< \ \subseteq A \times A}$ ben fondato (senza catene discendenti infinite).
+
+    Se $\mathrm{A = \mathbb{N}}$ si ha \textbf{induzione matematica}.
+\end{mydef}
+
+L'induzione (matematica) è un principio usato per definire e dimostare.
+
+\vario{Principio di induzione (matematica)}{
+    $\Pi$ è la proprietà che vogliamo dimostare sugli elementi di $\mathrm{A <}$.
+    \[
+        \mathrm{\forall a \in \underbrace{A}_{\Pi \ \text{vale su a} \in A} \Leftrightarrow \forall a \in A [[\forall b < a.\Pi(b)] \Rightarrow \Pi(a)]}
+    \]
+
+    Per eseplicitare il vantaggio di avere $\mathrm{A}$ ben fondato, seperiamo la dimostrazione sugli elementi minimali (base):
+    \[
+        \text{base} = \{\mathrm{a \in A} \mid \mathrm{a} \ \text{minimale in} \ \mathrm{A}\} \quad (\text{base è finita})
+    \]
+
+    \smallskip
+    \[
+        \underbrace{\forall \mathrm{a} \in \mathrm{base_A}.\Pi(a)}_{\text{base induttiva}} \quad \land \quad \forall \mathrm{a} \in \mathrm{A}, \mathrm{base_A}.[[\underbrace{\forall b < a.\Pi(b)}_{\text{hp induttiva}}] \overbrace{\Rightarrow}^{\text{passo induttivo}} \Pi(a)]
+    \]
+}
+
+\subsection{Induzione strutturale}
+\begin{mydef}{induzione strutturale}
+    Dato un insieme $\mathrm{A}$ e una relazione binaria $\mathrm{< \ \subseteq A \times A}$ ben fondato (senza catene discendenti infinite).
+
+    Se $\mathrm{A}$ = $\underbrace{\mathrm{L(G)}}_{\parbox{1cm}{\text{linguaggio generato da G}}}$ si ha \textbf{induzione strutturale} ($\mathrm{G}$ è grammatica).
+\end{mydef}
+
+L'induzione strutturale permette di dimostare che una proprietà vale su tutti gli oggetti di una categoria sintattica (sulla grammatica).
+
+\vario{Principio induzione strutturale}{
+    \begin{enumerate}[itemsep=\smallskipamount]
+        \item dimostrazione/definizione della proprietà su tutti gli elementi base della categoria (\textbf{base})
+        \item dimostrazione/definizione della proprietà su tutti gli elementi composti, assumendo la proprietà vera/definita per tutti i componenti immediati (\textbf{hp induttiva})
+    \end{enumerate}
+}
+
+\subsection{Proprietà della semantica}
+Le proprietà fondamentali di qualunque semantica sono:
+\begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
+    \item \textbf{composizionalità}: significato di ogni programma è funzione del significato dei costituenti immediati
+    \item \textbf{equivalenza}: due programmi sono equivalenti quando hanno lo stesso significato (semantica).
+    
+    L'equivalenza è necessaria in varie fasi di analisi:
+    \begin{itemize}[itemsep=\smallskipamount]
+        \item \textbf{correttezza}: dimostare che il programma scritto calcola esattamente la funzione attesa
+        \item \textbf{equivalenza di programmi}: dimostare che due programmi calcolano la stessa funzione
+        \item \textbf{efficienza}: dati due programmi che calcolano la stessa funzione, dimostare quale lo fa in modo più efficiente
+    \end{itemize}
+\end{itemize}
+
+\subsection{Tipi di semantica}
+Un algoritmo è un'entià astratta concretizzata in un programma, ma non ci interessa sapere se il programma implementa esattamente l'algoritmo, ma ci interessa che il programma implementi la funzione descritta dall'algoritmo.\\[0.2ex]
+A seconda di quali strumenti matematici vengono usati si ottengono tipi di semantiche diverse rendendo più agevoli tipi diversi di ragionamento.
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item \textbf{semantica denotazionale}: descrive funzionalità (es. studia gli effetti dell'esecuzione ecc.)
+    \item \textbf{semantica operazionale}: descrive trasformazioni di stato (guarda come i risultato finali vengono prodotti)
+    \item \textbf{semantica assiomatica}: descrive proprietà soddisfatte dall'esecuzione del programma 
+\end{itemize}
+
+\subsubsection{Semantica denotazionale}
+\begin{mydef}{semantica denotazionale}
+    La \textbf{semantica denotazionale} è un modello matematico di programmi basato sulla ricorsione.
+\end{mydef}
+
+Il processo di costruzione della semantica denotazionale per un linguaggio consiste nel definire:
+\begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+    \item un oggetto matematico (denotazione) che rappresenta ogni elemento del linguaggio
+    \item l'associazione tra elemento e denotazione
+\end{itemize}
+
+Formalmente, il modello usato per descrivere la semantica è quello delle funzioni matematiche (ricorsive), ovvero un programma  corrispondente ad una funzione tra stati della macchina.
+\[
+    \mathcal{E}: \mathrm{Prog} \rightarrow ((\mathrm{Var} \rightarrow \mathrm{Val}) \rightarrow (\mathrm{Var} \rightarrow \mathrm{Val})) 
+\]
+
+La semantica denotazionale, quindi, è un oggetto puramente matematico che descrive gli effetti manipolando oggetti matematici.\\[0.2ex]
+In particolare, guarda agli effetti dell'esecuzione del programma, descrivendo l'effetto dell'esecuzione di una sequenza di comandi separati da \texttt{;} attraverso la composizione degli effetti dei singoli comandi da sinistra verso destra.
+
+\begin{esempiobox}{Analisi di un programma}
+    \begin{bnfcode}{Programma semplice}
+        P:
+            z := 2;
+            y := z;
+            y := y+1;
+            z := y;
+    \end{bnfcode}
+
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{images/semantica-denotazionale.png}
+    \end{center}
+\end{esempiobox}
+
+Questa semantica può essere usata per dimostare la correttezza dei programmi, ma a causa della sua complessità ha poca utilità per gli utilizzatori dei linguaggi.
+
+\subsubsection{Semantica assiomatica}
+\begin{mydef}{semantica assiomatica}
+    La \textbf{semantica assiomatica} è un modello matematico dei programmi basto sulla logica formale (calcolo dei predicati). 
+\end{mydef}
+
+La semantica assiomatica nasce con l'obiettivo di fare verifica formale di programmi.\\[0.2ex]
+In particolare permette di dimostare proprietà parziali di correttezza: quando lo stato iniziale rispetta la precondzione e il programma termina, allora lo stato finale soddisfa la postcondizione.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/semantica-assiomatica-prePostcondizioni.png}
+\end{figure}
+
+\begin{esempiobox}{Analisi di un programma}
+    \begin{bnfcode}{Programma semplice}
+        P:
+            z := 2;
+            y := z;
+            y := y+1;
+            z := y;
+    \end{bnfcode}
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{images/semantica-assiomatica.png}
+    \end{center}
+\end{esempiobox}
+
+\subsubsection{Semantica operazionale}
+\begin{mydef}{semantica operazionale}
+    La \textbf{semantica operazionale} è un modello matematico dei programmi basato sui sistemi di transizione.
+\end{mydef}
+
+La semantica operazionale descrive il significato del programma eseguendo i suoi comandi su una macchina.\\[0.2ex]
+L'evoluzione dello stato della macchina definisce il significato del comando.
+
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item \textbf{memoria}: $\sigma = \mathrm{Var} \rightarrow \mathrm{Val}$
+    \item \textbf{stato}: $\langle P, \sigma \rangle$ (programma - memoria)
+\end{itemize}
+
+Ad ogni passo di esecuzione descriviamo un cambio di stato: $\rightarrow \  \subseteq \langle P, \sigma \rangle \times \langle P, \sigma \rangle$ (relazione di transizione).\\[0.2ex]
+La \textbf{chiusura transitiva} descrive l'esecuzione completa.
+
+\begin{esempiobox}{Analisi di un programma}
+    \begin{bnfcode}{Programma semplice}
+        P:
+            z := 2;
+            y := z;
+            y := y+1;
+            z := y;
+    \end{bnfcode}
+
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{images/semantica-operazionale.png}
+    \end{center}
+\end{esempiobox}
+
 
 \section{Categorie sintattiche}
