@@ -157,6 +157,135 @@ Esistono dei vincoli che la grammatica CF non può catturare:
 Il problema è che non esistono algoritmi per il riconoscimento di stringhe generate, quindi, non ci sono algoritmi per fare il parser di queste stringhe.\\[0.2ex]
 Per questo la scelta ricade su una specifica del linguaggio mediante grammatica CF (sintassi) e poi, come parte della semantica (semantica statica) vengono specificati i vincoli contestuali.
 
+\subsection{Categorie sintattiche}
+\begin{mydef}{categorie sintattiche}
+    Le \textbf{categorie sintattiche} sono classi di elementi con diverso significato.
+\end{mydef}
+
+Le categorie sintattiche sono, quindi, gli elementi non terminali della grammatica il cui significato dipende da ciò che denotano, manipolano e producono.\\[0.2ex]
+In particolare, ci sono categorie sintattiche che permettono di:
+\begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+    \item manipolare valori
+    \item creare/gestire i legami
+    \item eseguire trasformazioni di stato
+\end{itemize}
+
+\begin{mydef}{stato}
+    Il concetto di \textbf{stato} è composto da due concetti:
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+        \item \textbf{ambiente} (environment): insieme dei legami (bindings) tra identificatori e oggetti identificati
+        \item \textbf{memoria} (store): insieme degli effetti seugli identificatori
+    \end{itemize}
+\end{mydef}
+
+In generale, le categorie sintattiche non si devono sovrapporre.
+
+\subsubsection{Espressioni}
+\begin{mydef}{espressioni}
+    Le \textbf{espressioni} denotano valori.
+\end{mydef}
+
+Le espressioni devono essere valutate per restituire un valore.
+
+\smallskip
+Due espressioni possono essere valutate diversamente, ma possono denotare lo stesso valore.
+\[
+    \texttt{not (a and b)} \equiv \texttt{(not a) and (not b)}
+\]
+
+Queste due espressioni sono semanticamente equivalenti, ma sono sintatticamente diverse.
+
+\begin{mydef}{equivalenza tra espressioni}
+    Due espressioni di dicono equivalenti se denotano lo stesso valore in ogni stato.
+\end{mydef}
+
+\subsubsection{Comandi}
+\begin{mydef}{comandi}
+    Le \textbf{comandi} denotano richieste di trasformazioni/modifiche della memoria.
+\end{mydef}
+
+I comandi, quindi, rappresentano funzioni di trasformazione (da stato a stato) e devono essee eseguiti per poter attuare la trasformazione (irreversibile) della memoria.
+
+\begin{mydef}{equivalenza tra comandi}
+    Due comandi si dicono equivalenti se per ogni stato (memoria) in input producono lo stesso stato (memoria) in output.
+\end{mydef}
+
+\subsubsection{Dichiarazioni}
+\begin{mydef}{dichiarazioni}
+    Le \textbf{dichiarazioni} denotano richieste di creazione/modifiche di ambienti.
+\end{mydef}
+
+Le dichiarazioni devono essere elaborate per attuare la creazione/modifica dell'ambiente, ovvero la modifica (reversibile) dei legami.
+
+\vario{Reversibile}{
+    \textbf{Reversibile} = vale eclusivamente nel raggio di azione (scope) dell'identificate.
+}
+
+\begin{mydef}{equivalenza tra dichiarazioni}
+    Due dichiarazioni si dicono equivalenti se producono lo stesso ambiente.
+\end{mydef}
+
+\subsection{Descrivere un semplice linguaggio implementato}
+Il seguente linguaggio è un esempio di sintassi per il linguaggio di programmazione \texttt{PL/0} simile al linguaggio \texttt{Pascal} in cui:
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item un solo tipo di valore \texttt{INTEGER}
+    \item strutture di controllo classiche
+    \item astrazione del controllo (procedure)
+\end{itemize}
+
+\begin{bnfcode}{Comandi del linguaggio \texttt{PL/0}}
+    <program>   P -> B
+
+    <block>     B -> D S
+
+    <declar>    D -> [const I=N{,I=N};] | [var I{,I};] | 
+                     [procedure I;B]
+
+    <stmts>     S -> ep | I := E | call I | if C then S | 
+                     while C do S | begin S{;S} end
+    
+    <Cond>      C -> odd E | E > E | E >= E | E = E | E # E | 
+                     E < E | E <= E
+
+    <Expr>      E -> I | N | E bop E | (E)
+\end{bnfcode}
+
+\subsubsection{Sintassi}
+I programmi \texttt{P} sono blocchi \texttt{B}.
+
+\smallskip
+I blocchi \texttt{B} sono una dichiarazione \texttt{D} seguita da un comando \texttt{S}.
+
+\vario{Nota}{
+    \texttt{D} ed \texttt{S} sono definiti in modo
+    libero dal contesto, ovvero quello che possiamo
+    generare da \texttt{S} non deve avere necessariamente nessun vincolo con quello che generiamo da \texttt{D}.
+}
+
+\smallskip
+Le dichiarazioni \texttt{D} sono dichiarazioni di valori costanti con nome (\texttt{const}), dichiarazioni di variabili (\texttt{var}) e dichiarazioni di procedure (ovvero di un blocco riferibile con un nome).
+
+\smallskip
+I nomi sono gli identificatori \texttt{I}, considerati qui parte del vocabolario (\texttt{N sono i numeri naturali}).
+
+\smallskip
+Non abbiamo bisogno del concetto di tipo in quanto abbiamo solo un tipo di dato. 
+
+\smallskip
+Si noti che le produzioni di D sono tutte opzionali, questo significa che un programma può essere un blocco senza dichiarazioni. 
+
+\smallskip
+I comandi sono: 
+\begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+    \item comando vuoto
+    \item assegnamento di un valore (denotato da una espressione) ad un identificatore
+    \item chiamata ad una procedura mediante il suo nome
+    \item comando condizionale che esegue un comando al verificarsi di una condizione booleana \texttt{C}
+    \item ciclo che ripete un comando finché una data condizione \texttt{C} è vera
+    \item composizione sequenziale di comandi
+\end{itemize}
+
+
 \section{Semantica}
 La semantica è più complessa della sintassi perchè ricerca:
 \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
@@ -334,6 +463,3 @@ La \textbf{chiusura transitiva} descrive l'esecuzione completa.
         \includegraphics[width=0.8\textwidth]{images/semantica-operazionale.png}
     \end{center}
 \end{esempiobox}
-
-
-\section{Categorie sintattiche}
