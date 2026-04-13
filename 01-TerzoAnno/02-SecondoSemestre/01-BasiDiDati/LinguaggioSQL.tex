@@ -1,15 +1,15 @@
 %!TeX root = BasiDiDati.tex
 
 \chapter{Linguaggio SQL}
-Il termine SQL in origine era l'acronimo di \textbf{S}tructured \textbf{Q}uery \textbf{L}enguagge, ma ad oggi è diventato un nome proprio.
+Il termine SQL in origine era l'acronimo di \textbf{S}tructured \textbf{Q}uery \textbf{L}anguage, ma ad oggi è diventato un nome proprio.
 
 \definizione{linguaggio SQL}{
   \raggedright
-  Il \textbf{linguaggio di interrrogazione SQL} permette di:
+  Il \textbf{linguaggio di interrogazione SQL} permette di:
   \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
-    \item \textbf{definire delle strutture dati e i vincoli di integrità}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{D}}efinition \textcolor{azzurrino}{\textbf{L}}enguagge
-    \item \textbf{manipolare i dati} (inserimento, aggiornamento e cancellazione): \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{M}}anipilation \textcolor{azzurrino}{\textbf{L}}enguagge
-    \item \textbf{interrogare}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{Q}}uery \textcolor{azzurrino}{\textbf{L}}enguagge
+    \item \textbf{definire delle strutture dati e i vincoli di integrità}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{D}}efinition \textcolor{azzurrino}{\textbf{L}}anguage
+    \item \textbf{manipolare i dati} (inserimento, aggiornamento e cancellazione): \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{M}}anipilation \textcolor{azzurrino}{\textbf{L}}anguage
+    \item \textbf{interrogare}: \textcolor{azzurrino}{\textbf{D}}ata \textcolor{azzurrino}{\textbf{Q}}uery \textcolor{azzurrino}{\textbf{L}}anguage
   \end{itemize}
 }
 
@@ -186,7 +186,7 @@ dove $\verb|from_item|$ può essere una delle seguenti clausole:
   \end{center}
 \end{esempiobox}
 
-\section{Clausola WHERE}
+\section{Clausola \protect\texttt{WHERE}}
 La sintassi è:
 
 \begin{sqlcode}
@@ -377,7 +377,7 @@ Per verificare se un attributo ha un valore nullo o meno si utilizza il predicat
 \smallskip
 La sintassi è:
 \begin{sqlcode}
-  WHERE attributo IS [NOT] IN NULL
+      WHERE attributo IS [NOT] NULL
 \end{sqlcode}
 
 \smallskip

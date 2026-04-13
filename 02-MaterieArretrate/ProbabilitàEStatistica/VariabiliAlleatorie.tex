@@ -1,0 +1,115 @@
+\chapter{Variabili aleatorie}
+
+\Definizione{Variabile aleatoria}{
+    Dato uno spazio di probabilità $(\Omega, \mathcal{F}, \mathbb{P})$, una \textbf{variabile aleatoria} su $\Omega$ è una funzione che ad ogni $\omega \in \Omega$ associa un numero reale
+    \[
+       \mathrm{ X: \Omega \rightarrow E \subset \mathbb{R}}
+    \]
+    tale che, per ogni $a \le b \in \mathbb{R}$, sia possibile calcolare la probabilità dell'insieme
+    \[
+        \mathrm{\{ \omega \in \Omega: a < X(\omega) \leq b \}}
+    \]
+    che, quindi, deve essere un evento di $\mathcal{F}$.
+}
+
+Le variabili aleatorie si distinguono in due categorie:
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item \textbf{variabili aleatorie discrete}
+    \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
+        \item finite
+        \item numerabili
+    \end{itemize}
+    \item \textbf{variabili aleatorie continue}
+\end{itemize}
+
+\Definizione{Variabili aleatorie discrete}{
+    Una \textbf{variabile aleatoria} $X$ si dice \textbf{discreta} se l'insieme $E$ è discreto.
+    
+    In particolare:
+    \begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
+        \item \textbf{finita}: se l'insieme $\mathrm{E}$ è un insieme finito
+        \item \textbf{numerabile}: se l'insieme $\mathrm{E}$ è un insieme numerabile
+    \end{itemize}
+}
+
+\Definizione{Variabile aleatoria continua}{
+    Una \textbf{variabile aleatoria} si dice \textbf{continua} se l'insieme $\mathrm{E}$ è un insieme continuo.
+}
+
+\section{Variabili aleatorie finite}
+
+\esempio{lancio del dado}{
+    Consideriamo il lancio di un dado.
+    Sia $\mathrm{X}$ la variabile che vale 0 se esce un numero pari e 1 se esce un numero dispari.
+    
+    \medskip
+    Abbiamo così:
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+        \item $\Omega = \{1,2,3,4,5,6\}$
+        \item $\mathrm{E = \{0,1\}}$ (insieme dei valori assunti da $\mathrm{X}$)
+    \end{itemize}
+    
+    \smallskip
+    Si ha:
+    \[
+        \begin{aligned}
+            \mathrm{X(1) = X(3) = X(5)} &= \mathbf{1}\\
+            \mathrm{X(2) = X(4) = X(6)} &= \mathbf{0}
+        \end{aligned}
+    \]
+}
+
+L'insieme dei valori assunti da $\mathrm{X}$ e le probabilità con cui vengono assunti si chiama \textbf{legge o distribuzione di $\boldsymbol{\mathrm{X}}$}.
+
+\Definizione{Funzione di ripartizione}{
+    La \textbf{funzione di ripartizione} di una variabile aleatoria discreta $\mathrm{X}$ è definita da:
+    \[
+        \boldsymbol{\mathrm{F_X(x) = \mathbb{P}(X \leq x) = \sum_{t \leq x} p_X(t)}}
+    \]
+}
+
+La variabile alleatoria essendo una funzione di esperimenti, essa assume i suo valori con una certa probabilità.
+
+\esempio{lancio del dado}{
+    Consideriamo l'esempio fatto in precedenza sul lancio del dado.
+
+    \smallskip
+    \textcolor{red}{\textbf{Cosa vuol dire che $\boldsymbol{\mathrm{X = 0}}$?}}
+
+    Significa che il lancio ha dato un risultato pari.
+    \[
+        \{\mathrm{X = 0}\} \equiv \{2,4,6\}
+    \]
+
+    Ciò significa che:
+    \[
+        \mathbb{P}(\mathrm{X = 0}) = \mathbb{P}(\{2,4,6\}) = \frac{3}{6} = \frac{1}{2}
+    \]
+
+    \medskip
+    \textcolor{red}{\textbf{Cosa vuol dire che $\boldsymbol{\mathrm{X = 1}}$?}}
+
+    Significa che il lancio ha dato un risultato dipari.
+    \[
+        \{\mathrm{X = 1}\} \equiv \{1,3,5\}
+    \]
+
+    Ciò significa che:
+    \[
+        \mathbb{P}(\mathrm{X = 1}) = \mathbb{P}(\{1,3,5\}) = \frac{3}{6} = \frac{1}{2}
+    \]
+
+    \medskip
+    Facciamo una tabella riassuntiva:
+
+    \begin{center}
+        \renewcommand{\arraystretch}{1.5}
+        \begin{tabular}{c|c|c}
+            \textbf{Valore } $x_i$ & \textbf{Sottoinsieme di } $\Omega$ & $P(X = x_i)$ \\
+            \hline
+            $0$ & $\{2, 4, 6\}$ & $\frac{1}{2}$ \\
+            \hline
+            $1$ & $\{1, 3, 5\}$ & $\frac{1}{2}$ \\
+        \end{tabular}
+    \end{center}
+}

@@ -1528,7 +1528,254 @@ TIME : 1.910 ms
 
 
 NON sempre gli indici multi-attributo possono essere usati: per esempio in espressioni con OR non è possibile.
-SELECTI. nomeins, I. codiceins
-FROMInsegnI JOINInsErogatoIE ONI.id= IE. id_insegn
-WHEREIE. annoaccademico= '2006/2007' ORIE. id_corsostudi= 4;
-...(5334 ROWS )
+\begin{codiceSQL}
+SELECT I. nomeins, I. codiceins
+FROM InsegnI JOIN InsErogatoIE ONI.id= IE. id_insegn
+WHERE IE.annoaccademico= '2006/2007' OR IE.id_corsostudi= 4;
+...(5334 ROWS )  
+\end{codiceSQL}
+
+
+\begin{itemize}
+  \item Non c’è il tempo di esecuzione perché il risultato è diverso e quindi non comparabile.
+  \item In questa query l’indice \textbf{ie\_aa\_idcs} NON è usato perché la disgiunzione \textcolor{purple}{OR} rende impossibile di fatto il suo uso.
+  \item Nemmeno gli indici singoli ie\_id\_corsostudi e ie\_aa sono usati.
+  \item L’ottimizzatore esegue una scansione di tutta la tabella Insegn.
+\end{itemize}
+
+
+\subsubsection{Indici di espressioni}
+È possibile definire indici anche usando espressioni di attributi.
+\begin{codiceSQL}
+  CREATE INDEX nome ON nomeTabella(expression);
+\end{codiceSQL}
+dove expression è una espressione su uno o più attributi.
+
+
+Query con indici definiti usando espressioni:
+\begin{codiceSQL}
+CREATE INDEX ins_lower_nonins ON Insegn
+( LOWER( nomeins) varchar_pattern_ops);
+ANALYZE Insegn;
+SELECT nomeins FROM Insegn
+WHERE LOWER(nomeins) LIKE 'algoritmi %';
+...(4 ROWS )
+TIME : 1.796 ms
+  
+\end{codiceSQL}
+
+\subsection{Costo e Pratiche d'uso}
+Gli indici costano tempo e memoria.
+Se si considera solo il tempo, il costo maggiore è mantenere gli indici aggiornati.
+Per ogni operazione di INSERT, UPDATE, DELETE su una tabella con indici, il DBMS deve aggiornare anche gli indici della tabella.
+
+\textcolor{black!60!red}{Regola pratica: definire gli indici in base alle query più frequenti.}
+
+Il comando PostgreSQL \texttt{\textbackslash di} visualizza l’elenco degli indici definiti in una base di dati.
+
+Il comando PostgreSQL \texttt{\textbackslash d} nomeTabella visualizza la definizione di tabella e degli indici associati.
+
+
+\subsubsection*{Perchè questo?}
+Un DBMS ha un ottimizzatore di query che determina un piano per eseguire una data query nel minor tempo possibile.
+Il comando \texttt{EXPLAIN} permette di vedere il piano di esecuzione di una query che l’ottimizzatore determina senza eseguire la query.
+Un piano di esecuzione di una query è un albero di nodi di esecuzione.
+
+Le foglie sono nodi di scansione: l’esecuzione di questi nodi restituiscono indirizzi di righe della tabella.
+
+\subsubsection*{Struttura}
+
+Esistono differenti tipi di scansioni: \textbf{sequenziali}, \textbf{indicizzate} e \textbf{mappate su bit}.
+\begin{itemize}
+  \item Se una query contiene \texttt{\textcolor{purple}{JOIN}}, \texttt{\textcolor{purple}{GROUP BY}} o \texttt{\textcolor{purple}{ORDER BY}} o altre operazioni sulle righe, \textcolor{purple}{allora ci saranno altri nodi di esecuzione sopra le foglie nell’albero}.
+  \item L’output di \texttt{EXPLAIN} ha una riga per ciascun nodo nell’albero di esecuzione dove viene indicato il tipo di operazione e una stima del costo di esecuzione.
+  \item Ulteriori proprietà del nodo possono essere mostrate con una riga indentata subito sotto.
+  \item La prima riga dell’output ha la stima del costo totale di esecuzione della query. Questo è il costo che l’ottimizzatore cerca di minimizzare.
+\end{itemize} 
+
+\begin{codiceSQL}
+EXPLAIN SELECT* FROM Insegn;
+QUERY PLAN
+------------------------------------------------------------
+SeqScan ON insegn(cost=0.0..185.69 ROWS=8169 width=63)  
+\end{codiceSQL}
+\begin{itemize}
+  \item 0.0 è il costo iniziale, per produrre la prima riga(in termini di numero di accessi alla memoria secondaria).
+  \item 185.69 è il costo totale, per produrre tutte le righe.
+  \item 8169 è il numero totale di righe del risultato(Il numero totale di righe non è sempre il numero totale di righe valutate dall’esecutore).
+  \item 63 è la dimensione, in byte, di ciascuna riga.
+\end{itemize}
+
+\subsubsection{Explain con due nodi}
+\begin{codiceSQL}
+EXPLAIN SELECT* FROM Insegn WHERE id < 1000;
+QUERY PLAN
+-----------------------------------------------------------
+Bitmap Heap Scan ON insegn(cost=18.60..132.79 ROWS=815...)
+Recheck Cond: (id < 1000)
+-> Bitmap INDEX Scan ON i1 (cost=0..18.39 ROWS=815 w =0)
+INDEX Cond: (id < 1000)  
+\end{codiceSQL}
+Prima viene eseguito il nodo foglia (Bitmap INDEX Scan): grazie all’indice B-tree, l’ottimizzatore determina un vettore di indirizzi di righe da considerare (in un B-treese la chiave cercata k non è pari a nessuna chiave $K_i$ ma è compresa tra $K_i$ e $K_{i+1}$, può essere presente nel sottoalbero Pi).
+Tale vettore viene poi passato al nodo padre (Bitmap Heap Scan) che carica le righe ed esegue la selezione finale ricontrollando che id < 1000.
+
+\subsubsection{Explain con due nodi – AND con un solo indice}
+\begin{codiceSQL}
+DROP INDEX ins_nomeins; 
+EXPLAIN SELECT* FROM Insegn WHERE id <1000 AND nomeins LIKE 'Al%';
+QUERY PLAN
+---------------------------------------------------------
+Bitmap Heap Scan ON Insegn(cost=18.40..134.62 ROWS=1...)
+Recheck Cond: (id < 1000)
+Filter: (( nomeins)::TEXT~~ 'Al%'::TEXT)
+-> Bitmap INDEX Scan ON i1 (cost=0.00..18.39 ROWS=815 width=0)
+INDEX Cond: (id < 1000)  
+\end{codiceSQL}
+Il nodo Bitmap Heap Scan carica le righe indicate dall'indice e, per ciascuna, ricontrolla che id < 1000, e la seleziona se nomeinsinizia con 'Al'.
+
+
+\subsubsection{Esempi d'uso}
+
+\textbf{Esempio di EXPLAIN con uso di due indici sulla stessa tabella}
+
+\begin{codiceSQL}
+  CREATE INDEX nomeIdx ON Insegn(nomeins varchar_pattern_ops);
+ANALYZE Insegn;
+EXPLAIN SELECT* FROM Insegn WHERE id<1000 AND nomeins LIKE 'Al%';
+QUERY PLAN
+---------------------------------------------------------
+Bitmap Heap Scan ON insegn(cost=15.30..22.58 ROWS=4 width=63)
+Recheck Cond: (id < 1000)
+Filter: (( nomeins):: TEXT~~ 'Al%':: TEXT)
+-> BitmapAnd(cost=15.30..15.30 ROWS=4 width=0)
+-> Bitmap INDEX Scan ON nomeidx(cost=0..2.65 ROWS=37 width=0)
+INDEX Cond: (((nomeins)::TEXT ~>=~ 'Al'::TEXT) AND
+((nomeins)::TEXT~<~ 'Am'::TEXT))
+-> Bitmap INDEX Scan ON i1 (cost=0.00..12.40 ROWS=815 width=0)
+INDEX Cond: (id < 1000)
+\end{codiceSQL}
+
+\begin{itemize}
+  \item Ciascuna foglia scansiona un indice. Il padre delle foglie (BitmapAnd) fa l’intersezione degli indirizzi delle righe trovate.
+  \item La root (Bitmap Heap Scan) carica le righe ed ricontrolla che le condizioni siano soddisfatte.
+\end{itemize}
+
+\textbf{Esempio di EXPLAIN con uso di due indici sulla stessa tabella}
+
+
+Esempio di EXPLAIN con uso di due indici sulla stessa tabella
+\begin{codiceSQL}
+  EXPLAIN SELECT* FROM Insegn WHERE id <1000 OR nomeins LIKE'Al%';
+QUERY PLAN
+---------------------------------------------------------
+Bitmap Heap Scan ON insegn(cost=15.47..132.25 ROWS=850 width=63)
+Recheck Cond: ((id < 1000) OR((nomeins)::TEXT~~ 'Al%'::TEXT))
+Filter : ((id < 1000) OR((nomeins)::TEXT~~ 'Al%'::TEXT))
+-> BitmapOr(cost=15.47..15.47 ROWS=852 w=0)
+-> Bitmap INDEX Scan ON i1 (cost=0.00..12.40 ROWS=815 width=0)
+INDEX Cond: (id < 1000)
+-> Bitmap INDEX Scan ON nomeidx(cost=0.00..2.65 ROWS=37 width=0)
+INDEX Cond: (((nomeins)::TEXT~>=~ 'Al'::TEXT) AND
+((nomeins)::TEXT~<~ 'Am':: TEXT))
+\end{codiceSQL}
+
+Il padre delle foglie (BitmapOr) esegue l’unione degli indirizzi delle righe trovate.
+
+\textbf{Esempio di EXPLAIN con planner che decide diversamente cambiando condizione}
+
+\begin{codiceSQL}
+EXPLAIN SELECT* FROM Insegn WHERE id <1000 AND nomeins LIKE'%Al';
+QUERY PLAN
+---------------------------------------------------------
+Bitmap Heap Scan ON insegn(cost=12.40..128.62 ROWS=1 width=63)
+Recheck Cond: (id < 1000)
+Filter: ((nomeins)::TEXT~~ '%Al'::TEXT)
+-> Bitmap INDEX Scan ON i1 (cost=0.00..12.40 ROWS=815 width=0)
+INDEX Cond: (id < 1000)
+\end{codiceSQL}
+
+La condizione nomeins LIKE '\%Al' rende impossibile l’uso dell'indice.
+
+\textbf{Esempio di EXPLAIN di un JOIN: join mediante hash table}
+\begin{codiceSQL}  
+EXPLAIN SELECT* FROM InsegnI JOIN InserogatoIE ON ie.id_insegn= i.id WHERE ie.annoaccademico= '2013/2014';
+QUERY PLAN
+---------------------------------------------------------
+Hash JOIN(cost=287.80..6328.90 ROWS=5155 width=641)
+Hash Cond: (ie. id_insegn= i.id)
+-> Seq Scan ON inserogatoie(cost =0.00..5970.21 ROWS =5155 w =578)
+Filter : ((annoaccademico)::TEXT= '2013/2014'::TEXT)
+-> Hash (cost =185.69..185.69 ROWS =8169 width=63)
+-> Seq Scan ON insegni (cost =0.00..185.69 ROWS =8169 w =63)
+\end{codiceSQL}
+
+\textbf{Esempio di EXPLAIN di un JOIN: join mediante nestedloop}
+\begin{codiceSQL}
+EXPLAIN SELECT* FROM InsegnI JOIN InserogatoIE ON ie.id_insegn> i.id WHERE ie. annoaccademico= '2013/2014';
+QUERY PLAN
+---------------------------------------------------------
+Nested Loop (cost=0.28..393703.79ROWS=14037065 width=641)
+-> SeqScanONinserogatoie(cost=0.00..5970.21 ROWS=5155 w=578)
+Filter: (( annoaccademico)::TEXT= '2013/2014':: TEXT)
+-> INDEX Scan USING i1 ON insegni (cost =0.28..47.99 ROWS=2723 w=63)
+INDEX Cond: (ie. id_insegn> id)
+\end{codiceSQL}
+
+
+\textbf{Ottimizzazione della query precedente:}
+\begin{codiceSQL}
+CREATE INDEX ie_aa ON Inserogato(annoaccademico varchar_pattern_ops);
+ANALYZE Inserogato;
+EXPLAI NSELECT* FROM InsegnI JOIN InserogatoIE ON ie. id_insegn> i.id WHERE ie.annoaccademico= '2013/2014';
+QUERY PLAN
+----------------------------------------------------
+Nested Loop ( cost =82.65.. 391932.20ROWS =14037065 width =641)
+-> Bitmap Heap Scan ON inserogatoie(cost=82..4198 rows=5155 w=578)
+Recheck Cond: ((annoaccademico)::TEXT= '2013/2014'::TEXT)
+-> Bitmap INDEX Scan ON ie_aa(cost=0.00..81.08 ROWS=5155 w=0)
+INDEX Cond: ((annoaccademico)::TEXT= '2013/2014':: TEXT)
+-> INDEX Scan USING i1 ON insegni(cost =0.28..48 ROWS =2723 w =63)
+INDEX Cond : (ie. id_insegn> id)
+\end{codiceSQL}
+
+\textbf{Altro tipo di JOIN: join mediante merge join}
+
+\begin{codiceSQL}
+EXPLAIN SELECT *FROM t1, t2
+WHERE t1.unique1 < 100 AND t1.unique2 = t2.unique2 ;
+QUERY PLAN
+---------------------------------------------------------
+Merge JOIN (cost=198.11..268.19 ROWS=10 width=488)
+Merge Cond: (t1.unique2 = t2.unique2 )
+-> INDEX Scan USING t1_unique2 ON t1 (cost =0..656 ROWS =101..)
+Filter : ( unique1 < 100)
+-> Sort(cost =197.83..200.33 ROWS =1000..)
+Sort KEY: t2.unique2
+-> SeqScanON t2 (cost =0.00..148.00 ROWS =1000..)
+\end{codiceSQL}
+
+
+\subsection{Explain versione avanzata}
+
+Il comando \texttt{\textcolor{purple}{EXPLAIN ANALYZE}} mostra il piano di esecuzione, esegue la query senza registrare eventuali modifiche e mostra, infine, una stima verosimile dei tempi di esecuzione
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{images/ExplainAvanzata.png}
+\end{figure}
+
+\begin{itemize}
+  \item Per ogni nodo del piano: dettaglio righe rimosse, memoria usata e tempi di esecuzione in ms.
+  \item Alla fine: stima tempo di pianificazione ed di esecuzione.
+\end{itemize}
+
+\begin{figure}[H] 
+  \centering
+  \includegraphics[width = \textwidth]{images/Immagine 2026-04-13 123546.png}
+\end{figure}
+
+\begin{itemize}
+  \item Il valore di loops indica per quante volte viene eseguito il nodo.
+  \item Spesso il numero di righe dopo cost è diverso dal numero di righe dopo actualTIME. Quest’ultimo è più corretto.
+\end{itemize}
