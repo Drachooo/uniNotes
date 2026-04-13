@@ -1326,4 +1326,209 @@ SELECT MAX ( NumIns ) FROM InsCorsoStudi);
 
 Laurea specialistica in Medicina e Chirurgia: 320
 
+\section{Indici}
 
+Gli indici sono delle \textbf{strutture dati ausiliare} che permettono di accedere ai dati di una tabella in maniera più efficiente.
+Essendo una struttura dati ausiliaria, deve essere sempre mantenuta aggiornata in base al contenuto della tabella in cui è definita.
+Il costo di aggiornamento può essere significativo quando ci sono molti indici definiti sulla medesima tabella.
+\underline{Gli indici quindi devono essere definiti considerando la loro utilità.}
+
+Si consideri il seguente schema fisico
+\begin{codiceSQL}
+InsErogato(id, id_insegn, id_corsostudi, id_discriminante, annoaccademico, id_facolta, modulo, nomemodulo, discriminantemodulo, crediti, programma)
+Insegn(id, nomeins, codiceins)
+Discriminante(id, nome, descrizione)
+CorsoStudi(id, nomecorsostudi, sede, durataAnni)
+CorsoInFacolta(id, id_corsostudi, id_facolta)
+Facolta(id, nome)
+\end{codiceSQL}
+
+\subsection*{Query SENZA indici}
+Si consideri la query:
+\begin{codiceSQL}
+SELECT id, nomeins FROM Insegn WHERE nomeins='Algoritmi';  
+\end{codiceSQL}
+Il DBMS deve fare una scansione sequenziale della tabella Insegn rispetto nomeins per estrarre le righe con valore uguale a 'Algoritmi';
+
+
+Il comando \texttt{\textbackslash timing} attiva/disattiva la visualizzazione del tempo di pianificazione + calcolo di una query.
+Il tempo è visualizzato subito dopo la visualizzazione del risultato della query.
+\texttt{\textbackslash timing} dà un’idea del tempo necessario per eseguire una query.
+
+
+
+\begin{codiceSQL}
+=>\timing
+Timing is ON.
+=> SELECTid , nomeins
+FROM Insegn
+WHERE nomeins='Algoritmi';
+
+
+id | nomeins
+-----+--------------
+5441 | Algoritmi
+
+(1 row)
+TIME: 2.437 ms
+\end{codiceSQL}
+
+Il tempo è di 2 millisecondi circa
+
+\subsection{Creazione indice}
+\begin{codiceSQL}
+  CREATE INDEX[ nome]ON nomeTabella[ USING method ]
+({ nomeAttr|( expression )} [ASC| DESC] [, ...])
+CREATE INDEX Nome Indice ON NomeTabella (ListaAttributi)
+\end{codiceSQL}
+
+\begin{itemize}
+  \item \textcolor{cyan}{\textbf{method}} è il tipo di indice;
+  \item \textcolor{cyan}{\textbf{nomeAttr}} o \textcolor{cyan}{ \textbf{expression}} indicano su quali espressione di attributi si deve creare indice.
+  \item \textcolor{purple}{\textbf{ASC/DESC}} specifica se l’indice è ordinato in modo ascendente o discendente.
+  \item \textcolor{purple}{\textbf{ALTER INDEX}} e \textcolor{purple}{\textbf{DROP INDEX}} permettono di modificare/rimuovere indici creati precedentemente.
+\end{itemize}
+
+Un DBMS crea gli indici in modo automatico solo per attributi dichiarati PRIMARY KEY (\textcolor{purple}{\textbf{indice primario}}).
+
+Per tutti gli altri attributi si deve fare una dichiarazione esplicita di \textcolor{purple}{\textbf{CREATE INDEX}}.
+
+\begin{codiceSQL}
+  ANALYZE nomeTabella;
+\end{codiceSQL}
+
+Il comando \texttt{ANALYZE[nomeTabella]} aggiorna le statistiche circa il contenuto delle tabelle (e indici). È eseguito in modo automatico dal sistema a intervalli regolari.
+L’ottimizzatore di query usa queste statistiche per decidere quando usare gli indici.
+
+\subsection*{Query CON indici}
+
+Per rendere più veloce l’esecuzione della query:
+\begin{codiceSQL}
+SELECT id, nomeins FROM Insegn WHERE nomeins='Algoritmi';
+\end{codiceSQL}
+un indice sull’attributo nomeinspotrebbe essere utile perché nomeinsè l’attributo usato per selezionare le righe.
+Query CON
+
+\begin{codiceSQL}
+  => CREATE INDEX nomeins_index ON Insegn( nomeins);
+=> ANALYZE Insegn;
+=> SELECT id, nomeins FROM Insegn WHERE nomeins='Algoritmi';
+
+id | nomeins
+-----+---------------
+5441 | Algoritmi
+TIME: 0.587 ms
+\end{codiceSQL}
+\textcolor{red}{\textbf{Il tempo di esecuzione è passato da 2.4337 msa 0.587 ms.}}
+
+\vario{Nota}{Nota:Non è garantito che il tempo di esecuzione sia sempre uguale perché il server è multitask. I tempi di queste slide sono stati determinati con il server completamente dedicato}
+
+\subsection{Caso pratico}
+
+Si consideri la seguente query senza Indici
+
+\begin{codiceSQL}
+SELECT DISTINCT I.nomeins
+FROM CorsoStudi CS
+JOIN InsErogato IE ON CS.id = IE.id_corsostudi
+JOIN Insegn I ON I.id = IE.id_insegn
+WHERE IE.annoaccademico = '2009/2010'
+AND CS.nome = 'Laurea in Informatica';
+...
+(26 ROWS )
+TIME : 40.975 ms
+\end{codiceSQL}
+\textcolor{black!60!red}{\textbf{Quanto è possibile rendere più veloce la query definendo degli indici?}}
+
+Una possibilità è definire gli indici su tutti gli attributi usati per fare i JOIN o le selezioni
+
+\begin{codiceSQL}
+CREATE INDEX cs_id ON CorsoStudi(id);
+CREATE INDEX i_id ON Insegn(id);
+\end{codiceSQL}
+
+\vario{Nota}{Gli indici sugli attributi PRIMARY KEY (id nel nostro caso) solitamente sono già presenti! In did2014small sono stati tolti per fare gli esperimenti}
+
+Si consideri la creazione degli indici:
+\begin{codiceSQL}
+CREATE INDEX ie_id_corsostudi ON Inserogato( id_corsostudi);
+CREATE INDEX ie_id_insegn ON Inserogato( id_insegn);
+CREATE INDEX ie_aa ON Inserogato( annoaccademico);
+CREATE INDEX cs_nome ON Corsostudi( nome );
+ANALYZE Corsostudi;
+ANALYZE Inserogato;
+ANALYZE Insegn;
+\end{codiceSQL}
+
+Non tutti gli indici sono necessari, ma per ora accettiamo il costo di crearli tutti.
+Importante! Forziamo il DBMS ad aggiornare le statistiche con il comando ANALYZE dopo la creazione degli indici.
+
+
+Con la creazione degli indici, la query richiede un tempo inferiore:
+\begin{codiceSQL}
+SELECT DISTINCT I.nomeins
+FROM Corso StudiCS
+JOIN InsErogato IE ON CS.id= IE.id_corsostudi
+JOIN InsegnI ON I.id= IE.id_insegn
+WHERE IE.annoaccademico= '2009/2010'
+AND CS.nome= 'Laurea in Informatica';
+...
+(26 ROWS )
+TIME : 5.201 ms
+\end{codiceSQL}
+
+Il tempo di esecuzione è passato da ~40 ms a ~5 ms.
+
+\subsection{Tipi di indice}
+PostgreSQL ammette diversi tipi di indici: B-tree, hash, GiST, SP-GiST, GIN e BRIN.
+Sintassi per specificare anche il tipo:
+\begin{codiceSQL}
+CREATE INDEX nome ON nomeTab USING type(COLUMN);
+\end{codiceSQL}
+
+\subsubsection{B-tree}
+Se nel CREATE INDEX non si specifica il tipo di indice, il sistema crea un indice di tipo B-tree.
+L’ottimizzatore di query considera un indice B-tree ogni volta che l’attributo indicizzato è coinvolto in un confronto usando uno degli operatori: <, <=, =, >=, >.
+Un indice B-tree può essere considerato anche quando ci sono \textcolor{purple}{\textbf{BETWEEN}}, \textcolor{purple}{\textbf{IN}}, \textcolor{purple}{\textbf{IS NULL}}, \textcolor{purple}{\textbf{IS NOT NULL}} e \textcolor{purple}{\textbf{LIKE}} 'abc\%'.
+
+
+Con la localizzazione (it\_IT.UTF-8), la comparazione di stringhe con operatori diversi da ’=’ e con \textcolor{purple}{\textbf{LIKE}} ha regole diverse (minuscole/maiuscole) rispetto a UTF8.
+Un indice su attributo VARCHAR in una base di dati con LC\_LOCALE = it\_IT.UTF-8 (come le basi di dati in dbserver) dovrebbe essere dichiarato come:
+\begin{codiceSQL}
+CREATE INDEX nome ON nomeTab(nomeAttrvarchar_pattern_ops);
+\end{codiceSQL}
+se si vuole che l'indice sia usato anche quando il confronto usa <,>,<>, LIKE.
+La parola chiave \textcolor{purple}{\textbf{varchar\_pattern\_ops}} abilita l'uso degli operatori rispettando le regole imposte dal locale (it\_IT.UTF-8).
+
+\subsubsection{Hash}
+
+Il tipo \textbf{hash} ha un uso limitato perché può essere usato solo quando i confronti sonodi eguaglianza.
+La sua gestione poi è più complicata in basi di dati replicate o in caso di crash: il gruppo di PostgreSQL ne sconsiglia l’uso.
+Gli altri tipi di indici sono indicati per particolari strutture dati. Per esempio, GiST è indicato quando un attributo è di tipo geometrico bi-dimensionale(tipo non standard).
+
+\subsubsection{Multi-attributo}
+Se si hanno query che hanno condizioni su coppie (terne, ecc) di attributi di una tabella, un indice multi-attributo definito usando la coppia (terna, ecc) di attributi potrebbe essere più utile rispetto gli indici sui singoli attributi.
+
+Creazione indice multi-attributo
+\begin{codiceSQL}
+CREATE INDEX ie_aa_idcs ON
+
+Inserogato( annoaccademico, id_corsostudi);
+ANALYZE Inserogato;
+
+SELECT I.nomeins, I.codiceins
+FROM InsegnI JOINInsErogatoIE ONI.id= IE. id_insegn
+WHERE IE. annoaccademico= '2006/2007 '
+ANDIE. id_corsostudi= 4;
+
+...(46 ROWS )
+TIME : 1.910 ms
+\end{codiceSQL}
+
+
+
+NON sempre gli indici multi-attributo possono essere usati: per esempio in espressioni con OR non è possibile.
+SELECTI. nomeins, I. codiceins
+FROMInsegnI JOINInsErogatoIE ONI.id= IE. id_insegn
+WHEREIE. annoaccademico= '2006/2007' ORIE. id_corsostudi= 4;
+...(5334 ROWS )

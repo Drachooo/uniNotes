@@ -1,4 +1,1 @@
-SELECT Nome, NumIns
-FROM InsCorsoStudi
-WHERE NumIns = ANY (
-SELECT MAX ( NumIns ) FROM InsCorsoStudi);
+ANALYZE nomeTabella;
