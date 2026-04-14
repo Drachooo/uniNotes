@@ -1,0 +1,3 @@
+> penguins            > str(penguins)
+
+> head(penguins)     > View(penguins)

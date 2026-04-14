@@ -1,512 +1,125 @@
 \documentclass[12pt, a4paper, oneside]{book}
 
-% --- LINGUA E CODIFICA ---
+% --- 1. LINGUA, CODIFICA E FONT ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
-\renewcommand{\familydefault}{\sfdefault} % Sans-serif moderno
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{textcomp} % Simboli aggiuntivi
 
-% --- MARGINI E GEOMETRIA ---
+% --- 2. GEOMETRIA E LAYOUT ---
 \usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{parskip}
+\setlength{\headheight}{25pt}
 
-% --- COLORI E LINK ---
+% --- 3. COLORI E IPERTESTO ---
 \usepackage{xcolor}
-\definecolor{verde}{HTML}{008B45}
+\definecolor{colore}{HTML}{A52A2A}
 \definecolor{grigiochiaro}{HTML}{F5F5F5}
 \definecolor{grigioscuro}{HTML}{424242}
-%altra opzione: 1A237E
 
 \usepackage[
     colorlinks=true,
     linkcolor=grigioscuro,
-    citecolor=verde,
-    urlcolor=verde
+    citecolor=colore,
+    urlcolor=colore
 ]{hyperref}
+\usepackage{bookmark} % Gestione avanzata dei segnalibri PDF
 
-% --- TITOLI MODERNI ---
+% --- 4. TITOLI E INDICE ---
 \usepackage{titlesec}
 
+% Formattazione Capitoli
 \titleformat{\chapter}[display]
-  {\normalfont\Huge\bfseries\color{verde}}
+  {\normalfont\Huge\bfseries\color{colore}}
   {\filleft\Huge\thechapter}
   {0pt}
   {\titlerule[1pt]\vspace{1ex}\filright}
   [\vspace{1ex}\titlerule]
 
+% Formattazione Sezioni e Sottosezioni
 \titleformat{\section}
-  {\normalfont\Large\bfseries\color{verde}}{\thesection}{1em}{}
-
+  {\normalfont\Large\bfseries\color{colore}}{\thesection}{1em}{}
 \titleformat{\subsection}
   {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsection}{1em}{}
-
-\setcounter{tocdepth}{4}
-\setcounter{secnumdepth}{4}
-
 \titleformat{\subsubsection}
   {\normalfont\large\bfseries\color{grigioscuro}}{\thesubsubsection}{1em}{}
 
-% --- CAPTION COLORATE ---
-\usepackage[font=small, labelfont={bf, color=verde}]{caption}
+% Profondità numerazione e indice
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 
-% --- HEADER E FOOTER ---
+% --- 5. HEADER E FOOTER (FANCYHDR) ---
 \usepackage{fancyhdr}
-\setlength{\headheight}{25pt}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\color{grigioscuro}\leftmark}
-\fancyhead[R]{\color{verde}\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\headrule}{\hbox to\headwidth{\color{verde}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[R]{\color{colore}\thepage}
 \fancyfoot[C]{\color{grigioscuro}\small Basi di dati – \thepage}
 
-% --- LISTE ED ENUMERAZIONI ---
-\usepackage{enumitem}
-\setlist{nosep, leftmargin=1.5em}
+% Linea dell'header colorata
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{%
+  \hbox to\headwidth{\color{colore}\leaders\hrule height \headrulewidth\hfill}}
 
-% --- GRAFICA E FIGURE ---
-\usepackage{graphicx}
-\usepackage{bookmark}
-\usepackage{float}
-\usepackage{wrapfig}
-\usepackage[normalem]{ulem} % sottolineature
-\usepackage{subcaption}
-\usepackage{soul} % evidenziazione
-\usepackage{parskip} % spaziatura tra paragrafi
-\usepackage{tikz}
-
-% --- Tcolorbox e Listings ---
-\usepackage[most]{tcolorbox}
-\tcbuselibrary{listings, skins, breakable, theorems} % theorems utile per ambienti come erexercise
+% --- 6. MATEMATICA E SIMBOLI ---
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{textcomp}
+\usepackage{stmaryrd}
+\usepackage{cancel}
 
-% --- Tabelle ---
+% --- 7. TABELLE E LISTE ---
 \usepackage{longtable}
 \usepackage{array}
 \usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=1.5em}
 
-% --- FRONTESPIZIO ---
+% --- 8. GRAFICA E DIDASCALIE ---
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage[font=small, labelfont={bf, color=colore}]{caption}
+
+% --- 9. DECORAZIONI TESTO E BOX ---
+\usepackage[normalem]{ulem}
+\usepackage{soul}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listings, skins, breakable, theorems}
+\usepackage{listings}
+\usepackage{mdframed}
+
+% --- 10. FRONTESPIZIO ---
 \title{\Huge\bfseries Appunti del corso di \\[0.5ex]
-\textcolor{verde}{Linguaggi} \\[1ex]
+\textcolor{colore}{Basi di Di Dati} \\[1ex]
 \Large UniVR - Dipartimento di Informatica \\[1.5ex]
 \Large secondo semestre - A.A. 2025/26}
-\author{\bfseries \Large \textcolor{verde}{Mattia Nicolis} \and \bfseries \Large \textcolor{verde}{Matteo Drago}}
+
+\author{\bfseries \Large \textcolor{colore}{Mattia Nicolis} \and \bfseries \Large \textcolor{colore}{Matteo Drago}}
 \date{}
 
-\input{../../../ambienti.sty} %file apposito per definire nuovi comandi
+\input{../../../ambienti.sty}
 
 % =================================
 \begin{document}
     \frontmatter
     \maketitle
+    
+    { % Locale per alzare l'indice se necessario
     \tableofcontents
     \thispagestyle{empty}
+    }
     \newpage
 
-    %===========================
     \mainmatter
-
-    \chapter{Introduzione}
-    Il problema dell'informatica consiste nel voler far eseguire a una macchina algoritmi per la manipolazione dei dati.
-
-    Il primo meccanismo che viene associato alla storia dei computer è la \textcolor{verde}{\textbf{macchina di Babbage}}, che può essere visto come il primo "computer" perchè nasce come macchina per eseguire calcoli matematici complessi in modo automatico.\\[0.2ex]
-    Il salto si verifica quando si decide che la macchina debba essere programmabile, cioè deve eseguire ciò che gli viene detto.\\[0.2ex]
-    In questo senso nasce \textcolor{verde}{\textbf{Enigma}} che nasce per decifrare un codice mediante un algoritmo di forza bruta e prova tutte le combinazioni possibili.
-
-    \medskip
-    La prima architettura che darà origine alla stuttura moderna dei computer è l'\textcolor{verde}{architettura di Von Neumann}.\\[0.2ex]
-    Si tratta di una tipologia di architettura hawdware che è in grado di interpretare solo \textbf{linguaggio binari} (stringhe di bit).\\[0.2ex]
-    Questo fa si che l'uomo per poter interagire con la macchina ci sia un'evoluzione dei linguaggio, ovvero bisgogna costruire un linguaggio che sia più comprensibile all'essere umano.
-
-    \section{Perchè studiare i linguaggi}
-    Lo studio dei libguaggi di programmazione (PL) permette di:
-    \begin{itemize}[label=$\triangleright$]
-      \item \textbf{miglioare la capicità di esprimere idee in forma algoritmica}
-      
-      I programmatori, infatti, sono vincolati ai lingauggi che già conoscono e non sfruttano il fatto che i linguaggi di programmazione si sono evoluti per rispondere a certe esigenze in modo efficace ed efficiente
-      \smallskip
-      \item \textbf{scegliere il linguaggio di programmazione appropriatamente}
-      \smallskip
-      \item \textbf{studiare/progettare più agevolemente nuovi linguaggi}
-      
-      Una volta aquisiti questi concetti diventa più semplice capire come questi concetti sono incorporato nel linguaggi che si sta studiando
-      \smallskip
-      \item \textbf{comprendere meglio il significato ed efficienza dei lingauggi di programmazione}
-    \end{itemize}
-
-    \section{Cosa sono i linguaggi di programmazione}
-    L'evoluzione dei linguaggi di programmazione dipende strettamente dal tipo di architettura di Von Neumann adottata.
-
-    \medskip
-    L'\textbf{architettura di Von Neumann} è una \hl{macchina programmabile con programma memorizzato}, dove dati e istruzioni condividono la stessa area di memoria (prima era esterno [es. schede perforate])
-
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.5\textwidth]{images/arch-Von-Neumann}
-      \caption{architettura di Von Neumann}
-    \end{figure}
-
-    Il linguaggio di programmazione, quindi, per poter operare su questa architettura, deve istruire una CPU per eseguire i calcoli (algoritmi) su dti conservati in memoria.
-
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.4\textwidth]{images/PL.png}
-      \caption{lingauggio di programmazione}
-    \end{figure}
-
-    Da questa definizione, ne deriva che, anche il linguaggio binario è un lingauggio di programmazione, ma non è umanamente comprensibile perchè dati e istruzioni sono rappresentati nello stesso modo.\\[0.2ex]
-   \hl{Un linguaggio di programmazione deve permttere di superare questa difficoltà}.
-
-   \definition{algoritmo}{
-    Un \textbf{algoritmo} è una sequenza passi, il cui scopo è il calcolo di una funzione.
-   }
-
-   Un algoritmo è un concetto astratto che trova forma concreta in un \textbf{programma}.
-
-   \definition{programma}{
-    Un \textbf{programma} è una sequenza (finita) di istruzioni.
-   }
-
-   \bigskip
-   I \textcolor{verde}{\textbf{linguaggi di programmazione}} nascono, quindi, proprio per questo motivo: linguaggi formali le cui frasi sono programmi, ovvero forme concrete di algoritmi eseguibili/interpretabili da una macchina.
-
-
-   \section{Cosa sono i linguaggi di programmazione}
-   Il programma è la concretizzazione di un algoritmo che manipola i dati.\\[0.2ex]
-   manca, però, un altro ingrediente: la \textbf{trasformazione} dei dati che l'algoritmo vuole eseguire.\\[0.2ex]
-   \hl{Questa trasformazione è il significato dell'algoritmo, la semantica del programma}.
-   \begin{itemize}[label=$\triangleright$]
-    \item \textbf{programma}: costituisce la sintassi
-    \smallskip
-    \item \textbf{effetto dell'esecuzione del programma} (trasformazione dei dati): costituisce la semantica
-   \end{itemize}
-
-   \medskip
-   Il programma è necessariamente un oggetto finito (sempre concreto), mentre il calcolo di una funzione richiede l'esecuzione di un insieme di passi primitivi, che però possono essere infiniti.\\[0.2ex]
-   Questo significa che bisogna pensare al \hl{programma come a una rappresentazioen finita di un insieme potenzialmente inifinito, di passi primitivi di computazione}.
-
-   \textbf{I linguaggi di programmazione devono dare specifica finita di oggetti potenzialmente infiniti}.
-
-   \section{Contesti di sviluppo}
-   Il contesto in cui il lingauggio deve operare determina le funzionalità che il linguaggio deve gestire efficientemente:
-   \begin{itemize}[label=$\diamond$]
-    \item \textbf{applicazioni scientifiche}: computazione floating-point, utilizzo array (es. \textbf{Fortran})
-    \smallskip
-    \item \textbf{applicazioni economiche}: produrre report, usare numeri decimali e caratteri (es. \textbf{COBOL})
-    \item \textbf{intelligenza artificiale}: manipolazione di simboli (es. \textbf{LISP})
-    \smallskip
-    \item \textbf{programmazione di sistemi}: necessita efficienza per l'uso continuo (es. \textbf{C})
-    \item \textbf{web software}: linguaggi markup (es. \textbf{HTML}), scripting (es. \textbf{PHP}), general-purpose (es. \textbf{Java})
-   \end{itemize}
-
-   Nuove metodologie e nuove esigenze hanno portato all'estensione di linguaggi esistenti, ma anche allo sviluppo di nuovi paradigmi e nuovi linguaggi di programmazione.
-
-   \section{Classificazione dei linguaggi}
-
-   \subsection{Linguaggi a basso livello}
-   I linguaggi a basso livello sono più vicini al linguaggio macchina e hanno caratteristiche specifiche dipendenti dall'architettura che si sta programmando:
-   \begin{itemize}[label=$\triangleright$]
-    \item \textbf{linguaggio binario}
-    \smallskip
-    \item \textbf{Assembly}
-   \end{itemize}
-
-   \subsection{Linguaggi ad alto livello}
-   I linguaggi di alto livello si possono classificare in base:
-   \begin{itemize}[label=$\triangleright$]
-    \item \textbf{classificazione per paradigma di programmazione}:
-    \begin{itemize}[label=$\diamond$]
-      \item \hl{procedurale}: codice diviso in sub-routine che eseguono compiti semplici basato su molti condizionali [GOTO] (es. COBOL)
-      \smallskip
-      \item \hl{strutturali (imperativo)}: procedurale senza goto (es. C, Pascal, Ada)
-      \smallskip
-      \item \hl{OOP}: si basa sul concetto di classe (es. Java, C++, c$\#$).
-      
-      Un linguaggio OOP deve avere tre requisiti:
-      \begin{itemize}
-        \item incapsulamento
-        \item eridetarietà
-        \item polimorfismo
-      \end{itemize}
-
-      \item \hl{dichiarativo}: basati fortemente sulla matematica
-      \begin{itemize}
-        \item logici: si basano sulla logica proposizionale del primo ordine (dimostrazioni di fatti) (es. PROLOG)
-        \item funzionali: si basano su applicazioni di funzioni (es. LISP, ML)
-      \end{itemize}
-    \end{itemize}
-    \smallskip
-    \item \textbf{classificazione generazionale}
-      \begin{enumerate}[label=$\Roman*$]
-        \item linguaggi di basso livello, linguaggi proprietari
-        \item linguaggi di basso livello con prima astrazione (es. Assembly)
-        \item linguaggi di alto livello con primo approcio verso il linguaggio naturale (es. C)
-        \item lingauggi dichiarativi per poter manipolare i dati in modo matematico  (es. SQL)
-        \item non semplice esecuzione di programmi scritti e fissati (AI e linguaggi dinamici) 
-      \end{enumerate}
-   \end{itemize}
-
-   \section{Implemmentazione di un linguaggio}
-
-
-   %-----------------------------------------
-   \chapter{Descrivere i linguaggi}
-   Un linguaggio di programmazione non è alto che come un linguaggio naturale, ma semplificato e non ambiguo.
-
-   La descrizione di un linguaggio avviene su tre dimensioni:
-   \begin{itemize}[label=$\triangleright$]
-    \item \textcolor{verde}{\textbf{sintassi}}: insieme delle regole che permettono di costruire frasi corrette.
+    \include{Introduzione}
     
-    \hl{Descrive la relazione tra simboli}.
-
-    La fase che determina la corretta struttura delle frasi, ovvero che verifica se una frase rispetta le regole della grammatica è chiamata \textbf{parsing}.
-    \smallskip
-    \item \textcolor{verde}{\textbf{semantica}}: attribuzione di un significato ai simboli (cosa vuol dire una frase corretta).
+    \include{DescrivereLinguaggi}
     
-    \hl{Descrive la relazione tra simboli e singnificato}.
-    \smallskip
-    \item \textcolor{verde}{\textbf{pragmatica}}: insieme delle regole di buon utilizzp di un linguaggio di programmazione (qual'è il modo corretto du usare frasi corrette e sensate).
+    \include{Espressioni}
     
-    \hl{Descrive la relazione tra segni, simboli e utente}.
-  \end{itemize}
-
-      \begin{center}
-        \rule{0.5\textwidth}{0.4pt} \
-        \textit{\small Caratteristiche generali di qualsiasi PL}
-      \end{center}
-
-  \begin{itemize}[label=$\triangleright$]
-    \item \textcolor{verde}{\textbf{implememtazione}}: strumenti di esecuzione di frasi be formate dal linguaggio di programmazione
-   \end{itemize}
-
-   \section{Sintassi}
-   Le regole sintattiche del linguaggio specificano quali stringhe di caratteri sono legali nel lingauggio:
-   \begin{itemize}[label=$\diamond$]
-    \item \textbf{parola}: stringa di caratteri su un alfabeto $\Sigma$
-    \smallskip
-    \item \textbf{frase}: sequenza di parole (ben formate)
-    \smallskip
-    \item \textbf{lingauggio}: insieme di fraasi (ben formate)
-   \end{itemize}
-
-   \esempio{linguaggi VS fondamenti}{
-    \begin{equation*}
-      \{a^nb^n \mid n \in \mathbb{N}\}
-    \end{equation*}
-
-    \begin{itemize}[label=$\Rightarrow$]
-      \item \textbf{alfateto}:
-      \begin{gather*}
-          \Sigma = \{a, b\} \text{ --- Fondamenti} \\
-          \mathcal{F} = \{\text{if, while, then, else, \dots}\} \text{ --- Linguaggi}
-      \end{gather*}
-      \item \textbf{stringhe}:
-      \begin{gather*}
-          \{e, ab, a^2b^2, \dots\} \text{ --- Fondamenti} \\
-          \text{programma}
-           \text{ --- Linguaggi}
-      \end{gather*}
-      \item \textbf{linguaggio}:
-      \begin{gather*}
-          \{a^nb^n \mid n \in \mathbb{N}\} \text{ --- Fondamenti} \\
-          \{\text{PL: insieme di programmi}\} \text{ --- Linguaggi}
-      \end{gather*}
-    \end{itemize}
-   }
-
-   Nell'ambito dei linguaggi di programmazione gli stessi concetti prendono nomi differenti:
-   \begin{itemize}
-    \item \textbf{parola = lessema}: parola con significato specifico.
-    
-    Nella grammtica corrispoonde ad un terminale, ovvero l'unità minima sintattica.
-
-    \esempio{lessema}{
-      \begin{equation*}
-        \text{index = 2} 
-      \end{equation*}
-
-      $\Rightarrow$ index, =, 2 sono lessemi
-    }
-    \smallskip
-    \item \textbf{frasi = token}: elementi delle categorie sintattiche del linguaggio di programmazione.
-    
-    Nella grammatica corrispondono alle sequenze generate dai simboli non terminali.
-
-    \esempio{token}{
-      \begin{equation*}
-        \text{index = 2}
-      \end{equation*}
-
-      $\Rightarrow$ si tratta di un asegnamento/comando
-    }
-   \end{itemize}
-
-   \medskip
-   C'è bisogno di strumenti formali per descrivere parole e frasi legali di un linguaggio, che permettano in modo automatico di verificare l'appartenenza o meno del linguaggio.
-
-   Nei linguaggi di programmazione, il linguaggio dei lessemi è in generale sempre un linguaggio regolare, quindi riconosciuto da un automa a stati finiti.
-
-   \definition{riconoscitore}{
-    Uno strumento di riconosciemento leggee in input stringhe sull'alfabeto del linguaggio e decide se la stringa appartiene o meno al linguaggio.
-
-    \smallskip
-    \textcolor{red}{\textbf{Es}}: automa stati finiti $\rightarrow$ analisi lesicale per il riconosciemento di lessemi
-   }
-
-   \definition{generatore}{
-    Uno strumento che genera stringhe di un linguaggio.
-
-    Si può determinare se la sintassi di una particolare frase è sintatticamente corretta confrontandola con la sturttura del generatore (parser).
-   }
-
-   \subsection{Grammatiche context-free}
-   Le grammatiche CF permettono di descrivere la sintassi dei linguaggi di programmazione.
-
-   \definition{grammatica CF}{
-    Una \textbf{grammtica context-free} è definita dalla quadrupla $G = \langle V, T, P, S \rangle$
-
-    \begin{itemize}[label=$\triangleright$]
-      \item \textbf{V}: insieme finito di variabili (simboli non terminali) $\rightarrow$ \hl{categorie sintattiche}
-      \smallskip
-      \item \textbf{T}: insieme finito si simboli ($V \cap T = \emptyset$) $\rightarrow$ \hl{vocabolario}
-      \smallskip
-      \item \textbf{P}: insieme finito di produzioni. $\rightarrow$ \hl{collezione di regole di formazione/composizione}
-      
-      Ogni produzione è definita nella forma $A \rightarrow \alpha$, dove:
-      \begin{itemize}[label=$\diamond$]
-        \item $A \in V$: variabile
-        \item $\alpha \in (V \cup T)^*$
-      \end{itemize}
-      \smallskip
-      \item \textbf{S}: simbolo iniziale $\rightarrow$ \hl{categoria delle frasi}
-    \end{itemize}
-   }
-
-   Nella grammtica i \textbf{simboli terminali} costituiscono le parole/lessemi del linguaggio (vocabolario), mentre i \textbf{simboli non terminali} sono le categorie sintattiche (diversi tipi di elementi).\\[0.2ex]
-   Le \textbf{produzioni} sono le regle di composizione degli elementi di una frase.\\[0.2ex]
-   Il \textbf{linguaggio} è l'insieme di tuttel le possibili frasi (stringhe di simboli non terminali).
-
-   \medskip
-   Il fatto che il linguaggio sia context-free costituisce un vincolo sulle produzioni perchè in un \textbf{qualunque contesto} troviamo quel non terminale, lo possiamo sotiure/rimpiazzare applicando una delle produzioni per il non terminale.\\[0.2ex]
-   In altre parole, il contesto in cui si trova un non terminale A, non pone un voncolo sulle produzioni per A che noi possiamo applicare.
-
-   Nei linguaggi si programmazione questo significa che il modo con cui possiamo sviluppare, per sostituzione, una categoria sintattica è indipendente dal contesto.
-
-   Questo è un vantaggio perché dato un programma abbiamo il problema di capire quale grammatica può averlo generato (parsing), e per le grammatiche CF esistono strumenti automatici efficienti di parsing.\\[0.2ex]
-   Dal punto di vista della complessità del parsing, questa dipende dal numero di simboli terminali della grammatica e dal grado di non determinismo delle produzioni. 
-   
-   Un linguaggio può essere generato da diverse grammatiche, quindi ai fini dell’efficenza del linguaggio è importante come si sceglie la grammatica.
-
-   \subsection{Notazione BNF}
-   La BNF è un metalinguaggio usato per descrivere linguaggi di programmazione.
-
-   \definition{notazione BNF}{
-    Notazione è usata per descrivere grammatiche CF, dove si usano intere parole come simboli terminali.\\[0.2ex]
-   I simboli non terminali sono identificati racchiudendoli tra parentesi angolate $\langle \rangle$ e per le produzion si una il simbolo $::=$ al posto della freccia.
-
-   \begin{equation*}
-    \langle A \rangle ::= \alpha \langle B \rangle \gamma \mid \alpha
-   \end{equation*}
-   \begin{equation*}
-    \langle B \rangle ::= \epsilon \mid \beta_1 \mid \beta_1 \mid \beta_2
-   \end{equation*}
-   }
-
-   \subsection{Definizione non formale}
-   Un linguaggio può essere descritto anche in modo informale, descrivendo i costrutti base:
-   \begin{itemize}[label=$\circ$]
-    \item niente dichiarazioni
-    \smallskip
-    \item solo variabili ed espressioni booleane
-    \smallskip
-    \item asseganmento e composizione sequenziale
-    \smallskip
-    \item comando condizionale
-    \smallskip
-    \item comando iterativo (loop)
-   \end{itemize}
-
-   Il linguaggio è descritto su più livelli di astrazione, ognuno descritto da una grammatica.
-
-   \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{images/livelli-PL.png}
-    \caption{livelli di un PL}
-   \end{figure}
-
-   \[
-    \begin{aligned}
-      &\textcolor{orange}{\texttt{<program>}} \quad &&\textcolor{orange}{\texttt{S}} \mathrel{\textcolor{orange}{\rightarrow}} \textcolor{violet}{\texttt{C}}\\
-      &\textcolor{violet}{\texttt{<com>}} \quad && \textcolor{violet}{\texttt{C}} \mathrel{\textcolor{orange}{\rightarrow}} \textcolor{verde}{\texttt{A}} \mathrel{\textcolor{red}{\mid}} \textcolor{violet}{\texttt{C}} \verb| ; C| \mathrel{\textcolor{red}{\mid}} \verb|if | \textcolor{blue}{\texttt{B}} \verb| then | \textcolor{violet}{\texttt{C}} \verb| else | \textcolor{violet}{\texttt{C}} \mathrel{\textcolor{blue}{\mid}} \verb|while | \textcolor{blue}{\texttt{B}} \verb| do | \textcolor{violet}{\texttt{C}}\\
-      &\textcolor{verde}{\texttt{<atomic com>}} \quad &&\textcolor{verde}{\texttt{A}} \mathrel{\textcolor{orange}{\rightarrow}} \verb|v := | \textcolor{blue}{\texttt{B}}\\
-      &\textcolor{blue}{\texttt{b-expr}} \quad &&\textcolor{blue}{\texttt{B}} \mathrel{\textcolor{orange}{\rightarrow}} \verb|true| \mathrel{\textcolor{red}{\mid}} \verb|false| \mathrel{\textcolor{red}{\mid}} \verb|v| \mathrel{\textcolor{red}{\mid}} \verb|(not | \textcolor{blue}{\texttt{B}} \verb|)| \mathrel{\textcolor{red}{\mid}} \verb|(| \textcolor{blue}{\texttt{B }} \verb|and | \textcolor{blue}{\texttt{B}} \verb|)| \mathrel{\textcolor{red}{\mid}} \verb|(| \textcolor{blue}{\texttt{B }} \verb|or | \textcolor{blue}{\texttt{B}} \verb|)|
-    \end{aligned}
-   \]
-
-   Nelle espressioni abbiamo una notazione completamente "parentesitizzata" per evitare ambiguità.\\[0.2ex]
-   L'ambiguità consiste nell'esistenza di più parse-tree per la stessa espressione.
-   
-   \section{Analisi semantica}
-   L'analisi semantica verifica (identifica) i \textbf{vincoli sintattici} (es. n parametri attuali = n parametri formali).\\[0.2ex]
-   Questi sono vincoli sul codice, quindi non catturati dalla grammatica e si definiscono \textcolor{verde}{contestuali}.
-
-   \begin{itemize}
-    \item sintassi $\rightarrow$ grammatica CF
-    \item semantica $\rightarrow$ tutti i processi di verifica ed esclusione che non sono descritti dalla sintassi
-   \end{itemize}
-
-   \subsection{Induzione strutturale}
-   L'\textbf{induzione matematica} permette di dimostrare prorprietà di insiemi numerabili, dove possiamo identificare ogni eleemnto con un elemento naturale su cui facciamo induzione.
-
-   L'\textcolor{verde}{\textbf{induzione strutturale}}, invece, permette di dimostrare prorietà di oggetti (es. insiemi) definiti in modo induttivo/ricorsivo.\\[0.2ex]
-   Ciò significa che su qualunque oggetto definito in modo induttivo possiamo fare induzione strutturale, ovvero dimostrare proprietà sulla struttura dell'oggetto, determinata dalla costruzione induttiva.
-
-   \definition{induzione strutturale}{
-    Per definire una proprietà $\Pi$ su tutti gli elemementi di un insieme definito in modo strutturale si può utilizzare l'induzione strutturale da una grammtica bisogna:
-    \begin{enumerate}
-      \item (\textbf{caso base}): dimostrare la proprietà su tutti gli elemementi base, cioè quelli che sono eplicitamente inseriti nell'insieme di stringhe generate dalla grammatica
-      \smallskip
-      \item (\textbf{passo induttivo}): dimostrare la proprietà sugli elementi composti sotto l'ipotesi induttiva che la proprietà valga per gli elementi che la compongono
-    \end{enumerate}
-   }
-
-   \esempio{}{
-    Considerimo l'insieme $X \subseteq \mathrm{N}$:
-    \begin{enumerate}
-      \item (caso base): $0 \in X$
-      \item (passo induttivo): se $n \in X$, allora $n + 3 \in X$
-    \end{enumerate}
-
-    La proprietà è $X = 3\mathrm{N}$.
-    La proprietà dimostrabile in modo strutturale è: $X \subseteq 3\mathrm{N}$:
-    \begin{enumerate}
-      \item (caso base): 0 è la base di $X$ e $0 \in 3\mathrm{N}$
-      \item (passo induttivo): dimostriamo $\forall n. n \in X \Rightarrow n \in 3\mathrm{N}$
-      
-      Prendiamo $n \in X$, l'ipotesi induttiva è la seguente:
-      \begin{equation*}
-        n \in X \rightarrow 3\mathrm{N}
-      \end{equation*}
-      bisogna dimostare che $n + 3 \in 3\mathrm{N}$.
-
-      Sappiamo che:
-      \[
-        \begin{aligned}
-          n \in 3\mathrm{N} &\Rightarrow \exists i. n = 3i\\
-          &\Rightarrow n + 3 = 3i + 3 = 3(i + 1) \in 3\mathrm{N}
-        \end{aligned}
-      \]
-    \end{enumerate}
-   }
-
-   \subsection{Semantica}
-   \definition{semantica}{
-    La \textbf{semantica} attribuisce un significato ad ogni frase sintatticamente corretta.
-   }
-
-   A seconda di quali strumenti matematici si utilizzano per desxcrivere i significati si ottengono tipi di semantiche diverse:
-   \begin{itemize}[label=$\triangleright$]
-    \item \textbf{semantica denotazionale}: 
-   \end{itemize}
+    %\include{Comandi}
 \end{document}
