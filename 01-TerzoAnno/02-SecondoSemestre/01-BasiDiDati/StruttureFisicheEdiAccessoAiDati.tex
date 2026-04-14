@@ -26,7 +26,7 @@ Le basi di dati risiedono nella \textcolor{azzurrino}{\textbf{memoria secondaria
 L'interazione tra memoria secondaria e memoria centrale avviene tramite il \textcolor{azzurrino}{\textbf{gestore del buffer}}, mediante il trasferimento di uno o più \textbf{blocchi} della memoria secondaria in \textbf{pagine} dedicate della memoria centrale (buffer).
 
 \vario{Precisazione}{
-  La dimensione delle pagine in memoria centrale sono siltamente un multiplo della dimensione dei blocchi in memoria secondaria.
+  La dimensione delle pagine in memoria centrale sono solitamente un multiplo della dimensione dei blocchi in memoria secondaria.
 
   \smallskip
   Per semplificare, si assume che siano uguali:
@@ -36,7 +36,7 @@ L'interazione tra memoria secondaria e memoria centrale avviene tramite il \text
 }
 
 \subsection{Buffer}
-Il \textcolor{azzurrino}{\textbf{buffer}} è una zona della memoria condivisa dalle applicazioni e una gestiona ottimale del buffer consente di ottenere buone prestazioni nell'accesso ai dati.\\[0.2ex]
+Il \textcolor{azzurrino}{\textbf{buffer}} è una zona della memoria condivisa dalle applicazioni e una gestione ottimale del buffer consente di ottenere buone prestazioni nell'accesso ai dati.\\[0.2ex]
 Quando uno stesso dato viene utilizzato più volte in tempi ravvicinati il buffer evita
 l'accesso alla memoria secondaria.
 
@@ -150,7 +150,7 @@ La \textcolor{azzurrino}{primitiva \texttt{flush}} viene utilizzata per salvare 
 Questa primitiva viene usata dal gestore del buffer.
 
 \begin{itemize}[label=$\Rightarrow$]
-  \item \textbf{effetto della modifica}: viene liberta la pagina "dirty" e il bit di stato J viene posto a 0
+  \item \textbf{effetto della modifica}: viene liberata la pagina "dirty" e il bit di stato J viene posto a 0
 \end{itemize}
 
 \section{Gestore dell'affidabilità}
@@ -183,7 +183,7 @@ Il file di LOG viene memorizzato in memoria stabile e al suo interno vengono mem
     \item $\boldsymbol{\mathrm{B(T)}}$: \textcolor{azzurrino}{\textbf{begin}} della transazione
     \item $\boldsymbol{\textbf{C(T)}}$: \textcolor{azzurrino}{\textbf{commit}} della transazione
     \item $\boldsymbol{\textbf{A(T)}}$: \textcolor{azzurrino}{\textbf{abort}} della transazione
-    \item $\boldsymbol{\textbf{I(T,O,AS)}}$: \textcolor{azzurrino}{\textbf{insert}} di un oggetto da parte di una transazione $\mathrm{T}$ con il suo after state $\mathrm{AS}$ (stato dell'oggetto dopo l'operazione)
+    \item $\boldsymbol{\textbf{I(T,O,AS)}}$: \textcolor{azzurrino}{\textbf{insert}} di un oggetto $\mathrm{O}$ da parte di una transazione $\mathrm{T}$ con il suo after state $\mathrm{AS}$ (stato dell'oggetto dopo l'operazione)
     \item $\boldsymbol{\mathrm{D(T,O,BS)}}$: \textcolor{azzurrino}{\textbf{delete}} di un oggetto $\mathrm{O}$ da parte della transizione $\mathrm{T}$ con il suo before state $\mathrm{BS}$ (stato dell'oggetto prima dell'operazione)
     \item $\boldsymbol{\mathrm{U(T,O,BS,AS)}}$: \textcolor{azzurrino}{\textbf{update}} di un oggetto $\mathrm{O}$ da parte della transizione $\mathrm{T}$ con il suo before state $\mathrm{BS}$ e il suo after state $\mathrm{AS}$
   \end{itemize}
@@ -209,7 +209,7 @@ I record di transazione salvati nel LOG consentono di eseguire in caso di ripris
 \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
   \item $\boldsymbol{\mathrm{UNDO}}$: viene usato per disfare un'azione su un oggetto $\mathrm{O}$ è sufficiente ricopiare in $\mathrm{O}$ il valore d $\mathrm{BS}$.
   
-  L'insert/delet viene disfatto cancellando/inserendo $\mathrm{O}$
+  L'insert/delete viene disfatto cancellando/inserendo $\mathrm{O}$
   \item $\boldsymbol{\mathrm{REDO}}$: serve per rifare un'azione su un oggetto $\mathrm{O}$ è sufficiente ricopiare in $\mathrm{O}$ il valore $\mathrm{AS}$.
   
   L'insert/delete viene rifatto inserendo/cancellando $\mathrm{O}$
@@ -231,7 +231,7 @@ Per queste operazioni vale la \textbf{proprietà di idempotenza}.
 \subsection{Regole di scrittura sul file di log}
 Il gestore dell'affibilità deve rispettare le seguenti regole di scrittura sul file di LOG:
 \begin{itemize}[label=$\Rightarrow$, itemsep=\smallskipamount]
-  \item \textbf{regola Write Ahead Logging}:record di LOG devono essere scritti sul LOG precedente all'esecuzione delle corrispondenti operazioni sulla base di dati (garantisce la possibilità di fare sempre UNDO)
+  \item \textbf{regola Write Ahead Logging}: record di LOG devono essere scritti sul LOG precedente all'esecuzione delle corrispondenti operazioni sulla base di dati (garantisce la possibilità di fare sempre UNDO)
   \item \textbf{regola di commit-precedenza}: record di LOG devono essere scritti sul LOG prima dell'esecuzione del $\texttt{commit}$ della transazione (garantisce la possibilità di fare sempre REDO)
 \end{itemize}
 
@@ -390,7 +390,7 @@ I metodi di accesso sono moduli software (es. scansione sequenziale, accesso via
 
 Ogni metodo di accesso conosce:
 \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
-  \item \textbf{organizzazione in tuple} (o dei record di indice) nei blocchi dati (indice) salavati in memoria secondaria
+  \item \textbf{organizzazione in tuple} (o dei record di indice) nei blocchi dati (indice) salvati in memoria secondaria
   \item \textbf{organizzazione fisica interna delle pagine} sia quando contengono dati, sia quando contengono strutture fisiche di accesso (indici)
 \end{itemize}
 
@@ -419,8 +419,8 @@ All'interno di una pagina sono presenti:
   Dizionari di pagina e parte utile crescono come stack contrapposti, lasciando libera la parte centrale in uno spazio contiguo.
 }
 
-In caso di \textbf{tuple di lunghezza fissa}, il dizionario non è necessario: si memorizza la dimensione delle tutple e l'offset del punto iniziale.\\[0.2ex]
-In caso di di \textbf{tuple di lunghezza variabile}, il dizionario memorizza l'offset di ogni tupla presente nel blocco e di ogni attributo di ogni tupla.
+In caso di \textbf{tuple di lunghezza fissa}, il dizionario non è necessario: si memorizza la dimensione delle tuple e l'offset del punto iniziale.\\[0.2ex]
+In caso di \textbf{tuple di lunghezza variabile}, il dizionario memorizza l'offset di ogni tupla presente nel blocco e di ogni attributo di ogni tupla.
 
 Molti gestori delle pagine non consentono la separazione di una tupla su più pagine:
 \begin{equation*}
@@ -430,7 +430,7 @@ Molti gestori delle pagine non consentono la separazione di una tupla su più pa
 Alcuni gestori delle pagine consentono di distribuire una tupla su più pagine, altrimenti va gestito il caso di tuple memorizzato su più pagine.
 
 \subsection{Operazioni sulle pagine}
-Le princpali operazioni che si possono eseguire sulle pagine sono:
+Le principali operazioni che si possono eseguire sulle pagine sono:
 \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
   \item \textbf{inserimento/aggiornamento di una tupla}:
   \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
@@ -499,13 +499,13 @@ Le tuple sono disposte come in un array, e la loro posizione dipende dal valore 
 Questa struttura è utilizzabile soltanto quando le tuple di una tabella
 hanno una dimensione fissa, infatti non è quasi masi usata nei DBMS reali perchè difficilmente sono soddisfatte le condizioni per la sua applicazione.
 
-Ad ogni file viene assegnato un numero n di blocchi contigui e ciascun blocco è dotato di un numero m di posizioni disponibili per le tuple (quindi è un array bidimensionale $\mathrm{n \times m}$).\\[0.2ex]
+Ad ogni file viene assegnato un numero $\boldsymbol{n}$ di blocchi contigui e ciascun blocco è dotato di un numero m di posizioni disponibili per le tuple (quindi è un array bidimensionale $\mathrm{n \times m}$).\\[0.2ex]
 Ogni tupla è dotata di un valore numerico i che rappresenta l'indice della tupla in i-esima posizione nell'array.
 
 \begin{itemize}[label=$\Rightarrow$, itemsep=\smallskipamount]
   \item \textbf{inserimento}
   \begin{itemize}[itemsep=\smallskipamount]
-    \item Iniziale: l’indice i viene ottenuto incrementando un contatore
+    \item Iniziale: l’indice $\boldsymbol{i}$ viene ottenuto incrementando un contatore
     \item Successivo: in una posizione libera oppure alla fine del file
   \end{itemize}
   \item \textbf{cancellazione}: creano delle posizioni libere
@@ -635,13 +635,13 @@ Le operazioni che si possono eseguire su un indice secondario sono:
 
 \subsubsection{Struttura ad albero}
 Quando l'indice aumenta di dimensioni, non si può più gestire in memoria centrale, di conseguenza deve essere gestito in memoria secondaria.\\[0.2ex]
-Per migliorare le prestazioni degli accessi a un indice di grandi dimensioni, si utilizza il il $\verb|B+-tree|$, in cui:
+Per migliorare le prestazioni degli accessi a un indice di grandi dimensioni, si utilizza il $\verb|B+-tree|$, in cui:
 \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
   \item ogni nodo viene memorizzato in una pagina della memoria secondaria
   \item legami tra nodi = puntatori a pagina
   \item sono presenti molti figli e di conseguenza ha pochi livelli
   \item albero bilanciato: la lunghezza dei percorsi che collegano la radice ai nodi foglia è costante
-  \item insierimenti e cancellazioni non alterano le prestazioni dell'accesso ai dati: l'albero si mantiene bilanciato
+  \item inserimenti e cancellazioni non alterano le prestazioni dell'accesso ai dati: l'albero si mantiene bilanciato
 \end{itemize}
 
 \paragraph{Struttura}
@@ -654,8 +654,8 @@ La struttura di un $\verb|B+-tree|$ con fan-out = n (n figli per nodo) è la seg
     \includegraphics[width=0.5\textwidth]{images/nodo-foglia-BTree.png}  
   \end{figure}
 
-  Può contenere fino a $\mathrm{n - 1}$ valori ordinati di chiave di ricerca e fino a $\mathrm{n}$ puntatori ai dati.\\[0.2ex]
-  Ogni nodo foglia ha un vincolo di ordinamento,cioè:
+  Può contenere fino a $\boldsymbol{n - 1}$ valori ordinati di chiave di ricerca e fino a $\boldsymbol{n}$ puntatori ai dati.\\[0.2ex]
+  Ogni nodo foglia ha un vincolo di ordinamento, cioè:
   \begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
     \item chiavi dentro a un nodo foglia sono ordinate
     \item nodi foglia sono ordinati tra di loro.
@@ -688,7 +688,7 @@ La struttura di un $\verb|B+-tree|$ con fan-out = n (n figli per nodo) è la seg
 \end{itemize}
 
 \paragraph{Vincoli di riempimento}
-Il fan-out è un parametro che fornisce il limite massimo, ma bisogna anche fornire un limite minimo per evitare che i nodi siano troppo vuoti e sono chimati \textbf{vincoli di riempimento}:
+Il fan-out è un parametro che fornisce il limite massimo, ma bisogna anche fornire un limite minimo per evitare che i nodi siano troppo vuoti e sono chiamati \textbf{vincoli di riempimento}:
 \begin{itemize}[label=$\diamond$, itemsep=\medskipamount]
   \item \textbf{vincoli per i nodi foglia}: ogni nodo foglia può contenere un numero di valori di chiavi ($\mathrm{\# \ chiavi}$) vincolato come:
   \begin{equation*}
@@ -708,7 +708,7 @@ Il fan-out è un parametro che fornisce il limite massimo, ma bisogna anche forn
 }
 
 \paragraph{Operazione: ricerca con chiave K}
-Per effettuare la ricerca di una tupla con chiave di ricerca K si efettuano i seguenti passi:
+Per effettuare la ricerca di una tupla con chiave di ricerca K si effettuano i seguenti passi:
 \begin{enumerate}[itemsep=\medskipamount]
   \item \textbf{cercare nel nodo radice il più piccolo valore di chiave maggiore di K}
   \begin{itemize}[label=$\triangleright$, itemsep=\medskipamount]
@@ -737,8 +737,8 @@ Per effettuare la ricerca di una tupla con chiave di ricerca K si efettuano i se
   \end{figure}
 }
 
-Il costo della ricerca dipende dalla profondità della'lbero in termini di \textbf{accessi alla memoria secondaria}, dove ogni metodo rappresenta un blocco.\\[0.2ex]
-Il costo in una struttura ad alberp è pari alla profondità dell'albero, che nel $\verb|B+-tree|$ è indipendente dal percorso ed è funzione del fan-out $\mathrm{n}$ e del numero di valori di chiave presente nell'albero $\mathrm{\# \ valoriChiave}$.
+Il costo della ricerca dipende dalla profondità dell'albero in termini di \textbf{accessi alla memoria secondaria}, dove ogni metodo rappresenta un blocco.\\[0.2ex]
+Il \underline{costo in una struttura ad albero} è pari alla profondità dell'albero, che nel $\verb|B+-tree|$ è indipendente dal percorso ed è funzione del fan-out $\mathrm{n}$ e del numero di valori di chiave presente nell'albero $\mathrm{\# \ valoriChiave}$.
 \begin{equation*}
   \mathrm{prof_{B+-tree}} \leq \underbrace{1}_{\text{radice}} + \underbrace{\log_{\left\lceil \frac{n}{2} \right\rceil} \left( \frac{\overbrace{\# \text{valoriChiave}}^{\text{nodi foglia massimi}}}{\left\lceil \frac{n - 1}{2} \right\rceil} \right)}_{\text{\# livelli}}
 \end{equation*}
@@ -771,7 +771,7 @@ Per inserire una tupla in un $\verb|B+-tree|$ bisogna mantenere i vincoli di rie
   \end{enumerate}
 \end{enumerate}
 
-\esempio{plit di un nodo foglia}{
+\esempio{split di un nodo foglia}{
   Lo split di un nodo foglia con fan-out = 5 è il seguente:
 
   \begin{figure}[H]
@@ -815,7 +815,7 @@ Per cancellare una tupla in un $\verb|B+-tree|$ con chiave K bisogna mantenere i
 
 \subsubsection{Struttura ad accesso calcolato (hash)}
 Questra struttura garantisce un \textbf{accesso associativo} alle tuple, cioè la locazione fisica dei dati dipende dal valore assunto dalla chiave.\\[0.2ex]
-Si potrebbe utilizzare un array indicizzato dalla ciave, ma questo non è pratico perchè i valori della chiave sono tanti, quindi, si utilizza una \textbf{funzione di hash} che mappa i valori di chiave in indirizzi di memorizzazione delle tuple:
+Si potrebbe utilizzare un array indicizzato dalla chiave, ma questo non è pratico perchè i valori della chiave sono tanti, quindi, si utilizza una \textbf{funzione di hash} che mappa i valori di chiave in indirizzi di memorizzazione delle tuple:
 \begin{equation*}
   \mathrm{h : K \rightarrow B}
 \end{equation*}
@@ -873,8 +873,8 @@ Si definiscono due funzioni:
 Per efettuare la ricerca di una tupla con chiave di ricerca K si efettuano i seguenti passi:
 \begin{enumerate}[itemsep=\medskipamount]
   \item calcolare $\mathrm{b = h(f(K))}$ (costo zero)
-  \item accendere al bucket $\mathrm{b}$ (costo: 1 accesso alla pagina di memoria secondaria)
-  \item accendere alle $\mathrm{n}$ tupe attraverso i puntatori del bucket (costo: $\mathrm{m}$ accessi a pagine di memoria secondaria, con $\mathrm{m \leq n}$)
+  \item accedere al bucket $\mathrm{b}$ (costo: 1 accesso alla pagina di memoria secondaria)
+  \item accedere alle $\mathrm{n}$ tupe attraverso i puntatori del bucket (costo: $\mathrm{m}$ accessi a pagine di memoria secondaria, con $\mathrm{m \leq n}$)
 \end{enumerate}
 
 L'inserimento e la cancellazione hanno costo simile alla ricerca.
@@ -890,7 +890,7 @@ Infatti, il problema delle strutture ad accesso calcolato è la gestione delle c
   \end{equation*}
 }
 
-La probabilità che uno stesso bucket riceva $\mathrm{t}$ chiavi su $\mathrm{n}$ insierimenti è:
+La probabilità che uno stesso bucket riceva $\mathrm{t}$ chiavi su $\mathrm{n}$ inserimenti è:
 \begin{equation*}
   \mathrm{p(t) = \binom{n}{t} \cdot (\frac{1}{B})^t \cdot (1 - \frac{1}{B})^{n - t}}
 \end{equation*}
