@@ -1,5 +1,4 @@
-        P:
-            z := 2;
-            y := z;
-            y := y+1;
-            z := y;
+    <Exp>
+    E -> A | B
+    A -> I | n | A op A
+    B -> I | true | false | not B | B or B | A = A

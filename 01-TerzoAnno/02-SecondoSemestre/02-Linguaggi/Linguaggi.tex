@@ -63,10 +63,15 @@
   \hbox to\headwidth{\color{colore}\leaders\hrule height \headrulewidth\hfill}}
 
 % --- 6. MATEMATICA E SIMBOLI ---
-\usepackage{amsmath}
+\usepackage{amsmath, amsfonts}
 \usepackage{amssymb}
 \usepackage{stmaryrd}
+\usepackage{mathpartir}
 \usepackage{cancel}
+\usepackage{ebproof}
+
+% Definizione di un comando per la transizione (opzionale, per comodità)
+\newcommand{\trans}[1]{\xrightarrow{#1}}
 
 % --- 7. TABELLE E LISTE ---
 \usepackage{longtable}
@@ -120,6 +125,8 @@
     \include{DescrivereLinguaggi}
     
     \include{Espressioni}
+
+    \include{Dichiarazioni}
     
     %\include{Comandi}
 \end{document}
