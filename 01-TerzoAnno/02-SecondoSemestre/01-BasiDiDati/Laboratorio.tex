@@ -941,7 +941,7 @@ HAVING AVG(media) >23.47 ;
 \subsection{Interrogazione con JOIN}
 
 \begin{codiceSQL}
-  TABLE1 join_typeTABLE2 ON join_condition[, ...].
+  TABLE1 join_type TABLE2 ON join_condition[, ...].
 \end{codiceSQL}
 
 
@@ -951,26 +951,24 @@ Le tuple selezionate possono essere poi filtrate con la condizione della clausol
 Il prodotto cartesiano di due o più tabelle è un \textcolor{cyan}{CROSS JOIN}.
 
 
-\textbf{\large Interrogazioni con INNER JOIN
-Rappresenta}
+\textbf{\large Interrogazioni con INNER JOIN}
 
 \begin{codiceSQL}
-  table1 [ INNER] JOIN table2 ON join_condition[, ...]
+  table1 [INNER] JOIN table2 ON join_condition[, ...]
 \end{codiceSQL}
 
 
 Rappresenta il tradizionale $\theta$ join dell’algebra relazionale.
-Combina ciascuna riga r1 di table1 con ciascuna riga di table2 che soddisfa la condizione della clausola ON.
-table1 [ INNER] JOIN table2 ON join\_condition[, ...]
+Combina ciascuna riga \texttt{r1} di \texttt{table1} con ciascuna riga di \texttt{table2} che soddisfa la condizione della clausola ON.
 
 
 
 \subsection{Interrogazioni con LEFT OUTER JOIN}
 \begin{codiceSQL}
-  table1 LEFT[ OUTER] JOIN table2 ON join_condition[, ...].
+  table1 LEFT[OUTER] JOIN table2 ON join_condition[, ...].
 \end{codiceSQL}
 
-Si esegue un INNER JOIN. Poi, per ciascuna riga r1 di table1 che non soddisfa la condizione con qualsiasi riga di table2, si aggiunge una riga al risultato con i valori di r1 e assegnando NULL agli altri attributi..
+Si esegue un INNER JOIN. Poi, per ciascuna riga \texttt{r1} di \texttt{table1} che non soddisfa la condizione con qualsiasi riga di \texttt{table2}, si aggiunge una riga al risultato con i valori di \texttt{r1} e assegnando NULL agli altri attributi..
 
 Il LEFT [OUTER] JOIN non è simmetrico!
 Con le medisime tabelle si possono ottenere risultati diversi invertendo l’ordine delle tabelle nel join!
@@ -979,7 +977,7 @@ Con le medisime tabelle si possono ottenere risultati diversi invertendo l’ord
 \subsection{Interrogazioni con RIGHT OUTER JOIN}
 
 \begin{codiceSQL}
-  table1 RIGHT[ OUTER] JOIN table2 ON join_condition[, ...].
+  table1 RIGHT[OUTER] JOIN table2 ON join_condition[, ...].
 \end{codiceSQL}
 
 Si esegue un INNER JOIN. Poi, per ciascuna riga r2 di table2 che non soddisfa la condizione con qualsiasi riga di table1, si aggiunge una riga al risultato con i valori di r2 e assegnando NULL agli altri attributi..
@@ -988,14 +986,23 @@ Si esegue un INNER JOIN. Poi, per ciascuna riga r2 di table2 che non soddisfa la
 \subsection{Interrogazioni con FULL OUTER JOIN}
 
 \begin{codiceSQL}
-  table1 FULL[ OUTER] JOIN table2 ON join\_condition[, ...].
+  table1 FULL[OUTER] JOIN table2 ON join\_condition[, ...].
 \end{codiceSQL}
 
 \begin{itemize}
-  \item È equivalentea:INNER JOIN + LEFT OUTER JOIN + RIGHT OUTER JOIN.
-  \item \textcolor{black!60!red}{Non è equivalentea CROSS JOIN!}
+  \item È equivalente a: INNER JOIN + LEFT OUTER JOIN + RIGHT OUTER JOIN.
+  \item \textcolor{black!60!red}{Non è equivalente a CROSS JOIN!}
 \end{itemize}
 
+
+\vario{Quando usare left join rispetto a right join?}{
+\begin{itemize}
+  \item \textbf{JOIN}: Solo i record che fanno "match" in entrambe le tabelle.
+  \item \textbf{LEFT JOIN}:	Tutto ciò che sta nella prima tabella scritta, con i NULL se manca il pezzo della seconda.
+  \item \textbf{RIGHT JOIN}: Tutto ciò che sta nella seconda tabella scritta, con i NULL se manca il pezzo della prima.
+  \item \textbf{FULL JOIN}: Tutti i dati di entrambe le tabelle, allineando ciò che combacia e mettendo NULL ovunque manchi una corrispondenza.
+\end{itemize}
+}
 
   \section{Interrogazioni nidificate e insiemistiche}
 
@@ -1011,10 +1018,18 @@ fosse una tabella di base
 
 \begin{codiceSQL}
   SELECT titolo, prezzoIntero
-FROM Mostra, ( SELECT MAX ( prezzoIntero ) 
-FROM Mostra ) AS T( prezzoMax )
+FROM Mostra, ( 
+  SELECT MAX ( prezzoIntero ) 
+  FROM Mostra 
+) AS T( prezzoMax )
 WHERE prezzoIntero = prezzoMax;
 \end{codiceSQL}
+dove:
+\begin{itemize}
+  \item \textbf{T}: alias della tabella. La query interna ha generato una tabellina "anonima", noi la chiamiamo temporaneamente con la lettera T
+  \item \textbf{(prezzoMax)}: alias della colonna
+\end{itemize}
+
 
 \subsection{Clausola WHERE}
 Il predicato (predicato complesso) nella clausola WHERE confronta un valore (ottenuto come espressione valutata sulla singola riga), con il risultato dell'esecuzione di un'interrogazione SQL (in generale un insieme di valori). 
@@ -1045,7 +1060,7 @@ expression operator SOME( subquery )
   \item \textcolor{orange}{expression} è un’espressione che coinvolge attributi della SELECT principale.
   \item (\textcolor{orange}{subquery}) è una \textcolor{purple}{SELECT} che deve restituire UNA sola colonna;
   \item \textcolor{orange}{operator} è un operatore di confronto, come ’=’, ’>=’, ...
-  \item \textcolor{purple}{ANY} :è vero se la condizione è vera per almeno un valore della subquery.
+  \item \textcolor{purple}{ANY}: è vero se la condizione è vera per almeno un valore della subquery.
   \item \textcolor{purple}{SOME} è uno sinonimo di \textcolor{purple}{ANY}
 \end{itemize}
 
@@ -1055,9 +1070,11 @@ inferiore alla media dell’ateneo di un qualsiasi anno accademico.}
 
 \begin{codiceSQL}
   SELECT DISTINCT I.nomeins , IE.crediti
-FROM Insegn I JOIN InsErogato IE ON I.id=IE.id_insegn
+FROM Insegn I 
+  JOIN InsErogato IE ON I.id=IE.id_insegn
 WHERE IE.crediti < ANY (
-  SELECT AVG ( crediti ) FROM InsErogato
+  SELECT AVG ( crediti ) 
+  FROM InsErogato
   WHERE modulo =0
   GROUP BY annoaccademico
   );
@@ -1083,10 +1100,12 @@ occorrenze insegnamento genitore)}
 
 \begin{codiceSQL}
   SELECT DISTINCT I. nomeins , IE. crediti
-FROM Insegn I JOIN InsErogato IE ON I.id = IE. id_insegn
-JOIN Docenza D ON IE.id = D. id_inserogato
+FROM Insegn I 
+  JOIN InsErogato IE ON I.id = IE. id_insegn
+  JOIN Docenza D ON IE.id = D. id_inserogato
 WHERE IE. modulo = 0 AND IE. crediti > ALL (
-  SELECT crediti FROM InsErogato
+  SELECT crediti 
+  FROM InsErogato
   WHERE id_corsostudi = 6 AND modulo =0
   );
 \end{codiceSQL}
@@ -1094,7 +1113,7 @@ WHERE IE. modulo = 0 AND IE. crediti > ALL (
 \subsubsection{Operatore IN}
 E’ un operatore utilizzabile nei predicati complessi.
 \begin{codiceSQL}
-\[ROW\]( expr \[ ,...\]) IN ( subquery )  
+ROW ( expr [ ,...]) IN ( subquery )  
 \end{codiceSQL}
 \begin{itemize}
   \item \textcolor{orange}{expr} è un’espressione costruita con un attributo della query principale. Ci 
@@ -1113,9 +1132,9 @@ subquery.
 un’altra azienda.}
 \begin{codiceSQL}
 SELECT I.nome , I.cognome
-FROMImpiegato I
+FROM Impiegato I
 WHERE ROW( I.nome , I.cognome ) IN (
-SELECT I1.nome, I1. cognome FROM ImpiegatoAltraAzienda I1)
+SELECT I1.nome, I1.cognome FROM ImpiegatoAltraAzienda I1)
 \end{codiceSQL}
 
 
@@ -1131,8 +1150,8 @@ E’ una clausola utilizzabile nei predicati complessi
   \item (subquery) è una \textcolor{purple}{SELECT}.
   \item \textcolor{purple}{EXISTS} ritorna falso se (subquery) non contiene righe; altrimenti vero.
   \item \textcolor{purple}{EXISTS} è significativo quando nella (subquery) si selezionano righe usando i 
-valori della riga corrente nella \textcolor{purple}{SELECT} principale: \textcolor{red}{data binding. Vale a dire 
-se subquery è un'interrogazione dipendente dalla query esterna}
+valori della riga corrente nella \textcolor{purple}{SELECT} principale: \textcolor{black!60!red}{data binding. 
+Vale a dire se subquery è un'interrogazione dipendente dalla query esterna}
 \end{itemize}
 
 
@@ -1143,11 +1162,12 @@ lunghezza}
   SELECT I. nome
 FROM Impiegato I
 WHERE EXISTS (
-SELECT 1 FROM Impiegato I1 WHERE I.nome <> I1. nome
-AND CHAR_LENGTH( I.nome ) = CHAR_LENGTH( I1. nome )
+  SELECT 1 
+  FROM Impiegato I1 
+  WHERE I.nome <> I1. nome AND CHAR_LENGTH( I.nome ) = CHAR_LENGTH( I1. nome )
 )
 \end{codiceSQL}
-I.nome nella subquery è il valore di nome nella riga corrente della SELECT 
+\texttt{I.nome} nella subquery è il valore di nome nella riga corrente della SELECT 
 principale
 
 
@@ -1162,7 +1182,9 @@ tenuto almeno due insegnamenti (o moduli) con più di 24 crediti nel 2010/2011}
   SELECT P.nome , P.cognome
 FROM Persona P
 WHERE EXISTS (
-SELECT 1 FROM Docenza D JOIN InsErogato IE ON D. id_inserogato = IE.id
+SELECT 1 
+FROM Docenza D 
+  JOIN InsErogato IE ON D. id_inserogato = IE.id
 WHERE IE. crediti > 24 AND D. coordinatore = '0'
 AND IE. annoaccademico = '2010/2011' AND D. id_persona = P.id
 GROUP BY D. id_persona
@@ -1179,11 +1201,13 @@ erogato insegnamenti il cui nome contiene la sottostringa ’Info’.}
 \begin{codiceSQL}
   SELECT CS. nome FROM CorsoStudi CS
 WHERE NOT EXISTS (
-SELECT 1 FROM InsErogato IE JOIN Insegn I ON IE. id_insegn = 
-I.id
-WHERE I.nomeins LIKE '%Info%'
-AND IE.annoaccademico = '2006/2007'
-AND IE.id_corsostudi = CS.id)
+  SELECT 1 
+  FROM InsErogato IE 
+    JOIN Insegn I ON IE. id_insegn = I.id
+  WHERE I.nomeins LIKE '%Info%'
+  AND IE.annoaccademico = '2006/2007'
+  AND IE.id_corsostudi = CS.id
+)
 \end{codiceSQL}
 
 
@@ -1194,11 +1218,11 @@ AND IE.id_corsostudi = CS.id)
   query_1 { UNION | INTERSECT | EXCEPT } [ALL] query_2
 \end{codiceSQL}
 
-SQL mette a disposizione anche degli operatori insiemistici UNION, INTERSECT e 
-EXCEPT per manipolare i risultati di più query.
+SQL mette a disposizione anche degli operatori insiemistici \texttt{UNION}, \texttt{INTERSECT} e 
+\texttt{EXCEPT} per manipolare i risultati di più query.
 Gli operatori insiemistici si possono utilizzare solo al livello più esterno di una 
-query, operando sul risultato di due o più clausole SELECT.
-Si possono avere sequenze di UNION/INTERSECT/EXCEPT
+query, operando sul risultato di due o più clausole \texttt{SELECT}.
+Si possono avere sequenze di \texttt{UNION/INTERSECT/EXCEPT}
 
 
 Gli operatori si possono applicare solo quando \textcolor{cyan}{query1} e \textcolor{cyan}{query2} producono 
@@ -1206,9 +1230,9 @@ risultati con lo stesso numero di colonne e di tipo compatibile fra loro.
 Tutti gli operatori eliminano i duplicati dal risultato a meno che ALL non sia 
 stato specificato.
 \begin{itemize}
-  \item \textcolor{red}{UNION} aggiunge il risultato di \textcolor{cyan}{query2} a quello di \textcolor{cyan}{query1}.
-  \item \textcolor{red}{INTERSECT} restituisce le righe che sono presenti sia nel risultato di \textcolor{cyan}{query1} sia in quello di \textcolor{cyan}{query2}
-  \item \textcolor{red}{EXCEPT} restituisce le righe di \textcolor{cyan}{query1} che non sono presenti nel risultato di \textcolor{cyan}{query2}. In pratica esegue la differenza insiemistica
+  \item \textcolor{red}{\textbf{UNION}} aggiunge il risultato di \textcolor{cyan}{query2} a quello di \textcolor{cyan}{query1}.
+  \item \textcolor{red}{\textbf{INTERSECT}} restituisce le righe che sono presenti sia nel risultato di \textcolor{cyan}{query1} sia in quello di \textcolor{cyan}{query2}
+  \item \textcolor{red}{\textbf{EXCEPT}} restituisce le righe di \textcolor{cyan}{query1} che non sono presenti nel risultato di \textcolor{cyan}{query2}. In pratica esegue la differenza insiemistica
 
 
 \end{itemize}
