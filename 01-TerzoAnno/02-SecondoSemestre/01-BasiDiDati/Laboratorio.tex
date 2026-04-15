@@ -514,18 +514,18 @@ WHERE Eta < 30
 \subsubsection{Concatenazione stringhe}
 L'operatore di concatenazione || è un operatore scalare (o operatore di riga).
 
-Lavora su una singola riga alla volta. Se la tua tabella ha 100 righe, il costrutto titolo || ' - ' || citta calcolerà e restituirà 100 risultati testuali separati, uno per ogni riga.
+Lavora su una singola riga alla volta. Se la tua tabella ha 100 righe, il costrutto \texttt{SELECT titolo || ' - ' || città} calcolerà e restituirà 100 risultati testuali separati, uno per ogni riga.
 
-\vario{nota}{Non è un'esclusiva della SELECT}
-può infatti essere utilizzato anche 
+\vario{nota}{Non è un'esclusiva di SELECT, può infatti essere utilizzato anche nella clausola WHERE e nella clausola ORDER BY}
 
-\textbf{\large Nella clausola WHERE (per filtrare i dati)}
+
+\textbf{\large Concatenazione in clausola WHERE (per filtrare i dati)}
 \begin{codiceSQL}
   -- Trova la riga in cui l'unione di nome e cognome da esattamente 'Mario Rossi'
 WHERE nome || ' ' || cognome = 'Mario Rossi'
 \end{codiceSQL}
 
-\textbf{\large Nella clausola ORDER BY (per ordinare i risultati)}
+\textbf{\large Concatenazione in clausola ORDER BY (per ordinare i risultati)}
 \begin{codiceSQL}
   -- Ordina i risultati basandosi sull'unione testuale dei due campi
 ORDER BY titolo || citta
