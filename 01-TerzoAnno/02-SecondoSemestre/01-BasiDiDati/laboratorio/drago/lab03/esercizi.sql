@@ -88,12 +88,12 @@ Si visualizzi il nome dell’insegnamento, il discriminante
 Soluzione: ci sono 27 righe.
 */
 
-SELECT DISTINCT i.nomeins, d.descrizione, ins.modulo, ins.nomemodulo
+SELECT i.nomeins, d.descrizione, ins.modulo, ins.nomemodulo
 FROM inserogato	ins
 	JOIN insegn i ON i.id = ins.id_insegn	
-	JOIN discriminante d ON d.id = ins.id_discriminante
-	JOIN facolta f ON f.id = ins.id_facolta
 	JOIN corsoinfacolta cif ON cif.id_corsostudi = ins.id_corsostudi
+	JOIN facolta f ON f.id = cif.id_facolta
+	JOIN discriminante d ON d.id = ins.id_discriminante
 WHERE ins.annoaccademico = '2010/2011' AND f.nome = 'Economia' AND ins.modulo > 0
 
 /*
@@ -215,3 +215,20 @@ GROUP BY cs.nome, f.nome
 
 SELECT *
 FROM facolta
+
+/*
+Esercizio 15
+Trovare i corsi di studi che nel 2010/2011 hanno erogato insegnamenti con un numero di crediti 
+pari a 4 o 6 o 8 o 10 o 12 o un numero di crediti di laboratorio tra 10 e 15 escluso, 
+riportando il nome del corso di studi e la sua durata. Si ricorda che i crediti di laboratorio sono 
+rappresentati dall’attributo creditilab della tabella InsErogato.
+Soluzione: ci sono 197 righe.
+*/
+
+SELECT DISTINCT cs.nome, cs.durataanni, ins.crediti, ins.creditilab
+FROM inserogato ins
+	JOIN corsostudi cs ON cs.id = ins.id_corsostudi
+	JOIN corsoinfacolta CF ON CF.id_corsostudi = cs.id
+	--JOIN facolta f ON f.id = CF.id_facolta
+WHERE ins.annoaccademico = '2010/2011' AND (ins.crediti IN(4,6,8,10,12) OR (ins.creditilab >= 10 AND 
+	ins.creditilab < 15))
