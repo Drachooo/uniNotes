@@ -89,12 +89,17 @@ Soluzione: ci sono 27 righe.
 */
 
 SELECT i.nomeins, d.descrizione, ins.modulo, ins.nomemodulo
-FROM inserogato	ins
-	JOIN insegn i ON i.id = ins.id_insegn	
-	JOIN corsoinfacolta cif ON cif.id_corsostudi = ins.id_corsostudi
-	JOIN facolta f ON f.id = cif.id_facolta
-	JOIN discriminante d ON d.id = ins.id_discriminante
+FROM inserogato ins
+	JOIN corsoinfacolta cf ON cf.id_corsostudi = ins.id_corsostudi
+	JOIN facolta f ON f.id = cf.id_facolta
+	JOIN insegn i ON i.id = ins.id_insegn
+	JOIN discriminante d ON d.id = ins.id_discriminante 
 WHERE ins.annoaccademico = '2010/2011' AND f.nome = 'Economia' AND ins.modulo > 0
+/* 
+importante non perdersi i collegamenti tra corsoinfacolta e facolta. Se collego tutto per inserogato 
+quel collegamento viene completamente perso 
+*/
+
 
 /*
 Esercizio 8
@@ -225,10 +230,67 @@ rappresentati dall’attributo creditilab della tabella InsErogato.
 Soluzione: ci sono 197 righe.
 */
 
-SELECT DISTINCT cs.nome, cs.durataanni, ins.crediti, ins.creditilab
+SELECT DISTINCT cs.nome, cs.durataAnni
 FROM inserogato ins
 	JOIN corsostudi cs ON cs.id = ins.id_corsostudi
-	JOIN corsoinfacolta CF ON CF.id_corsostudi = cs.id
-	--JOIN facolta f ON f.id = CF.id_facolta
 WHERE ins.annoaccademico = '2010/2011' AND (ins.crediti IN(4,6,8,10,12) OR (ins.creditilab >= 10 AND 
 	ins.creditilab < 15))
+
+
+/*
+Esercizio 16
+Trovare nome, cognome dei docenti che nell’anno accademico 2010/2011 erano docenti in almeno 
+due corsi di studio (vale a dire erano docenti in almeno due insegnamenti o moduli A e B 
+dove A è del corso C1 e B è del corso C2 con C1 <> C2).
+La soluzione ha 839 righe. Se si ordina la risposta per un opportuno attributo, 
+le 5 righe a partire dalla 50-esima sono:
+id | nome | cognome
+-----+------------+---------
+268 | Paolo | Roffia
+269 | Andrea | Lionzo
+270 | Corrado | Corsi
+278 | Alessandro | Lai
+280 | Giuseppe | Ceriani
+*/
+
+SELECT p.nome, p.cognome
+FROM inserogato ins
+	JOIN docenza dc ON dc.id_inserogato = ins.id
+	JOIN persona p ON p.id = dc.id_persona
+WHERE ins.annoaccademico = '2010/2011'
+GROUP BY p.id, p.nome, p.cognome
+HAVING COUNT(DISTINCT ins.id_corsostudi) >= 2
+
+
+/*
+Esercizio 17
+Trovare per ogni periodo di lezione del 2010/2011 la cui descrizione inizia con ’I semestre’ o
+’Primo semestre’ il numero di occorrenze di insegnamento allocate in quel periodo. 
+Si visualizzi quindi: l’abbreviazione, il discriminante, inizio, fine e 
+il conteggio richiesto ordinati rispetto all’inizio e fine.
+La soluzione ha 3 righe:
+abbreviazione | discriminante | inizio | fine | insprimosem
+---------------+----------------+--------------+--------------+-------------
+Primo semestre | eco | 2010 -10 -04 | 2010 -12 -22 | 104
+Primo semestre | Primo semestre | 2010 -10 -04 | 2011 -01 -22 | 124
+I semestre | I semestre | 2010 -10 -04 | 2011 -01 -31 | 159
+*/
+
+SELECT pl.abbreviazione, pd.discriminante, pd.annoaccademico, pd.inizio, pd.fine, COUNT(IIP.id_inserogato)
+FROM periododid pd
+	JOIN PeriodoLez pl ON PD.id = pl.id
+	JOIN InsInPeriodo IIP ON pl.id = IIP.id_periodolez
+WHERE pd.annoaccademico = '2010/2011' 
+	AND (pd.descrizione LIKE 'I semestre%' OR pd.descrizione LIKE 'Primo semestre')
+GROUP BY pd.id, pl.abbreviazione
+ORDER BY inizio, fine
+
+SELECT *
+FROM periododid
+
+/*
+Esercizio 18
+Trovare per ogni segreteria che serve almeno un corso di studi il numero di corsi di studi serviti, 
+riportando il nome della struttura, il suo numero di fax e il conteggio richiesto.
+La soluzione ha 42 righe.
+*/
