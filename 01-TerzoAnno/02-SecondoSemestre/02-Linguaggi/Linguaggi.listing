@@ -1,4 +1,2 @@
-    <Exp>
-    E -> A | B
-    A -> I | n | A op A
-    B -> I | true | false | not B | B or B | A = A
+    <Dec>
+    D -> nil | \rho | const x : \tau = e | D ; D | D in D
