@@ -30,7 +30,7 @@ I linguaggi di programmazione possono porre delle regole (limiti) a quello che p
     \[
         \text{in } \texttt{C pippo, Pippo, PIPPO } \text{sono identificatori diversi}
     \]
-    \item \textbf{essitono parole riservate?}: parole riservate perchè già associate a specifici significati
+    \item \textbf{esitono parole riservate?} (parole già associate a specifici significati)
     \item \textbf{esistono restrizioni sulla lunghezza?}
     \[
         \begin{aligned}
@@ -47,7 +47,7 @@ I linguaggi di programmazione possono porre delle regole (limiti) a quello che p
 \section{Legame}
 Il concetto di \textbf{binding} (legame) viene ereditato dalla matematica.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
      \centering
      % Prima immagine
      \begin{subfigure}[b]{0.3\textwidth}
@@ -72,15 +72,15 @@ Il concetto di \textbf{binding} (legame) viene ereditato dalla matematica.
 \end{figure}
 
 \begin{mydef}{occorrenza di legame}
-    Con l'\textbf{occorrenza di legame} viene creato il legame tra nome e il suo significato.
+    L'\textbf{occorrenza di legame} (o \textbf{definizione}) crea il legame tra nome e il suo significato.
 \end{mydef}
 
 \begin{mydef}{occorrenza di applicazione}
-    Con l'\textbf{occorrenza di applicazione} viene usato il nome per accedere al suo significato.
+    L'\textbf{occorrenza di applicazione} usa il nome per accedere al suo significato.
 \end{mydef}
 
 \begin{mydef}{occorrenza libera}
-    Con l'\textbf{occorrenza libera} viene usato un nome a cui non è stato associato nessun significato.
+    L'\textbf{occorrenza libera} utilizza un nome a cui non è stato associato nessun significato.
 \end{mydef}
 
 Dal punto di vista del costrutto le occorrenze libere e quelle applicate sono identiche, la differenza consiste nell'essere nel raggio di azione (scope) di una occorrenza di definizione.
@@ -104,7 +104,7 @@ Nei linguaggi di programmazione i concetti di binding e scope prendono una conno
 \end{itemize}
 
 \subsection{Tipi di binding}
-Distingue i binding rispetto alla durata del legame e sulla dinamicità del legame.
+\hl{Distingue i binding rispetto alla durata del legame e alla dinamicità del legame}.
 \begin{itemize}[itemsep=\smallskipamount]
     \item[$\diamond$] $\left. 
     \begin{array}{l} 
@@ -115,7 +115,7 @@ Distingue i binding rispetto alla durata del legame e sulla dinamicità del lega
 \end{itemize}
 
 \subsection{Tempo di binding}
-Distingue i binding rispetto al momento in cui il binding viene creato.
+\hl{Distingue i binding rispetto al momento in cui il binding viene creato}.
 \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
     \item \textbf{tempo compilazione} (eraly binding): \texttt{FORTRAN}, \texttt{C}, \texttt{COBOL}
     \begin{itemize}[itemsep=\smallskipamount]
@@ -136,7 +136,7 @@ I legami vengono inseriti nell'ambiente (insieme di binding).\\[0.2ex]
 Le \textbf{dichiarazioni} sono il meccanismo (implicito o esplcito) che permette di modificare gli ambienti.
 
 \smallskip
-Nelle espressioni abbiamo solo identificatori lberi, ma se vogliamo dare loro significati dobbiamo rendere tali occorrenze applicate inserendole nello scope di binding.
+Nelle espressioni abbiamo solo identificatori liberi, ma se vogliamo dare loro significati dobbiamo rendere tali occorrenze applicate inserendole nello scope di binding.
 
 \smallskip
 Ci sono due tipi di termini:
@@ -151,14 +151,14 @@ Entrambi i tipi di termini hanno significato senza dover riccorrere a un contest
 Riprendiamo la seguente notazione:
 \begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
     \item $\mathcal{E}$: insieme delle espressioni
-    \item $\mathcal{D} \mathrm{Val} = \mathcal{N} \cup \mathcal{B}$: insiem dei valori numerici e booleani (valori denotabili)
+    \item $\mathcal{D} \mathrm{Val} = \mathcal{N} \cup \mathcal{B}$: insieme dei valori numerici e booleani (valori denotabili)
 \end{itemize}
 
 Definiamo formalmente l'ambiente per le espressioni:
 \begin{mydef}{ambiente}
     L'\textbf{ambiente} è un elemento dello spazio delle funzioni:
     \[
-        \mathrm{Env} = \bigcup\limits_{\mathrm{V} \ \subseteq{f} \ \mathrm{Id}} \mathrm{Env_V}
+        \mathrm{Env} = \bigcup\limits_{\mathrm{V} \ \subseteq_{f} \ \mathrm{Id}} \mathrm{Env_V}
     \]
 
     dove:
@@ -182,13 +182,13 @@ dove:
 \end{itemize}
 
 \subsection{Identificatore libero}
-Data un'espressione o una frase scritta in un certo linguaggio, gli identificatori lberi sono quelli che non hanno nessuna dichiarazione che li coinvolge.\\[0.2ex]
+Data un'espressione o una frase scritta in un certo linguaggio, gli identificatori liberi sono quelli che non hanno nessuna dichiarazione che li coinvolge.\\[0.2ex]
 Questo significa che la frase in questione è necessariamente parte di una frase più grande dove gli identificatori liberi sono legati e trovano significato.
 
 \begin{mydef}{identificatore libero}
     La funzione:
     \[
-        \mathrm{FI} : \mathrm{Exp} \rightarrow \mathrm{Id}
+        \mathbf{FI} : \mathbf{Exp} \to \mathbf{Id}
     \]
 
     che ad ogni espressione associa l'insieme degli identificatori liberi in essa contenuti, è definita da:
@@ -217,8 +217,8 @@ Questo significa che la frase in questione è necessariamente parte di una frase
     \]
 }
 
-Così come possiamo definire gli indentificatori liberi, possiamo definire anche anche quelli definiti $\mathrm{DI}$ (sempre per induzione sulla struttura sintattica delle espressioni).\\[0.2ex]
-La definizione è molto semplice in quanto nelle espressioi non abbiamo costruttu che creano legami, occorrenze, ma solo costrutti che utilizzano occorrenze.\\[0.2ex]
+Così come possiamo definire gli indentificatori liberi, possiamo definire anche anche quelli definiti $\mathbf{DI}$ (sempre per induzione sulla struttura sintattica delle espressioni).\\[0.2ex]
+La definizione è molto semplice in quanto nelle espressioni non abbiamo costrutti che creano legami (occorrenze), ma solo costrutti che utilizzano occorrenze.\\[0.2ex]
 Quindi, l'insieme delle occorrenze legate/definite è vuoto ($\mathrm{DI(e)} = \emptyset$).
 
 \section{Semantica}
@@ -226,64 +226,66 @@ Quindi, l'insieme delle occorrenze legate/definite è vuoto ($\mathrm{DI(e)} = \
 \subsection{Regole di transizione}
 Definiamo la semantica per le espressioni da valuatare in un ambiente $\rho$:
 \[
-    \rho \vdash \mathrm{e} \rightarrow \mathrm{e}'
+    \rho \vdash \mathbf{e} \to \mathbf{e'}
 \]
 
-Ciò significa che l'espressione $\mathrm{e}$ viene valutata in $\mathrm{e}'$ nell'ambiente $\rho$.\\[0.2ex]
+Ciò significa che l'espressione $\mathrm{e}$ viene valutata in $\mathrm{e}'$ nell'ambiente $\rho$.
+
+\smallskip
 Le regole di transizione per le espressioni con indentificatori diventano:
 \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
     \item \textbf{regola 1} (assioma):
-    \vario{regola $\mathcal{E}_1$ (assioma)}{
+    \vario{Regola $\mathcal{E}_1$ (assioma)}{
         \[
-            \mathcal{E}_1: \rho \vdash m \texttt{ op } n \rightarrow p \quad \Leftrightarrow \quad m \texttt{ op } n = p
+            \mathcal{E}_1: \ \rho \vdash \mathrm{m} \texttt{ op } \mathrm{n} \to \mathrm{p} \quad \Leftrightarrow \quad \mathrm{m} \texttt{ op } \mathrm{n} = \mathrm{p}
         \]
     }
-    \item \textbf{regola 2}:
-    \vario{regola $\mathcal{E}_2$}{
+    \item \textbf{regola 2} (assioma):
+    \vario{Regola $\mathcal{E}_2$ (assioma)}{
         \[
-           \mathcal{E}_2: \rho \vdash I \rightarrow_e n \quad \Leftrightarrow \quad \rho(I) = n
+           \mathcal{E}_2: \ \rho \vdash \mathrm{I} \to_\mathrm{e} \mathrm{n} \quad \Leftrightarrow \quad \rho(\mathrm{I}) = \mathrm{n}
         \]
     }
     \item \textbf{regola 3}:
-    \vario{regola $\mathcal{E}_3$}{
+    \vario{Regola $\mathcal{E}_3$}{
         \[
            \mathcal{E}_3:\;
            \begin{prooftree}
-            \hypo{\rho \vdash e \rightarrow_e e'}
-            \infer1{\rho \vdash e \texttt{ op } e_0 \rightarrow_e e' \texttt{ op } e_0}
+            \hypo{\rho \vdash \mathrm{e} \to_\mathrm{e} \mathrm{e}'}
+            \infer1{\rho \vdash \mathrm{e} \texttt{ op } \mathrm{e}_0 \to_\mathrm{e} \mathrm{e}' \texttt{ op } \mathrm{e}_0}
            \end{prooftree}
         \]
     }
     \item \textbf{regola 4}:
-    \vario{regola $\mathcal{E}_4$}{
+    \vario{Regola $\mathcal{E}_4$}{
         \[
            \mathcal{E}_4:\;
            \begin{prooftree}
-            \hypo{\rho \vdash e \rightarrow_e e'}
-            \infer1{\rho \vdash m \texttt{ op } e \rightarrow_e m \texttt{ op } e'}
+            \hypo{\rho \vdash \mathrm{e} \to_\mathrm{e} \mathrm{e}'}
+            \infer1{\rho \vdash \mathrm{m} \texttt{ op } \mathrm{e} \to_\mathrm{e} \mathrm{m} \texttt{ op } \mathrm{e}'}
            \end{prooftree}
         \]
     }
     \item \textbf{regola 5}:
-    \vario{regola $\mathcal{E}_5$}{
+    \vario{Regola $\mathcal{E}_5$}{
         \[
            \mathcal{E}_5:\;
            \begin{prooftree}
-            \hypo{\rho \vdash e \rightarrow_e e'}
-            \infer1{\rho \vdash \texttt{not } e \rightarrow_e \texttt{not } e'}
+            \hypo{\rho \vdash \mathrm{e} \to_\mathrm{e} \mathrm{e}'}
+            \infer1{\rho \vdash \texttt{not } \mathrm{e} \to_\mathrm{e} \texttt{not } \mathrm{e}'}
            \end{prooftree}
         \]
     }
     \item \textbf{regola 6}:
-    \vario{regola $\mathcal{E}_6$}{
+    \vario{Regola $\mathcal{E}_6$}{
         \[
-           \mathcal{E}_6: \rho \vdash \texttt{not } t \rightarrow t' = \texttt{not } t
+           \mathcal{E}_6: \ \rho \vdash \texttt{not } \mathrm{t} \to \mathrm{t}' = \texttt{not } \mathrm{t}
         \]
     }
     \item \textbf{regola 7}: valuta un identificatore $\mathrm{x}$ nell'ambiente $\rho$
-    \vario{regola $\mathcal{E}_7$}{
+    \vario{Regola $\mathcal{E}_7$}{
         \[
-           \mathcal{E}_7: \rho \vdash x \rightarrow k \quad \Leftrightarrow \quad \rho(x) = k
+           \mathcal{E}_7: \ \rho \vdash \mathrm{x} \to \mathrm{k} \quad \Leftrightarrow \quad \rho(\mathrm{x}) = \mathrm{k}
         \]
     }
 \end{itemize}
@@ -292,7 +294,7 @@ Le regole di transizione per le espressioni con indentificatori diventano:
 Introduciamo una nuova informazione al nostro linguaggio: i \textbf{tipi}.
 
 \begin{mydef}{Tipo}
-    Un \textbf{tipo} determina l'insieme di valori omogenei (condividono una certa struttura) dotato di un insieme di operazioni definite per i valori di quel tipo.
+    Un \textbf{tipo} determina l'insieme di valori omogenei (condividono una certa proprietà strutturale) dotato di un insieme di operazioni definite per i valori di quel tipo.
 \end{mydef}
 
 \begin{minipage}[t]{0.45\textwidth}
@@ -318,7 +320,7 @@ Introduciamo una nuova informazione al nostro linguaggio: i \textbf{tipi}.
 
 I tipi sono utili a vari livelli per diversi motivi:
 \begin{itemize}[label=$\triangleright$, itemsep=\medskipamount]
-    \item \textbf{livello di progetto}: organizzano l'informazione (tipi diversi per concetti diversi, costituiscono "commenti")
+    \item \textbf{livello di progetto}: organizzano l'informazione (tipi diversi per concetti diversi costituiscono "commenti")
     \item \textbf{livello di programma}: identificano e prevengono errori
     \item \textbf{livello di implementazione}: permettono un'ottimizzazione della memoria
 \end{itemize}
@@ -365,7 +367,7 @@ Le regole della semantica statica hanno la seguente forma:
 \begin{minipage}[t]{0.45\textwidth}
     \vario{Assioma}{
         \[
-            \mathcal{E}_{\mathrm{S_i}}: \ \textcolor{red}{\vdash} \ \mathrm{e}: \tau
+            \mathcal{E}_{\mathbf{S_i}}: \ \textcolor{red}{\vdash} \ \mathbf{e}: \tau
         \]
 
         \begin{itemize}[label=$\Rightarrow$]
@@ -377,7 +379,7 @@ Le regole della semantica statica hanno la seguente forma:
 \begin{minipage}[t]{0.45\textwidth}
     \vario{Regola}{
         \[
-            \mathcal{E}_{\mathrm{S_i}}: \ \textcolor{red}{\Delta \vdash_V} \ \mathrm{e}: \tau
+            \mathcal{E}_{\mathbf{S_i}}: \ \textcolor{red}{\Delta \vdash_\mathbf{V}} \ \mathbf{e}: \tau
         \]
 
         \begin{itemize}[label=$\Rightarrow$]
@@ -391,7 +393,7 @@ Vediamo, allora, come sono fatte le regole della semantica statica nel nostro li
     \item \textbf{regola 1} e \textbf{2} (assioma): in ogni tipo di ambiente un numero ha tipo intero (\texttt{int}) e una costante booleane ha tipo booleano (\texttt{bool})
     
     \begin{minipage}[t]{0.45\textwidth}
-        \vario{Assioma $\mathcal{E}_{\mathrm{S_1}}$}{
+        \vario{Regola $\mathcal{E}_{\mathrm{S_1}}$ (assioma)}{
             \[
                 \mathcal{E}_{\mathrm{S_1}}: \ \textcolor{red}{\vdash} \ \mathrm{n} : \texttt{int}
             \]
@@ -399,7 +401,7 @@ Vediamo, allora, come sono fatte le regole della semantica statica nel nostro li
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\textwidth}
-        \vario{Assioma $\mathcal{E}_{\mathrm{S_2}}$}{
+        \vario{Regola $\mathcal{E}_{\mathrm{S_2}}$ (assioma)}{
             \[
                 \mathcal{E}_{\mathrm{S_1}}: \ \textcolor{red}{\vdash} \ \mathrm{t} : \texttt{bool}
             \]
@@ -458,7 +460,7 @@ Vediamo, allora, come sono fatte le regole della semantica statica nel nostro li
 
 \subsubsection{Compatibilità di ambienti}
 Ora abbiamo due concetti di ambiente diverso che parlano degli stessi identificatori.\\[0.2ex]
-È chiaro che che possiamo aspettarci che i due ambienti definti sullo stesso programma parlino in modo coerente degli stessi identificatori.
+È chiaro che possiamo aspettarci che i due ambienti definiti sullo stesso programma parlino in modo coerente degli stessi identificatori.
 
 \smallskip
 Definiamo, quindi, il concetto di \textbf{compatibilità tra ambienti} (statico e dinamico).

@@ -190,17 +190,153 @@ Vediamo, quindi, le regole:
         \]
     }
     \item \textbf{regola 3}:
-    \vario{Assioma $\mathcal{D}_{\mathrm{S_1}}$}{
+    \vario{Regola $\mathcal{D}_{\mathrm{S_3}}$}{
         \[
-            \mathcal{D}_{\mathrm{S_1}}\;
+            \mathcal{D}_{\mathrm{S_3}}:\;
             \begin{prooftree}
                 \hypo{\Delta \vdash_V e : \tau}
-                \infer1{\Delta \vdash_V \texttt{const x: } \tau \texttt{= e}: [\texttt{x} \tau]}
+                \infer1{\Delta \vdash_V \texttt{const x:} \ \tau \texttt{ = e}: [\texttt{x} \gets \tau]}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 4} (dichiarazione composta):
+    \vario{Regola $\mathcal{D}_{\mathrm{S_4}}$}{
+        \[
+            \mathcal{D}_{\mathrm{S_4}}:\;
+            \begin{prooftree}
+                \hypo{\Delta \vdash d_1 : \Delta_1 \quad \Delta_1[\Delta_2] \vdash d_2 : \Delta_2}
+                \infer1{\Delta \vdash d_1 ; d_2 : \Delta_1[\Delta_2]}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 5} (dichiarazione composta):
+    \vario{Regola $\mathcal{D}_{\mathrm{S_5}}$}{
+        \[
+            \mathcal{D}_{\mathrm{S_5}}:\;
+            \begin{prooftree}
+                \hypo{\Delta \vdash d_1 : \Delta_1 \quad \Delta_1[\Delta_2] \vdash d_2 : \Delta_2}
+                \infer1{\Delta \vdash d_1 \texttt{ in } d_2 : \Delta_2}
             \end{prooftree}
         \]
     }
 \end{itemize}
 
-\textcircled{c} %solo una parola
-
 \subsection{Semantica dinamica}
+\begin{mydef}{semantica dinamica}
+    La \textbf{semantica dinamica} consiste nell'elaborazione che parte dall'assunzione che la dichiarazione è ben formata.
+\end{mydef}
+
+Le regole di transizione hanno la forma:
+\[
+    \mathcal{D}_\mathbf{i} : \rho \ \textcolor{red}{\mathbf{\vdash_\Delta}} \ \mathbf{d} \to_\mathrm{d} \mathbf{d'}
+\]
+
+dove:
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item $\rho$: ambiente nel quale elaboriamo la dichiarazione (compatibile con $\Delta$)
+    \item $\mathrm{d}$: dichiarazione che viene elaborata in $\mathrm{d}'$ nell'ambiente $\rho$
+\end{itemize}
+
+Vediamo, quindi, le regole:
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item \textbf{regola 1} (assioma): $\rho$ è già terminale (non c'è nulla da elaborare)
+    \vario{Assioma $\mathcal{D}_{\mathrm{S_1}}$}{
+        \[
+            \mathcal{D}_1 : \ \vdash \texttt{nil} \to_d \emptyset
+        \]
+    }
+    \item \textbf{regola 2} (assioma):
+    \vario{Assioma $\mathcal{D}_{\mathrm{S_2}}$}{
+        \[
+            \mathcal{D}_2 : \rho \ \vdash \texttt{const x:} \ \tau \texttt{ = k} \to_d [x \mapsto k]
+        \]
+    }
+    \item \textbf{regola 3}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_3}}$}{
+        \[
+            \mathcal{D}_3:\;
+            \begin{prooftree}
+                \hypo{\rho \vdash\Delta e \to_e e'}
+                \infer1{\rho \vdash_\Delta \texttt{const x:} \ \tau \texttt{ = e} \to_d \texttt{const x:} \ \tau \texttt{ = e'}}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 4}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_4}}$}{
+        \[
+            \mathcal{D}_4:\;
+            \begin{prooftree}
+                \hypo{\rho \vdash\Delta d \to_e d'}
+                \infer1{\rho \vdash_\Delta d ; d_1 \to_d d' ; d_1}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 5}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_5}}$}{
+        \[
+            \mathcal{D}_5:\;
+            \begin{prooftree}
+                \hypo{\rho[\rho_0] \vdash\Delta d_1 \to_e d_1'}
+                \infer1{\rho \vdash_\Delta \rho_0 ; d_1 \to_d \rho_0 ; d_1'}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 6}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_6}}$}{
+        \[
+            \mathcal{D}_6: \rho \vdash_\Delta \rho_0 ; \rho_1 \to_d \rho_0[\rho_1]
+        \]
+    }
+    \item \textbf{regola 7}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_7}}$}{
+        \[
+            \mathcal{D}_7:\;
+            \begin{prooftree}
+                \hypo{\rho \vdash\Delta d \to_e d'}
+                \infer1{\rho \vdash_\Delta d \texttt{ in } d_1 \to_d d \texttt{ in } d_1}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 8}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_8}}$}{
+        \[
+            \mathcal{D}_8:\;
+            \begin{prooftree}
+                \hypo{\rho[\rho_0] \vdash\Delta d_1 \to_e d_1'}
+                \infer1{\rho \vdash_\Delta \rho_0 \texttt{ in } d_1 \to_d \rho_0 \texttt{ in } d_1'}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 9}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_9}}$}{
+        \[
+            \mathcal{D}_9: \rho \vdash_\Delta \rho_0 \texttt{ in } \rho_1 \to_d \rho_0[\rho_1]
+        \]
+    }
+\end{itemize}
+
+\begin{mydef}{elaborazione delle dichiarazioni}
+    La \textbf{valutazione} è una funzione
+    \[
+        \mathbf{Elab:} \mathcal{D} \to \mathbf{Env}
+    \]
+
+    che descrive il comportamento dinamico delle dichiarazioni restituendo l'ambiente in cui esse sono elaborate:
+    \[
+        \mathrm{Elab(d)} = \rho \quad \Leftrightarrow \quad \to * \rho
+    \]
+\end{mydef}
+
+La definizione di valutazione di una dichiarazione permette, anche, di definire il concetto di equivalenza tra dichiarazioni.
+
+\begin{mydef}{equivalenza di dichiarazioni}
+    L'\textbf{equivalenza di dichiarazioni} è una relazione
+    \[
+        \equiv \ \subseteq \mathcal{D} \times \mathcal{D}
+    \]
+
+    definita come segue:
+    \[
+        d_0 \equiv d_1 \quad \Leftrightarrow \quad \mathrm{Elab(d_0) = Elab(d_1)}
+    \]
+\end{mydef}
