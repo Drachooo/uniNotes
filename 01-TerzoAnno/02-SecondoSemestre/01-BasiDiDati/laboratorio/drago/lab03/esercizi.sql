@@ -1,5 +1,6 @@
 
 
+
 /* 
 ESERCIZI LAB 3
 */
@@ -276,14 +277,16 @@ Primo semestre | Primo semestre | 2010 -10 -04 | 2011 -01 -22 | 124
 I semestre | I semestre | 2010 -10 -04 | 2011 -01 -31 | 159
 */
 
-SELECT pl.abbreviazione, pd.discriminante, pd.annoaccademico, pd.inizio, pd.fine, COUNT(IIP.id_inserogato)
+
+SELECT pl.abbreviazione, pd.discriminante, pd.inizio, pd.fine, COUNT(iip.id_inserogato)
 FROM periododid pd
-	JOIN PeriodoLez pl ON PD.id = pl.id
-	JOIN InsInPeriodo IIP ON pl.id = IIP.id_periodolez
-WHERE pd.annoaccademico = '2010/2011' 
-	AND (pd.descrizione LIKE 'I semestre%' OR pd.descrizione LIKE 'Primo semestre')
-GROUP BY pd.id, pl.abbreviazione
+	JOIN periodolez pl ON pl.id = pd.id
+	JOIN insinperiodo iip ON iip.id_periodolez = pl.id
+WHERE pd.annoaccademico = '2010/2011' AND 
+	(pd.descrizione LIKE 'I semestre%' or pd.descrizione LIKE 'Primo semestre%')
+GROUP BY pl.abbreviazione, pd.id
 ORDER BY inizio, fine
+
 
 SELECT *
 FROM periododid
@@ -294,3 +297,16 @@ Trovare per ogni segreteria che serve almeno un corso di studi il numero di cors
 riportando il nome della struttura, il suo numero di fax e il conteggio richiesto.
 La soluzione ha 42 righe.
 */
+
+SELECT ss.nomestruttura, ss.fax, COUNT(cs.id) 
+FROM corsostudi cs
+	JOIN strutturaservizio ss ON ss.id = cs.id_segreteria
+WHERE cs.id_segreteria IS NOT NULL
+GROUP BY(ss.id)
+
+	JOIN facolta f ON f.id_segreteria = cs.id_segreteria
+	
+	
+	JOIN corsoinfacolta cf ON cf.id_corsostudi = cs.id 
+	JOIN facolta f ON f.id = 
+WHERE cs.id_segreteria IS NOT NULL
