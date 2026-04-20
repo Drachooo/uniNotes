@@ -1,2 +1,1 @@
-    <Dec>
-    D -> nil | \rho | const x : \tau = e | D ; D | D in D
+    if B then C else C
