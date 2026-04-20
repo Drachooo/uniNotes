@@ -2,304 +2,341 @@
 
 \chapter{Dichiarazioni}
 Le \textcolor{colore}{\textbf{dichiarazioni}} sono la categoria sintattica che denota la creazione/modifica di ambienti (insieme di legami).\\[0.2ex]
-Le dichiarazioni devono essere elaborate per ottenere trasformazioni (reversibili) dei legami rappresentati.
-
-\section{Identificatore}
-\begin{mydef}{identificatore}
-    Un \textbf{identificatore} è una sequenza alfa-numerica di caratteri usate per denotare e riferire oggetti di varia natura.
-    \[
-        \begin{aligned}
-            &\texttt{const pi = 3,14} &\texttt{//denota un valore}\\
-            &\texttt{int x} &\texttt{//denota una variabile}\\
-            &\texttt{void f()\{...\}} & \texttt{//definisce una funzione (procedura)}
-        \end{aligned}
-    \]
-\end{mydef}
-
-Bisogna ricordare che:
-\[
-    \mathbf{identificatore} \neq \mathbf{oggetto \ denotato}
-\]
-
-Infatti, è possibile avere più identificatori che si riferiscono allo stesso oggetto (aliasiang).
-
-%foto??
-
-E' possibile, anche che più oggetti denotati dallo stesso identificatori (polimorfismo).
-
-\medskip
-I linguaggi di programmazione possono porre delle regole (limiti) a quello che piò essere usato come identificatore:
-\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
-    \item \textbf{sono oppure no case sensitive?}
-    \[
-        \text{in } \texttt{C pippo, Pippo, PIPPO } \text{sono identificatori diversi}
-    \]
-    \item \textbf{essitono parole riservate?}: parole riservate perchè già associate a specifici significati
-    \item \textbf{esistono restrizioni sulla lunghezza?}
-    \[
-        \begin{aligned}
-            &\texttt{FORTRAN}: \text{massimo } 31 \text{ caratteri}\\
-            &\texttt{C}: \text{caratteri illimitati}
-        \end{aligned}
-    \]
-    \item \textbf{ci sono cattteri speciali da utilizzare?}
-    \[
-        \text{in } \texttt{PHP } \text{devono iniziare con il simbolo } \$
-    \]
-\end{itemize}
-
-\section{Legame}
-Il concetto di \textbf{binding} (legame) viene ereditato dalla matematica.
-
-\begin{figure}[htbp]
-     \centering
-     % Prima immagine
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{images/occorrenza-legame.png}
-         \caption{occorrenza di legame}
-     \end{subfigure}
-     \hfill % Spazio flessibile tra le immagini
-     % Seconda immagine
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{images/occorrenza-applicazione.png}
-         \caption{occorrenza di applicazione}
-     \end{subfigure}
-     \hfill
-     % Terza immagine
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{images/occorrenza-libera.png}
-         \caption{occorrenza libera}
-     \end{subfigure}
-\end{figure}
-
-\begin{mydef}{occorrenza di legame}
-    Con l'\textbf{occorrenza di legame} viene creato il legame tra nome e il suo significato.
-\end{mydef}
-
-\begin{mydef}{occorrenza di applicazione}
-    Con l'\textbf{occorrenza di applicazione} viene usato il nome per accedere al suo significato.
-\end{mydef}
-
-\begin{mydef}{occorrenza libera}
-    Con l'\textbf{occorrenza libera} viene usato un nome a cui non è stato associato nessun significato.
-\end{mydef}
-
-Dal punto di vista del costrutto le occorrenze libere e quelle applicate sono identiche, la differenza consiste nell'essere nel raggio di azione (scope) di una occorrenza di definizione.
-
-\begin{mydef}{scope di un binding}
-    Lo \textbf{scope} definisce lo spazio in cui si può usare un nome per rappresentare il significato associato a un binding.
-\end{mydef}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\textwidth]{images/scope-binding.png}
-    \caption{scope di un binding}
-\end{figure}
-
-\smallskip
-Nei linguaggi di programmazione i concetti di binding e scope prendono una connotazione propria:
-\begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
-    \item \textbf{definizione} (occorrenza di legame): un identificatore è in posizione di definizione quando si definisce il suo significato (si crea il legame)
-    \item \textbf{uso} (occorrenza di applicazione): un identificatore è in fase d'uso quando si riferisce al significato associato da una specifica definizione
-    \item \textbf{libera} (occorrenza libera): un indentificatore è in posizione libera se il suo uso è nel raggio di azione di nessuna definizione
-\end{itemize}
-
-\subsection{Tipi di binding}
-Distingue i binding rispetto alla durata del legame e sulla dinamicità del legame.
-\begin{itemize}[itemsep=\smallskipamount]
-    \item[$\diamond$] $\left. 
-    \begin{array}{l} 
-        \mathbf{nome} \leftrightarrow \mathbf{valore}\\ 
-        \mathbf{nome} \leftrightarrow \mathbf{locazione} 
-    \end{array} \right\} $ legami in cui l'oggetto denotato non cambia (binding statico)
-    \item[$\diamond$] $\mathbf{locazione} \leftrightarrow \mathbf{valore} \rightarrow$ legame in cui l'ogetto denotato può cambiare (binding dinamico)
-\end{itemize}
-
-\subsection{Tempo di binding}
-Distingue i binding rispetto al momento in cui il binding viene creato.
-\begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
-    \item \textbf{tempo compilazione} (eraly binding): \texttt{FORTRAN}, \texttt{C}, \texttt{COBOL}
-    \begin{itemize}[itemsep=\smallskipamount]
-        \item esecuzione veloce
-        \item non flessibile
-        \item uso dello stack (allocazione statica)
-    \end{itemize}
-    \item \textbf{tempo di esecuzione} (late binding): \texttt{SNOBOL4}, \texttt{LISP}, \texttt{APL}
-    \begin{itemize}[itemsep=\smallskipamount]
-        \item esecuzione lenta
-        \item flessibile
-        \item uso dello heap
-    \end{itemize}
-\end{itemize}
-
-\section{Ambiente}
-I legami vengono inseriti nell'ambiente (insieme di binding).\\[0.2ex]
-Le \textbf{dichiarazioni} sono il meccanismo (implicito o esplcito) che permette di modificare gli ambienti.
-
-\smallskip
-Nelle espressioni abbiamo solo identificatori lberi, ma se vogliamo dare loro significati dobbiamo rendere tali occorrenze applicate inserendole nello scope di binding.
-
-\smallskip
-Ci sono due tipi di termini:
-\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
-    \item \textbf{termine ground}: termine che non contiene identificatore
-    \item \textbf{termine chiuso}: termine in cui non ci sono identificatori liberi
-\end{itemize}
-
-Entrambi i tipi di termini hanno significato senza dover riccorrere a un contesto esterno (ambiente).
+Inoltre, sono lo stumento sintattico per manipolare e creare di ambienti (insieme di legami tra nomi e oggetti denotabili).\\[0.2ex]
+Le dichiarazioni devono essere elaborate per ottenere trasformazioni (reversibili) degli ambienti.
 
 \section{Sintassi}
-Riprendiamo la seguente notazione:
-\begin{itemize}[label=$\diamond$, itemsep=\smallskipamount]
-    \item $\mathcal{E}$: insieme delle espressioni
-    \item $\mathcal{D} \mathrm{Val} = \mathcal{N} \cup \mathcal{B}$: insiem dei valori numerici e booleani (valori denotabili)
-\end{itemize}
-
-Definiamo formalmente l'ambiente per le espressioni:
-\begin{mydef}{ambiente}
-    L'\textbf{ambiente} è un elemento dello spazio delle funzioni:
-    \[
-        \mathrm{Env} = \bigcup\limits_{\mathrm{V} \ \subseteq{f} \ \mathrm{Id}} \mathrm{Env_V}
-    \]
-
-    dove:
-    \begin{itemize}[label=$\circ$, itemsep=\smallskipamount]
-        \item $\mathrm{Env_V} : \mathrm{V} \rightarrow \mathrm{Val}$
-        \item $\cup \{\bot\}$ ha una metavariabile $\rho$
-    \end{itemize}
-\end{mydef}
-
-A questo punto possiamo completare la sintassi delle espressioni:
-\begin{bnfcode}{Sintassi delle espressioni}
-    <Exp>
-    E -> A | B
-    A -> I | n | A op A
-    B -> I | true | false | not B | B or B | A = A
+\begin{bnfcode}{Sintassi delle dichiarazioni}
+    <Dec>
+    D -> nil | \rho | const x : \tau = e | D ; D | D in D
 \end{bnfcode}
 
 dove:
 \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
-    \item \texttt{I}: identificatore
+    \item $\mathbf{nill}$: dichiarazione vuota (non crea nessun ambiente e non genera trasformazioni)
+    \item $\mathbf{\rho}$: ambiente dinamico $\equiv$ dichiarazione completamente dichiarata
+    \item \texttt{const x :} $\tau$ \texttt{= e}: dichiarazione di un nome associato a un valore \texttt{e}
+    \item $\mathbf{D \ ; \ D}$: composizione sequenziale.
+    
+    Ogni dichiarazione successiva o aggiunge nuovi legami o sovrascrive legami esistenti. 
+    
+    L’ambiente risultante è così visibile al codice che viene successivamente
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{images/composizione-sequenziale.png}
+    \end{figure}
+
+    \esempio{composizione sequenziale}{
+        Consideriamo il seguente codice:
+        \[
+            \begin{aligned}
+                &\texttt{const x: int = 3;} \\
+                &\texttt{const x: int = 5;} && \texttt{const y: int = 6 * x;} \\
+                &\texttt{const z: int = z + y;}
+            \end{aligned}
+        \]
+
+        Osserviamo i valori che assumo le variabili di questo codice:
+        \begin{enumerate}[itemsep=\smallskipamount]
+            \item a riga 1 il valore assegnato a \texttt{x} è $\rho$ = [\texttt{x} $\mapsto$ \texttt{3}]
+            \item a riga 2 il valore assegnato a \texttt{x} è $\rho_1$ = [\texttt{x} $\mapsto$ \texttt{5}] e viene usata per elaborare \texttt{y} che assume valore $\rho_2$ = [\texttt{y} $\mapsto$ \texttt{6 * 5 = 30}]
+            \item a riga 3 viene usati il valore di \texttt{x} dichiarato a riga 2 e il valore di \texttt{y} dichiarato a riga 2 ($\rho_2$ = [\texttt{x} $\mapsto$ \texttt{5}, \texttt{y} $\mapsto$ \texttt{30}]) per elaborare \texttt{z} che assume il valore ($\rho_3$ = [\texttt{x} $\mapsto$ \texttt{5}, \texttt{y} $\mapsto$ \texttt{30}, \texttt{z} $\mapsto$ \texttt{5 + 30 = 35}])
+        \end{enumerate}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.6\textwidth]{images/esempio-composizione-sequenziale.png}
+        \end{figure}
+    }
+    \item $\mathbf{D \ in \ D}$: composizione privata.
+    
+     I legami creati o sovrascritti da $\mathrm{D_1}$ sono ad uso esclusivo dell’elaborazione di $\mathrm{D_2}$ e non visibili al codice successivo
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{images/composizione-privata.png}
+    \end{figure}
+
+    \esempio{composizione privata}{
+        Consideriamo il seguente codice:
+        \[
+            \begin{aligned}
+                &\texttt{const x: int = 3;} \\
+                &\texttt{const x: int = 5;} && \texttt{const y: int = 6 * x;} \\
+                &\texttt{const z: int = z + y;}
+            \end{aligned}
+        \]
+
+        Osserviamo i valori che assumo le variabili di questo codice:
+        \begin{enumerate}[itemsep=\smallskipamount]
+            \item a riga 1 il valore assegnato a \texttt{x} è $\rho$ = [\texttt{x} $\mapsto$ \texttt{3}]
+            \item a riga 2 il valore assegnato a \texttt{x} è $\rho_1$ = [\texttt{x} $\mapsto$ \texttt{5}] e viene usata per elaborare \texttt{y} che assume valore $\rho_2$ = [\texttt{y} $\mapsto$ \texttt{6 * 5 = 30}]
+            \item a riga 3 viene usati il valore di \texttt{x} dichiarato a riga 1 e il valore di \texttt{y} dichiarato a riga 2 ($\rho_2$ = [\texttt{x} $\mapsto$ \texttt{5}, \texttt{y} $\mapsto$ \texttt{30}]) per elaborare \texttt{z} che assume il valore ($\rho_3$ = [\texttt{x} $\mapsto$ \texttt{5}, \texttt{y} $\mapsto$ \texttt{30}, \texttt{z} $\mapsto$ \texttt{3 + 30 = 33}])
+        \end{enumerate}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.6\textwidth]{images/esempio-composizione-privata.png}
+        \end{figure}
+    }
 \end{itemize}
 
-\subsection{Identificatore libero}
-Data un'espressione o una frase scritta in un certo linguaggio, gli identificatori lberi sono quelli che non hanno nessuna dichiarazione che li coinvolge.\\[0.2ex]
-Questo significa che la frase in questione è necessariamente parte di una frase più grande dove gli identificatori liberi sono legati e trovano significato.
+\subsection{Modifica dell'ambiente}
+Consideriamo gli ambienti (dinamici):
+\[
+    \beta, \beta' \in \mathrm{Env} \quad \beta : V, \beta' : V' \quad V, V' \subseteq \mathrm{Id}
+\]
 
-\begin{mydef}{identificatore libero}
-    La funzione:
+La modifica di $\beta$ da parte di $\beta'$ si scrive:
+\[
+    \mathbf{\beta[\beta']}
+\]
+
+Il nuovo ambiente $\beta''$ (= $\beta[\beta']$) $\in \mathrm{Env}$ sarà:
+\[
+    \beta''(I) = 
+    \begin{cases} 
+        \beta'(I) & \text{se } I \in V \\
+        \beta(I)  & \text{se } I \in V, V' 
+    \end{cases}
+\]
+
+Ciò significa che parlerà sia degli identificatori in I che in quelli in I':
+\[
+    \beta[\beta'] = \hat{\beta} \ \hat{\beta}: I \cup I
+\]
+
+\esempio{modifica dell'ambiente}{
+    Consideriamo i seguenti ambienti:
     \[
-        \mathrm{FI} : \mathrm{Exp} \rightarrow \mathrm{Id}
+        \begin{aligned}
+            \beta &= [\texttt{z} \mapsto \texttt{5}, y \mapsto \texttt{false}]\\
+            \beta' &= [\texttt{x} \mapsto \texttt{3}, y \mapsto \texttt{true}]
+        \end{aligned}
     \]
 
-    che ad ogni espressione associa l'insieme degli identificatori liberi in essa contenuti, è definita da:
+    La modifica di $\beta$ da parte di $\beta'$ è il seguente:
+    \[
+        \beta[\beta'] = [\texttt{x} \mapsto \texttt{5}, \texttt{y} \mapsto \texttt{true}]
+    \]
+
+    Il valore di \texttt{y} viene \textbf{sovrascritto} perchè è presente in entrambi gli ambienti.
+}
+
+\subsection{Identificatori definiti}
+Gli identificatori definiti (da una dichiarazione) sono gli identificatori che trovano il significato associato dentro la dichiarazione.
+
+\begin{mydef}{identificatore definito (formale)}
+    Definiamo la funzione $\mathrm{DI}$ che associa ad ogni dichiarazione l'insieme degli identificatori:
+    \[
+        \mathbf{DI:} \ \mathbf{Dec} \rightarrow \mathcal{P}\mathbf{(Id)}
+    \]
+
     \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
-        \item $\mathrm{FI} = \emptyset$
-        \item $\mathrm{FI}(\mathrm{id}) = \{\mathrm{id}\}$
-        \item $\mathrm{FI}(\mathrm{e_0} \verb| op | \mathrm{e_1}) = \mathrm{FI}(\mathrm{e_0}) \cup \mathrm{FI}(\mathrm{e_1}) = \mathrm{FI}(\mathrm{e_0} \verb| or | \mathrm{e_1}) = \mathrm{FI}(\mathrm{e_0} \verb| = | \mathrm{e_1})$
-        \item $\mathrm{FI}(\verb|not | \mathrm{e_0}) = \mathrm{FI}(\mathrm{e})$
+        \item $\mathrm{DI(\texttt{nil})} = \emptyset$
+        \item $\mathrm{DI(\rho)} = \mathrm{V} \quad \rho : \mathrm{V}$ (attribuisce significato a tutti gli elementi del suo dominio)
+        \item $\mathrm{DI(\texttt{const \ x:} \ \tau \texttt{ = e}) = \{\texttt{x}\}}$ (attribuisce significato all'identificatore che sta dichiarando)
+        \item $\mathrm{DI(d_0 ; d_1) = DI(d_0) \cup DI(d_1)}$ (attribuisce significato a tutti gli identificatori a cui viene dato significato in $d_0$ e $d_1$)
+        \item $\mathrm{DI(d_0 \texttt{ in } d_1) = DI(d_2)}$ (ciò che viene definito nella prima dichiarazione $d_1$ rimane privato e, quindi, non risulta legato all'esterno della composizione. 
+        
+        Fuori dalla composizione è legato solo ciò che viene definito nella seconda composizione $d_2$)
     \end{itemize}
 \end{mydef}
 
-\esempio{identificatore libero di un'espressione}{
-    Consideriamo l'espressione:
+\subsection{Identificatori liberi}
+GLi identificatori liberi sono identificatori il cui significato va cercato esternamente (nel contesto) alla dichiarazione.
+
+\begin{mydef}{identificatore libero (formale)}
+    Definiamo la funzione $\mathrm{FI}$ che applicata ad una dichirazione restituisce l'insieme degli identificatori liberi nella dichiarazione:
     \[
-        \mathcal{E} = \mathrm{x + 5y + 3}
+        \mathbf{FI : dec} \rightarrow \mathcal{P}\mathbf{(Id)}
     \]
 
-    L'identificatore libero corrisponde a:
-    \[
-        \begin{aligned}
-             &\mathrm{FI}(\mathrm{x + 5y + 3})\\
-            = &\mathrm{FI}(\mathrm{x}) \cup \mathrm{FI}(\mathrm{5y}) \cup \mathrm{FI}(\mathrm{3})\\
-            = &\{\mathrm{x}\} \cup \mathrm{FI}(\mathrm{5y}) \cup \mathrm{FI}(\mathrm{3})\\
-            = &\{\mathrm{x}\} \cup \{\mathrm{y}\} = \{\mathrm{x, y}\} 
-        \end{aligned}
-    \]
-}
-
-Così come possiamo definire gli indentificatori liberi, possiamo definire anche anche quelli definiti $\mathrm{DI}$ (sempre per induzione sulla struttura sintattica delle espressioni).\\[0.2ex]
-La definizione è molto semplice in quanto nelle espressioi non abbiamo costruttu che creano legami, occorrenze, ma solo costrutti che utilizzano occorrenze.\\[0.2ex]
-Quindi, l'insieme delle occorrenze legate/definite è vuoto ($\mathrm{DI(e)} = \emptyset$).
+    \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+        \item $\mathrm{FI(\texttt{nil})} = \emptyset$
+        \item $\mathrm{FI(\rho)} = \emptyset$
+        \item $\mathrm{FI(\texttt{const \ x:} \ \tau \texttt{ = e}) = FI(\texttt{e})}$
+        \item $FI(d_0 ; d_1) = FI(d_1 \text{ in } d_2) = FI(d_1) \cup (FI(d_2) \underbrace{\setminus}_{\textcolor{red}{\text{togliere}}} DI(d_1))$
+    \end{itemize}
+\end{mydef}
 
 \section{Semantica}
 
-\subsection{Regole di transizione}
-Definiamo la semantica per le espressioni da valuatare in un ambiente $\rho$:
+\subsection{Semantica statica}
+\begin{mydef}{semantica statica}
+    La \textbf{semantica statica} verifica se una dichiarazione è ben formata (rispetta vincoli contestuali).
+\end{mydef}
+
+La semantica statica per per dichiarazioni associa un ambiente statico $\Delta$ ad ogni dichiarazione ben formata.\\[0.2ex]
+Le regole hanno la seguente forma:
 \[
-    \rho \vdash \mathrm{e} \rightarrow \mathrm{e}'
+    \mathbf{D_{S_I}:} \ \textcolor{red}{\mathbf{\Delta \vdash_\mathbf{V}}} \ \mathbf{d : \Delta}
 \]
 
-Ciò significa che l'espressione $\mathrm{e}$ viene valutata in $\mathrm{e}'$ nell'ambiente $\rho$.\\[0.2ex]
-Le regole di transizione per le espressioni con indentificatori diventano:
+
+Vediamo, quindi, le regole:
 \begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
-    \item \textbf{regola 1} (assioma):
-    \vario{regola $\mathcal{E}_1$ (assioma)}{
+    \item \textbf{regola 1} (assioma per gli ambienti statici):
+    \vario{Assioma $\mathcal{D}_{\mathrm{S_1}}$}{
         \[
-            \mathcal{E}_1: \rho \vdash m \texttt{ op } n \rightarrow p \quad \Leftrightarrow \quad m \texttt{ op } n = p
+            \mathcal{D}_{\mathrm{S_1}}: \vdash \texttt{nill} : \emptyset
         \]
     }
-    \item \textbf{regola 2}:
-    \vario{regola $\mathcal{E}_2$}{
+    \item \textbf{regola 2} (assioma per gli ambienti dinamici):
+    \item \vario{Assioma $\mathcal{D}_{\mathrm{S_2}}$}{
         \[
-           \mathcal{E}_2: \rho \vdash I \rightarrow_e n \quad \Leftrightarrow \quad \rho(I) = n
+            \mathcal{D}_{\mathrm{S_2}}: \vdash \rho : \Delta \quad \Leftrightarrow \quad \rho \vdash \Delta
         \]
     }
     \item \textbf{regola 3}:
-    \vario{regola $\mathcal{E}_3$}{
+    \vario{Regola $\mathcal{D}_{\mathrm{S_3}}$}{
         \[
-           \mathcal{E}_3:\;
-           \begin{prooftree}
-            \hypo{\rho \vdash e \rightarrow_e e'}
-            \infer1{\rho \vdash e \texttt{ op } e_0 \rightarrow_e e' \texttt{ op } e_0}
-           \end{prooftree}
+            \mathcal{D}_{\mathrm{S_3}}:\;
+            \begin{prooftree}
+                \hypo{\Delta \vdash_V e : \tau}
+                \infer1{\Delta \vdash_V \texttt{const x:} \ \tau \texttt{ = e}: [\texttt{x} \gets \tau]}
+            \end{prooftree}
         \]
     }
-    \item \textbf{regola 4}:
-    \vario{regola $\mathcal{E}_4$}{
+    \item \textbf{regola 4} (dichiarazione composta):
+    \vario{Regola $\mathcal{D}_{\mathrm{S_4}}$}{
         \[
-           \mathcal{E}_4:\;
-           \begin{prooftree}
-            \hypo{\rho \vdash e \rightarrow_e e'}
-            \infer1{\rho \vdash m \texttt{ op } e \rightarrow_e m \texttt{ op } e'}
-           \end{prooftree}
+            \mathcal{D}_{\mathrm{S_4}}:\;
+            \begin{prooftree}
+                \hypo{\Delta \vdash d_1 : \Delta_1 \quad \Delta_1[\Delta_2] \vdash d_2 : \Delta_2}
+                \infer1{\Delta \vdash d_1 ; d_2 : \Delta_1[\Delta_2]}
+            \end{prooftree}
         \]
     }
-    \item \textbf{regola 5}:
-    \vario{regola $\mathcal{E}_5$}{
+    \item \textbf{regola 5} (dichiarazione composta):
+    \vario{Regola $\mathcal{D}_{\mathrm{S_5}}$}{
         \[
-           \mathcal{E}_5:\;
-           \begin{prooftree}
-            \hypo{\rho \vdash e \rightarrow_e e'}
-            \infer1{\rho \vdash \texttt{not } e \rightarrow_e \texttt{not } e'}
-           \end{prooftree}
-        \]
-    }
-    \item \textbf{regola 6}:
-    \vario{regola $\mathcal{E}_6$}{
-        \[
-           \mathcal{E}_6: \rho \vdash \texttt{not } t \rightarrow t' = \texttt{not } t
-        \]
-    }
-    \item \textbf{regola 7}: valuta un identificatore $\mathrm{x}$ nell'ambiente $\rho$
-    \vario{regola $\mathcal{E}_7$}{
-        \[
-           \mathcal{E}_7: \rho \vdash x \rightarrow k \quad \Leftrightarrow \quad \rho(x) = k
+            \mathcal{D}_{\mathrm{S_5}}:\;
+            \begin{prooftree}
+                \hypo{\Delta \vdash d_1 : \Delta_1 \quad \Delta_1[\Delta_2] \vdash d_2 : \Delta_2}
+                \infer1{\Delta \vdash d_1 \texttt{ in } d_2 : \Delta_2}
+            \end{prooftree}
         \]
     }
 \end{itemize}
 
-\subsection{Tipo}
+\subsection{Semantica dinamica}
+\begin{mydef}{semantica dinamica}
+    La \textbf{semantica dinamica} consiste nell'elaborazione che parte dall'assunzione che la dichiarazione è ben formata.
+\end{mydef}
 
-\subsubsection{Legami di tipo}
+Le regole di transizione hanno la forma:
+\[
+    \mathcal{D}_\mathbf{i} : \rho \ \textcolor{red}{\mathbf{\vdash_\Delta}} \ \mathbf{d} \to_\mathrm{d} \mathbf{d'}
+\]
 
-\subsection{Semantica statica}
+dove:
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item $\rho$: ambiente nel quale elaboriamo la dichiarazione (compatibile con $\Delta$)
+    \item $\mathrm{d}$: dichiarazione che viene elaborata in $\mathrm{d}'$ nell'ambiente $\rho$
+\end{itemize}
 
-\subsubsection{Ambiente statico}
+Vediamo, quindi, le regole:
+\begin{itemize}[label=$\triangleright$, itemsep=\smallskipamount]
+    \item \textbf{regola 1} (assioma): $\rho$ è già terminale (non c'è nulla da elaborare)
+    \vario{Assioma $\mathcal{D}_{\mathrm{S_1}}$}{
+        \[
+            \mathcal{D}_1 : \ \vdash \texttt{nil} \to_d \emptyset
+        \]
+    }
+    \item \textbf{regola 2} (assioma):
+    \vario{Assioma $\mathcal{D}_{\mathrm{S_2}}$}{
+        \[
+            \mathcal{D}_2 : \rho \ \vdash \texttt{const x:} \ \tau \texttt{ = k} \to_d [x \mapsto k]
+        \]
+    }
+    \item \textbf{regola 3}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_3}}$}{
+        \[
+            \mathcal{D}_3:\;
+            \begin{prooftree}
+                \hypo{\rho \vdash\Delta e \to_e e'}
+                \infer1{\rho \vdash_\Delta \texttt{const x:} \ \tau \texttt{ = e} \to_d \texttt{const x:} \ \tau \texttt{ = e'}}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 4}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_4}}$}{
+        \[
+            \mathcal{D}_4:\;
+            \begin{prooftree}
+                \hypo{\rho \vdash\Delta d \to_e d'}
+                \infer1{\rho \vdash_\Delta d ; d_1 \to_d d' ; d_1}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 5}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_5}}$}{
+        \[
+            \mathcal{D}_5:\;
+            \begin{prooftree}
+                \hypo{\rho[\rho_0] \vdash\Delta d_1 \to_e d_1'}
+                \infer1{\rho \vdash_\Delta \rho_0 ; d_1 \to_d \rho_0 ; d_1'}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 6}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_6}}$}{
+        \[
+            \mathcal{D}_6: \rho \vdash_\Delta \rho_0 ; \rho_1 \to_d \rho_0[\rho_1]
+        \]
+    }
+    \item \textbf{regola 7}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_7}}$}{
+        \[
+            \mathcal{D}_7:\;
+            \begin{prooftree}
+                \hypo{\rho \vdash\Delta d \to_e d'}
+                \infer1{\rho \vdash_\Delta d \texttt{ in } d_1 \to_d d \texttt{ in } d_1}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 8}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_8}}$}{
+        \[
+            \mathcal{D}_8:\;
+            \begin{prooftree}
+                \hypo{\rho[\rho_0] \vdash\Delta d_1 \to_e d_1'}
+                \infer1{\rho \vdash_\Delta \rho_0 \texttt{ in } d_1 \to_d \rho_0 \texttt{ in } d_1'}
+            \end{prooftree}
+        \]
+    }
+    \item \textbf{regola 9}:
+    \vario{Regola $\mathcal{D}_{\mathrm{S_9}}$}{
+        \[
+            \mathcal{D}_9: \rho \vdash_\Delta \rho_0 \texttt{ in } \rho_1 \to_d \rho_0[\rho_1]
+        \]
+    }
+\end{itemize}
 
-\subsubsection{Semantica statica delle espressioni}
+\begin{mydef}{elaborazione delle dichiarazioni}
+    La \textbf{valutazione} è una funzione
+    \[
+        \mathbf{Elab:} \mathcal{D} \to \mathbf{Env}
+    \]
 
-\subsubsection{Compatibilità di ambienti}
+    che descrive il comportamento dinamico delle dichiarazioni restituendo l'ambiente in cui esse sono elaborate:
+    \[
+        \mathrm{Elab(d)} = \rho \quad \Leftrightarrow \quad \to * \rho
+    \]
+\end{mydef}
+
+La definizione di valutazione di una dichiarazione permette, anche, di definire il concetto di equivalenza tra dichiarazioni.
+
+\begin{mydef}{equivalenza di dichiarazioni}
+    L'\textbf{equivalenza di dichiarazioni} è una relazione
+    \[
+        \equiv \ \subseteq \mathcal{D} \times \mathcal{D}
+    \]
+
+    definita come segue:
+    \[
+        d_0 \equiv d_1 \quad \Leftrightarrow \quad \mathrm{Elab(d_0) = Elab(d_1)}
+    \]
+\end{mydef}
