@@ -215,10 +215,10 @@ listing options={style=SQLstyle},
                  {=}{{\color{pgSymbols}=}}{1}
                  {;}{{\color{pgSymbols};}}{1}
                  % Mappatura manuale per evitare l'errore UTF-8
-                 {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
-                 {È}{{\`E}}1 {é}{{\'e}}1
+                 {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {:}{{:}}1 
+                 {È}{{\`E}}1 {é}{{\'e}}1 {|}{{\textbar}}1 {\{}{{\textbraceleft}}1 {\}}{{\textbraceright}}1 {\_}{{\textunderscore}}1
                  { }{{~}}1, % Questo risolve il maledetto errore "A0" (spazio unificatore)
-        morekeywords={begin, transaction, update, set, where, and, commit, work, end},
+        morekeywords={begin, transaction, update, set, where, and, commit, work, end },
         showstringspaces=false,
         breaklines=true,
         #1

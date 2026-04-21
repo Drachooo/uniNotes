@@ -140,3 +140,34 @@ Per evitare anomalie, si stabilisce di accettare solo gli schedule equivalenti a
 Due schedule si definiscono equivalenti se \textbf{producono gli stessi effetti} sulla base di dati.
 
 \section{Tecniche di gestione della concorrenza}
+Per le seguenti tecniche di gestione della concorrenza, si assume l'ipotesi di \textbf{commit-proiezione} (transazioni hanno esito noto).\\[0.2ex]
+Di conseguenza, vengono tolti dagli schedule tutte le operazioni delle transazioni che non vanno a buon fine.
+
+\subsection{View-equivalenza}
+\definizione{relazione "LEGGE\_DA"}{
+    Dato uno schedule $\mathrm{S}$, si dice che un'operazione di lettura $\mathrm{r_i(x)}$ (che comapare in $\mathrm{S}$), \texttt{LEGGE\_DA} un'operazione di scrittura $\mathrm{w_i(x)}$ (che comapare in $\mathrm{S}$), se$\mathrm{ w_j(x)}$ \textbf{precede} $\mathrm{r_i(x)}$ in S e non è alcuna operazione $\mathrm{w_k(x)}$ tra le due.
+
+    \[
+        \begin{aligned}
+            \mathrm{S_1}: \mathrm{r_1(x)} \ \mathrm{r_2(x)} \ \mathrm{w_2(x)} \ \mathrm{w_1(x)} \quad &\texttt{LEGGE\_DA(S1)} = \emptyset\\
+            \mathrm{S_2}: \mathrm{r_1(x)} \ \mathrm{w_1(x)} \ \mathrm{r_2(x)} \ \mathrm{w_2(x)} \quad &\texttt{LEGGE\_DA(S2)} = \{(\mathrm{(r_2(x), w_1(x))})\}
+        \end{aligned}
+    \]
+}
+
+\definizione{scritture finali}{
+    Dato uno schedule $\mathrm{S}$ si dice che un'operazione di scrittura $\mathrm{w_i(x)}$ (che compare in $\mathrm{S}$) è una \texttt{scrittura finale} se è l'ultima operazione di scrittura della risorsa $\mathrm{x}$ in $\mathrm{S}$.
+
+    \[
+       \begin{aligned}
+            \mathrm{S_1}: \mathrm{r_1(x)} \ \mathrm{r_2(x)} \ \mathrm{w_2(x)} \ \mathrm{w_1(x)} \quad &\texttt{LEGGE\_DA(S1)} = \emptyset\\
+            \mathrm{S_2}: \mathrm{r_1(x)} \ \mathrm{w_1(x)} \ \mathrm{r_2(x)} \ \mathrm{w_2(x)} \quad &\texttt{LEGGE\_DA(S2)} = \{(\mathrm{(r_2(x), w_1(x))})\}
+        \end{aligned}     
+    \]
+}
+
+\subsection{Conflict-serializzabile}
+
+\subsection{Locking a due fasi stretto}
+
+\subsection{Blocco critico (deadlock)}

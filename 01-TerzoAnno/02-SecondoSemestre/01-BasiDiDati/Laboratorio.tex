@@ -514,18 +514,18 @@ WHERE Eta < 30
 \subsubsection{Concatenazione stringhe}
 L'operatore di concatenazione || è un operatore scalare (o operatore di riga).
 
-Lavora su una singola riga alla volta. Se la tua tabella ha 100 righe, il costrutto titolo || ' - ' || citta calcolerà e restituirà 100 risultati testuali separati, uno per ogni riga.
+Lavora su una singola riga alla volta. Se la tua tabella ha 100 righe, il costrutto \texttt{SELECT titolo || ' - ' || città} calcolerà e restituirà 100 risultati testuali separati, uno per ogni riga.
 
-\vario{nota}{Non è un'esclusiva della SELECT}
-può infatti essere utilizzato anche 
+\vario{nota}{Non è un'esclusiva di SELECT, può infatti essere utilizzato anche nella clausola WHERE e nella clausola ORDER BY}
 
-\textbf{\large Nella clausola WHERE (per filtrare i dati)}
+
+\textbf{\large Concatenazione in clausola WHERE (per filtrare i dati)}
 \begin{codiceSQL}
   -- Trova la riga in cui l'unione di nome e cognome da esattamente 'Mario Rossi'
 WHERE nome || ' ' || cognome = 'Mario Rossi'
 \end{codiceSQL}
 
-\textbf{\large Nella clausola ORDER BY (per ordinare i risultati)}
+\textbf{\large Concatenazione in clausola ORDER BY (per ordinare i risultati)}
 \begin{codiceSQL}
   -- Ordina i risultati basandosi sull'unione testuale dei due campi
 ORDER BY titolo || citta
@@ -941,7 +941,7 @@ HAVING AVG(media) >23.47 ;
 \subsection{Interrogazione con JOIN}
 
 \begin{codiceSQL}
-  TABLE1 join_typeTABLE2 ON join_condition[, ...].
+  TABLE1 join_type TABLE2 ON join_condition[, ...].
 \end{codiceSQL}
 
 
@@ -951,26 +951,24 @@ Le tuple selezionate possono essere poi filtrate con la condizione della clausol
 Il prodotto cartesiano di due o più tabelle è un \textcolor{cyan}{CROSS JOIN}.
 
 
-\textbf{\large Interrogazioni con INNER JOIN
-Rappresenta}
+\textbf{\large Interrogazioni con INNER JOIN}
 
 \begin{codiceSQL}
-  table1 [ INNER] JOIN table2 ON join_condition[, ...]
+  table1 [INNER] JOIN table2 ON join_condition[, ...]
 \end{codiceSQL}
 
 
 Rappresenta il tradizionale $\theta$ join dell’algebra relazionale.
-Combina ciascuna riga r1 di table1 con ciascuna riga di table2 che soddisfa la condizione della clausola ON.
-table1 [ INNER] JOIN table2 ON join\_condition[, ...]
+Combina ciascuna riga \texttt{r1} di \texttt{table1} con ciascuna riga di \texttt{table2} che soddisfa la condizione della clausola ON.
 
 
 
 \subsection{Interrogazioni con LEFT OUTER JOIN}
 \begin{codiceSQL}
-  table1 LEFT[ OUTER] JOIN table2 ON join_condition[, ...].
+  table1 LEFT[OUTER] JOIN table2 ON join_condition[, ...].
 \end{codiceSQL}
 
-Si esegue un INNER JOIN. Poi, per ciascuna riga r1 di table1 che non soddisfa la condizione con qualsiasi riga di table2, si aggiunge una riga al risultato con i valori di r1 e assegnando NULL agli altri attributi..
+Si esegue un INNER JOIN. Poi, per ciascuna riga \texttt{r1} di \texttt{table1} che non soddisfa la condizione con qualsiasi riga di \texttt{table2}, si aggiunge una riga al risultato con i valori di \texttt{r1} e assegnando NULL agli altri attributi..
 
 Il LEFT [OUTER] JOIN non è simmetrico!
 Con le medisime tabelle si possono ottenere risultati diversi invertendo l’ordine delle tabelle nel join!
@@ -979,7 +977,7 @@ Con le medisime tabelle si possono ottenere risultati diversi invertendo l’ord
 \subsection{Interrogazioni con RIGHT OUTER JOIN}
 
 \begin{codiceSQL}
-  table1 RIGHT[ OUTER] JOIN table2 ON join_condition[, ...].
+  table1 RIGHT[OUTER] JOIN table2 ON join_condition[, ...].
 \end{codiceSQL}
 
 Si esegue un INNER JOIN. Poi, per ciascuna riga r2 di table2 che non soddisfa la condizione con qualsiasi riga di table1, si aggiunge una riga al risultato con i valori di r2 e assegnando NULL agli altri attributi..
@@ -988,21 +986,31 @@ Si esegue un INNER JOIN. Poi, per ciascuna riga r2 di table2 che non soddisfa la
 \subsection{Interrogazioni con FULL OUTER JOIN}
 
 \begin{codiceSQL}
-  table1 FULL[ OUTER] JOIN table2 ON join\_condition[, ...].
+  table1 FULL[OUTER] JOIN table2 ON join\_condition[, ...].
 \end{codiceSQL}
 
 \begin{itemize}
-  \item È equivalentea:INNER JOIN + LEFT OUTER JOIN + RIGHT OUTER JOIN.
-  \item \textcolor{black!60!red}{Non è equivalentea CROSS JOIN!}
+  \item È equivalente a: INNER JOIN + LEFT OUTER JOIN + RIGHT OUTER JOIN.
+  \item \textcolor{black!60!red}{Non è equivalente a CROSS JOIN!}
 \end{itemize}
 
+
+\vario{Quando usare left join rispetto a right join?}{
+\begin{itemize}
+  \item \textbf{JOIN}: Solo i record che fanno "match" in entrambe le tabelle.
+  \item \textbf{LEFT JOIN}:	Tutto ciò che sta nella prima tabella scritta, con i NULL se manca il pezzo della seconda.
+  \item \textbf{RIGHT JOIN}: Tutto ciò che sta nella seconda tabella scritta, con i NULL se manca il pezzo della prima.
+  \item \textbf{FULL JOIN}: Tutti i dati di entrambe le tabelle, allineando ciò che combacia e mettendo NULL ovunque manchi una corrispondenza.
+\end{itemize}
+}
 
   \section{Interrogazioni nidificate e insiemistiche}
 
   \subsection*{Interrogazioni nidificate}
   SQL permette la costruzione di interrogazioni che presentano al loro interno altre interrogazioni. 
 La nidificazione può avvenire nelle clausole \textcolor{purple}{SELECT}, \textcolor{purple}{FROM}, \textcolor{purple}{WHERE}.
-L'uso più comune è la nidificazione nella clausola WHERE
+
+\underline{L'uso più comune è la nidificazione nella clausola WHERE}
 
 \subsection{Clausola FROM}
 Con l'utilizzo di questa opzione, è possibile comporre catene di interrogazioni, 
@@ -1011,10 +1019,18 @@ fosse una tabella di base
 
 \begin{codiceSQL}
   SELECT titolo, prezzoIntero
-FROM Mostra, ( SELECT MAX ( prezzoIntero ) 
-FROM Mostra ) AS T( prezzoMax )
+FROM Mostra, ( 
+  SELECT MAX ( prezzoIntero ) 
+  FROM Mostra 
+) AS T( prezzoMax )
 WHERE prezzoIntero = prezzoMax;
 \end{codiceSQL}
+dove:
+\begin{itemize}
+  \item \textbf{T}: alias della tabella. La query interna ha generato una tabellina "anonima", noi la chiamiamo temporaneamente con la lettera T
+  \item \textbf{(prezzoMax)}: alias della colonna
+\end{itemize}
+
 
 \subsection{Clausola WHERE}
 Il predicato (predicato complesso) nella clausola WHERE confronta un valore (ottenuto come espressione valutata sulla singola riga), con il risultato dell'esecuzione di un'interrogazione SQL (in generale un insieme di valori). 
@@ -1045,7 +1061,7 @@ expression operator SOME( subquery )
   \item \textcolor{orange}{expression} è un’espressione che coinvolge attributi della SELECT principale.
   \item (\textcolor{orange}{subquery}) è una \textcolor{purple}{SELECT} che deve restituire UNA sola colonna;
   \item \textcolor{orange}{operator} è un operatore di confronto, come ’=’, ’>=’, ...
-  \item \textcolor{purple}{ANY} :è vero se la condizione è vera per almeno un valore della subquery.
+  \item \textcolor{purple}{ANY}: è vero se la condizione è vera per almeno un valore della subquery.
   \item \textcolor{purple}{SOME} è uno sinonimo di \textcolor{purple}{ANY}
 \end{itemize}
 
@@ -1055,9 +1071,11 @@ inferiore alla media dell’ateneo di un qualsiasi anno accademico.}
 
 \begin{codiceSQL}
   SELECT DISTINCT I.nomeins , IE.crediti
-FROM Insegn I JOIN InsErogato IE ON I.id=IE.id_insegn
+FROM Insegn I 
+  JOIN InsErogato IE ON I.id=IE.id_insegn
 WHERE IE.crediti < ANY (
-  SELECT AVG ( crediti ) FROM InsErogato
+  SELECT AVG ( crediti ) 
+  FROM InsErogato
   WHERE modulo =0
   GROUP BY annoaccademico
   );
@@ -1083,10 +1101,12 @@ occorrenze insegnamento genitore)}
 
 \begin{codiceSQL}
   SELECT DISTINCT I. nomeins , IE. crediti
-FROM Insegn I JOIN InsErogato IE ON I.id = IE. id_insegn
-JOIN Docenza D ON IE.id = D. id_inserogato
+FROM Insegn I 
+  JOIN InsErogato IE ON I.id = IE. id_insegn
+  JOIN Docenza D ON IE.id = D. id_inserogato
 WHERE IE. modulo = 0 AND IE. crediti > ALL (
-  SELECT crediti FROM InsErogato
+  SELECT crediti 
+  FROM InsErogato
   WHERE id_corsostudi = 6 AND modulo =0
   );
 \end{codiceSQL}
@@ -1094,7 +1114,7 @@ WHERE IE. modulo = 0 AND IE. crediti > ALL (
 \subsubsection{Operatore IN}
 E’ un operatore utilizzabile nei predicati complessi.
 \begin{codiceSQL}
-\[ROW\]( expr \[ ,...\]) IN ( subquery )  
+ROW ( expr [ ,...]) IN ( subquery )  
 \end{codiceSQL}
 \begin{itemize}
   \item \textcolor{orange}{expr} è un’espressione costruita con un attributo della query principale. Ci 
@@ -1113,9 +1133,9 @@ subquery.
 un’altra azienda.}
 \begin{codiceSQL}
 SELECT I.nome , I.cognome
-FROMImpiegato I
+FROM Impiegato I
 WHERE ROW( I.nome , I.cognome ) IN (
-SELECT I1.nome, I1. cognome FROM ImpiegatoAltraAzienda I1)
+SELECT I1.nome, I1.cognome FROM ImpiegatoAltraAzienda I1)
 \end{codiceSQL}
 
 
@@ -1131,8 +1151,8 @@ E’ una clausola utilizzabile nei predicati complessi
   \item (subquery) è una \textcolor{purple}{SELECT}.
   \item \textcolor{purple}{EXISTS} ritorna falso se (subquery) non contiene righe; altrimenti vero.
   \item \textcolor{purple}{EXISTS} è significativo quando nella (subquery) si selezionano righe usando i 
-valori della riga corrente nella \textcolor{purple}{SELECT} principale: \textcolor{red}{data binding. Vale a dire 
-se subquery è un'interrogazione dipendente dalla query esterna}
+valori della riga corrente nella \textcolor{purple}{SELECT} principale: \textcolor{black!60!red}{data binding. 
+Vale a dire se subquery è un'interrogazione dipendente dalla query esterna}
 \end{itemize}
 
 
@@ -1143,11 +1163,12 @@ lunghezza}
   SELECT I. nome
 FROM Impiegato I
 WHERE EXISTS (
-SELECT 1 FROM Impiegato I1 WHERE I.nome <> I1. nome
-AND CHAR_LENGTH( I.nome ) = CHAR_LENGTH( I1. nome )
+  SELECT 1 
+  FROM Impiegato I1 
+  WHERE I.nome <> I1. nome AND CHAR_LENGTH( I.nome ) = CHAR_LENGTH( I1. nome )
 )
 \end{codiceSQL}
-I.nome nella subquery è il valore di nome nella riga corrente della SELECT 
+\texttt{I.nome} nella subquery è il valore di nome nella riga corrente della SELECT 
 principale
 
 
@@ -1162,7 +1183,9 @@ tenuto almeno due insegnamenti (o moduli) con più di 24 crediti nel 2010/2011}
   SELECT P.nome , P.cognome
 FROM Persona P
 WHERE EXISTS (
-SELECT 1 FROM Docenza D JOIN InsErogato IE ON D. id_inserogato = IE.id
+SELECT 1 
+FROM Docenza D 
+  JOIN InsErogato IE ON D. id_inserogato = IE.id
 WHERE IE. crediti > 24 AND D. coordinatore = '0'
 AND IE. annoaccademico = '2010/2011' AND D. id_persona = P.id
 GROUP BY D. id_persona
@@ -1179,11 +1202,13 @@ erogato insegnamenti il cui nome contiene la sottostringa ’Info’.}
 \begin{codiceSQL}
   SELECT CS. nome FROM CorsoStudi CS
 WHERE NOT EXISTS (
-SELECT 1 FROM InsErogato IE JOIN Insegn I ON IE. id_insegn = 
-I.id
-WHERE I.nomeins LIKE '%Info%'
-AND IE.annoaccademico = '2006/2007'
-AND IE.id_corsostudi = CS.id)
+  SELECT 1 
+  FROM InsErogato IE 
+    JOIN Insegn I ON IE. id_insegn = I.id
+  WHERE I.nomeins LIKE '%Info%'
+  AND IE.annoaccademico = '2006/2007'
+  AND IE.id_corsostudi = CS.id
+)
 \end{codiceSQL}
 
 
@@ -1194,11 +1219,11 @@ AND IE.id_corsostudi = CS.id)
   query_1 { UNION | INTERSECT | EXCEPT } [ALL] query_2
 \end{codiceSQL}
 
-SQL mette a disposizione anche degli operatori insiemistici UNION, INTERSECT e 
-EXCEPT per manipolare i risultati di più query.
+SQL mette a disposizione anche degli operatori insiemistici \texttt{UNION}, \texttt{INTERSECT} e 
+\texttt{EXCEPT} per manipolare i risultati di più query.
 Gli operatori insiemistici si possono utilizzare solo al livello più esterno di una 
-query, operando sul risultato di due o più clausole SELECT.
-Si possono avere sequenze di UNION/INTERSECT/EXCEPT
+query, operando sul risultato di due o più clausole \texttt{SELECT}.
+Si possono avere sequenze di \texttt{UNION/INTERSECT/EXCEPT}
 
 
 Gli operatori si possono applicare solo quando \textcolor{cyan}{query1} e \textcolor{cyan}{query2} producono 
@@ -1206,9 +1231,9 @@ risultati con lo stesso numero di colonne e di tipo compatibile fra loro.
 Tutti gli operatori eliminano i duplicati dal risultato a meno che ALL non sia 
 stato specificato.
 \begin{itemize}
-  \item \textcolor{red}{UNION} aggiunge il risultato di \textcolor{cyan}{query2} a quello di \textcolor{cyan}{query1}.
-  \item \textcolor{red}{INTERSECT} restituisce le righe che sono presenti sia nel risultato di \textcolor{cyan}{query1} sia in quello di \textcolor{cyan}{query2}
-  \item \textcolor{red}{EXCEPT} restituisce le righe di \textcolor{cyan}{query1} che non sono presenti nel risultato di \textcolor{cyan}{query2}. In pratica esegue la differenza insiemistica
+  \item \textcolor{red}{\textbf{UNION}} aggiunge il risultato di \textcolor{cyan}{query2} a quello di \textcolor{cyan}{query1}.
+  \item \textcolor{red}{\textbf{INTERSECT}} restituisce le righe che sono presenti sia nel risultato di \textcolor{cyan}{query1} sia in quello di \textcolor{cyan}{query2}
+  \item \textcolor{red}{\textbf{EXCEPT}} restituisce le righe di \textcolor{cyan}{query1} che non sono presenti nel risultato di \textcolor{cyan}{query2}. In pratica esegue la differenza insiemistica
 
 
 \end{itemize}
@@ -1289,7 +1314,7 @@ della vista corrisponde a una sola tupla di ciascuna tabella di base.
 \end{itemize}
 
 
-\textbf{\large efinire la vista che contiene gli insegnamenti erogati completi di nomeins e codiceins
+\textbf{\large Definire la vista che contiene gli insegnamenti erogati completi di nomeins e codiceins
 presi dalla tabella Insegn.}
 
 \begin{codiceSQL}
@@ -1779,3 +1804,241 @@ Il comando \texttt{\textcolor{purple}{EXPLAIN ANALYZE}} mostra il piano di esecu
   \item Il valore di loops indica per quante volte viene eseguito il nodo.
   \item Spesso il numero di righe dopo cost è diverso dal numero di righe dopo actualTIME. Quest’ultimo è più corretto.
 \end{itemize}
+
+
+\section{Introduzione al controllo di concorrenza in SQL}
+Una transazione SQL è una sequenza di istruzioni SQL che può essere eseguita
+in concorrenza con altre transazioni in modo isolato.
+Se si implementasse un isolamento completo, il grado di parallelismo sarebbe
+limitato.
+Si accettano quindi diversi livelli di isolamento per favorire un maggior grado di
+parallelismo.
+I diversi livelli di isolamento possono determinare delle anomalie di esecuzioni:
+\begin{itemize}
+  \item \textcolor{purple}{perdita di aggiornamento} (lost update)
+  \item \textcolor{purple}{lettura sporca} (dirty read)
+  \item \textcolor{purple}{letture inconsistenti} (non-repeatable read)
+  \item \textcolor{purple}{aggiornamento fantasma} (ghost update)
+  \item \textcolor{purple}{inserimento fantasma} (phantom update)
+\end{itemize}
+
+In PostgreSQL è prevista un’altra anomalia che nel testo di teoria non è considerata: \textcolor{purple}{mancata serializzazione} (serialization anomaly). 
+Il risultato di un gruppo di transazioni (nessun abort) è inconsistente con tutti gli
+ordini di esecuzioni seriali delle stesse.
+Di seguito viene mostrato come si introducono i livelli di isolamento implementati in
+PostgreSQL e come si possono attivare
+
+\subsection{Transazioni}
+In PostgreSQL una transazione ben formata è così composta:
+\begin{itemize}
+  \item inizia con il comando BEGIN TRANSACTION o START TRANSACTION;
+  \item termina con un END TRANSACTION;
+  \item nel mezzo vengono eseguiti con il comando \textcolor{purple}{\textbf{COMMIT}} (per confermare tutte le istruzioni della transazione) o con il comando \textcolor{purple}{\textbf{ROLLBACK}} (per annullare
+tutte le operazioni).
+Transazione passaggio importo da 
+\end{itemize}
+
+
+\subsubsection*{Transazione: passaggio importo da un conto ad un altro}
+\begin{codiceSQL}
+BEGIN;
+UPDATE accounts SET balance = balance -100.0 WHERE name ='Alice';
+UPDATE accounts SET balance = balance +100.0 WHERE name ='Bob';
+COMMIT;
+\end{codiceSQL}
+
+\subsubsection*{Transazione: passaggio importo da un conto ad un altro}
+\begin{codiceSQL}
+  BEGIN;
+UPDATE accounts SET balance = balance -100.0 WHERE name ='Alice';
+UPDATE accounts SET balance = balance +100.0 WHERE name ='Bob';
+ABORT
+\end{codiceSQL}
+Alice ha ancora l’importo originale nel suo conto!
+
+\subsubsection{Controllo concorrenza funzionamento}
+
+PostgreSQL mantiene la consistenza dei dati usando un modello multi-versione
+(Multiversion Concurrency Control (MVCC)):
+
+Le transizioni in PostgreSQL sono gestite come:
+\begin{itemize}
+  \item Ciascuna transazione vede un’istantanea della base di dati.
+  \item Le letture su questa istantanea sono sempre possibili e non sono mai bloccate anche se ci sono altre transazioni che stanno modificando la base di dati.
+ \item Le scritture possono essere sospese. Una scrittura è sospesa quando, in parallelo, un’altra transazione (non ancora chiusa) ha modificato la sorgente dei dati che si vuole aggiornare.
+  \item Al COMMIT, il sistema registra sempre l’istantanea aggiornata come nuova base
+di dati.
+\end{itemize}
+In questo modo ci sono meno conflitti e una performance più ragionevole in
+ambito multiutente
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = \textwidth]{images/sessioniConcorrenti.png}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = \textwidth]{images/controlloConcorrenza.png}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = \textwidth]{images/controlloConcorrenza2.png}
+\end{figure}
+
+
+\subsection{Livelli di isolamento}
+
+I 4 livelli di isolamento offerti da PostgreSQL 11.3 sono, in ordine decrescente di isolamento:
+\begin{enumerate}
+  \item \textcolor{purple}{\textbf{Serializable}}: Garantisce che un’intera transazione è eseguita in un qualche
+ordine sequenziale rispetto ad altre transazioni: completo isolamento da
+transazioni concorrenti.
+\begin{itemize}
+  \item Anomalie possibili: nessuna!
+\end{itemize}
+  \item \textcolor{purple}{\textbf{Repeatable Read}}: Garantisce che i dati letti durante la transazione non
+cambieranno a causa di altre transazioni: rifacendo la lettura dei
+medesimi dati, si ottengono sempre gli stessi.
+\begin{itemize}
+  \item Questo livello è più restrittivo del livello standard in SQL ’Repeatable Read’.
+  \item Anomalie possibili: mancata serializzazione \textcolor{red}{(rispetto a quanto visto a teoria questo livello di isolamento risolve anche l’anomalia di inserimento fantasma).}
+\end{itemize}
+  \item \textcolor{purple}{\textbf{Read Committed}}: Garantisce che qualsiasi SELECT di una transazione
+veda solo i dati confermati (COMMITTED) prima che la SELECT inizi.
+  \begin{itemize}
+    \item È il livello di isolamento di default usato da PostgreSQL.
+    \item Anomalie possibili: lettura inconsistente, aggiornamento fantasma, inserimento fantasma e mancata serializzazione.
+  \end{itemize}
+  \item \textcolor{purple}{\textbf{Read Uncommitted}}: In PostgreSQL (già da 11.3) è implementato come Read Committed. Quindi NON esiste questo livello di isolamento.
+\end{enumerate}
+
+Il cambio di livello di isolamento si effettua con SET TRANSACTION appena
+dopo il BEGIN della transazione
+
+\subsubsection{Sintassi}
+\begin{codiceSQL}
+  SET TRANSACTION transaction_mode;
+ // dove transaction_mode e' uno tra 
+  ISOLATION LEVEL { SERIALIZABLE | REPEATABLE READ | READ COMMITTED |
+ READ UNCOMMITTED }
+ | READ WRITE | READ 
+\end{codiceSQL}
+
+\textbf{modo standard}
+\begin{codiceSQL}
+BEGIN;
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+COMMIT;
+\end{codiceSQL}
+
+\textbf{modo compatto}
+\begin{codiceSQL}
+BEGIN TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+COMMIT;
+\end{codiceSQL}
+
+
+\subsubsection{Livello di isolamento: Read Committed}
+\begin{itemize}
+  \item È il livello di default, quindi è sufficiente BEGIN;
+  \item SELECT vede solo i dati registrati (COMMITTED) in altre transazioni e quelli modificati da eventuali comandi precedenti nella medesima transazione.
+  \item UPDATE, DELETE vedono i dati come SELECT. Inoltre, se i dati che devono
+essere aggiornati sono stati modificati ma non registrati in transazioni
+concorrenti, il comando deve: 
+\end{itemize}
+
+
+\begin{enumerate}
+  \item attendere il \textcolor{purple}{COMMIT} o \textcolor{purple}{ROLLBACK} della transazione dove è stato fatto il
+cambio
+  \item riesaminare le righe selezionate per verificare che soddisfano ancora i criteri del comando.
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = \textwidth]{images/letturaInconsistente.png}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = \textwidth]{images/aggiornamentoFantasma.png}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = \textwidth]{images/casoArticolato.png}
+\end{figure}
+
+\subsubsection{Livello di isolamento Repeatable Read}
+Differisce da 'Read Committed' per il fatto che i comandi di una transazione
+vedono sempre gli stessi dati. PostgreSQL associa alla transizione una
+istantanea della base di dati all’esecuzione del suo primo comando.
+\begin{itemize}
+  \item ‘Repeatable Read’ in PostgreSQL è più stringente di quanto richiesto dallo standard SQL.
+  \item Due \textcolor{purple}{\textbf{SELECT}} identiche successive vedono sempre gli stessi dati.
+  \item \textcolor{purple}{\textbf{UPDATE e DELETE}} vedono i dati come SELECT. Se i dati che devono essere aggiornati sono stati modificati ma non registrati in transazioni concorrenti, il comando deve attendere il \textcolor{purple}{\textbf{COMMIT/ROLLBACK}} della transazione dove è stato fatto il cambio e riesaminare le righe selezionate.
+  \item In caso di \textcolor{purple}{\textbf{ROLLBACK, UPDATE e DELETE}} possono procedere. In caso di \textcolor{purple}{\textbf{COMMIT}}, i dati sono cambiati, quindi UPDATE e DELETE vengono bloccati con l’errore \textcolor{purple}{\textbf{ERROR}}: «could NOT serialize access due to concurrent UPDATE».
+\end{itemize} 
+
+\subsubsection{Livello di isolamento: Repeatable Read}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = \textwidth]{images/repeatableRead.png}
+\end{figure}
+
+Cattura tutte anomalie tranne mancata serializzazione. Se si usa questo livello, si deve prevedere la possibilità di transazioni abortite
+per aggiornamenti concorrenti.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = \textwidth]{images/mancataSerializzazione.png}
+  \caption{anomalia: mancata serializzazione}
+\end{figure}
+
+È il più \textbf{restrittivo}4: nessuna anomalia è permessa. Se si usa questo livello, si deve prevedere la possibilità di transazioni abortite
+per aggiornamenti concorrenti (come nel caso di ‘Repeatable Read’).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = \textwidth]{images/serializable.png}
+\end{figure}
+
+Un metodo pratico per decidere se è necessario il livello serializable è:
+verificare se la selezione delle righe di un UPDATE/INSERT/DELETE in una
+transizione può essere modificata in una transizione concorrente (che può
+aggiungere/togliere o modificare le righe di interesse).
+
+
+\subsubsection{Serializable: avvertenze}
+\begin{itemize}
+  \item L'uso di transazioni 'Serializable' rende più semplice lo sviluppo di programmi SQL: è sufficiente dimostrare che una transazione, da sola, determina sempre uno stato corretto per avere la garanzia che essa continuerà ad essere corretta anche in ambiente concorrente dichiarandola 'Serializable'.
+  \item Dall’altra parte però dichiarare tutte le transazioni 'Serializable' determina, in generale, una limitazione alle prestazioni (throughput) di un DMBS.
+\end{itemize}
+
+\subsubsection{Cosa fare in caso di failure:}
+\begin{itemize}
+  \item È fondamentale prevedere e gestire gli errori di concorrenza che possono occorrere con livello di isolamento ‘Repeatable Read’ o 'Serializable'.
+  \item Se una transizione fallisce, il codice di fallimento è \textbf{SQLSTATE = '40001'.}
+  \item SQLSTATE è una variabile di ambiente che si può leggere sia da programmi
+interni sia da programmi esterni.
+  \item In caso di errore, si deve semplicemente ritentare l'esecuzione della transazione.
+  \item Il costo computazionale di rieseguire una transazione è solitamente meno oneroso di quello che si avrebbe se si gestissero le transazioni usando i lock espliciti come, ad esempio, SELECT FOR UPDATE e SELECT FOR SHARE
+\end{itemize}
+
+
+\subsection{Lock Espliciti}
+PostgreSQL permette di attivare lock espliciti di tabelle e anche di righe di
+tabelle.
+Lock espliciti dovrebbero essere gestiti a livello di applicazione quando il
+modello MVCC non garantisce il comportamento richiesto (soprattutto a
+livello di prestazioni).
+In questo corso i lock espliciti non sono considerati.
+Si rimanda al capitolo 13.3 del manuale di PostgreSQL per chi volesse
+approfondire l’argomento

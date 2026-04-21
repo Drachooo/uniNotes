@@ -1,100 +1,88 @@
-/* Esercizio 1
+
+/*ESERCIZI LEZIONE 2 */
+
+
+/* 
+Esercizio 1
 Visualizzare tutti i musei della città di Verona con il loro giorno di chiusura.
 */
 
-SELECT nome, giornochiusura, citta
+SELECT nome, giornochiusura
 FROM museo
 WHERE citta = 'Verona'
 
 
-/* Esercizio 2
-Visualizzare per ogni mostra che inizia con la lettera ’R’, una stringa composta dal titolo e dalla città in cui
-si svolge.
-*/
-
-SELECT titolo || ' - ' || citta infoMostra
-FROM mostra 
-WHERE titolo LIKE 'I%'
-
-select * from mostra
-
-
 /*
-Esercizio 3
-Visualizzare il titolo di ogni mostra ancora in corso e quanti giorni rimane ancora aperta a partire dalla data
-corrente. Usare la costante CURRENT_DATE per avere la data corrente.
+Esercizio 2
+Visualizzare per ogni mostra che inizia con la lettera ’R’, una stringa composta dal titolo e dalla 
+città in cui si svolge.
 */
 
-INSERT INTO mostra ( titolo, inizio, fine , museo, citta, prezzoIntero, prezzoRidotto)
-VALUES ('Picasso: L''evoluzione', '2026-01-01', '2026-07-30', 'Museo di Castelvecchio', 'Verona', 15.00, 10.00);
-
-SELECT titolo, fine - CURRENT_DATE giorni_apertura
+SELECT titolo || ' ' || citta titolo_citta
 FROM mostra
-WHERE CURRENT_DATE between inizio and fine
+WHERE titolo LIKE 'R%'
 
+/* 
+Esercizio 3
+Visualizzare il titolo di ogni mostra ancora in corso e quanti giorni rimane ancora aperta a partire 
+dalla data corrente. Usare la costante CURRENT_DATE per avere la data corrente.
+*/
+
+SELECT titolo, fine - CURRENT_DATE giorni_ancora_aperti
+FROM mostra
+WHERE CURRENT_DATE > inizio AND CURRENT_DATE < fine
 
 /*
 Esercizio 4
-Visualizzare per ogni museo l’orario di apertura e chiusura il martedì. Se per un museo il martedì è giorno di chiusura, non mostrare nulla.
+Visualizzare per ogni museo l’orario di apertura e chiusura il martedì. 
+Se per un museo il martedì è giorno di chiusura, non mostrare nulla.
 */
 
-select museo, orarioapertura, orariochiusura
-FROM orario 
-where giorno = 'MARTEDI'
+SELECT museo, orarioapertura, orariochiusura
+FROM orario
+WHERE giorno != 'MARTEDI'
 
-select * 
-from orario
-
-INSERT INTO orario (progressivo, museo, citta, giorno, orarioapertura, orariochiusura) 
-VALUES 
-    (1, 'arena', 'verona', 'LUNEDI', '09:00:00', '19:00:00'),
-    (2, 'arena', 'verona', 'MARTEDI', '09:00:00', '19:00:00'),
-    (3, 'castelvecchio', 'verona', 'LUNEDI', '10:00:00', '18:00:00');
-
-/*
+/* 
 Esercizio 5
-Assicurarsi che almeno una mostra abbia il prezzo ridotto non valorizzato (NULL) usando eventualmente il comando UPDATE per modificare almeno una riga.
-Visualizzare tutte le mostre che hanno prezzo ridotto non valorizzato usando prima l’espressione ERRATA ’prezzoRidotto = NULL’ e poi l’espressione corretta prezzoRidotto IS NULL.
+Assicurarsi che almeno una mostra abbia il prezzo ridotto non valorizzato (NULL) usando eventualmente 
+il comando UPDATE per modificare almeno una riga.
+Visualizzare tutte le mostre che hanno prezzo ridotto non valorizzato usando prima l’espressione 
+ERRATA ’prezzoRidotto = NULL’ e poi l’espressione corretta prezzoRidotto IS NULL.
 */
 
-select titolo
-from mostra
-where prezzoridotto is null
+SELECT titolo, prezzoridotto
+FROM mostra
+WHERE prezzoridotto = NULL
 
-select * 
-from mostra
-
-/*Update del prezzoridotto*/
-update mostra
-set prezzoridotto = NULL 
-where museo = 'Arena'
-
+SELECT titolo, prezzoridotto
+FROM mostra
+WHERE prezzoridotto IS NULL
 
 /*
 Esercizio 6
-Visualizzare tutte le mostre non terminate in ordine di data inizio e, in caso di pari data inizio, data fine.
+Visualizzare tutte le mostre non terminate in ordine di data inizio e, 
+in caso di pari data inizio, data fine.
 */
+-- Aggiunto una mostra che termina prima di CURRENT_DATE e una con inizio uguale ad un altra 
+INSERT INTO mostra(titolo, inizio, fine, museo, citta, prezzointero, prezzoridotto)
+VALUES ('Quei giovani ragazzi', '2025-02-04', '2025-08-08', 'Museo di Castelvecchio', 'Verona', 20, 5)
 
-select titolo, inizio, fine
-from mostra
-where CURRENT_DATE < fine
-order by inizio
+INSERT INTO mostra(titolo, inizio, fine, museo, citta, prezzointero, prezzoridotto)
+VALUES ('I ragazzi della via Gluck', '2026-01-01', '2027-08-08', 'Museo di Castelvecchio', 'Verona', 12, 7)
 
-select *
-from mostra
+SELECT *
+FROM mostra
+WHERE fine - CURRENT_DATE > 0
+ORDER BY inizio, fine
 
-/* 
+/*
 Esercizio 7
 Visualizzare il numero totale di giorni di apertura del museo ’Arena’ di ’Verona’.
 */
 
-SELECT COUNT(giorno) AS totale_giorni_apertura
-FROM orario
-WHERE museo = 'arena' AND citta = 'verona';
-
-select *
-from museo
-
+SELECT museo, fine - inizio totale_giorni_apertura
+FROM mostra
+WHERE museo || ' ' || citta = 'Arena Verona'
 
 /*
 Esercizio 8
@@ -102,17 +90,20 @@ Visualizzare le ore medie di apertura del museo ’Arena’ di ’Verona’.
 Suggerimento: convertire orarioapertura e orariochiusura usando ’::time’.
 */
 
-SELECT AVG(orarioapertura::time) AS ore_medie_apertura
+SELECT AVG(orarioapertura::time) apertura_media, AVG(orariochiusura::time)
 FROM orario
-WHERE museo = 'arena' AND citta = 'verona';
+WHERE museo || ' ' || citta = 'arena verona'
 
 /*
 Esercizio 9
 Indicare il numero di autori distinti presenti in tutti i musei.
 */
 
-select count(distinct nomeautore) as numeroAutori
-from opera
+--aggiungo opera per avere confronto
+INSERT INTO opera(nome, cognomeautore, nomeautore, museo, citta, epoca, anno)
+VALUES('Cristo Morto', 'Mantegna', 'Andrea', 'Pinacoteca di Brera', 'Milano', 'Rinascimento', 1480)
 
-select * 
-from opera
+SELECT COUNT(DISTINCT cognomeautore || ' ' || nomeautore) autori_distinti
+FROM opera
+
+-- uso l'operatore di aggregazione cosi conteggio cognome nome. 

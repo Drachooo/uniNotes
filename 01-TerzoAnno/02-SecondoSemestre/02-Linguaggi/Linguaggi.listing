@@ -1,5 +1,1 @@
-        P:
-            z := 2;
-            y := z;
-            y := y+1;
-            z := y;
+    if B then C else C
